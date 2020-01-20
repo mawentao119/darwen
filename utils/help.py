@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 
 __author__ = "苦叶子"
-
+__modifier__ = "charisma"
 """
-
-公众号: 开源优测
-
-Email: lymking@foxmail.com
 
 """
 
 import codecs
 import requests
 
-
 def check_version():
+    pass
+
+## charisma: 暂时先不进行版本check 20200119 .
+def check_version_org():
     f = codecs.open('version.txt', 'r')
     version = f.readline()
     s = requests.Session()
