@@ -3,11 +3,7 @@
 __author__ = "苦叶子"
 
 """
-
-公众号: 开源优测
-
-Email: lymking@foxmail.com
-
+Modified by mawentao119@gmail.com
 """
 
 import os

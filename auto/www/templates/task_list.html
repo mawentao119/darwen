@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>uniRobot - 离岸测试执行解决方案</title>
+        <title>uniRobot - RobotFramework Web UI</title>
 
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
@@ -23,7 +23,7 @@
 
         <div data-options="region:'center'" style="padding: 5px 5px 5px 5px">
             <table id="task_list" class="easyui-datagrid" style="width:100%;height:auto;"
-                    data-options="singleSelect:true,
+                    data-options="fit:true, singleSelect:true,
                         fitColumns:true,
                         url:'/api/v1/task_list?name={{ project }}',
                         method:'get',
@@ -31,14 +31,14 @@
                     >
                 <thead>
                     <tr>
-                        <th data-options="field:'status',align:'center' , halign: 'center',formatter:show_img">状态</th>
-                        <th data-options="field:'name'">名称</th>
-                        <th data-options="field:'success',align:'center' , halign: 'center'">成功</th>
-                        <th data-options="field:'fail',align:'center' , halign: 'center'">失败</th>
-                        <th data-options="field:'starttime',align:'center' , halign: 'center'">开始时间</th>
-                        <th data-options="field:'endtime',align:'center' , halign: 'center'">结束时间</th>
-                        <th data-options="field:'elapsedtime',align:'center' , halign: 'center'">持续时间(ms)</th>
-                        <th data-options="field:'note',align:'center' , halign: 'center'">备注</th>
+                        <th data-options="field:'status',align:'center' , halign: 'center',formatter:show_img">Status</th>
+                        <th data-options="field:'name'">Name</th>
+                        <th data-options="field:'success',align:'center' , halign: 'center'">Pass</th>
+                        <th data-options="field:'fail',align:'center' , halign: 'center'">Fail</th>
+                        <th data-options="field:'starttime',align:'center' , halign: 'center'">StartTime</th>
+                        <th data-options="field:'endtime',align:'center' , halign: 'center'">EndTime</th>
+                        <th data-options="field:'elapsedtime',align:'center' , halign: 'center'">Elapsed(ms)</th>
+                        <th data-options="field:'note',align:'center' , halign: 'center'">Info</th>
                         <!--<th data-options="field:'cron'">cron表达式</th>
                         <th data-options="field:'boolean'"></th>-->
                     </tr>
@@ -71,32 +71,68 @@
             });
             var toolbar = [
                 {
-                    text:'刷新',
+                    text:'Refresh',
                     iconCls:'icon-refresh',
                     handler:function(){
                         $("#task_list").datagrid('reload');
                     }
 			    }, '-',
 			    {
-			        text:'运行',
+			        text:'Run Again',
                     iconCls:'icon-run',
                     handler:function(){
-                        var data ={"method": "run", "category": "project", "project": "{{ project }}" };
-                        do_ajax('post',
-                            '/api/v1/task/',
-                            data,
-                            do_msg);
+                        $.messager.confirm('Alert', 'Are you sure to run it again?', function(r){
+                            if (r){
+                                var row = $('#task_list').datagrid('getSelected');
+                                if(row){
+                                    var data ={"method": "rerun", "category": "project", "project": "{{ project }}", "task_no": row.task_no };
+                                    do_ajax('post',
+                                        '/api/v1/task/',
+                                        data,
+                                        do_msg);
+                                }
+                                else{
+                                    show_msg("Alert", "Please select one record！");
+                                }
 
-                        $("#task_list").datagrid('reload');
+                                $("#task_list").datagrid('reload');
+                            }
+                        });
+
                     }
 			    }, '-',
 			    {
-			        text:'停止',
+			        text:'Run Failed Case',
+                    iconCls:'icon-run',
+                    handler:function(){
+                        $.messager.confirm('Alert', 'Are you sure to run failed cases?', function(r){
+                            if (r){
+                                var row = $('#task_list').datagrid('getSelected');
+                                if(row){
+                                    var data ={"method": "rerunfail", "category": "project", "project": "{{ project }}", "task_no": row.task_no };
+                                    do_ajax('post',
+                                        '/api/v1/task/',
+                                        data,
+                                        do_msg);
+                                }
+                                else{
+                                    show_msg("Alert", "Please select one record！");
+                                }
+
+                                $("#task_list").datagrid('reload');
+                            }
+                        });
+
+                    }
+			    }, '-',
+			    {
+			        text:'Stop',
                     iconCls:'icon-stop',
                     handler:function(){
-                        $.messager.confirm('提示信息', '现在停止无法生成报告，确定停止?', function(r){
+                        $.messager.confirm('Alert', 'Are you sure to stop task?', function(r){
                             if (r){
-                                var data ={"method": "stop", "category": "project", "project": "{{ project }}" };
+                                var row = $('#task_list').datagrid('getSelected');
+                                var data ={"method": "stop", "category": "project", "project": "{{ project }}", "task_no": row.task_no };
                                 do_ajax('post',
                                     '/api/v1/task/',
                                     data,
@@ -110,10 +146,10 @@
 			    }
 			    , '-',
 			    {
-			        text:'删除',
+			        text:'Delete',
                     iconCls:'icon-remove',
                     handler:function(){
-                        $.messager.confirm('提示信息', '确定删除该记录?', function(r){
+                        $.messager.confirm('Alert', 'Are you sure to delete it?', function(r){
                             if (r){
                                 var row = $('#task_list').datagrid('getSelected');
                                 if(row){
@@ -124,7 +160,7 @@
                                         do_msg);
                                 }
                                 else{
-                                    show_msg("提示信息", "请先选中要删除的记录");
+                                    show_msg("Alert", "Please select one record！");
                                 }
 
                                 $("#task_list").datagrid('reload');

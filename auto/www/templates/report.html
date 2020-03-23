@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>uniRobot - 离岸测试执行解决方案</title>
+        <title>uniRobot - RobotFramework Web UI</title>
 
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
@@ -33,20 +33,20 @@
                 <thead>
                     <tr>
                         <!--<th data-options="field:'status',align:'center' , halign: 'center',formatter:show_img">状态</th>-->
-                        <th data-options="field:'name'">名称</th>
+                        <th data-options="field:'name'">Name</th>
                         <!--<th data-options="field:'last_success',align:'center' , halign: 'center'">上次成功</th>
                         <th data-options="field:'last_fail',align:'center' , halign: 'center'">上次失败</th>
                         <th data-options="field:'duration'">持续时间</th>
                         <th data-options="field:'enable',align:'center' , halign: 'center'">是否启用调度</th>-->
-                        <th data-options="field:'next_time',align:'center' , halign: 'center'">下一次调度时间</th>
-                        <th data-options="field:'cron',align:'center' , halign: 'center'">cron表达式</th>
+                        <th data-options="field:'next_time',align:'center' , halign: 'center'">Next Schedule Time</th>
+                        <th data-options="field:'cron',align:'center' , halign: 'center'">Cron</th>
                         <!--<th data-options="field:'boolean'"></th>-->
                     </tr>
                 </thead>
             </table>
         </div>
         <!-- edit project cron -->
-        <div id="cron_win" class="easyui-window" title="编辑Cron表达式"
+        <div id="cron_win" class="easyui-window" title="Edit Cron"
              data-options="iconCls:'icon-edit',collapsible:false,minimizable:false,maximizable:false"
              style="width:400px;height:140px;padding:10px;">
             <form id="cron_ff" method="post">
@@ -58,18 +58,18 @@
                 </div>
                 -->
                 <div style="margin-bottom:20px">
-                    <select class="easyui-combobox" name="cron" id="cron" label="Cron表达式" style="width:100%">
-                        <option value="* * * * * *">默认无调度(* * * * * *)</option>
-                        <option value="0 0 1 * * *">每天凌晨1点执行一次(0 0 1 * * *)</option>
-                        <option value="0 0 12 * * *">每天12点调度一次(0 0 12 * * *)</option>
-                        <option value="0 0 23 * * *">每天23点调度一次(0 0 23 * * *)</option>
-                        <option value="0 0/30 * * * *">每隔30分钟调度一次(0 0/5 * * * *)</option>
-                        <option value="0 0 0/1 0 0 6/7">周末每小时调度一次(0 0 0/1 0 0 6/7)</option>
-                        <option value="0 0 0/1 0 0 1/5">工作日每小时调度一次(0 0 0/1 0 0 1/5)</option>
+                    <select class="easyui-combobox" name="cron" id="cron" label="Cron Config" style="width:100%">
+                        <option value="* * * * * *">Default(* * * * * *)</option>
+                        <option value="0 0 1 * * *">Once at 1:00 per day(0 0 1 * * *)</option>
+                        <option value="0 0 12 * * *">Once at 12:00 per day(0 0 12 * * *)</option>
+                        <option value="0 0 23 * * *">Once at 23:00 per day(0 0 23 * * *)</option>
+                        <option value="0 0/30 * * * *">Once per 30 Min(0 0/5 * * * *)</option>
+                        <option value="0 0 0/1 0 0 6/7">Once each hour at weekend(0 0 0/1 0 0 6/7)</option>
+                        <option value="0 0 0/1 0 0 1/5">Once each hour at weekday(0 0 0/1 0 0 1/5)</option>
                     </select>
                 </div>
                 <div style="text-align:right;margin-bottom:10px">
-                    <a href="#" class="easyui-linkbutton" style="width:80px;height:32px" onclick="do_edit();">更新</a>
+                    <a href="#" class="easyui-linkbutton" style="width:80px;height:32px" onclick="do_edit();">Refresh</a>
                 </div>
             </form>
         </div>
@@ -101,14 +101,14 @@
             });
             var toolbar = [
                 {
-                    text:'刷新',
+                    text:'Refresh',
                     iconCls:'icon-refresh',
                     handler:function(){
                         $("#task_scheduler").datagrid('reload');
                     }
 			    }, '-',
 			    {
-			        text:'启动',
+			        text:'Start',
                     iconCls:'icon-run',
                     handler:function(){
                         var row = $('#task_scheduler').datagrid('getSelected');
@@ -122,15 +122,15 @@
                             $("#task_scheduler").datagrid('reload');
                         }
                         else{
-                            show_msg("提示信息", "请选择要启动调度的项目");
+                            show_msg("Information", "Please select one record!");
                         }
                     }
 			    }, '-',
 			    {
-			        text:'停止',
+			        text:'Stop',
                     iconCls:'icon-stop',
                     handler:function(){
-                        $.messager.confirm('提示信息', '现在停止无法生成报告，确定停止?', function(r){
+                        $.messager.confirm('Alert', 'Wont generate report，still stop ?', function(r){
                             if (r){
                                 var row = $('#task_scheduler').datagrid('getSelected');
                                 if(row){
@@ -142,7 +142,7 @@
                                     $("#task_scheduler").datagrid('reload');
                                 }
                                 else{
-                                    show_msg("提示信息", "请选择要停止调度的项目");
+                                    show_msg("Alert", "Please select one record to stop!");
                                 }
                             }
                         });
@@ -150,7 +150,7 @@
                     }
 			    }, '-',
 			    {
-			        text:'编辑',
+			        text:'Edit',
                     iconCls:'icon-edit',
                     handler:function(){
                         var row = $('#task_scheduler').datagrid('getSelected');
@@ -158,7 +158,7 @@
                             open_win('cron_win');
                         }
                         else{
-                            show_msg("提示信息", "请选择要编辑的项目");
+                            show_msg("Alert", "Please Select one record to edit!");
                         }
                     }
 			    }

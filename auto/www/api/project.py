@@ -1,38 +1,36 @@
 # -*- coding: utf-8 -*-
 
-__author__ = "苦叶子"
+__author__ = "苦叶子" + "mawentao119@gmail.com"
 
 """
 
-公众号: 开源优测
-
-Email: lymking@foxmail.com
-
 """
 
+import os
 from flask import current_app, session
 from flask_restful import Resource, reqparse
-import json
-import os
-import codecs
 
 from robot.api import TestSuiteBuilder
-from robot.api import TestData, ResourceFile, TestCaseFile
 
-from utils.file import list_dir, mk_dirs, exists_path, rename_file, remove_dir, get_splitext
+from utils.file import list_dir, mk_dirs, exists_path, rename_file, remove_dir, get_splitext, get_projectdirfromkey,get_projectnamefromkey, get_ownerfromkey
 from utils.resource import ICONS
-
-
+from utils.clear import clear_projectres
+from utils.mylogger import getlogger
+from utils.parsing import generate_high_light, generate_auto_complete
+from utils.gitit import remote_clone
 class Project(Resource):
     def __init__(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('method', type=str)
         self.parser.add_argument('name', type=str)
         self.parser.add_argument('new_name', type=str)
+        self.parser.add_argument('key', type=str)
         self.parser.add_argument('description', type=str)
-        self.parser.add_argument('enable', type=str, default="否")
+        self.parser.add_argument('enable', type=str, default="OFF")
         self.parser.add_argument('cron', type=str, default="* * * * * *")
-        self.parser.add_argument('boolean', type=str, default="启用")
+        self.parser.add_argument('boolean', type=str, default="ON")
+        self.log = getlogger("Project")
+        self.reserved_names = ["workspace", "project", "uniRobot"]
         self.app = current_app._get_current_object()
 
     def get(self):
@@ -48,66 +46,160 @@ class Project(Resource):
             result = self.__edit(args)
         elif method == "delete":
             result = self.__delete(args)
+        elif method == "adduser":
+            result = self.__adduser(args)
+        elif method == "deluser":
+            result = self.__deluser(args)
+        elif method == "gitclone":
+            result = self.__gitclone(args)
 
         return result, 201
 
     def __create(self, args):
-        result = {"status": "success", "msg": "创建项目成功"}
+        result = {"status": "success", "msg": "Create Project Success."}
+        
+        if args["name"] in self.reserved_names :
+            result = {"status": "fail", "msg": "Please use other project name."}
+            return result
 
         user_path = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session["username"], args["name"])
         if not exists_path(user_path):
             mk_dirs(user_path)
 
-            create_project(
-                self.app,
-                session["username"],
-                {
-                    "name": args["name"],
-                    "description": args["description"],
-                    "boolean": args["boolean"],
-                    "enable": args["enable"],
-                    "cron": args["cron"]
-                }
-            )
-        else:
+        if not self.app.config['DB'].add_project(args["name"],session["username"],'myself'):
             result["status"] = "fail"
-            result["msg"] = "项目名称重复，创建失败"
+            result["msg"] = "Create Failed: Project name exists!"
+
+        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'create', user_path, result['status'])
+
+        return result
+
+    def __gitclone(self, args):
+
+        url = args['name']
+
+        user_path = self.app.config["AUTO_HOME"] + "/workspace/%s" % (session["username"])
+
+        (ok, info) = remote_clone(url, user_path)
+
+        if ok:
+            projectname = get_projectnamefromkey(info)
+            result = {"status": "success", "msg": "Create Project success:"+projectname }
+            if not self.app.config['DB'].add_project(projectname, session["username"], 'myself'):
+                result["status"] = "fail"
+                result["msg"] = "Create Failed: Project name exists!"
+
+            self.app.config['DB'].insert_loginfo(session['username'], 'project', 'gitcreate', info,
+                                                           result['status'])
+        else:
+            result = {"status": "fail", "msg": info}
+            self.app.config['DB'].insert_loginfo(session['username'], 'project', 'gitcreate', user_path,
+                                                           result['status'])
 
         return result
 
     def __edit(self, args):
-        result = {"status": "success", "msg": "项目重命名成功"}
-        old_name = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session["username"], args["name"])
-        new_name = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session["username"], args["new_name"])
+        result = {"status": "success", "msg": "Rename project success."}
+        
+        if args["new_name"] in self.reserved_names :
+            result = {"status": "fail", "msg": "Please use other name."}
+            return result
+        
+        if args["name"] in self.reserved_names :
+            result = {"status": "fail", "msg": "Cannot rename this project."}
+            return result
 
-        if rename_file(old_name, new_name):
-            edit_project(
-                self.app,
-                session["username"],
-                args["name"],
-                {
-                    "name": args["new_name"],
-                    "description": args["description"],
-                    "boolean": args["boolean"],
-                    "enable": args["enable"],
-                    "cron": args["cron"]
-                })
-        else:
+        owner = get_ownerfromkey(args['key'])
+        if not session["username"] == owner:
             result["status"] = "fail"
-            result["msg"] = "项目重命名失败，名称重复"
+            result["msg"] = "FAIL：Cannot rename shared project."
+            return result
+
+        old_name = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (owner, args["name"])
+        new_name = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (owner, args["new_name"])
+
+        if not rename_file(old_name, new_name):
+            result["status"] = "fail"
+            result["msg"] = "Rename Failed, new name exits!"
+        if not self.app.config['DB'].edit_project(args["name"], args["new_name"], session["username"]):
+            result["status"] = "fail"
+            result["msg"] = "Rename Failed, new name exits!"
+
+        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'rename', old_name, result['status'])
+
+        # Delete resource is not dangerous, all of that can be auto generated.
+        clear_projectres('usepath', old_name)
 
         return result
 
     def __delete(self, args):
-        result = {"status": "success", "msg": "项目删除成功"}
-        user_path = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session["username"], args["name"])
+        result = {"status": "success", "msg": "Delete project success."}
+
+        self.log.debug("Delete Project args:{}".format(args))
+
+        owner = get_ownerfromkey(args['key'])
+        if not session["username"] == owner:
+            result["status"] = "fail"
+            result["msg"] = "FAIL：Cannot Delete shared project!"
+            return result
+
+        #user_path = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session["username"], args["name"])
+        user_path = args['key']
         if exists_path(user_path):
             remove_dir(user_path)
 
-            remove_project(self.app, session['username'], args['name'])
-        else:
+        if not self.app.config['DB'].del_project(args["name"],session["username"]):
             result["status"] = "fail"
-            result["msg"] = "删除失败，不存在的项目"
+            result["msg"] = "Delete Failed, Project not exists."
+
+        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'delete', user_path, result['status'])
+
+        #Delete resource is not dangerous, all of that can be auto generated.
+        clear_projectres('usepath',user_path)
+
+        return result
+
+    def __adduser(self, args):
+        result = {"status": "success", "msg": "Add user to project success."}
+
+        project = get_projectnamefromkey(args['key'])
+        owner = get_ownerfromkey(args['key'])
+        if not session["username"] == owner:
+            result["status"] = "fail"
+            result["msg"] = "FAIL：Only the project owner can add new user."
+            return result
+
+        new_name = args["new_name"]
+
+        try:
+            self.app.config['DB'].add_projectuser(project, new_name)
+        except Exception:
+            result["status"] = "fail"
+            result["msg"] = "DB failed！"
+
+        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'adduser', args['key'], new_name)
+
+        return result
+
+    def __deluser(self, args):
+        result = {"status": "success", "msg": "Remove user success."}
+
+        project = get_projectnamefromkey(args['key'])
+        owner = get_ownerfromkey(args['key'])
+        if not session["username"] == owner:
+            result["status"] = "fail"
+            result["msg"] = "FAIL：Only the project owner can remove user."
+            return result
+
+        new_name = args["new_name"]
+
+        try:
+            self.app.config['DB'].del_projectuser(project, new_name)
+        except Exception:
+            result["status"] = "fail"
+            result["msg"] = "DB failed！"
+
+        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'deluser', args['key'], new_name)
 
         return result
 
@@ -117,255 +209,206 @@ class ProjectList(Resource):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('name', type=str)
         self.parser.add_argument('category', type=str, default="root")
+        self.parser.add_argument('key', type=str, default="root")
         self.parser.add_argument('project', type=str)
         self.parser.add_argument('suite', type=str)
         self.parser.add_argument('splitext', type=str)
+        self.log = getlogger("ProjectList")
         self.app = current_app._get_current_object()
 
     def get(self):
         args = self.parser.parse_args()
 
-        if args["category"] == "root":
+        #log.info("get projectList: args:{}".format(args))
+        if args["key"] == "root":
             return get_projects(self.app, session["username"])
-        elif args["category"] == "project":
-            return get_suite_by_project(self.app, session["username"], args)
-        elif args["category"] == "suite":
-            return get_case_by_suite(self.app, session["username"], args)
-        elif args["category"] == "case":
-            return get_step_by_case(self.app, session["username"], args)
+        else:
+            path = args["key"]
 
-        """
-        projects = get_project_list(self.app, session['username'])
-        children = []
-        for p in projects:
-            detail = get_project_detail(self.app, session['username'], p["name"])
-            children.append({
-                "text": p["name"],
-                "iconCls": "icon-project",
-                "state": "closed",
-                "attributes": {
-                    "name": p["name"],
-                    "description": p["description"],
-                    "category": "project",
-                    "boolean": p["boolean"]
-                },
-                "children": detail
-            })
-        
-        return [{
-            "text": session['username'],
-            "iconCls": "icon-workspace",
-            "attributes": {
-                "category": "root"
-            },
-            "children": children}]
-        """
+            if os.path.isfile(path):      # 单个文件
+                return get_step_by_case(self.app, path)
 
+            files = list_dir(path)
+            files = [f for f in files if not f.startswith('.')]  # Omit the hidden file
+            if len(files) > 1:
+                files.sort()
 
-def create_project(app, username, project):
-    user_path = app.config["AUTO_HOME"] + "/users/" + username
-    if os.path.exists(user_path):
-        config = json.load(codecs.open(user_path + '/config.json', 'r', 'utf-8'))
-        config["data"].append(project)
-        json.dump(config, codecs.open(user_path + '/config.json', 'w', 'utf-8'))
+            children = []
+            for d in files:
+                ff = path + '/' + d
+                if os.path.isdir(ff):     # 目录:Dir
+                    icons = "icon-suite-open"
+                    stat = "closed"
+                    text = d
 
+                    td = self.app.config['DB'].get_testdata(ff)
+                    if td[0] > 0:    # [suites,cases,passed,Failed,unknown]
+                        icons = "icon-suite-open_case"
+                        text = d+':'+ " ".join([str(ss) for ss in td])
+                    children.append({
+                        "text": text, "iconCls": icons, "state": stat,
+                        "attributes": {
+                            "name": d,
+                            "category": "suite",
+                            "key": ff,
+                        },
+                        "children": []
+                    })
+                else:                  # 单个文件:single file
+                    text = get_splitext(ff)
+                    if text[1] in ICONS:
+                        icons = ICONS[text[1]]
+                    else:
+                        icons = "icon-file-default"
 
-def edit_project(app, username, old_name, new_project):
-    user_path = app.config["AUTO_HOME"] + "/users/" + username
-    if os.path.exists(user_path):
-        config = json.load(codecs.open(user_path + '/config.json', 'r', 'utf-8'))
-        index = 0
-        for p in config["data"]:
-            if p["name"] == old_name:
-                config["data"][index]["name"] = new_project["name"]
-                config["data"][index]["description"] = new_project["description"]
-                config["data"][index]["boolean"] = new_project["boolean"]
-                break
-            index += 1
-
-    json.dump(config, codecs.open(user_path + '/config.json', 'w', 'utf-8'))
-
-
-def remove_project(app, username, name):
-    user_path = app.config["AUTO_HOME"] + "/users/" + username
-    if os.path.exists(user_path):
-        config = json.load(codecs.open(user_path + '/config.json', 'r', 'utf-8'))
-        index = 0
-        for p in config["data"]:
-            if p["name"] == name:
-                del config["data"][index]
-                break
-            index += 1
-
-    json.dump(config, codecs.open(user_path + '/config.json', 'w', 'utf-8'))
+                    if text[1] in (".robot"):
+                        td = self.app.config['DB'].get_testdata(ff)   #[suites,cases,passed,Failed,unknown]
+                        if td[1] == td[2]:
+                            icons = 'icon-robot_pass'
+                        if td[3] > 0:
+                            icons = 'icon-robot_fail'
+                        lb = d.replace('.robot', ':') + ' '.join([str(ss) for ss in td[1:]])
+                        children.append({
+                            "text": lb, "iconCls": icons, "state": "closed",
+                            "attributes": {
+                                "name": d,
+                                "category": "case",
+                                "key": ff,
+                                "splitext": text[1]
+                            },
+                            "children": []
+                        })
+                    elif text[1] in (".resource"):
+                        children.append({
+                            "text": d, "iconCls": icons, "state": "closed",
+                            "attributes": {
+                                "name": d,
+                                "category": "case",
+                                "key": ff,
+                                "splitext": text[1]
+                            }
+                        })
+                    else:
+                        children.append({
+                            "text": d, "iconCls": icons, "state": "open",
+                            "attributes": {
+                                "name": d,
+                                "category": "case",
+                                "key": ff,
+                                "splitext": text[1]
+                            }
+                        })
+            return children
 
 
 def get_project_list(app, username):
-    work_path = app.config["AUTO_HOME"] + "/workspace/" + username
-    if os.path.exists(work_path):
-        projects = list_dir(work_path)
-        if len(projects) > 1:
-            projects.sort()
-
-        return projects
-
-    return []
-
-
-def get_project_detail(app, username, p_name):
-    path = app.config["AUTO_HOME"] + "/workspace/" + username + "/" + p_name
-
-    projects = []
-    # raw_suites = list_dir(path)
-    # suites = sorted(raw_suites, key=lambda x: os.stat(path + "/" + x).st_ctime)
-    suites = list_dir(path)
-    if len(suites) > 1:
-        suites.sort()
-    for d in suites:
-        children = []
-        # cases = sorted(list_dir(path + "/" + d), key=lambda x: os.stat(path + "/" + d + "/" + x).st_ctime)
-        cases = list_dir(path + "/" + d)
-        if len(cases) > 1:
-            cases.sort()
-        for t in cases:
-            text = get_splitext(t)
-            if text[1] == ".robot":
-                icons = "icon-robot"
-            elif text[1] == ".txt":
-                icons = "icon-resource"
-            else:
-                icons = "icon-file-default"
-
-            children.append({
-                "text": t, "iconCls": icons,
-                "attributes": {
-                    "name": text[0], "category": "case", "splitext": text[1]
-                }
-            })
-        if len(children) == 0:
-            icons = "icon-suite"
-        else:
-            icons = "icon-suite-open"
-        projects.append({
-            "text": d, "iconCls": icons,
-            "attributes": {
-                "name": d, "category": "suite"
-            },
-            "children": children
-        })
-
+    projects = app.config["DB"].get_allproject(username)
     return projects
-
 
 def get_projects(app, username):
     projects = get_project_list(app, username)
+    print("get_projectlist:user:{},{}".format(username,projects))
     children = []
     for p in projects:
+        owner = p.split(':')[0]
+        prj = p.split(':')[1]
+        key = app.config["AUTO_HOME"] + "/workspace/" + owner + '/' + prj
+        ico = "icon-project"
+        text_p = prj
+        if not owner == username :
+            ico = "icon-project_c"
+            text_p = owner + ':' + prj
         children.append({
-            "text": p, "iconCls": "icon-project", "state": "closed",
+            "text": text_p, "iconCls": ico, "state": "closed",
             "attributes": {
-                "name": p,  # "description": p["description"],
-                "category": "project",  # "boolean": p["boolean"]
+                "name": prj,
+                "category": "project",
+                "key": key
             },
             "children": []
         })
+
+        generate_high_light(key)
+        generate_auto_complete(key)
 
     return [{
         "text": session['username'], "iconCls": "icon-workspace",
         "attributes": {
-            "category": "root"
+            "category": "root",
+            "key": "root",
         },
         "children": children}]
 
-
-def get_suite_by_project(app, username, args):
-    path = app.config["AUTO_HOME"] + "/workspace/" + username + "/" + args["name"]
-
-    suites = list_dir(path)
-    children = []
-    if len(suites) > 1:
-        suites.sort()
-    for d in suites:
-        cases = list_dir(path + "/" + d)
-        icons = "icon-suite"
-        if len(cases) > 1:
-            icons = "icon-suite-open"
-
-        children.append({
-            "text": d, "iconCls": icons, "state": "closed",
-            "attributes": {
-                "name": d, "category": "suite"
-            },
-            "children": []
-        })
-
-    return children
-
-
-def get_case_by_suite(app, username, args):
-    path = app.config["AUTO_HOME"] + "/workspace/" + username + "/%s/%s" % (args["project"], args["name"] )
-
-    cases = list_dir(path)
-    if len(cases) > 1:
-        cases.sort()
-    children = []
-    for t in cases:
-        text = get_splitext(t)
-        if text[1] in ICONS:
-            icons = ICONS[text[1]]
-        else:
-            icons = "icon-file-default"
-
-        if text[1] in (".robot"):
-            children.append({
-                "text": t, "iconCls": icons, "state": "closed",
-                "attributes": {
-                    "name": text[0], "category": "case", "splitext": text[1]
-                },
-                "children": []
-            })
-        else:
-            children.append({
-                "text": t, "iconCls": icons, "state": "open",
-                "attributes": {
-                    "name": text[0], "category": "case", "splitext": text[1]
-                }
-            })
-
-    return children
-
-
-def get_step_by_case(app, username, args):
-    print(args)
-    path = app.config["AUTO_HOME"] + "/workspace/" + username + "/%s/%s/%s%s" % (args["project"], args["suite"], args["name"], args["splitext"])
-
+# charis  modified
+def get_step_by_case(app, path):
+    fext = os.path.splitext(path)[1]
     data = []
-    if args["splitext"] == ".robot":
-        data = get_case_data(path)
+    if fext == ".robot":
+        try:
+            data = get_case_data(app, path)
+        except Exception as e:
+            app.log.warnning("Get_case_data of {} Exception :{}".format(path,e))
+            return []
+
+    #TODO: dealwith resource file : cannot use suiteBuilder
+    '''if fext == ".resource":
+        data = get_resource_data(app,path)'''
 
     return data
 
 
-def get_case_data(path):
+def get_case_data(app, path):
+
+    projectdir = get_projectdirfromkey(path)
+    os.environ["ROBOT_DIR"] = projectdir
+    os.environ["PROJECT_DIR"] = projectdir
+
     suite = TestSuiteBuilder().build(path)
     children = []
     if suite:
-        # add library
+        # add library , make it can be open if it is a file.
         for i in suite.resource.imports:
+
+            rsfile = i.name
+            if rsfile.find("%{ROBOT_DIR}") != -1:
+                rsfile = rsfile.replace("%{ROBOT_DIR}", projectdir)
+            if rsfile.find("%{PROJECT_DIR}") != -1:
+                rsfile = rsfile.replace("%{PROJECT_DIR}", projectdir)
+
+            # do not show System Library or rs file cannot be found.
+            if not os.path.exists(rsfile):
+                continue
+
+            if os.path.isfile(rsfile):
+                fname = os.path.basename(rsfile)
+                children.append({
+                    "text": fname, "iconCls": "icon-library", "state": "open",
+                    "attributes": {
+                        "name": fname, "category": "case", "key": rsfile,
+                    }
+                })
+        for t in suite.tests:
+            status = app.config['DB'].get_casestatus(path,t.name)
+            icons = 'icon-step'
+            if status == 'FAIL':
+                icons = 'icon-step_fail'
+            if status == 'PASS':
+                icons = 'icon-step_pass'
             children.append({
-                "text": i.name, "iconCls": "icon-library", "state": "open",
+                "text": t.name, "iconCls": icons, "state": "open",
                 "attributes": {
-                    "name": i.name, "category": "library"
-                }
+                    "name": t.name, "category": "step", "key": path,
+                },
+                "children": []
             })
 
-        for v in suite.resource.variables:
+        ''' for v in suite.resource.variables:
             children.append({
                 "text": v.name, "iconCls": "icon-variable", "state": "open",
                 "attributes": {
-                    "name": v.name, "category": "variable"
+                    "name": v.name, "category": "variable", "key": path,
                 }
-            })
+            }) 
 
         for t in suite.tests:
             keys = []
@@ -373,23 +416,70 @@ def get_case_data(path):
                 keys.append({
                     "text": k.name, "iconCls": "icon-keyword", "state": "open",
                     "attributes": {
-                        "name": k.name, "category": "keyword"
+                        "name": k.name, "category": "keyword", "key": path,
                     }
                 })
 
             children.append({
                 "text": t.name, "iconCls": "icon-step", "state": "closed",
                 "attributes": {
-                    "name": t.name, "category": "step"
+                    "name": t.name, "category": "step", "key": path,
                 },
                 "children": keys
+            })
+        for v in suite.resource.keywords:
+            children.append({
+                "text": v.name, "iconCls": "icon-user-keyword", "state": "open",
+                "attributes": {
+                    "name": v.name, "category": "user_keyword", "key": path,
+                }
+            }) '''
+
+    return children
+
+def get_resource_data(app,path):
+    projectdir = get_projectdirfromkey(path)
+    os.environ["ROBOT_DIR"] = projectdir
+    os.environ["PROJECT_DIR"] = projectdir
+
+    suite = TestSuiteBuilder().build(path)
+    children = []
+    if suite:
+        # add library , make it can be open if it is a file.
+        for i in suite.resource.imports:
+
+            rsfile = i.name
+            if rsfile.find("%{ROBOT_DIR}") != -1:
+                rsfile = rsfile.replace("%{ROBOT_DIR}", projectdir)
+            if rsfile.find("%{PROJECT_DIR}") != -1:
+                rsfile = rsfile.replace("%{PROJECT_DIR}", projectdir)
+
+            # do not show System Library or rs file cannot be found.
+            if not os.path.exists(rsfile):
+                continue
+
+            if os.path.isfile(rsfile):
+                fname = os.path.basename(rsfile)
+                children.append({
+                    "text": fname, "iconCls": "icon-library", "state": "open",
+                    "attributes": {
+                        "name": fname, "category": "resource", "key": rsfile,
+                    }
+                })
+
+        for v in suite.resource.variables:
+            children.append({
+                "text": v.name, "iconCls": "icon-variable", "state": "open",
+                "attributes": {
+                    "name": v.name, "category": "variable", "key": path,
+                }
             })
 
         for v in suite.resource.keywords:
             children.append({
                 "text": v.name, "iconCls": "icon-user-keyword", "state": "open",
                 "attributes": {
-                    "name": v.name, "category": "user_keyword"
+                    "name": v.name, "category": "user_keyword", "key": path,
                 }
             })
 

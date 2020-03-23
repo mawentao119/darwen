@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>uniRobot - 离岸测试执行解决方案</title>
+        <title>uniRobot - RobotFramework Web UI</title>
 
-        <meta name="keywords" content="uniRobot, 战场上的助手。"/>
+        <meta name="keywords" content="uniRobot"/>
         <meta name="description" content="A Web-based test excuting system. Auto test and Human test ."/>
         <meta name="author" content="chairsma">
 
@@ -25,20 +25,21 @@
                 <div class="fn-left">
                     <h2>uniRobot Here</h2>
                     <h3>Unite RobotFramework and taurus and other tools for tester.</h3>
+                    <h5>Guest: tester   passwd:123 </h5>
                 </div>
                 <div class="form fn-right">
                     <div id="msg" class="fn-none"></div>
                     <form id="login_fm" action="/api/v1/auth/" method="post">
-                        <input id="username" name="username" placeholder="用户名"/><br/>
-                        <input id="password" name="password" type="password" placeholder="密码"/><br/>
-                        <input class="btn-white btn" type="button" value="登录" onclick="do_login('login_fm')"></input>
+                        <input id="username" name="username" placeholder="User Name"/><br/>
+                        <input id="password" name="password" type="password" placeholder="PassWord"/><br/>
+                        <input class="btn-white btn" type="button" value="Login" onclick="do_login('login_fm')"></input>
                     </form>
                 </div>
             </div>
         </div>
         <div class="footer">
             <span class="wrapper">
-                &copy;  Chrisma
+                &copy;  Chrisma mawentao119@gmail.com
             </span>
         </div>
         <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>

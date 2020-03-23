@@ -3,18 +3,13 @@
 __author__ = "苦叶子"
 
 """
-
-公众号: 开源优测
-
-Email: lymking@foxmail.com
-
 """
 import json
 import codecs
 from flask import current_app, session, request, send_file
 from flask_restful import Resource, reqparse
 from utils.file import exists_path, make_nod
-
+from utils.mylogger import getlogger
 
 class Settings(Resource):
     def __init__(self):
@@ -28,6 +23,7 @@ class Settings(Resource):
         self.parser.add_argument('project', type=str)
         self.parser.add_argument('success_list', type=str)
         self.parser.add_argument('fail_list', type=str)
+        self.log = getlogger("Settings")
         self.app = current_app._get_current_object()
 
     def get(self):
@@ -70,7 +66,7 @@ class Settings(Resource):
 
     # 配置smtp
     def __smtp(self, args):
-        result = {"status": "success", "msg": "配置smtp服务成功"}
+        result = {"status": "success", "msg": "Config smtp success."}
         conf_path = self.app.config["AUTO_HOME"] + "/auto.json"
         if not exists_path(conf_path):
             make_nod(conf_path)
@@ -94,9 +90,9 @@ class Settings(Resource):
 
         return result
 
-    # 设置email通知列表
+    # 设置email通知列表: set email receiver
     def __email(self, args):
-        result = {"status": "success", "msg": "配置smtp服务成功"}
+        result = {"status": "success", "msg": "Config smtp service success."}
 
         conf_path = self.app.config["AUTO_HOME"] + "/users/%s/config.json" % (session["username"])
         try:

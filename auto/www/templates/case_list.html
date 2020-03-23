@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>uniRobot - RobotFramework Web UI</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/demo.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/auto.css') }}">
+
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+        <style type="text/css">
+            .lines-no .datagrid-body td{
+                border-right:1px dotted transparent;
+                border-bottom:1px dotted transparent;
+            }
+        </style>
+    </head>
+    <body class="easyui-layout" style="padding:10">
+
+        <div data-options="region:'center'" style="padding: 5px 5px 5px 5px">
+            <table id="case_list" class="easyui-datagrid" style="width:100%;height:auto;"
+                    data-options="fit:true, rownumbers:true,singleSelect:true,
+                        fitColumns:true,
+                        url:'/api/v1/report?key={{dir}}&request=caselist&method=day',
+                        method:'get',
+                        toolbar: toolbar"
+                    >
+                <thead>
+                    <tr>
+                        <th data-options="field:'run_status',align:'center' , halign: 'center',formatter:show_img">Status</th>
+                        <th data-options="field:'info_name'">Case Name</th>
+                        <th data-options="field:'info_doc',align:'left' , halign: 'center'">Case Doc</th>
+                        <th data-options="field:'info_tags',align:'left' , halign: 'center'">Case Tag</th>
+                        <th data-options="field:'caseeditor',align:'center' , halign: 'center',formatter:do_view_case">Content</th>
+                        <th data-options="field:'rcd_runtimes',align:'center' , halign: 'center'">Run times</th>
+                        <th data-options="field:'run_elapsedtime',align:'center' , halign: 'center'">Elapsed time</th>
+                        <th data-options="field:'run_user',align:'center' , halign: 'center'">Last runner</th>
+                        <th data-options="field:'info_key',align:'left' , halign: 'center'">Suite File</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
+        <!-- 自定义js库 -->
+        <script type="text/javascript" src="{{ url_for('static', filename='js/auto.js') }}"></script>
+        <SCRIPT type="text/javascript">
+            $(document).ready(function(){
+               $('#case_list').datagrid('getPanel').removeClass('lines-both lines-no lines-right lines-bottom').addClass('lines-no');
+            });
+            var toolbar = [
+                {
+                    text:'Refresh',
+                    iconCls:'icon-refresh',
+                    handler:function(){
+                        $("#case_list").datagrid('reload');
+                    }
+			    }, '-',
+			    {
+			        text:'Run',
+                    iconCls:'icon-run',
+                    handler:function(){
+                        $.messager.confirm('Alert', 'Are you sure to Rerun it?', function(r){
+                            if (r){
+                                var row = $('#case_list').datagrid('getSelected');
+                                if(row){
+                                    var data ={"method": "run", "category": "project","key": row.info_key };
+                                    do_ajax('post',
+                                        '/api/v1/task/',
+                                        data,
+                                        do_msg);
+                                }
+                                else{
+                                    show_msg("Alert", "Please select one record!");
+                                }
+
+                                $("#case_list").datagrid('reload');
+                            }
+                        });
+
+                    }
+			    }, '-',
+			    {
+			        text:'Mark PASS',
+                    iconCls:'icon-run',
+                    handler:function(){
+                        var row = $('#case_list').datagrid('getSelected');
+                        if(row){
+                            var data ={"method": "handpass", "name": row.info_name, "key": row.info_key };
+                            do_ajax('post',
+                                '/api/v1/case/',
+                                data,
+                                do_msg);
+                        }
+                        else{
+                            show_msg("Alert", "Please select one record!");
+                        }
+                        $("#case_list").datagrid('reload');
+                    }
+			    }, '-',
+			    {
+			        text:'Mark FAIL',
+                    iconCls:'icon-run',
+                    handler:function(){
+                        var row = $('#case_list').datagrid('getSelected');
+                        if(row){
+                            var data ={"method": "handfail", "name": row.info_name, "key": row.info_key };
+                            do_ajax('post',
+                                '/api/v1/case/',
+                                data,
+                                do_msg);
+                        }
+                        else{
+                            show_msg("Alert", "Please select one record!");
+                        }
+                        $("#case_list").datagrid('reload');
+                    }
+			    }
+			    , '-',
+			    {
+			        text:'Mark Unknown',
+                    iconCls:'icon-run',
+                    handler:function(){
+                        var row = $('#case_list').datagrid('getSelected');
+                        if(row){
+                            var data ={"method": "handunknown", "name": row.info_name, "key": row.info_key };
+                            do_ajax('post',
+                                '/api/v1/case/',
+                                data,
+                                do_msg);
+                        }
+                        else{
+                            show_msg("Alert", "Please select one record!");
+                        }
+                        $("#case_list").datagrid('reload');
+                    }
+			    }
+			 ];
+
+		    function do_view_case(value, row, index){
+                return '<a href="#" onclick="parent.addTab(\'{0}\', \'/editor/{1}\', \'icon-editor\');">View Case</a>'.lym_format(row.info_name, row.info_key.replace(/\//g,'--'));
+            }
+        </SCRIPT>
+    </body>
+</html>

@@ -43,6 +43,9 @@ api.add_resource(TaskList, "/task_list/")
 from .user import User
 api.add_resource(User, "/user/")
 
+from .report import Report
+api.add_resource(Report, "/report/")
+
 
 from .settings import Settings
 api.add_resource(Settings, "/settings/")

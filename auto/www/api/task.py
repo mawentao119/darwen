@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 
 __author__ = "苦叶子"
+__modifier__ = "mawentao119@gmail.com"
 
 """
-
-公众号: 开源优测
-
-Email: lymking@foxmail.com
 
 """
 
 from flask import current_app, session, url_for
 from flask_restful import Resource, reqparse
+from utils.file import get_projectdirfromkey
 import json
 import os
+import time
 import codecs
 import threading
 import multiprocessing
@@ -21,10 +20,10 @@ from dateutil import tz
 
 from robot.api import ExecutionResult
 
-from utils.file import exists_path, read_file, remove_dir
-from utils.run import robot_run, is_run, remove_robot, stop_robot, robot_job
+from utils.file import exists_path, remove_dir, get_splitext, get_projectnamefromkey
+from utils.run import robot_run, is_run, is_full, remove_robot, stop_robot, robot_job, robot_debugrun, py_debugrun,bzt_debugrun
 from ..app import scheduler
-
+from utils.mylogger import getlogger
 
 class Task(Resource):
     def __init__(self):
@@ -34,51 +33,246 @@ class Task(Resource):
         self.parser.add_argument('project', type=str)
         self.parser.add_argument('suite', type=str)
         self.parser.add_argument('case', type=str)
+        self.parser.add_argument('tags', type=str)
+        self.parser.add_argument('conffile', type=str)
+        self.parser.add_argument('key', type=str)
         self.parser.add_argument('task_no', type=str)
+        self.log = getlogger("Task")
         self.app = current_app._get_current_object()
 
     def post(self):
         args = self.parser.parse_args()
-        category = args["category"].lower()
-        if args["method"] == "run":
-            project = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session['username'], args["project"])
-            output = self.app.config["AUTO_HOME"] + "/jobs/%s/%s" % (session['username'], args["project"])
-            if category == "project":
-                if not is_run(self.app, args["project"]):
-                    p = multiprocessing.Process(target=robot_run, args=(session["username"], args["project"], project, output))
-                    p.start()
-                    self.app.config["AUTO_ROBOT"].append({"name": args["project"], "process": p})
-                else:
-                    return {"status": "fail", "msg": "请等待上一个任务完成"}
-            elif category == "suite":
-                case_path = project + "/%s" % args["suite"]
-                if not is_run(self.app, args["project"]):
-                    p = multiprocessing.Process(target=robot_run, args=(session["username"], args["project"], case_path, output))
-                    p.start()
-                    self.app.config["AUTO_ROBOT"].append({"name": args["project"], "process": p})
-                else:
-                    return {"status": "fail", "msg": "请等待上一个任务完成"}
-            elif category == "case":
-                case_path = project + "/%s/%s" % (args["suite"], args["case"])
-                if not is_run(self.app, args["project"]):
-                    p = multiprocessing.Process(target=robot_run,
-                                                args=(session["username"], args["project"], case_path, output))
-                    p.start()
-                    self.app.config["AUTO_ROBOT"].append(
-                        {"name": "%s" % args["project"], "process": p})
-                else:
-                    return {"status": "fail", "msg": "请等待上一个任务完成"}
 
-            return {"status": "success", "msg": "已启动运行"}
+        if args["method"] == "run" or args["method"] == "editor_run":
+            return self.runall(args)
+        elif args["method"] == "debug_run":
+            return self.debug_run(args)
+        elif args["method"] == "runpass":
+            return self.runpassfail(args,True)
+        elif args["method"] == "runfail":
+            return self.runpassfail(args,False)
+        elif args["method"] == "runtags":
+            return self.runtags(args)
+        elif args["method"] == "runfile":
+            return self.runfile(args)
+
+        elif args["method"] == "rerun":
+            return self.rerun_task(args)
+        elif args["method"] == "rerunfail":
+            return self.rerunfail_task(args)
+
         elif args["method"] == "stop":
-            stop_robot(self.app, args["project"])
+            return stop_robot(self.app, args)
 
-            return {"status": "success", "msg": "已停止运行"}
         elif args["method"] == "delete":
-            delete_task_record(self.app, args["project"], args["task_no"])
+            delete_task_record(self.app, args)
+            return {"status": "success", "msg": "Record is deleted."}
+        else:
+            return {"status": "fail", "msg": "Parameter method Error:{}".format(args['method'])}
 
-            return {"status": "success", "msg": "已经删除记录"}
+    def runall(self, args):
+        cases = args['key']
+        if not os.path.isdir(cases):
+            fext = get_splitext(cases)[1]
+            if not fext in (".robot"):
+                return {"status": "fail", "msg": "Fail：Do not support Run this type of file now :" + fext}
 
+        case_name = os.path.basename(cases)
+
+        if not is_run(self.app, case_name):
+            p = multiprocessing.Process(target=robot_run,
+                                        args=(self.app, cases))
+            p.start()
+            self.app.config["AUTO_ROBOT"].append(
+                {"name": "%s" % case_name, "process": p})
+        else:
+            return {"status": "fail", "msg": "Please wait for the former task finished."}
+
+        return {"status": "success", "msg": "Start run:" + case_name}
+
+    def runpassfail(self, args, passed=True):
+
+        suites = []
+        retry = 0
+        if passed:
+            sql = ''' SELECT distinct(info_key) FROM testcase WHERE info_key like '{}%' and run_status='PASS' ;
+                  '''.format(args['key'])
+        else:
+            sql = ''' SELECT distinct(info_key) FROM testcase WHERE info_key like '{}%' and run_status='FAIL' ;
+                  '''.format(args['key'])
+
+        res = self.app.config['DB'].runsql(sql)
+        for r in res:
+            (s,) = r
+            suites.append(s)
+
+        self.log.info("runpassfail: total suites is :{}".format(len(suites)))
+
+        for key in suites:
+            case_name = os.path.basename(key)
+            if is_full(self.app):
+                return {"status": "fail", "msg": "Exceed Max processes:{},Try later.".format(self.app.config['MAX_PROCS'])}
+            if not is_run(self.app, case_name):
+                p = multiprocessing.Process(target=robot_run,
+                                            args=(self.app, key))
+                p.start()
+                self.app.config["AUTO_ROBOT"].append(
+                    {"name": "%s" % case_name, "process": p})
+
+                time.sleep(0.2)
+
+            else:
+                retry += 1
+        if retry > 0 :
+            return {"status": "success", "msg": "Start Run:{} cases conflict，Need retry.".format(retry)}
+        else:
+            return {"status": "success", "msg": "Start Run:" + args['key']}
+
+    def runtags(self, args):
+        arg_tags = args['tags']
+        key = args['key']
+
+        tags = arg_tags.replace('，',',').split(',')
+
+        includ = []
+        exclud = []
+
+        for t in tags:
+            if t.strip().startswith('-'):
+                exclud.append(t.strip().replace('-',''))
+            else:
+                includ.append(t.strip().replace('+',''))
+
+        includ_arg = ' -i '+ ' -i '.join(includ) if len(includ) > 0 else ''
+        exclud_arg = ' -e '+ ' -e '.join(exclud) if len(exclud) > 0 else ''
+
+        case_name = os.path.basename(key)
+
+        if not is_run(self.app, case_name):
+            p = multiprocessing.Process(target=robot_run,
+                                        args=(self.app, key, includ_arg + exclud_arg))
+            p.start()
+            self.app.config["AUTO_ROBOT"].append(
+                {"name": "%s" % case_name, "process": p})
+        else:
+            return {"status": "fail", "msg": "Please wait for the former task finished"}
+
+        return {"status": "success", "msg": "Start Run:" + case_name}
+
+    def runfile(self, args):
+        conffile = args['conffile'].strip()
+        key = args['key']
+
+        projectdir = get_projectdirfromkey(key)
+        conffile = conffile.replace('${ROBOT_DIR}',projectdir)
+        conffile = conffile.replace('${PROJECT_DIR}', projectdir)
+        conffile = conffile.replace('%{ROBOT_DIR}', projectdir)
+        conffile = conffile.replace('%{PROJECT_DIR}', projectdir)
+
+        if not conffile.strip().startswith('/'):
+            conffile = os.path.join( key, conffile )
+
+        if not os.path.isfile(conffile):
+            return {"status": "fail", "msg": "Cannot find config file:{}".format(conffile)}
+
+        case_name = os.path.basename(key)
+
+        if not is_run(self.app, case_name):
+            p = multiprocessing.Process(target=robot_run,
+                                        args=(self.app, key, ' -A '+conffile))
+            p.start()
+            self.app.config["AUTO_ROBOT"].append(
+                {"name": "%s" % case_name, "process": p})
+        else:
+            return {"status": "fail", "msg": "Please wait for the former task finished"}
+
+        return {"status": "success", "msg": "Start Run:{}".format(conffile)}
+
+    def debug_run(self, args):
+        fext = os.path.splitext(args['key'])[1]
+        if fext == ".robot":
+            result = robot_debugrun(self.app, args['key'])
+            return {"data": decorate_robotout(result)}
+        if fext == ".py":
+            result = py_debugrun(self.app, args['key'])
+            return {"data": decorate_pyout(result)}
+        if fext == ".yaml":
+            result = bzt_debugrun(self.app, args['key'])
+            return {"data": decorate_pyout(result)}
+        return {"data": "Do not support DegugRun <{}> this type of file.".format(fext)}
+
+    def rerun_task(self, args):
+        project = args['project']
+        task_no = args['task_no']
+        cmdfile = self.app.config["AUTO_HOME"] + "/jobs/%s/%s/%s/cmd.txt" % (session['username'], project,str(task_no))
+        if not os.path.isfile(cmdfile):
+            return {"status": "fail", "msg": "Cannot find command file，file may be deleted:{}".format(cmdfile)}
+
+        cmdline = ''
+        with open(cmdfile,'r') as f:
+            cmdline = f.readline()
+
+        cmdline = cmdline.strip()
+        if cmdline == '':
+            return {"status": "fail", "msg": "Command file content is Null."}
+
+        self.log.info("rerun_task CMD:"+cmdline)
+
+        cases = cmdline.split('|')[-1]    # robot|args|output=xxx|cases
+        args = cmdline.split('|')[1]
+        case_name = os.path.basename(cases)
+
+        if not is_run(self.app, case_name):
+            p = multiprocessing.Process(target=robot_run,
+                                        args=(self.app, cases, args))
+            p.start()
+            self.app.config["AUTO_ROBOT"].append(
+                {"name": "%s" % case_name, "process": p})
+        else:
+            return {"status": "fail", "msg": "Please wait for the former task finished."}
+
+        return {"status": "success", "msg": "Start Run {}:{}".format(project,task_no)}
+
+    def rerunfail_task(self, args):
+        """
+        重新执行失败suite ：-S --rerunfailedsuites output ，而不是 -R --rerunfailed output tests
+        Rerun failed suite: See robot user guide : -S  not -R
+        :param args:
+        :return:
+        """
+        project = args['project']
+        task_no = args['task_no']
+        cmdfile = self.app.config["AUTO_HOME"] + "/jobs/%s/%s/%s/cmd.txt" % (session['username'], project,str(task_no))
+        outfile = self.app.config["AUTO_HOME"] + "/jobs/%s/%s/%s/output.xml" % (session['username'], project,str(task_no))
+        if not os.path.isfile(cmdfile):
+            return {"status": "fail", "msg": "Cannot find command file，file may be deleted:{}".format(cmdfile)}
+        if not os.path.isfile(outfile):
+            return {"status": "fail", "msg": "Cannot find output file，file may be deleted:{}".format(outfile)}
+
+        cmdline = ''
+        with open(cmdfile,'r') as f:
+            cmdline = f.readline()
+
+        cmdline = cmdline.strip()
+        if cmdline == '':
+            return {"status": "fail", "msg": "Command file content is Null."}
+
+        cases = cmdline.split('|')[-1]    # robot|args|output=xxx|cases
+        args = cmdline.split('|')[1] + ' -S ' + outfile
+        case_name = os.path.basename(cases)
+
+        self.log.info("rerunfail_task args:" + args)
+
+        if not is_run(self.app, case_name):
+            p = multiprocessing.Process(target=robot_run,
+                                        args=(self.app, cases, args))
+            p.start()
+            self.app.config["AUTO_ROBOT"].append(
+                {"name": "%s" % case_name, "process": p})
+        else:
+            return {"status": "fail", "msg": "Please wait for the former task finished"}
+
+        return {"status": "success", "msg": "Rerun failed suite{}:{}".format(project,task_no)}
 
 class TaskList(Resource):
     def __init__(self):
@@ -86,6 +280,7 @@ class TaskList(Resource):
         self.parser.add_argument('method', type=str)
         self.parser.add_argument('name', type=str)
         self.parser.add_argument('cron', type=str)
+        self.log = getlogger("TaskList")
         self.app = current_app._get_current_object()
 
     def get(self):
@@ -100,7 +295,7 @@ class TaskList(Resource):
         if args["method"] == "query":
             return get_all_task(self.app)
         elif args["method"] == "start":
-            result = {"status": "success", "msg": "调度启动成功"}
+            result = {"status": "success", "msg": "Scheduler start success."}
             lock = threading.Lock()
             lock.acquire()
             job = scheduler.get_job(job_id)
@@ -120,7 +315,7 @@ class TaskList(Resource):
                                   month=cron[4],
                                   day_of_week=cron[5])
             else:
-                result["msg"] = "cron表达式为默认* * * * * *, <br><br>无法启动调度，请修改cron表达式"
+                result["msg"] = "cron default * * * * * *, <br><br>Cannot start scheduler，Please modify cron setting."
             lock.release()
             return result
 
@@ -131,7 +326,7 @@ class TaskList(Resource):
             if job:
                 scheduler.remove_job(id=job_id)
             lock.release()
-            return {"status": "success", "msg": "停止调度成功"}
+            return {"status": "success", "msg": "Stop task OK"}
         elif args["method"] == "edit":
 
             result = edit_cron(self.app, args["name"], args["cron"])
@@ -158,7 +353,7 @@ class TaskList(Resource):
                                       day_of_week=cron[5])
                 lock.release()
 
-            return {"status": "success", "msg": "更新调度成功"}
+            return {"status": "success", "msg": "Edit cron info OK."}
 
 
 def get_task_list(app, username, project):
@@ -203,6 +398,7 @@ def get_task_list(app, username, project):
                     try:
                         suite = ExecutionResult(job_path + "/%s/output.xml" % i).suite
                         stat = suite.statistics.critical
+                        name = suite.name
                         if stat.failed != 0:
                             status = icons["fail"]
                         else:
@@ -210,13 +406,13 @@ def get_task_list(app, username, project):
                         task.append({
                             "task_no": i,
                             "status": status,
-                            "name": "<a href='/view_report/%s/%s' target='_blank'>%s_#%s</a>" % (project, i, project, i),
+                            "name": "<a href='/view_report/%s/%s_log' target='_blank'>%s_#%s_log</a>" % (project, i, name, i),
                             "success": stat.passed,
                             "fail": stat.failed,
                             "starttime": suite.starttime,
                             "endtime": suite.endtime,
                             "elapsedtime": suite.elapsedtime,
-                            "note": ""
+                            "note": "<a href='/view_report/%s/%s_report' target='_blank'>%s_#%s_report</a>" % (project, i, name, i)
                         })
                     except:
                         status = icons["exception"]
@@ -231,7 +427,7 @@ def get_task_list(app, username, project):
                             "starttime": "-",
                             "endtime": "-",
                             "elapsedtime": "-",
-                            "note": "异常"
+                            "note": "Abnormal"
                         })
 
     return {"total": next_build-1, "rows": task}
@@ -267,54 +463,23 @@ def get_last_task(app, username, project):
 
 
 def get_all_task(app):
-    user_path = app.config["AUTO_HOME"] + "/users/" + session["username"]
-    if exists_path(user_path):
-        config = json.load(codecs.open(user_path + '/config.json', 'r', 'utf-8'))
-        projects = config['data']
-        task_list = {"total": len(projects), "rows": []}
-        for p in projects:
-            # job_path = app.config["AUTO_HOME"] + "/jobs/%s/%s" % (session["username"], p["name"])
-            # running = False
-            # lock = threading.Lock()
-            # lock.acquire()
-            # remove_robot(app)
-            # next_build = get_next_build_number(job_path)
-            # if next_build != 0:
-            #     for pp in app.config["AUTO_ROBOT"]:
-            #         if pp["name"] == p["name"]:
-            #             running = True
-            #             status = icons["running"]
-            #             break
-            #     if running is False:
-            #         if exists_path(job_path + "/%s" % (next_build-1)):
-            #             try:
-            #                 suite = ExecutionResult(job_path + "/%s/output.xml" % (next_build-1)).suite
-            #                 stat = suite.statistics.critical
-            #                 if stat.failed != 0:
-            #                     status = icons["fail"]
-            #                 else:
-            #                     status = icons['success']
-            #             except:
-            #                 status = icons["running"]
-            # else:
-            #     status = icons['success']
+    projects = app.config['DB'].get_allproject(session["username"])
+    task_list = {"total": len(projects), "rows": []}
+    for op in projects:
+        p = op.split(':')[1]     # projects = ["owner:project","o:p"]
+        task = {
+            # "status": status,
+            "name": p,
+            # "last_success": get_last_pass(job_path + "/lastPassed"),
+            # "last_fail": get_last_fail(job_path + "/lastFail"),
+            "enable": "Enalble",
+            "next_time": get_next_time(app, p),
+            "cron": "* * * * * *",
+            "status": get_last_task(app, session["username"], p)
+        }
 
-            # lock.release()
-            task = {
-                #"status": status,
-                "name": p["name"],
-                #"last_success": get_last_pass(job_path + "/lastPassed"),
-                #"last_fail": get_last_fail(job_path + "/lastFail"),
-                "enable": p["enable"],
-                "next_time": get_next_time(app, p["name"]),
-                "cron": p["cron"],
-                "status": get_last_task(app, session["username"], p["name"])
-            }
-
-            task_list["rows"].append(task)
-
+        task_list["rows"].append(task)
     return task_list
-
 
 def get_last_pass(job_path):
     passed = "无"
@@ -382,7 +547,27 @@ def edit_cron(app, name, cron):
     return False
 
 
-def delete_task_record(app, name, task_no):
-    task_path = app.config["AUTO_HOME"] + "/jobs/" + session["username"] + "/%s/%s" % (name, task_no)
+def delete_task_record(app, args):
+    project = args['project']
+    task_no = args['task_no']
+    task_path = app.config["AUTO_HOME"] + "/jobs/%s/%s/%s" % (session['username'], project, str(task_no))
+
     if os.path.exists(task_path):
         remove_dir(task_path)
+
+def get_projecttaskdir(app, project):
+    #TODO : 适配多用户公用project
+    projecttaskdir = app.config["AUTO_HOME"] + "/jobs/" + session["username"] + "/%s" % (project)
+    return projecttaskdir
+
+# For debug out, it is shown as html ,so we can decorate it for more readable.
+def decorate_robotout(out):
+    o = out.replace(' PASS ', '<b><font color="#00FF00">PASS</font></b>')
+    o = o.replace(' ERROR ', '<b><font color="#FF0000">ERROR</font></b>')
+    o = o.replace(' FAIL ', '<b><font color="#FF0000">FAIL</font></b>')
+    o = o.replace('\n', '<BR>')
+    return o
+def decorate_pyout(out):
+    o = out.replace('TypeError', '<b><font color="#FF0000">TypeError</font></b>')
+    o = o.replace('\n', '<BR>')
+    return o

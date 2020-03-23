@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
 __author__ = "苦叶子"
+__modifier__ = 'charisma'
 
 """
 
-公众号: 开源优测
-
-Email: lymking@foxmail.com
+用户管理接口
 
 """
 
@@ -17,7 +16,7 @@ from flask_restful import Resource, reqparse
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from utils.file import list_dir, exists_path, rename_file, make_nod, remove_dir, write_file, read_file, mk_dirs
-
+from utils.mylogger import getlogger
 
 class User(Resource):
     def __init__(self):
@@ -28,23 +27,17 @@ class User(Resource):
         self.parser.add_argument('new_password', type=str, default="")
         self.parser.add_argument('email', type=str)
         self.parser.add_argument('fullname', type=str)
+        self.log = getlogger("User")
         self.app = current_app._get_current_object()
+
 
     def get(self):
         user_list = {"total": 0, "rows": []}
-        user_path = self.app.config["AUTO_HOME"] + "/users"
-        if exists_path(user_path):
-            users = list_dir(user_path)
-
-            user_list["total"] = len(users)
-            for user in users:
-                if user == "AutoLink":
-                    category = "管理员"
-                else:
-                    category = "普通用户"
-                config = json.load(codecs.open(user_path + "/" + user + '/config.json', 'r', 'utf-8'))
-                user_list["rows"].append({ "name": user, "fullname": config["fullname"], "email": config["email"], "category": category })
-
+        res = self.app.config['DB'].runsql("Select username,fullname,email,category from user;")
+        for r in res:
+            (username, fullname, email, category) = r
+            user_list["rows"].append(
+                {"name": username, "fullname": fullname, "email": email, "category": category})
         return user_list
 
     def post(self):
@@ -57,77 +50,98 @@ class User(Resource):
             result = self.__edit(args)
         elif method == "delete":
             result = self.__delete(args)
-        elif method == "save":
-            result = self.__save(args)
         else:
             print(request.files["files"])
 
         return result, 201
 
+
     def __create(self, args):
-        result = {"status": "success", "msg": "创建用户成功"}
-        user_path = self.app.config["AUTO_HOME"] + "/users/%s" % (args["username"])
-        if not exists_path(user_path):
-            mk_dirs(user_path)
+        result = {"status": "success", "msg": "Create user success."}
 
-            make_nod(user_path + "/config.json")
-
-            user = {"fullname": args["fullname"],
-                    "email": args["email"],
-                    "passwordHash": generate_password_hash(args["password"]),
-                    "data": []}
-            json.dump(user, codecs.open(user_path + '/config.json', 'w', 'utf-8'))
-        else:
+        if not session['username'] == "Admin":
             result["status"] = "fail"
-            result["msg"] = "用户名称重复，创建失败"
+            result["msg"] = "Only Admin can add new user."
+            return result
+
+        fullname = args["fullname"]
+        username = args["username"]
+
+        if username in ['myself', 'Admin', 'admin', 'all', 'All']:
+            result["status"] = "fail"
+            result["msg"] = "Illegal username : "+username
+            return result
+
+        passwordHash = generate_password_hash(args["password"])
+        email = args["email"]
+        if not self.app.config['DB'].add_user(username, fullname, passwordHash, email):
+            result["status"] = "fail"
+            result["msg"] = "Create user Failed : username exists."
+
+        self.app.config['DB'].insert_loginfo(session['username'], 'user', 'create', username, result['status'])
 
         return result
+
 
     def __edit(self, args):
+        result = {"status": "success", "msg": "Edit user info success."}
 
-        result = {"status": "success", "msg": "用户信息修改成功"}
-        user_path = self.app.config["AUTO_HOME"] + "/users/" + args["username"]
-        if exists_path(user_path):
-            config = json.load(codecs.open(user_path + '/config.json', 'r', 'utf-8'))
-            if check_password_hash(config["passwordHash"], args["password"]):
-                config["passwordHash"] = generate_password_hash(args["new_password"])
-                config["fullname"] = args["fullname"]
-                config["email"] = args["email"]
-                json.dump(config, codecs.open(user_path + '/config.json', 'w', 'utf-8'))
-            else:
+        username = args['username']
+
+        if (not session['username'] == username) and (not session['username'] == 'Admin'):
+            result["status"] = "fail"
+            result["msg"] = "Only admin can modify user info."
+
+            self.app.config['DB'].insert_loginfo(session['username'], 'user', 'edit', username,
+                                                           result['status'])
+            return result
+
+        org_passwd = self.app.config['DB'].get_password(username) if self.app.config['DB'].get_password(username) else ''
+        if check_password_hash(org_passwd, args["password"]):
+            fullname = args["fullname"]
+            passwordHash = generate_password_hash(args["new_password"])
+            email = args["email"]
+            self.app.config['DB'].del_user(username)
+            if not self.app.config['DB'].add_user(username, fullname, passwordHash, email):
                 result["status"] = "fail"
-                result["msg"] = "原始密码错误"
+                result["msg"] = "DB failed，Please see log file."
         else:
             result["status"] = "fail"
-            result["msg"] = "用户不存在"
+            result["msg"] = "Password Wrong or user Not exits!"
+
+        try:
+            res = self.app.config['DB'].insert_loginfo(session['username'], 'user', 'edit', username, result['status'])
+        except Exception as e:
+            self.log.error("Edite user {} Exception:{}".format(username,e))
 
         return result
+
 
     def __delete(self, args):
-        result = {"status": "success", "msg": "用户删除成功"}
-        user_path = self.app.config["AUTO_HOME"] + "/users/" + args["username"]
+        result = {"status": "success", "msg": "Delete user success."}
 
-        if exists_path(user_path):
-            config = json.load(codecs.open(user_path + '/config.json', 'r', 'utf-8'))
-            if len(config["data"]) > 0:
-                result["status"] = "fail"
-                result["msg"] = "请先删除该用户拥有的项目"
-            else:
-                remove_dir(user_path)
+        if not session['username'] == "Admin":
+            result["status"] = "fail"
+            result["msg"] = "Only Admin can do this."
 
+            self.app.config['DB'].insert_loginfo(session['username'], 'user', 'delete', args["username"],
+                                                           result['status'])
+            return result
+
+        if args["username"] == "Admin" or args["username"] == "admin":
+            result["status"] = "fail"
+            result["msg"] = "Cannot delete Admin."
+            return result
+
+        projects = self.app.config['DB'].get_ownproject(args["username"])
+        if len(projects) > 0:
+            result["status"] = "fail"
+            result["msg"] = "Please Delete user project first!"
         else:
-            result["status"] = "fail"
-            result["msg"] = "用户不存在，删除失败"
+            self.app.config['DB'].del_user(args["username"])
+
+        self.app.config['DB'].insert_loginfo(session['username'], 'user', 'delete', args["username"], result['status'])
 
         return result
 
-    def __save(self, args):
-        result = {"status": "success", "msg": "保存成功"}
 
-        user_path = self.app.config["AUTO_HOME"] + "/workspace/%s%s" % (session["username"], args["path"])
-
-        if not write_file(user_path, args["data"]):
-            result["status"] = "fail"
-            result["msg"] = "保存失败"
-
-        return result
