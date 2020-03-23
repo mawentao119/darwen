@@ -33,7 +33,7 @@ CodeMirror.defineMode("robot", function() {
       state.escaped = false;
 
       /*robot framework start*/
-      if (stream.match(/(Library|Suite Setup|Suite Teardown|Documentation|Force Tags|Metadata|Test Setup|Test Template|Resource)/))
+      if (stream.match(/(Library|Resource|Variables|Documentation|Metadata|Suite Setup|Suite Teardown|Force Tags|Default Tags|Test Setup|Test Teardown|Test Template|Test Timeout|Task Setup|Task Teardown|Task Template|Task Timeout| FOR | IN RANGE |IN ENUMERATE| IN ZIP | IN |END)/))
         return "string-2";
 
       if (stream.match(/\[.+?\]/))
@@ -48,6 +48,7 @@ CodeMirror.defineMode("robot", function() {
       if (stream.match("*** Settings ***") ||
         stream.match("*** Variables ***")  ||
         stream.match("*** Test Cases ***") ||
+        stream.match("*** Tasks ***") ||           //charis added for RF3.1.2
         stream.match("*** Keywords ***"))
         return "property";
 
