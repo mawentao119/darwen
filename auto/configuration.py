@@ -14,6 +14,7 @@ import os
 import json
 import codecs
 from apscheduler.executors.pool import ProcessPoolExecutor
+from utils.dbclass import TestDB
 
 from utils.file import exists_path
 
@@ -39,9 +40,18 @@ class Config:
     SECRET_KEY = 'QWERTYUIOPASDFGHJ'
     # logging level
     LOGGING_LEVEL = logging.INFO
-    AUTO_HOME = os.getcwd().replace('\\', '/') + '/.beats'
+
+    # get_cwd = xxx/work/workspace/Admin/uniRobot
+    AUTO_HOME = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))).replace('\\','/')
+    AUTO_TEMP = AUTO_HOME + '/runtime'
+    os.mkdir(AUTO_TEMP) if not os.path.exists(AUTO_TEMP) else None
+    #AUTO_HOME = os.getcwd().replace('\\', '/') + '/.beats'
+
+
+    DB = TestDB(AUTO_HOME + '/DBs')
 
     AUTO_ROBOT = []
+    MAX_PROCS = 10
 
     executors = {
         'default': {'type': 'threadpool', 'max_workers': 20},
@@ -69,7 +79,7 @@ class ProductionConfig(Config):
     def init_app(cls, app):
         Config.init_app(app)
 
-        # 发送服务启动初始化时错误信息给管理员
+        # 发送服务启动初始化时错误信息给管理员： Send Error info to Admin
         import logging
         from logging.handlers import SMTPHandler
         credentials = None
