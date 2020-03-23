@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 
-__author__ = "苦叶子"
+__author__ = "mawentao119@gmail.com"
 
 """
-
-公众号: 开源优测
-
-Email: lymking@foxmail.com
-
+This module is not be used for now.
+But translate it still.
 """
 
 # coding=utf-8
@@ -16,18 +13,15 @@ import time
 basedir = os.getcwd()
 filelists = []
 
-# 指定想要统计的文件类型
+# accumulated file types.
 whitelist = ['py', 'js']
 
 filelists = []
 
 
-# 遍历文件, 递归遍历文件夹中的所有
+# find all files.
 def get_file(base_dir):
     for parent, dirnames, filenames in os.walk(basedir):
-        # for dirname in dirnames:
-        # getFile(os.path.join(parent,dirname)) #递归
-
         for filename in filenames:
             if filename in ("AutoStats.py", "commonLibrary.py"):
                 continue
@@ -36,16 +30,16 @@ def get_file(base_dir):
             if ext == "js" and filename != "auto.js":
                 continue
 
-            # 只统计指定的文件类型，略过一些log和cache文件
+            # only for specific file types.
             if ext in whitelist:
                 filelists.append(os.path.join(parent, filename))
 
 
-# 统计一个文件的行数
+# Count lines of a file.
 def count_line(fname):
     count = 0
     for file_line in open(fname).readlines():
-        # 过滤掉空行
+        # omit NULL lines
         if file_line != '' and file_line != '\n':
             count += 1
     print('%s ---- %s' % (fname, count))

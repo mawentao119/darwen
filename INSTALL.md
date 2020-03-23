@@ -1,36 +1,25 @@
-## 安装与启动
+## Installation and start 
 
-1. 安装Python3版本，确保加入环境变量，pip命令可用
+1. Install python version > 3.7.5 ; pip command can be used.
 
-2. 从[AutoLink Github项目](https://github.com/small99/AutoLink)下载源码
+2. Make a dir: uniRobot (other name is OK)
 
-3. 执行以下命令安装AutoLink依赖
+3. Install virtualenv ; Make a virtual dir uniRobot/py3env 
 
-> pip install -r requirements.txt
+4. [uniRobot](https://github.com/mawentao119/uniRobot.git)Down load source code.
 
-4.1 执行以下命令启动AutoLink服务
+5. Then Run : ./.install_work.sh OR you can Install dependences by yourself:
+>cd uniRobot/work/workspace/Admin/uniRobot/
 
-> python AutoLink.py runserver
+>pip install -r requirements.txt 
 
-4.1.1 访问以下网址，即可
+6.1 Start the Server
 
-http://127.0.0.1:5000
+> ./start_work.sh
 
-4.2 执行以下命令可外网访问
+6.1.1 You can access the url:
 
-> python AutoLink.py runserver -h 0.0.0.0 -p 8000
-通过
+http://127.0.0.1:8082
 
-4.2.1 即可通过你的IP地址来访问
-
-http://ip:8000
-
-注： 
-- -h选项指定为0.0.0.0即为绑定本机ip启动，网络其他用户通过你的ip和-p指定的端口即可访问AutoLink
-
-- -p指定AutoLink服务启动时的端口
-
-默认账号: AutoLink  
-默认密码: 123456
-
-5. 下载selenium webdriver对应的浏览器驱动放在driver目录即可
+User: Admin  
+Passwd: 123456
