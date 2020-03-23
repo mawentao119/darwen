@@ -26,12 +26,32 @@
 	background:url('../img/suite.open.png') no-repeat center center;
 }
 
+.icon-suite-open_case{
+	background:url('../img/suite.open_case.png') no-repeat center center;
+}
+
 .icon-project{
     background:url('../img/project.png') no-repeat center center;
 }
 
+.icon-project_c{
+    background:url('../img/project_c.png') no-repeat center center;
+}
+
 .icon-robot{
     background:url('../img/robot.png') no-repeat center center;
+}
+
+.icon-robot_pass{
+    background:url('../img/robot_pass.png') no-repeat center center;
+}
+
+.icon-robot_fail{
+    background:url('../img/robot_fail.png') no-repeat center center;
+}
+
+.icon-yaml{
+    background:url('../img/yaml.png') no-repeat center center;
 }
 
 .icon-resource{
@@ -133,6 +153,14 @@
 
 .icon-step{
     background:url('../img/step.png') no-repeat center center;
+}
+
+.icon-step_pass{
+    background:url('../img/step_pass.png') no-repeat center center;
+}
+
+.icon-step_fail{
+    background:url('../img/step_fail.png') no-repeat center center;
 }
 
 .icon-user-keyword{
