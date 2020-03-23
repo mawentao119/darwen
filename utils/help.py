@@ -13,6 +13,7 @@ def check_version():
     pass
 
 ## charisma: 暂时先不进行版本check 20200119 .
+## charisma：Do not check verson now.
 def check_version_org():
     f = codecs.open('version.txt', 'r')
     version = f.readline()

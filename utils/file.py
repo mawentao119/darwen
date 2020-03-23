@@ -3,11 +3,7 @@
 __author__ = "苦叶子"
 
 """
-
-公众号: 开源优测
-
-Email: lymking@foxmail.com
-
+Basic Operation of OS
 """
 
 import os, stat, codecs
@@ -20,7 +16,12 @@ def mk_dirs(path, mode=0o777):
     except OSError:
         if not os.path.isdir(path):
             raise
-
+def copy_file(s,d):
+    try:
+        shutil.copy(s,d)
+    except Exception:
+        return False
+    return True
 
 def walk_dir(path):
     try:
@@ -107,4 +108,22 @@ def read_file(path, mode="r", encoding="utf-8"):
     f.close()
 
     return {"status": True, "data": data}
+
+
+def get_projectnamefromkey(key):
+    # "//a/b/c/workspace/user/project/dir1/dir2/abc.robot --> project"
+    return key.split("workspace")[1].split('/')[2]
+
+
+def get_projectdirfromkey(key):
+    splitkey = key.split('workspace')
+    basedir = splitkey[0]
+    project = get_projectnamefromkey(key)
+    user = splitkey[1].split(project)[0]
+    return basedir + 'workspace' + user + project
+
+
+def get_ownerfromkey(key):
+    return key.split("workspace")[1].split('/')[1]
+
 

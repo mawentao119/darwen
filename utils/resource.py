@@ -4,15 +4,12 @@ __author__ = "苦叶子"
 
 """
 
-公众号: 开源优测
-
-Email: lymking@foxmail.com
-
 """
 
 ICONS = {
     ".robot": "icon-robot",
-    ".txt": "icon-resource",
+    ".yaml": "icon-yaml",
+    ".resource": "icon-resource",
     ".bmp": "icon-image",
     ".jpg": "icon-image",
     ".jpeg": "icon-image",
