@@ -293,7 +293,7 @@ def generate_auto_complete(doc_dir):  # This is new fun, Invoked by project.get 
 
             # 关键字参数
             for arg in kw.iter("arg"):
-                word += "\t[" + arg.text.replace("'","\'") + "]"
+                word += "\t[" + arg.text.replace("'","") + "]"
 
             word += "'"
 
