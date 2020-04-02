@@ -40,6 +40,7 @@ class Config:
     SECRET_KEY = 'QWERTYUIOPASDFGHJ'
     # logging level
     LOGGING_LEVEL = logging.INFO
+    SHOW_DIR_DETAIL = False
 
     # get_cwd = xxx/work/workspace/Admin/uniRobot
     AUTO_HOME = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))).replace('\\','/')

@@ -241,10 +241,12 @@ class ProjectList(Resource):
                     stat = "closed"
                     text = d
 
-                    td = self.app.config['DB'].get_testdata(ff)
-                    if td[0] > 0:    # [suites,cases,passed,Failed,unknown]
-                        icons = "icon-suite-open_case"
-                        text = d+':'+ " ".join([str(ss) for ss in td])
+                    if self.app.config['SHOW_DIR_DETAIL']:    # For performance concern, False.
+                        td = self.app.config['DB'].get_testdata(ff)
+                        if td[0] > 0:    # [suites,cases,passed,Failed,unknown]
+                            icons = "icon-suite-open_case"
+                            text = d+':'+ " ".join([str(ss) for ss in td])
+
                     children.append({
                         "text": text, "iconCls": icons, "state": stat,
                         "attributes": {
@@ -262,12 +264,21 @@ class ProjectList(Resource):
                         icons = "icon-file-default"
 
                     if text[1] in (".robot"):
-                        td = self.app.config['DB'].get_testdata(ff)   #[suites,cases,passed,Failed,unknown]
-                        if td[1] == td[2]:
-                            icons = 'icon-robot_pass'
-                        if td[3] > 0:
-                            icons = 'icon-robot_fail'
-                        lb = d.replace('.robot', ':') + ' '.join([str(ss) for ss in td[1:]])
+                        if self.app.config['SHOW_DIR_DETAIL']:
+                            td = self.app.config['DB'].get_testdata(ff)   #[suites,cases,passed,Failed,unknown]
+                            if td[1] == td[2]:
+                                icons = 'icon-robot_pass'
+                            if td[3] > 0:
+                                icons = 'icon-robot_fail'
+                            lb = d.replace('.robot', ':') + ' '.join([str(ss) for ss in td[1:]])
+                        else:
+                            suite_status = self.app.config['DB'].get_suitestatus(ff)
+                            if suite_status == 'PASS':
+                                icons = 'icon-robot_pass'
+                            if suite_status == 'FAIL':
+                                icons = 'icon-robot_fail'
+                            lb = d.replace('.robot', '')
+
                         children.append({
                             "text": lb, "iconCls": icons, "state": "closed",
                             "attributes": {
