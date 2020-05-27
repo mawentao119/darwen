@@ -24,9 +24,14 @@
         <div data-options="region:'north',border:true" style="padding:0;height:60px;">
             <div class="easyui-panel" style="padding:0">
                 <a href="https://github.com/mawentao119/uniRobot.git" target="_blank" class="easyui-linkbutton" data-options="plain:true"><img src="{{ url_for('static', filename='img/logo.min.png') }}" alt="uniRobot" style="padding-top:8px;"/></a>
-                <a href="#" onclick="addTab('Scheduler', '/scheduler/', 'icon-scheduler')" class="easyui-linkbutton" data-options="iconCls:'icon-scheduler'">调度管理</a>
+                <a href="#" onclick="addTab('Scheduler', '/scheduler/', 'icon-scheduler')" class="easyui-linkbutton" data-options="iconCls:'icon-test_env'">测试环境</a>
+                <a href="#" onclick="addTab('Scheduler', '/scheduler/', 'icon-scheduler')" class="easyui-linkbutton" data-options="iconCls:'icon-task_mng'">任务管理</a>
+                <a href="#" onclick="addTab('Scheduler', '/scheduler/', 'icon-scheduler')" class="easyui-linkbutton" data-options="iconCls:'icon-schedul_mng'">调度管理</a>
+                <a href="#" onclick="addTab('Scheduler', '/scheduler/', 'icon-scheduler')" class="easyui-linkbutton" data-options="iconCls:'icon-monitor'">监控告警</a>
+                <a href="#" onclick="addTab('Scheduler', '/scheduler/', 'icon-scheduler')" class="easyui-linkbutton" data-options="iconCls:'icon-tools'">辅助工具</a>
                 <a href="#" onclick="addTab('System', '/user', 'icon-settings')" class="easyui-linkbutton" data-options="iconCls:'icon-settings'">系统配置</a>
-                <a href="https://github.com/mawentao119/uniRobot.git" target="_blank" class="easyui-linkbutton" data-options="iconCls:'icon-keyword-help'">Github</a>
+                <a href="#" onclick="addTab('System', '/user', 'icon-settings')" class="easyui-linkbutton" data-options="iconCls:'icon-user_mng'">用户管理</a>
+                <a href="https://github.com/mawentao119/uniRobot.git" target="_blank" class="easyui-linkbutton" data-options="iconCls:'icon-github'">Github</a>
                 <a href="#" onclick="do_logout('{{ username }}');" class="easyui-linkbutton" data-options="iconCls:'icon-logout'" style="float:right;margin-top:10px;margin-right:10px;">登出</a>
             </div>
         </div>
@@ -452,7 +457,7 @@
     </body>
     <SCRIPT type="text/javascript">
         $(function () {
-            addTab("User Guide", "/welcome", "icon-workspace");
+            addTab("User Guide", "/welcome", "icon-guide");
         });
     </SCRIPT>
 </html>
