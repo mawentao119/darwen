@@ -49,6 +49,6 @@ class Auth(Resource):
 
         self.log.warning("Login FAILD: user: {} password xxx".format(username))
 
-        app.config['DB'].insert_loginfo(session['username'], 'login', username, password)
+        app.config['DB'].insert_loginfo(username, 'login', username, password)
 
         return {"status": "fail", "msg": "login fail", "url": url_for('routes.index')}, 201

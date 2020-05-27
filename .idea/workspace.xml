@@ -2,11 +2,35 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab43467d-ad90-46a2-99ca-651bd4d7e6ad" name="Default" comment="delete the codemirror links in html">
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/case_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/case_report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/dashboard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/default.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/editor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/excute_report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/gen_report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/scheduler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/task_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/user.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/view_img.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates_en/welcome.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/configuration.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/configuration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/project.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/project.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/api/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/auth.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/static/js/autocomplete.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/autocomplete.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/static/js/highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/highlight.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/case_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/case_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/case_report.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/case_report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/editor.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/editor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/excute_report.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/excute_report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/report.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/scheduler.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/scheduler.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/task_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/task_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/user.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,30 +39,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/auto/www/api/project.py">
+        <entry file="file://$PROJECT_DIR$/auto/www/templates/user.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="279" column="56" lean-forward="true" selection-start-line="279" selection-start-column="56" selection-end-line="279" selection-end-column="56" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="143" column="8" selection-start-line="143" selection-start-column="8" selection-end-line="143" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/configuration.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="41" column="28" selection-start-line="41" selection-start-column="28" selection-end-line="41" selection-end-column="28" />
+            <state relative-caret-position="690">
+              <caret line="200" column="7" lean-forward="true" selection-start-line="200" selection-start-column="7" selection-end-line="200" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -50,6 +56,7 @@
       <find>summery</find>
       <find>查看</find>
       <find>code</find>
+      <find>Report</find>
     </findStrings>
     <replaceStrings>
       <replace>summary</replace>
@@ -73,7 +80,6 @@
         <option value="$PROJECT_DIR$/.beats/workspace/AutoLink/标准项目组织结构_demo/001_资源集/元素对象.txt" />
         <option value="$PROJECT_DIR$/docs/如何创建HTTP接口测试用例.md" />
         <option value="$PROJECT_DIR$/docs/简介.md" />
-        <option value="$PROJECT_DIR$/auto/www/templates/dashboard.html" />
         <option value="$PROJECT_DIR$/auto/www/api/__init__.py" />
         <option value="$PROJECT_DIR$/auto/www/templates/shell.html" />
         <option value="$PROJECT_DIR$/auto/www/config.py" />
@@ -81,17 +87,21 @@
         <option value="$PROJECT_DIR$/auto/www/app.py" />
         <option value="$PROJECT_DIR$/webshell/webshell_app.py" />
         <option value="$PROJECT_DIR$/utils/parsing.py" />
-        <option value="$PROJECT_DIR$/auto/www/templates/editor.html" />
-        <option value="$PROJECT_DIR$/auto/www/templates/scheduler.html" />
-        <option value="$PROJECT_DIR$/auto/www/templates/task_list.html" />
-        <option value="$PROJECT_DIR$/auto/www/templates/report.html" />
-        <option value="$PROJECT_DIR$/auto/www/templates/user.html" />
         <option value="$PROJECT_DIR$/auto/configuration.py" />
         <option value="$PROJECT_DIR$/auto/www/api/project.py" />
+        <option value="$PROJECT_DIR$/auto/www/templates/dashboard.html" />
+        <option value="$PROJECT_DIR$/auto/www/templates/case_list.html" />
+        <option value="$PROJECT_DIR$/auto/www/templates/editor.html" />
+        <option value="$PROJECT_DIR$/auto/www/templates/excute_report.html" />
+        <option value="$PROJECT_DIR$/auto/www/templates/case_report.html" />
+        <option value="$PROJECT_DIR$/auto/www/templates/report.html" />
+        <option value="$PROJECT_DIR$/auto/www/templates/scheduler.html" />
+        <option value="$PROJECT_DIR$/auto/www/templates/task_list.html" />
+        <option value="$PROJECT_DIR$/auto/www/templates/user.html" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="877" />
@@ -102,7 +112,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -126,12 +135,13 @@
               <item name="uniRobot" type="462c0819:PsiDirectoryNode" />
               <item name="auto" type="462c0819:PsiDirectoryNode" />
               <item name="www" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -266,14 +276,28 @@
       <option name="project" value="LOCAL" />
       <updated>1585638833311</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Add config item 'SHOW_DIR_DETAIL' for performance concern.">
+      <created>1585842632297</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1585842632297</updated>
+    </task>
+    <task id="LOCAL-00016" summary="delete the codemirror links in html">
+      <created>1585842762146</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1585842762146</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="877" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19742489" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11874106" />
       <window_info id="Favorites" order="1" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -282,14 +306,14 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49776787" weight="0.3210191" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49776787" weight="0.32048193" />
       <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.49776787" weight="0.32738853" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.4985119" weight="0.32611465" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50223213" side_tool="true" weight="0.32838285" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49713877" weight="0.32611465" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5028612" side_tool="true" weight="0.32611465" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" anchor="right" id="Structure" order="3" visible="true" weight="0.11015737" />
+      <window_info anchor="right" id="Structure" order="3" visible="true" weight="0.11015737" />
     </layout>
     <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" weight="0.19742489" />
@@ -358,6 +382,7 @@
     <MESSAGE value="Delete Useless code in html" />
     <MESSAGE value="Add pyxtermjs as web shell. It has a little trubble to combine to app.py." />
     <MESSAGE value="fix autocomplete js error, replace &quot;'&quot; to &quot;&quot; ." />
+    <MESSAGE value="Add config item 'SHOW_DIR_DETAIL' for performance concern." />
     <MESSAGE value="delete the codemirror links in html" />
     <option name="LAST_COMMIT_MESSAGE" value="delete the codemirror links in html" />
   </component>
@@ -422,13 +447,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/如何创建HTTP接口测试用例.md">
-      <provider editor-type-id="text-editor" />
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor />
           <second_editor />
         </state>
       </provider>
+      <provider editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
@@ -472,55 +497,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/task_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="51" column="107" selection-start-line="51" selection-start-column="107" selection-end-line="51" selection-end-column="107" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/case_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1676" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/case_report.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3101" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/dashboard.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4196">
-          <caret line="143" column="33" selection-start-line="143" selection-start-column="33" selection-end-line="143" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/default.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/excute_report.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2292" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/report.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-832">
-          <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/templates/login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-461" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/user.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-437">
-          <caret line="7" column="113" selection-start-line="7" selection-start-column="113" selection-end-line="7" selection-end-column="113" />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/templates/view_img.html">
@@ -544,20 +523,6 @@
         <state relative-caret-position="-12" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/scheduler.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="96" column="39" lean-forward="true" selection-start-line="96" selection-start-column="39" selection-end-line="96" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/editor.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="42" selection-start-line="42" selection-end-line="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/parsing.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="403">
@@ -565,24 +530,93 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/configuration.py">
+    <entry file="file://$PROJECT_DIR$/auto/www/api/project.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="41" column="28" selection-start-line="41" selection-start-column="28" selection-end-line="41" selection-end-column="28" />
+        <state relative-caret-position="451">
+          <caret line="309" column="29" selection-start-line="309" selection-start-column="29" selection-end-line="309" selection-end-column="29" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates_en/user.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
+        <state relative-caret-position="750">
           <caret line="143" column="8" selection-start-line="143" selection-start-column="8" selection-end-line="143" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/project.py">
+    <entry file="file://$PROJECT_DIR$/auto/configuration.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="279" column="56" lean-forward="true" selection-start-line="279" selection-start-column="56" selection-end-line="279" selection-end-column="56" />
+        <state relative-caret-position="510">
+          <caret line="41" column="28" selection-start-line="41" selection-start-column="28" selection-end-line="41" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="414" column="51" selection-start-line="414" selection-start-column="51" selection-end-line="414" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/case_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-945">
+          <caret line="39" column="96" selection-start-line="39" selection-start-column="96" selection-end-line="39" selection-end-column="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/default.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-334">
+          <caret line="24" column="142" selection-start-line="24" selection-start-column="142" selection-end-line="24" selection-end-column="142" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/case_report.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="219" column="35" selection-start-line="219" selection-start-column="35" selection-end-line="219" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/excute_report.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="181" column="33" selection-start-line="181" selection-start-column="33" selection-end-line="181" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/report.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="135" column="28" selection-start-line="135" selection-start-column="28" selection-end-line="135" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/scheduler.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-90">
+          <caret line="156" column="28" selection-start-line="156" selection-start-column="28" selection-end-line="156" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/task_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="130" column="28" selection-start-line="130" selection-start-column="28" selection-end-line="130" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/user.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="200" column="7" lean-forward="true" selection-start-line="200" selection-start-column="7" selection-end-line="200" selection-end-column="7" />
         </state>
       </provider>
     </entry>

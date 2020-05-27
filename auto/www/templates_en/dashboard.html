@@ -24,13 +24,13 @@
         <div data-options="region:'north',border:true" style="padding:0;height:60px;">
             <div class="easyui-panel" style="padding:0">
                 <a href="https://github.com/mawentao119/uniRobot.git" target="_blank" class="easyui-linkbutton" data-options="plain:true"><img src="{{ url_for('static', filename='img/logo.min.png') }}" alt="uniRobot" style="padding-top:8px;"/></a>
-                <a href="#" onclick="addTab('Scheduler', '/scheduler/', 'icon-scheduler')" class="easyui-linkbutton" data-options="iconCls:'icon-scheduler'">调度管理</a>
-                <a href="#" onclick="addTab('System', '/user', 'icon-settings')" class="easyui-linkbutton" data-options="iconCls:'icon-settings'">系统配置</a>
+                <a href="#" onclick="addTab('Scheduler', '/scheduler/', 'icon-scheduler')" class="easyui-linkbutton" data-options="iconCls:'icon-scheduler'">Scheduler</a>
+                <a href="#" onclick="addTab('System', '/user', 'icon-settings')" class="easyui-linkbutton" data-options="iconCls:'icon-settings'">System</a>
                 <a href="https://github.com/mawentao119/uniRobot.git" target="_blank" class="easyui-linkbutton" data-options="iconCls:'icon-keyword-help'">Github</a>
-                <a href="#" onclick="do_logout('{{ username }}');" class="easyui-linkbutton" data-options="iconCls:'icon-logout'" style="float:right;margin-top:10px;margin-right:10px;">登出</a>
+                <a href="#" onclick="do_logout('{{ username }}');" class="easyui-linkbutton" data-options="iconCls:'icon-logout'" style="float:right;margin-top:10px;margin-right:10px;">Logout</a>
             </div>
         </div>
-        <div data-options="region:'west',split:true" title="个人/共享 项目" style="width:240px;padding:5px;">
+        <div data-options="region:'west',split:true" title="Personal&Shared" style="width:240px;padding:5px;">
             <ul id="project_tree" class="easyui-tree"
                 data-options="
                     url:'/api/v1/project_list/',
@@ -53,27 +53,27 @@
         </div>
 
         <div id="root_menu" class="easyui-menu" style="width:160px;">
-            <div onclick="addTab('User Guide', '/welcome', 'icon-workspace');" data-options="iconCls:'icon-workspace'">用户指南</div>
-            <div onclick="manage_project('create_project', 'create_project_ff', 'create')" data-options="iconCls:'icon-project'">创建项目</div>
+            <div onclick="addTab('User Guide', '/welcome', 'icon-workspace');" data-options="iconCls:'icon-workspace'">User Guide</div>
+            <div onclick="manage_project('create_project', 'create_project_ff', 'create')" data-options="iconCls:'icon-project'">Create Project</div>
             <div>
-                <span>Git 项目</span>
+                <span>Git Project</span>
                   <div style="width:150px;">
-                      <div onclick="manage_project('create_projectgit', 'create_projectgit_ff', 'gitclone')">clone</div>
+                      <div onclick="manage_project('create_projectgit', 'create_projectgit_ff', 'gitclone')">Clone</div>
                       <div onclick="gitcommit();">Commit</div>
                       <div onclick="gitpush();">Push</div>
                   </div>
             </div>
             <div class="menu-sep"></div>
             {% if username == "Admin" %}
-            <div onclick="addTab('User Management', '/user', 'icon-user')" data-options="iconCls:'icon-user'">用户管理</div>
+            <div onclick="addTab('User Management', '/user', 'icon-user')" data-options="iconCls:'icon-user'">User Management</div>
             <div class="menu-sep"></div>
             {% endif %}
-            <div onclick="do_logout('{{ username }}');" data-options="iconCls:'icon-logout'">退出</div>
+            <div onclick="do_logout('{{ username }}');" data-options="iconCls:'icon-logout'">Exit</div>
         </div>
         <div id="project_menu" class="easyui-menu" style="width:160px;">
-            <div onclick="manage_suite('create_suite', 'create_suite_ff', 'create')" data-options="iconCls:'icon-suite'">创建目录</div>
+            <div onclick="manage_suite('create_suite', 'create_suite_ff', 'create')" data-options="iconCls:'icon-suite'">Create Dir</div>
             <div>
-                <span>Git 目录</span>
+                <span>Git Dir</span>
                   <div style="width:150px;">
                       <div onclick="manage_suite('create_suitegit', 'create_suite_ffgit', 'gitclone')">Clone</div>
                       <div onclick="gitcommit();">Commit</div>
@@ -81,51 +81,51 @@
                   </div>
             </div>
             <div class="menu-sep"></div>
-            <div onclick="do_run();" data-options="iconCls:'icon-run'">运行全部用例</div>
+            <div onclick="do_run();" data-options="iconCls:'icon-run'">Run All</div>
             <div>
-                <span>运行部分用例</span>
+                <span>Run Some</span>
                   <div style="width:160px;">
-                      <div onclick="do_runpass();">运行成功用例</div>
-                      <div onclick="do_runfail();">运行失败用例</div>
-                      <div onclick="manage_run('run_tags', 'run_tags_ff', 'runtags');">按标签运行用例</div>
-                      <div onclick="manage_run('run_file', 'run_file_ff', 'runfile');">根据配置文件运行</div>
+                      <div onclick="do_runpass();">Run PASSed cases</div>
+                      <div onclick="do_runfail();">Run FAILed cases</div>
+                      <div onclick="manage_run('run_tags', 'run_tags_ff', 'runtags');">Run Cases with Tag</div>
+                      <div onclick="manage_run('run_file', 'run_file_ff', 'runfile');">Run with a config file</div>
                   </div>
             </div>
             <div class="menu-sep"></div>
-            <div onclick="do_task_list();" data-options="iconCls:'icon-task'">任务列表</div>
+            <div onclick="do_task_list();" data-options="iconCls:'icon-task'">Tasks List</div>
             <div class="menu-sep"></div>
-            <div onclick="do_caselist();">用例列表</div>
+            <div onclick="do_caselist();">Cases List</div>
             <div>
-                <span>项目统计报告</span>
+                <span>Project summery report</span>
                   <div style="width:150px;">
-                      <div onclick="do_casereport();">用例统计</div>
-                      <div onclick="do_excutereport();">运行统计</div>
+                      <div onclick="do_casereport();">Case Report</div>
+                      <div onclick="do_excutereport();">Execution Report</div>
                   </div>
             </div>
             <div>
-                <span>导入 & 导出</span>
+                <span>Import & Export</span>
                   <div style="width:160px;">
-                      <div onclick="open_win('uploadcase_win');">导入测试用例</div>
+                      <div onclick="open_win('uploadcase_win');">Import Cases</div>
                       <div class="menu-sep"></div>
-                      <div onclick="do_downcaseinfox('downcaseinfo_ff');">导出测试用例 (xlsx)</div>
-                      <div onclick="do_downcaseinfoz('downcaseinfo_ff');">导出用例文件 (zip)</div>
+                      <div onclick="do_downcaseinfox('downcaseinfo_ff');">Export cases (xlsx)</div>
+                      <div onclick="do_downcaseinfoz('downcaseinfo_ff');">Export files (zip)</div>
                       <div class="menu-sep"></div>
-                      <div onclick="do_downruninfo('downruninfo_ff');">导出执行报告</div>
+                      <div onclick="do_downruninfo('downruninfo_ff');">Export execution records</div>
                   </div>
             </div>
             <div>
-                <span>共享项目</span>
+                <span>Share Project</span>
                   <div style="width:150px;">
-                      <div onclick="manage_project('addu_project', 'addu_project_ff', 'adduser')">添加共享用户</div>
-                      <div onclick="manage_project('delu_project', 'delu_project_ff', 'deluser')">移除共享用户</div>
+                      <div onclick="manage_project('addu_project', 'addu_project_ff', 'adduser')">Add user</div>
+                      <div onclick="manage_project('delu_project', 'delu_project_ff', 'deluser')">Remove user</div>
                   </div>
             </div>
             <div class="menu-sep"></div>
-            <div onclick="manage_project('edit_project', 'edit_project_ff', 'edit')">重命名</div>
-            <div onclick="delete_project()" data-options="iconCls:'icon-remove'">删除项目</div>
+            <div onclick="manage_project('edit_project', 'edit_project_ff', 'edit')">Rename</div>
+            <div onclick="delete_project()" data-options="iconCls:'icon-remove'">Delete</div>
         </div>
         <div id="suite_menu" class="easyui-menu" style="width:160px;">
-            <div onclick="manage_suite('create_suite', 'create_suite_ff', 'create')" data-options="iconCls:'icon-suite'">创建目录</div>
+            <div onclick="manage_suite('create_suite', 'create_suite_ff', 'create')" data-options="iconCls:'icon-suite'">Create Dir</div>
             <div>
                 <span>Git</span>
                   <div style="width:150px;">
@@ -134,71 +134,71 @@
                       <div onclick="gitpush();">Push</div>
                   </div>
             </div>
-            <div onclick="refresh_suite_cases()" data-options="iconCls:'icon-refresh'">刷新目录</div>
+            <div onclick="refresh_suite_cases()" data-options="iconCls:'icon-refresh'">Refresh Dir</div>
             <div class="menu-sep"></div>
-            <div onclick="manage_file('create_file', 'create_file_ff', 'create')">创建文件</div>
-            <div onclick="open_win('upload_win');">上传文件</div>
+            <div onclick="manage_file('create_file', 'create_file_ff', 'create')">Create File</div>
+            <div onclick="open_win('upload_win');">Upload File</div>
             <div class="menu-sep"></div>
-            <div onclick="do_caselist();">用例列表</div>
+            <div onclick="do_caselist();">Cases List</div>
             <div>
-                <span>目录统计报告</span>
+                <span>Dir summery Report</span>
                   <div style="width:150px;">
-                      <div onclick="do_casereport();">用例统计</div>
-                      <div onclick="do_excutereport();">执行统计</div>
+                      <div onclick="do_casereport();">Case Report</div>
+                      <div onclick="do_excutereport();">Execution Report</div>
                   </div>
             </div>
             <div>
-                <span>导入 & 导出</span>
+                <span>Import & Export</span>
                   <div style="width:150px;">
-                      <div onclick="open_win('uploadcase_win');">导入用例</div>
+                      <div onclick="open_win('uploadcase_win');">Import Cases of Dir</div>
                       <div class="menu-sep"></div>
-                      <div onclick="do_downcaseinfox('downcaseinfo_ff');">导出测试用例(xlsx)</div>
-                      <div onclick="do_downcaseinfoz('downcaseinfo_ff');">导出用例文件(zip)</div>
+                      <div onclick="do_downcaseinfox('downcaseinfo_ff');">Export Cases(xlsx)</div>
+                      <div onclick="do_downcaseinfoz('downcaseinfo_ff');">Export Files(zip)</div>
                       <div class="menu-sep"></div>
-                      <div onclick="do_downruninfo('downruninfo_ff');">导出执行报告</div>
+                      <div onclick="do_downruninfo('downruninfo_ff');">Export execution info</div>
                   </div>
             </div>
             <div class="menu-sep"></div>
-            <div onclick="do_run();" data-options="iconCls:'icon-run'">运行全部</div>
+            <div onclick="do_run();" data-options="iconCls:'icon-run'">Run All</div>
             <div>
-                <span>运行部分</span>
+                <span>Run Some</span>
                   <div style="width:150px;">
-                      <div onclick="do_runpass();">运行成功用例</div>
-                      <div onclick="do_runfail();">运行失败用例</div>
-                      <div onclick="manage_run('run_tags', 'run_tags_ff', 'runtags');">按标签运行用例</div>
-                      <div onclick="manage_run('run_file', 'run_file_ff', 'runfile');">根据配置文件运行</div>
+                      <div onclick="do_runpass();">Run PASSed cases</div>
+                      <div onclick="do_runfail();">Run FAILed cases</div>
+                      <div onclick="manage_run('run_tags', 'run_tags_ff', 'runtags');">Run Cases with Tag</div>
+                      <div onclick="manage_run('run_file', 'run_file_ff', 'runfile');">Run with a config file</div>
                   </div>
             </div>
             <div class="menu-sep"></div>
-            <div onclick="manage_suite('edit_suite', 'edit_suite_ff', 'edit')">重命名</div>
-            <div onclick="delete_suite()" data-options="iconCls:'icon-remove'">删除</div>
+            <div onclick="manage_suite('edit_suite', 'edit_suite_ff', 'edit')">Rename</div>
+            <div onclick="delete_suite()" data-options="iconCls:'icon-remove'">Delete</div>
         </div>
         <div id="case_menu" class="easyui-menu" style="width:160px;">
-            <div onclick="do_open_editor();">打开</div>
-            <div onclick="do_download('download_ff');">下载</div>
+            <div onclick="do_open_editor();">Open</div>
+            <div onclick="do_download('download_ff');">Download</div>
             <div class="menu-sep"></div>
-            <div onclick="do_run();" data-options="iconCls:'icon-run'">运行</div>
+            <div onclick="do_run();" data-options="iconCls:'icon-run'">Run</div>
             <div>
-                <span>标记用例</span>
+                <span>Mark Case</span>
                   <div style="width:150px;">
-                      <div onclick="case_handpass()">标记成功</div>
-                      <div onclick="case_handfail()">标记失败</div>
-                      <div onclick="case_handunknown()">标记未执行</div>
+                      <div onclick="case_handpass()">Mark PASS</div>
+                      <div onclick="case_handfail()">Mark FAIL</div>
+                      <div onclick="case_handunknown()">Mark Unknown</div>
                       <div class="menu-sep"></div>
-                      <div onclick="case_recordbug()">记录缺陷</div>
+                      <div onclick="case_recordbug()">Record Bug</div>
                   </div>
             </div>
             <div class="menu-sep"></div>
-            <div onclick="manage_file('edit_file', 'edit_file_ff', 'edit')">重命名</div>
-            <div onclick="copy_casefile()">复制文件</div>
-            <div onclick="delete_file()" data-options="iconCls:'icon-remove'">删除</div>
+            <div onclick="manage_file('edit_file', 'edit_file_ff', 'edit')">Rename</div>
+            <div onclick="copy_casefile()">Copy File</div>
+            <div onclick="delete_file()" data-options="iconCls:'icon-remove'">Delete</div>
         </div>
         <div id="step_menu" class="easyui-menu" style="width:160px;">
-            <div onclick="case_handpass()">标记成功</div>
-            <div onclick="case_handfail()">标记失败</div>
-            <div onclick="case_handunknown()">标记未执行</div>
+            <div onclick="case_handpass()">Mark PASS</div>
+            <div onclick="case_handfail()">Mark FAIL</div>
+            <div onclick="case_handunknown()">Mark Unknown</div>
             <div class="menu-sep"></div>
-            <div onclick="case_recordbug()">记录缺陷</div>
+            <div onclick="case_recordbug()">Record Bug</div>
         </div>
         <!-- project start -->
         <div id="create_project" class="easyui-window" title="Create Project"
@@ -210,7 +210,7 @@
                 </div>
             </form>
             <div style="text-align:right;padding:5px 0">
-                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('create_project')" style="width:60px">Cancle</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('create_project')" style="width:60px">Cancel</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="create_project('create_project', 'create_project_ff')" style="width:60px">Create</a>
             </div>
         </div>
@@ -219,7 +219,7 @@
              style="width:400px;height:220px;padding:10px;">
             <form id="create_projectgit_ff" method="post">
                 <div style="margin-bottom:10px">
-                    <h5>注意：Git 将会建立项目所有目录</h5>
+                    <h5>Caution：Git will create project dirs.</h5>
                     <input class="easyui-textbox" id="name" name="name" label="Git URL:" labelPosition="top" style="width:100%" data-options="required:true">
                 </div>
             </form>
@@ -288,7 +288,7 @@
              style="width:400px;height:220px;padding:10px;">
             <form id="create_suitegit_ff" method="post">
                 <div style="margin-bottom:10px">
-                    <h5>注意：Git 将会在当前目录下创建新的目录.</h5>
+                    <h5>Caution：Git will create new Dirs under this Dir.</h5>
                     <input class="easyui-textbox" id="name" name="name" label="Git URL:" labelPosition="top" style="width:100%" data-options="required:true">
                 </div>
             </form>
@@ -347,10 +347,10 @@
             <form id="create_file_ff" method="post">
                 <div style="margin-bottom:10px">
                     <select class="easyui-combobox" id="category" name="category" label="Type" labelPosition="top" style="width:100%" data-options="required:true">
-                        <option value=".resource">资源文件(.resource)</option>
-                        <option value=".robot">用例文件(.robot)</option>
-                        <option value=".yaml">taurus 计划(.yaml)</option>
-                        <option value=".oth">其它(ini,conf,sh,py)</option>
+                        <option value=".resource">Resource file(.resource)</option>
+                        <option value=".robot">Case file(.robot)</option>
+                        <option value=".yaml">taurus plan(.yaml)</option>
+                        <option value=".oth">Others(ini,conf,sh,py)</option>
                     </select>
                 </div>
                 <div style="margin-bottom:10px">
@@ -368,10 +368,10 @@
             <form id="edit_file_ff" method="post">
                 <div style="margin-bottom:10px">
                     <select class="easyui-combobox" id="new_category" name="new_category" label="Type" labelPosition="top" style="width:100%" data-options="required:true">
-                        <option value=".resource">资源文件(.resource)</option>
-                        <option value=".robot">用例文件(.robot)</option>
-                        <option value=".yaml">taurus 计划(.yaml)</option>
-                        <option value=".oth">其它(ini,conf,sh,py,etcs)</option>
+                        <option value=".resource">Resource File(.resource)</option>
+                        <option value=".robot">Case File(.robot)</option>
+                        <option value=".yaml">taurus Plan(.yaml)</option>
+                        <option value=".oth">Others(ini,conf,sh,py,etcs)</option>
                     </select>
                 </div>
                 <div style="margin-bottom:10px">
@@ -411,8 +411,8 @@
                 <div style="margin-bottom:20px">
                     <input name="method" id="method" value="uploadcase" hidden>
                     <input name="key" id="key" value="/" hidden>
-                    <h5>注意：xlsx 导入，只更新用例描述，不更新用例内容</h5>
-                    <h5>注意：zip 导入，将删除所有文件，并unzip压缩包</h5>
+                    <h5>Caution：xlsx import，just update info，wont chang Auto-case content</h5>
+                    <h5>Caution：zip imprt，will delete all things of current dir,then unzip</h5>
                     <input id="files" name="files" class="easyui-filebox" label="" labelPosition="top"
                            data-options="prompt:'Select the file with the same name of dir(xlsx,zip)...',buttonText:'Select'" style="width:100%">
                 </div>

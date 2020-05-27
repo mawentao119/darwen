@@ -28,10 +28,10 @@
                     >
                 <thead>
                     <tr>
-                        <th data-options="field:'name',align:'center' , halign: 'center'">用户名</th>
-                        <th data-options="field:'fullname',align:'center' , halign: 'center'">昵称</th>
+                        <th data-options="field:'name',align:'center' , halign: 'center'">Tester Name</th>
+                        <th data-options="field:'fullname',align:'center' , halign: 'center'">Nickname</th>
                         <th data-options="field:'email',align:'center' , halign: 'center'">Email</th>
-                        <th data-options="field:'category',align:'center' , halign: 'center'">类型</th>
+                        <th data-options="field:'category',align:'center' , halign: 'center'">Type</th>
                     </tr>
                 </thead>
             </table>
@@ -129,14 +129,14 @@
             });
             var toolbar = [
                 {
-                    text:'刷新',
+                    text:'Refresh',
                     iconCls:'icon-refresh',
                     handler:function(){
                         $("#user_list").datagrid('reload');
                     }
 			    }, '-',
 			    {
-			        text:'添加',
+			        text:'Add',
                     iconCls:'icon-expand',
                     handler:function(){
                         manage_user("create_user", "create_user_ff", "create");
@@ -151,7 +151,7 @@
                     }
 			    }, '-',
 			    {
-			        text:'编辑',
+			        text:'Edit',
                     iconCls:'icon-edit',
                     handler:function(){
                         var row = $('#user_list').datagrid('getSelected');
@@ -167,7 +167,7 @@
                     }
 			    }, '-',
 			    {
-			        text:'删除',
+			        text:'Delete',
                     iconCls:'icon-remove',
                     handler:function(){
                         var row = $('#user_list').datagrid('getSelected');

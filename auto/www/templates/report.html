@@ -29,12 +29,12 @@
                 <thead>
                     <tr>
                         <!--<th data-options="field:'status',align:'center' , halign: 'center',formatter:show_img">状态</th>-->
-                        <th data-options="field:'name'">Name</th>
+                        <th data-options="field:'name'">名称</th>
                         <!--<th data-options="field:'last_success',align:'center' , halign: 'center'">上次成功</th>
                         <th data-options="field:'last_fail',align:'center' , halign: 'center'">上次失败</th>
                         <th data-options="field:'duration'">持续时间</th>
                         <th data-options="field:'enable',align:'center' , halign: 'center'">是否启用调度</th>-->
-                        <th data-options="field:'next_time',align:'center' , halign: 'center'">Next Schedule Time</th>
+                        <th data-options="field:'next_time',align:'center' , halign: 'center'">下一次调度时间</th>
                         <th data-options="field:'cron',align:'center' , halign: 'center'">Cron</th>
                         <!--<th data-options="field:'boolean'"></th>-->
                     </tr>
@@ -65,7 +65,7 @@
                     </select>
                 </div>
                 <div style="text-align:right;margin-bottom:10px">
-                    <a href="#" class="easyui-linkbutton" style="width:80px;height:32px" onclick="do_edit();">Refresh</a>
+                    <a href="#" class="easyui-linkbutton" style="width:80px;height:32px" onclick="do_edit();">刷新</a>
                 </div>
             </form>
         </div>
@@ -84,14 +84,14 @@
             });
             var toolbar = [
                 {
-                    text:'Refresh',
+                    text:'刷新',
                     iconCls:'icon-refresh',
                     handler:function(){
                         $("#task_scheduler").datagrid('reload');
                     }
 			    }, '-',
 			    {
-			        text:'Start',
+			        text:'开始',
                     iconCls:'icon-run',
                     handler:function(){
                         var row = $('#task_scheduler').datagrid('getSelected');
@@ -110,7 +110,7 @@
                     }
 			    }, '-',
 			    {
-			        text:'Stop',
+			        text:'停止',
                     iconCls:'icon-stop',
                     handler:function(){
                         $.messager.confirm('Alert', 'Wont generate report，still stop ?', function(r){
@@ -133,7 +133,7 @@
                     }
 			    }, '-',
 			    {
-			        text:'Edit',
+			        text:'编辑',
                     iconCls:'icon-edit',
                     handler:function(){
                         var row = $('#task_scheduler').datagrid('getSelected');

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/auto.css') }}">
-    <title>测试用例报告</title>
+    <title>TestCase Report</title>
     <!-- 引入 echarts.js -->
     <script type="text/javascript" src="{{ url_for('static', filename='lib/echarts.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
@@ -19,7 +19,7 @@
     <div data-options="region:'north',split:true" style="height:200px">
         <div id="casetotal" style="height:150px;margin: 0 auto"></div>
         <div id="casecount" style="height:20px;margin: 0 auto;padding:10px">
-            <h5>用例总数：{{autoratio.total}} ,场景总数：{{autoratio.suites}}, 自动化率：{{autoratio.ratio}}%</h5>
+            <h5>Total Cases：{{autoratio.total}} ,Total Suites：{{autoratio.suites}}, Auto Ratio：{{autoratio.ratio}}%</h5>
         </div>
     </div>
     <div data-options="region:'center'">
@@ -31,7 +31,7 @@
                     </div>
                     <div data-options="region:'center'">
                         <div class="easyui-tabs" data-options="plain:true, pill:true,justified:true">
-                            <div title="今天" style="padding:10px">
+                            <div title="Today" style="padding:10px">
                                 <table id="dayly_list" class="easyui-datagrid" style="width:100%;height:auto;"
                                        data-options="singleSelect:true,
                                        fitColumns:true,
@@ -40,19 +40,19 @@
                                 >
                                     <thead>
                                     <tr>
-                                        <th data-options="field:'case',align:'center' , halign: 'center'">用例数</th>
-                                        <th data-options="field:'caseresult',align:'center' , halign: 'center'">结果
+                                        <th data-options="field:'case',align:'center' , halign: 'center'">Case Sum</th>
+                                        <th data-options="field:'caseresult',align:'center' , halign: 'center'">Result
                                         </th>
                                         <th data-options="field:'nothing',align:'center' , halign: 'center'">|</th>
-                                        <th data-options="field:'suite',align:'center' , halign: 'center'">场景数</th>
-                                        <th data-options="field:'suiteresult',align:'center' , halign: 'center'">结果
+                                        <th data-options="field:'suite',align:'center' , halign: 'center'">Suite Sum</th>
+                                        <th data-options="field:'suiteresult',align:'center' , halign: 'center'">Result
                                         </th>
-                                        <th data-options="field:'time',align:'center' , halign: 'center'">时间</th>
+                                        <th data-options="field:'time',align:'center' , halign: 'center'">Time</th>
                                     </tr>
                                     </thead>
                                 </table>
                             </div>
-                            <div title="本周" style="padding:10px">
+                            <div title="This week" style="padding:10px">
                                 <table id="weekly_list" class="easyui-datagrid" style="width:100%;height:auto;"
                                        data-options="singleSelect:true,
                                        fitColumns:true,
@@ -61,19 +61,19 @@
                                 >
                                     <thead>
                                     <tr>
-                                        <th data-options="field:'case',align:'center' , halign: 'center'">用例数</th>
-                                        <th data-options="field:'caseresult',align:'center' , halign: 'center'">结果
+                                        <th data-options="field:'case',align:'center' , halign: 'center'">Case Sum</th>
+                                        <th data-options="field:'caseresult',align:'center' , halign: 'center'">Result
                                         </th>
                                         <th data-options="field:'nothing',align:'center' , halign: 'center'">|</th>
-                                        <th data-options="field:'suite',align:'center' , halign: 'center'">场景数</th>
-                                        <th data-options="field:'suiteresult',align:'center' , halign: 'center'">结果
+                                        <th data-options="field:'suite',align:'center' , halign: 'center'">Suite Sum</th>
+                                        <th data-options="field:'suiteresult',align:'center' , halign: 'center'">Result
                                         </th>
-                                        <th data-options="field:'time',align:'center' , halign: 'center'">时间</th>
+                                        <th data-options="field:'time',align:'center' , halign: 'center'">Time</th>
                                     </tr>
                                     </thead>
                                 </table>
                             </div>
-                            <div title="总计" style="padding:10px">
+                            <div title="Total" style="padding:10px">
                                 <table id="total_list" class="easyui-datagrid" style="width:100%;height:auto;"
                                        data-options="singleSelect:true,
                                        fitColumns:true,
@@ -82,14 +82,14 @@
                                 >
                                     <thead>
                                     <tr>
-                                        <th data-options="field:'case',align:'center' , halign: 'center'">用例数</th>
-                                        <th data-options="field:'caseresult',align:'center' , halign: 'center'">结果
+                                        <th data-options="field:'case',align:'center' , halign: 'center'">Case Sum</th>
+                                        <th data-options="field:'caseresult',align:'center' , halign: 'center'">Result
                                         </th>
                                         <th data-options="field:'nothing',align:'center' , halign: 'center'">|</th>
-                                        <th data-options="field:'suite',align:'center' , halign: 'center'">场景数</th>
-                                        <th data-options="field:'suiteresult',align:'center' , halign: 'center'">结果
+                                        <th data-options="field:'suite',align:'center' , halign: 'center'">Suite Sum</th>
+                                        <th data-options="field:'suiteresult',align:'center' , halign: 'center'">Result
                                         </th>
-                                        <th data-options="field:'time',align:'center' , halign: 'center'">时间</th>
+                                        <th data-options="field:'time',align:'center' , halign: 'center'">Time</th>
                                     </tr>
                                     </thead>
                                 </table>
@@ -115,7 +115,7 @@
 
         var    submodule = {
             title : {
-                text: '子模块自动化率',
+                text: 'Sub module Auto-Ratio',
                 x:'center'
             },
             tooltip : {
@@ -153,14 +153,14 @@
             ],
             series : [
                 {
-                    name:'自动化用例',
+                    name:'Auto Cases',
                     type:'bar',
                     stack: 'Total',
                     itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
                     data: {{modulesinfo.auto|safe}}
                 },
                 {
-                    name:'手工用例',
+                    name:'Hand Cases',
                     type:'bar',
                     stack: 'Total',
                     itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
@@ -172,7 +172,7 @@
 
         var    casetotal = {
             title : {
-                text: '整体自动化率',
+                text: 'Total Auto-Ratio',
                 x:'center'
             },
             tooltip : {
@@ -210,14 +210,14 @@
             ],
             series : [
                 {
-                    name:'Auto-Case',
+                    name:'Auto Cases',
                     type:'bar',
                     stack: 'Total',
                     itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},
                     data:[{{autoratio.auto}}]
                 },
                 {
-                    name:'Hand-Case',
+                    name:'Hand Cases',
                     type:'bar',
                     stack: 'Total',
                     itemStyle : { normal: {label : {show: true, position: 'insideRight'}}},

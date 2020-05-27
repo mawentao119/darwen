@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/auto.css') }}">
-    <title>执行统计报告</title>
+    <title>Execution Report</title>
     <!-- 引入 echarts.js -->
     <script type="text/javascript" src="{{ url_for('static', filename='lib/echarts.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
@@ -19,10 +19,10 @@
     <div data-options="region:'north',split:true" style="height:300px">
         <div class="easyui-layout" data-options="fit:true">
             <div data-options="region:'west',split:true" style="width:40%;padding:10px">
-                <h2>整体执行统计</h2>
-                <h3>进度：{{grossinfo.totalratio}}%，({{grossinfo.total[1]+grossinfo.total[2]}}/{{grossinfo.total[0]}})</h3>
-                <h3>自动化用例进度：{{grossinfo.autoratio}}%，({{grossinfo.auto[1]+grossinfo.auto[2]}}/{{grossinfo.auto[0]}})</h3>
-                <h3>手工用例进度：{{grossinfo.handratio}}%，({{grossinfo.hand[1]+grossinfo.hand[2]}}/{{grossinfo.hand[0]}})</h3>
+                <h2>Total Execution Report</h2>
+                <h3>Progress：{{grossinfo.totalratio}}%，({{grossinfo.total[1]+grossinfo.total[2]}}/{{grossinfo.total[0]}})</h3>
+                <h3>Auto-Case Progress：{{grossinfo.autoratio}}%，({{grossinfo.auto[1]+grossinfo.auto[2]}}/{{grossinfo.auto[0]}})</h3>
+                <h3>Hand-Case Progress：{{grossinfo.handratio}}%，({{grossinfo.hand[1]+grossinfo.hand[2]}}/{{grossinfo.hand[0]}})</h3>
             </div>
             <div data-options="region:'center'">
                 <div id="submodule" style="width:700px;height:290px;margin: 0 auto; padding:10px"></div>
@@ -34,7 +34,7 @@
         <div class="easyui-layout" data-options="fit:true">
             <div data-options="region:'west',split:true" style="width:40%">
                 <div class="easyui-tabs" data-options="plain:true, pill:true,justified:true">
-                    <div title="今天" style="padding:10px">
+                    <div title="Today" style="padding:10px">
                         <table id="dayly_list" class="easyui-datagrid" style="width:100%;height:auto;"
                                data-options="singleSelect:true,
                                fitColumns:true,
@@ -43,17 +43,17 @@
                         >
                             <thead>
                             <tr>
-                                <th data-options="field:'category',align:'center' , halign: 'center'">分类</th>
-                                <th data-options="field:'passed',align:'center' , halign: 'center'">成功</th>
-                                <th data-options="field:'failed',align:'center' , halign: 'center'">失败</th>
-                                <th data-options="field:'unknown',align:'center' , halign: 'center'">未执行</th>
-                                <th data-options="field:'percent',align:'center' , halign: 'center'">进度</th>
-                                <th data-options="field:'time',align:'center' , halign: 'center'">时间</th>
+                                <th data-options="field:'category',align:'center' , halign: 'center'">Category</th>
+                                <th data-options="field:'passed',align:'center' , halign: 'center'">Pass</th>
+                                <th data-options="field:'failed',align:'center' , halign: 'center'">Fail</th>
+                                <th data-options="field:'unknown',align:'center' , halign: 'center'">Remain</th>
+                                <th data-options="field:'percent',align:'center' , halign: 'center'">Progress</th>
+                                <th data-options="field:'time',align:'center' , halign: 'center'">Time</th>
                             </tr>
                             </thead>
                         </table>
                     </div>
-                    <div title="本周" style="padding:10px">
+                    <div title="This week" style="padding:10px">
                         <table id="weekly_list" class="easyui-datagrid" style="width:100%;height:auto;"
                                data-options="singleSelect:true,
                                fitColumns:true,
@@ -62,17 +62,17 @@
                         >
                             <thead>
                             <tr>
-                                <th data-options="field:'category',align:'center' , halign: 'center'">分类</th>
-                                <th data-options="field:'passed',align:'center' , halign: 'center'">成功</th>
-                                <th data-options="field:'failed',align:'center' , halign: 'center'">失败</th>
-                                <th data-options="field:'unknown',align:'center' , halign: 'center'">未执行</th>
-                                <th data-options="field:'percent',align:'center' , halign: 'center'">进度</th>
-                                <th data-options="field:'time',align:'center' , halign: 'center'">时间</th>
+                                <th data-options="field:'category',align:'center' , halign: 'center'">Category</th>
+                                <th data-options="field:'passed',align:'center' , halign: 'center'">Pass</th>
+                                <th data-options="field:'failed',align:'center' , halign: 'center'">Fail</th>
+                                <th data-options="field:'unknown',align:'center' , halign: 'center'">Remain</th>
+                                <th data-options="field:'percent',align:'center' , halign: 'center'">Progress</th>
+                                <th data-options="field:'time',align:'center' , halign: 'center'">Time</th>
                             </tr>
                             </thead>
                         </table>
                     </div>
-                    <div title="总计" style="padding:10px">
+                    <div title="Total" style="padding:10px">
                         <table id="total_list" class="easyui-datagrid" style="width:100%;height:auto;"
                                data-options="singleSelect:true,
                                fitColumns:true,
@@ -81,12 +81,12 @@
                         >
                             <thead>
                             <tr>
-                                <th data-options="field:'category',align:'center' , halign: 'center'">分类</th>
-                                <th data-options="field:'passed',align:'center' , halign: 'center'">成功</th>
-                                <th data-options="field:'failed',align:'center' , halign: 'center'">失败</th>
-                                <th data-options="field:'unknown',align:'center' , halign: 'center'">未执行</th>
-                                <th data-options="field:'percent',align:'center' , halign: 'center'">进度</th>
-                                <th data-options="field:'time',align:'center' , halign: 'center'">时间</th>
+                                <th data-options="field:'category',align:'center' , halign: 'center'">Category</th>
+                                <th data-options="field:'passed',align:'center' , halign: 'center'">Pass</th>
+                                <th data-options="field:'failed',align:'center' , halign: 'center'">Fail</th>
+                                <th data-options="field:'unknown',align:'center' , halign: 'center'">Remain</th>
+                                <th data-options="field:'percent',align:'center' , halign: 'center'">Progress</th>
+                                <th data-options="field:'time',align:'center' , halign: 'center'">Time</th>
                             </tr>
                             </thead>
                         </table>
@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div data-options="region:'center'">
-                <table id="user_list" class="easyui-datagrid" title="测试人员执行统计" style="width:100%;height:auto;"
+                <table id="user_list" class="easyui-datagrid" title="Tester Execution Info" style="width:100%;height:auto;"
                                data-options="singleSelect:true,
                                fitColumns:true,
                                url:'/api/v1/report?key={{dir}}&request=userexcinfo&method=day',
@@ -102,14 +102,14 @@
                         >
                             <thead>
                             <tr>
-                                <th data-options="field:'username',align:'center' , halign: 'center'">执行人</th>
-                                <th data-options="field:'createcase',align:'center' , halign: 'center'">创建用例</th>
-                                <th data-options="field:'excutecase',align:'center' , halign: 'center'">运行用例</th>
-                                <th data-options="field:'createsuite',align:'center' , halign: 'center'">创建场景</th>
-                                <th data-options="field:'excutesuite',align:'center' , halign: 'center'">运行场景</th>
-                                <th data-options="field:'editsuite',align:'center' , halign: 'center'">编辑场景</th>
-                                <th data-options="field:'deletesuite',align:'center' , halign: 'center'">删除场景</th>
-                                <th data-options="field:'usetime',align:'center' , halign: 'center'">投入时间(参考)</th>
+                                <th data-options="field:'username',align:'center' , halign: 'center'">Tester</th>
+                                <th data-options="field:'createcase',align:'center' , halign: 'center'">Create Case</th>
+                                <th data-options="field:'excutecase',align:'center' , halign: 'center'">Run Case</th>
+                                <th data-options="field:'createsuite',align:'center' , halign: 'center'">Create Suite</th>
+                                <th data-options="field:'excutesuite',align:'center' , halign: 'center'">Run Suite</th>
+                                <th data-options="field:'editsuite',align:'center' , halign: 'center'">Edit Suite</th>
+                                <th data-options="field:'deletesuite',align:'center' , halign: 'center'">Delete Suite</th>
+                                <th data-options="field:'usetime',align:'center' , halign: 'center'">Devote(Ref)</th>
                             </tr>
                             </thead>
                 </table>
@@ -127,7 +127,7 @@
 
         var    submodule = {
             title : {
-                text: '子模块执行进度',
+                text: 'Sub module Execute Progress',
                 x:'center'
             },
             tooltip : {

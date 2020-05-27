@@ -28,14 +28,14 @@
                     >
                 <thead>
                     <tr>
-                        <th data-options="field:'status',align:'center' , halign: 'center',formatter:show_img">状态</th>
-                        <th data-options="field:'name'">名称</th>
-                        <th data-options="field:'success',align:'center' , halign: 'center'">成功</th>
-                        <th data-options="field:'fail',align:'center' , halign: 'center'">失败</th>
-                        <th data-options="field:'starttime',align:'center' , halign: 'center'">开始时间</th>
-                        <th data-options="field:'endtime',align:'center' , halign: 'center'">结束时间</th>
-                        <th data-options="field:'elapsedtime',align:'center' , halign: 'center'">耗时(ms)</th>
-                        <th data-options="field:'note',align:'center' , halign: 'center'">信息</th>
+                        <th data-options="field:'status',align:'center' , halign: 'center',formatter:show_img">Status</th>
+                        <th data-options="field:'name'">Name</th>
+                        <th data-options="field:'success',align:'center' , halign: 'center'">Pass</th>
+                        <th data-options="field:'fail',align:'center' , halign: 'center'">Fail</th>
+                        <th data-options="field:'starttime',align:'center' , halign: 'center'">StartTime</th>
+                        <th data-options="field:'endtime',align:'center' , halign: 'center'">EndTime</th>
+                        <th data-options="field:'elapsedtime',align:'center' , halign: 'center'">Elapsed(ms)</th>
+                        <th data-options="field:'note',align:'center' , halign: 'center'">Info</th>
                         <!--<th data-options="field:'cron'">cron表达式</th>
                         <th data-options="field:'boolean'"></th>-->
                     </tr>
@@ -53,14 +53,14 @@
             });
             var toolbar = [
                 {
-                    text:'刷新',
+                    text:'Refresh',
                     iconCls:'icon-refresh',
                     handler:function(){
                         $("#task_list").datagrid('reload');
                     }
 			    }, '-',
 			    {
-			        text:'重跑',
+			        text:'Run Again',
                     iconCls:'icon-run',
                     handler:function(){
                         $.messager.confirm('Alert', 'Are you sure to run it again?', function(r){
@@ -84,7 +84,7 @@
                     }
 			    }, '-',
 			    {
-			        text:'运行失败用例',
+			        text:'Run Failed Case',
                     iconCls:'icon-run',
                     handler:function(){
                         $.messager.confirm('Alert', 'Are you sure to run failed cases?', function(r){
@@ -108,7 +108,7 @@
                     }
 			    }, '-',
 			    {
-			        text:'停止',
+			        text:'Stop',
                     iconCls:'icon-stop',
                     handler:function(){
                         $.messager.confirm('Alert', 'Are you sure to stop task?', function(r){
@@ -128,7 +128,7 @@
 			    }
 			    , '-',
 			    {
-			        text:'删除',
+			        text:'Delete',
                     iconCls:'icon-remove',
                     handler:function(){
                         $.messager.confirm('Alert', 'Are you sure to delete it?', function(r){
