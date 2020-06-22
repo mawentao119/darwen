@@ -91,6 +91,9 @@ def task_list(name):
 def scheduler():
     return render_template('scheduler.html')
 
+@routes.route("/test_env/")
+def test_env():
+    return render_template('test_env.html')
 
 @routes.route("/user/")
 def user():

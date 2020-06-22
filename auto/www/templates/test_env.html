@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auto.css') }}">
+    <title>测试环境</title>
+
+    <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
+    <!-- 自定义js库 -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/auto.js') }}"></script>
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'north',split:true" style="height:500px">  <!-- 版本、机器、组件信息 -->
+        <div class="easyui-layout" data-options="fit:true">
+            <div data-options="region:'west',split:false" style="width:40%">  <!-- 版本 + 机器列表 ;padding:10px -->
+                <div class="easyui-layout" data-options="fit:true">
+                    <div data-options="region:'north',split:false" style="height:100px">
+                        <h2>版本名称</h2>
+                        <h3>版本号：</h3>
+                        <h3>自动化用例进度：</h3>
+                        <h3>手工用例进度：</h3>
+                    </div>
+                    <div data-options="region:'center',split:true">
+                        <h3>机器列表</h3>
+                        <h3>UserName , Password</h3>
+                    </div>
+                </div>
+
+            </div>
+            <div data-options="region:'center'">  <!-- 组件信息 -->
+                <h2>环境拓扑信息</h2>
+                <div id="submodule" style="width:700px;height:290px;margin: 0 auto; padding:10px">
+                    <h2>组件详细信息</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div data-options="region:'center',split:true">            <!-- 自动化配置 、 生成、保存 -->
+        <h2>自动化配置</h2>
+        <h3>重新生成配置  、 保存配置信息</h3>
+    </div>
+</div>
+</body>
+</html>

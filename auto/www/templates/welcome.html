@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>uniRobot - RobotFramework Web UI</title>
+        <title>uniRobot</title>
 
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
@@ -17,7 +17,30 @@
             }
         </style>
     </head>
-    <body class="easyui-layout">
+    <body>
+    <h2>系统测试工具箱</h2>
+    <p>针对软件的集成测试和系统测试，需要超越单元测试之外的框架及工具支持。</p>
+    <div style="margin:20px 0 10px 0;"></div>
+    <div class="easyui-accordion" style="height:300px;">
+        <div title="测试环境" data-options="iconCls:'icon-test_env'" style="overflow:auto;padding:10px;">
+            <h3 style="color:#0099FF;">被测系统的信息及状态</h3>
+            <li>当前被测系统的名称、版本号.</li>
+            <li>当前环境的机器型号、配置信息.</li>
+            <li>分布式环境的拓扑信息、组件状态.</li>
+            <p>测试环境就是被测系统，最好能自动获取环境配置信息，为自动化测试提供执行依赖，尽量减少手动配置</p>
+        </div>
+        <div title="任务管理" data-options="iconCls:'icon-task_mng'" style="padding:10px;">
+            <p>一键完成所有测试，通常是遥远的理想</p>
+            <p>记录每一次执行的过程，可以重复执行，执行成功的，执行失败的，定时执行这个任务</p>
+            <p>有些任务是耗时的，不要等待，只需稍后来这里看一下执行结果，日志和报告</p>
+        </div>
+        <div title="调度管理" data-options="iconCls:'icon-schedul_mng'" style="padding:10px;">
+            <p>我们设置了哪些定时执行的任务、重复执行的任务</p>
+            <p>这些任务具体什么时间运行，最近一次是什么时间运行的，下一次什么时间运行</p>
+            <p>运行的结果如何，日志和报告查看</p>
+            <p>是否需要暂停或删除</p>
+        </div>
+    </div>
         <div title="Wellcome" style="padding:10px">
             <p style="font-size:16px">UniRobot RobotFramework Web UI.</p>
             <h4>简单上手指南</h4>
@@ -69,10 +92,5 @@
         <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
         <!-- 自定义js库 -->
-        <script type="text/javascript" src="{{ url_for('static', filename='js/auto.js') }}"></script>
     </body>
-    <SCRIPT type="text/javascript">
-
-
-        </SCRIPT>
 </html>
