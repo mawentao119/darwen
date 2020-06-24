@@ -15,35 +15,74 @@
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true">
-    <div data-options="region:'north',split:true" style="height:500px">  <!-- 版本、机器、组件信息 -->
+    <div data-options="region:'north',split:true" style="height:400px">  <!-- 版本、机器、组件信息 -->
         <div class="easyui-layout" data-options="fit:true">
             <div data-options="region:'west',split:false" style="width:40%">  <!-- 版本 + 机器列表 ;padding:10px -->
                 <div class="easyui-layout" data-options="fit:true">
-                    <div data-options="region:'north',split:false" style="height:100px">
-                        <h2>版本名称</h2>
-                        <h3>版本号：</h3>
-                        <h3>自动化用例进度：</h3>
-                        <h3>手工用例进度：</h3>
+                    <div data-options="region:'north',split:false" style="height:90px">
+                        <div class="easyui-panel" style="padding:5px ">
+                            <input id="projectname" class="easyui-textbox" data-options="label:'项目名称：'" style="width:300px">
+                            <a href="#" class="easyui-linkbutton" style="float:right;margin-right:10px;"
+        onclick="javasc:alert('easyui')">自动获取版本号</a>
+                        </div>
+                        <div class="easyui-panel" style="padding:5px ">
+                            <input id="version" class="easyui-textbox" data-options="label:'版本号：'" style="width:300px">
+                            <a href="#" class="easyui-linkbutton" style="float:right;margin-right:10px;"
+        onclick="javasc:alert('easyui')">保存配置修改</a>
+                        </div>
                     </div>
                     <div data-options="region:'center',split:true">
-                        <h3>机器列表</h3>
-                        <h3>UserName , Password</h3>
+                        <table id="machine_list" class="easyui-datagrid" style="width:100%;height:auto;"
+                               data-options="singleSelect:true,
+                               fitColumns:true,
+                               url:'/api/v1/report?key={{dir}}&request=excuteinfo&method=day',
+                               method:'get' "
+                        >
+                            <thead>
+                            <tr>
+                                <th data-options="field:'category',align:'center' , halign: 'center'">机器IP</th>
+                                <th data-options="field:'passed',align:'center' , halign: 'center'">操作系统</th>
+                                <th data-options="field:'failed',align:'center' , halign: 'center'">配置</th>
+                                <th data-options="field:'unknown',align:'center' , halign: 'center'">CPUidle</th>
+                                <th data-options="field:'percent',align:'center' , halign: 'center'">内存占用</th>
+                                <th data-options="field:'time',align:'center' , halign: 'center'">更新时间</th>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
 
             </div>
             <div data-options="region:'center'">  <!-- 组件信息 -->
-                <h2>环境拓扑信息</h2>
-                <div id="submodule" style="width:700px;height:290px;margin: 0 auto; padding:10px">
-                    <h2>组件详细信息</h2>
+                <div id="submodule" style="margin: 0 auto">
+                    <h3>组件详细信息</h3>
                 </div>
+                <table id="mudule_list" class="easyui-datagrid" style="width:100%;height:auto;"
+                               data-options="singleSelect:true,
+                               fitColumns:true,
+                               url:'/api/v1/report?key={{dir}}&request=excuteinfo&method=day',
+                               method:'get' "
+                        >
+                            <thead>
+                            <tr>
+                                <th data-options="field:'category',align:'center' , halign: 'center'">组件名称</th>
+                                <th data-options="field:'passed',align:'center' , halign: 'center'">机器列表</th>
+                                <th data-options="field:'failed',align:'center' , halign: 'center'">组件状态</th>
+                                <th data-options="field:'unknown',align:'center' , halign: 'center'">更新时间</th>
+                                <th data-options="field:'percent',align:'center' , halign: 'center'">内存占用</th>
+                                <th data-options="field:'time',align:'center' , halign: 'center'">更新时间</th>
+                            </tr>
+                            </thead>
+                        </table>
             </div>
         </div>
 
     </div>
-    <div data-options="region:'center',split:true">            <!-- 自动化配置 、 生成、保存 -->
-        <h2>自动化配置</h2>
-        <h3>重新生成配置  、 保存配置信息</h3>
+        <div data-options="region:'center',split:true">            <!-- 自动化配置 、 生成、保存 -->
+            <input class="easyui-textbox" style="width:800px; height:220px;multiline:true;editable:true">
+            <a href="#" class="easyui-linkbutton" style="float:right;margin-right:10px;margin-top:10px;" onclick="javasc:alert('easyui')">保存配置修改</a>
+            <a href="#" class="easyui-linkbutton" style="float:right;margin-right:10px;margin-top:10px;" onclick="javasc:alert('easyui')">重新生成配置</a>
+        </div>
     </div>
 </div>
 </body>

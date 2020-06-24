@@ -87,13 +87,25 @@ def task_list(name):
         project = get_projectnamefromkey(key)
         return render_template('task_list.html', project=name)
 
-@routes.route("/scheduler/")
+@routes.route("/project_task/")
 def scheduler():
-    return render_template('scheduler.html')
+    return render_template('project_task.html')
 
 @routes.route("/test_env/")
 def test_env():
     return render_template('test_env.html')
+
+@routes.route("/schedul_mng/")
+def schedul_mng():
+    return render_template('schedul_mng.html')
+
+@routes.route("/monitor/")
+def monitor():
+    return render_template('monitor.html')
+
+@routes.route("/inject/")
+def inject():
+    return render_template('inject.html')
 
 @routes.route("/user/")
 def user():

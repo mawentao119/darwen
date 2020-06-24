@@ -163,6 +163,18 @@
     background:url('../img/monitor.png') no-repeat center center;
 }
 
+.icon-analyse{
+    background:url('../img/analyse.png') no-repeat center center;
+}
+
+.icon-inject{
+    background:url('../img/inject.png') no-repeat center center;
+}
+
+.icon-report{
+    background:url('../img/report.png') no-repeat center center;
+}
+
 .icon-github{
     background:url('../img/github.png') no-repeat center center;
 }
