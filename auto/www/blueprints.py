@@ -107,6 +107,22 @@ def monitor():
 def inject():
     return render_template('inject.html')
 
+@routes.route("/performance/")
+def performance():
+    return render_template('inject.html')
+
+@routes.route("/turning/")
+def turning():
+    return render_template('inject.html')
+
+@routes.route("/tools/")
+def tools():
+    return render_template('tools.html')
+
+@routes.route("/test_analyse/")
+def test_analyse():
+    return render_template('test_analyse.html')
+
 @routes.route("/user/")
 def user():
     return render_template('user.html')

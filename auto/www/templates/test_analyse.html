@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>uniRobot - RobotFramework WebUI</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/auto.css') }}">
+
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+    </head>
+    <body class="easyui-layout">
+    <div class="easyui-tabs" style="width:100%;height:100%">
+        <div title="用例分析" style="padding:10px">
+            <div class="easyui-layout" style="width:100%;height:350px;">
+                <div id="p" data-options="region:'west',collapsible:false" title="用例分布" style="width:50%;padding:10px">
+                    <p>width: 50%</p>
+                </div>
+                <div data-options="region:'center'" title="用例密度">
+                </div>
+            </div>
+            <div style="margin:5px 0 5px 0;"></div>
+            <div class="easyui-layout" style="width:100%;height:350px;">
+                <div id="p" data-options="region:'west',collapsible:false" title="用例变更" style="width:50%;padding:10px">
+                    <p>模块用例变更</p>
+                </div>
+                <div data-options="region:'center'" title="用例命中率">
+                </div>
+            </div>
+        </div>
+        <div title="缺陷分析">
+            <div class="easyui-layout" style="width:100%;height:350px;">
+                <div id="p" data-options="region:'west',collapsible:false" title="缺陷严重级别" style="width:50%;padding:10px">
+                    <p>pie</p>
+                </div>
+                <div data-options="region:'center'" title="模块缺陷分布">
+                    <p>pie</p>
+                </div>
+            </div>
+            <div style="margin:5px 0 5px 0;"></div>
+            <div class="easyui-layout" style="width:100%;height:350px;">
+                <div id="p" data-options="region:'west',collapsible:false" title="缺陷按日分布" style="width:50%;padding:10px">
+                    <p>拟合曲线</p>
+                </div>
+                <div data-options="region:'center'" title="用例命中率">
+                </div>
+            </div>
+        </div>
+        <div title="执行分析">
+            <div class="easyui-layout" style="width:100%;height:350px;">
+                <div id="p" data-options="region:'west',collapsible:false" title="模块推进效率" style="width:50%;padding:10px">
+                    <p>柱</p>
+                </div>
+                <div data-options="region:'center'" title="待定">
+                    <p>pie</p>
+                </div>
+            </div>
+        </div>
+        <div title="漏测分析"></div>
+        <div title="-参考结论-">
+            <div class="easyui-accordion" style="width:100%;height:75%;">
+                <div title="用例设计分析" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+                    <p>width: 100%</p>
+                </div>
+                <div title="版本质量分析" data-options="iconCls:'icon-ok'" style="padding:10px;">
+                </div>
+                <div title="测试执行分析" data-options="iconCls:'icon-ok'" style="padding:10px;">
+                </div>
+                <div title="其它分析" data-options="iconCls:'icon-ok'" style="padding:10px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
+
+        <script type="text/javascript" src="{{ url_for('static', filename='js/auto.js') }}"></script>
+    </body>
+</html>

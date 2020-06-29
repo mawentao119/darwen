@@ -14,6 +14,10 @@
 	background:url('../img/logout.png') no-repeat center center;
 }
 
+.icon-logo_16{
+	background:url('../img/logo_16.png') no-repeat center center;
+}
+
 .icon-workspace{
 	background:url('../img/workspace.png') no-repeat center center;
 }
@@ -169,6 +173,14 @@
 
 .icon-inject{
     background:url('../img/inject.png') no-repeat center center;
+}
+
+.icon-performance{
+    background:url('../img/performance.png') no-repeat center center;
+}
+
+.icon-turning{
+    background:url('../img/turning.png') no-repeat center center;
 }
 
 .icon-report{

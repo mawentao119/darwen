@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ab43467d-ad90-46a2-99ca-651bd4d7e6ad" name="Default" comment="update new files">
-      <change afterPath="$PROJECT_DIR$/auto/www/templates/inject.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auto/www/templates/monitor.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/auto/www/templates/schedul_mng.html" afterDir="false" />
+    <list default="true" id="ab43467d-ad90-46a2-99ca-651bd4d7e6ad" name="Default" comment="构造初步界面元素">
+      <change afterPath="$PROJECT_DIR$/auto/www/templates/test_analyse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auto/www/templates/tools.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/blueprints.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/blueprints.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/static/css/auto.css" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/css/auto.css" afterDir="false" />
@@ -13,8 +12,7 @@
       <change beforePath="$PROJECT_DIR$/auto/www/static/js/autocomplete.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/autocomplete.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/static/js/highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/highlight.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/templates/scheduler.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/project_task.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/templates/test_env.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/test_env.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/welcome.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/welcome.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,26 +23,45 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/www/templates/dashboard.html">
+        <entry file="file://$PROJECT_DIR$/auto/www/static/css/auto.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="30" column="151" lean-forward="true" selection-start-line="30" selection-start-column="151" selection-end-line="30" selection-end-column="151" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#9;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#9;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#10;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="259">
+              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/www/static/css/auto.css">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/auto/www/templates/welcome.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="409">
-              <caret line="174" column="33" selection-start-line="174" selection-start-column="33" selection-end-line="174" selection-end-column="33" />
+            <state relative-caret-position="-461">
+              <caret line="114" column="51" selection-start-line="114" selection-start-column="51" selection-end-line="114" selection-end-column="51" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h3#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h3#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h3#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h3#0;n#div#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h3#0;n#div#4;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#4;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h3#0;n#div#5;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#5;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h3#0;n#div#6;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#6;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h3#0;n#div#7;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#7;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h3#0;n#div#8;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#8;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h3#0;n#div#9;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#9;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h3#0;n#div#10;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -52,8 +69,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/auto/www/blueprints.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="108" lean-forward="true" selection-start-line="108" selection-end-line="108" />
+            <state relative-caret-position="339">
+              <caret line="114" column="14" lean-forward="true" selection-start-line="114" selection-start-column="14" selection-end-line="114" selection-end-column="14" />
               <folding>
                 <element signature="e#54#63#0" expanded="true" />
               </folding>
@@ -62,24 +79,41 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/www/templates/project_task.html">
+        <entry file="file://$PROJECT_DIR$/auto/www/templates/tools.html">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/auto/www/templates/test_analyse.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2144">
-              <caret line="156" column="28" selection-start-line="156" selection-start-column="28" selection-end-line="156" selection-end-column="28" />
+            <state relative-caret-position="597">
+              <caret line="60" column="21" selection-start-line="60" selection-start-column="21" selection-end-line="60" selection-end-column="21" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#2;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#div#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/www/templates/monitor.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-401">
-              <caret line="156" column="51" selection-start-line="156" selection-start-column="51" selection-end-line="156" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/auto/www/templates/inject.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="162">
@@ -98,11 +132,12 @@
       <find>Report</find>
       <find>work</find>
       <find>测试环境</find>
-      <find>monitor</find>
       <find>schedu</find>
       <find>刷新</find>
       <find>_env</find>
       <find>text</find>
+      <find>monitor</find>
+      <find>logo</find>
     </findStrings>
     <replaceStrings>
       <replace>summary</replace>
@@ -142,20 +177,20 @@
         <option value="$PROJECT_DIR$/auto/www/templates/scheduler.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/task_list.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/user.html" />
-        <option value="$PROJECT_DIR$/auto/www/templates/welcome.html" />
-        <option value="$PROJECT_DIR$/auto/www/static/css/auto.css" />
         <option value="$PROJECT_DIR$/auto/www/templates/test_env.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/schedul_mng.html" />
-        <option value="$PROJECT_DIR$/auto/www/blueprints.py" />
-        <option value="$PROJECT_DIR$/auto/www/templates/dashboard.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/monitor.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/inject.html" />
+        <option value="$PROJECT_DIR$/auto/www/templates/test_analyse.html" />
+        <option value="$PROJECT_DIR$/auto/www/blueprints.py" />
+        <option value="$PROJECT_DIR$/auto/www/templates/dashboard.html" />
+        <option value="$PROJECT_DIR$/auto/www/static/css/auto.css" />
+        <option value="$PROJECT_DIR$/auto/www/templates/welcome.html" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-1868" />
-    <option name="y" value="-74" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="877" />
   </component>
@@ -204,7 +239,7 @@
               <item name="auto" type="462c0819:PsiDirectoryNode" />
               <item name="www" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="uniRobot" type="b2602c69:ProjectViewProjectNode" />
@@ -213,7 +248,6 @@
               <item name="www" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="easyui" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="uniRobot" type="b2602c69:ProjectViewProjectNode" />
@@ -401,11 +435,18 @@
       <option name="project" value="LOCAL" />
       <updated>1592822124006</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="构造初步界面元素">
+      <created>1592994465174</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1592994465175</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1868" y="-74" width="1440" height="877" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25965664" />
@@ -498,7 +539,8 @@
     <MESSAGE value="modify template to Chinese and backup it with _en for english." />
     <MESSAGE value="add new function and modify icons." />
     <MESSAGE value="update new files" />
-    <option name="LAST_COMMIT_MESSAGE" value="update new files" />
+    <MESSAGE value="构造初步界面元素" />
+    <option name="LAST_COMMIT_MESSAGE" value="构造初步界面元素" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -511,13 +553,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.beats/workspace/AutoLink/AutoLink_api_tests_demo/002_api_project/001_project.robot" />
-    <entry file="file://$PROJECT_DIR$/.beats/workspace/AutoLink/AutoLink_api_tests_demo/001_api_auth/001_login.robot" />
-    <entry file="file://$PROJECT_DIR$/.beats/workspace/AutoLink/AutoLink_api_tests_demo/002_api_user/001_create_user.robot" />
-    <entry file="file://$PROJECT_DIR$/.beats/workspace/AutoLink/AutoLink_api_tests_demo/002_api_user/002_for_test.robot" />
-    <entry file="file://$PROJECT_DIR$/.beats/workspace/AutoLink/AutoLink_api_tests_demo/000_resources/所有用例公用变量和关键字.txt" />
-    <entry file="file://$PROJECT_DIR$/.beats/workspace/AutoLink/AutoLink_api_tests_demo/002_api_user/000_public_user_resources.txt" />
-    <entry file="file://$PROJECT_DIR$/docs/简介.md" />
     <entry file="file://$PROJECT_DIR$/auto/www/api/auth.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
@@ -652,9 +687,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/default.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/templates/editor.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-334">
@@ -695,13 +727,6 @@
     <entry file="file://$PROJECT_DIR$/auto/www/static/img/schedul_mng.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/css/auto.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="174" column="33" selection-start-line="174" selection-start-column="33" selection-end-line="174" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/static/lib/easyui/jquery.easyui.min.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -734,32 +759,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/welcome.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="61" column="39" selection-start-line="61" selection-start-column="39" selection-end-line="61" selection-end-column="39" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/templates/schedul_mng.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-430">
-          <caret line="156" column="28" selection-start-line="156" selection-start-column="28" selection-end-line="156" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/project_task.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2144">
           <caret line="156" column="28" selection-start-line="156" selection-start-column="28" selection-end-line="156" selection-end-column="28" />
         </state>
       </provider>
@@ -774,27 +776,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/blueprints.py">
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/inject.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="108" lean-forward="true" selection-start-line="108" selection-end-line="108" />
-          <folding>
-            <element signature="e#54#63#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="162">
+          <caret line="156" column="44" selection-start-line="156" selection-start-column="44" selection-end-line="156" selection-end-column="44" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/dashboard.html">
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/project_task.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="30" column="151" lean-forward="true" selection-start-line="30" selection-start-column="151" selection-end-line="30" selection-end-column="151" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#9;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#9;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#10;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="2144">
+          <caret line="156" column="28" selection-start-line="156" selection-start-column="28" selection-end-line="156" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -805,10 +797,115 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/inject.html">
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/default.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="156" column="44" selection-start-line="156" selection-start-column="44" selection-end-line="156" selection-end-column="44" />
+        <state relative-caret-position="-104" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/tools.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/test_analyse.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="597">
+          <caret line="60" column="21" selection-start-line="60" selection-start-column="21" selection-end-line="60" selection-end-column="21" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/blueprints.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="114" column="14" lean-forward="true" selection-start-line="114" selection-start-column="14" selection-end-line="114" selection-end-column="14" />
+          <folding>
+            <element signature="e#54#63#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/welcomebak.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="39" column="49" selection-start-line="39" selection-start-column="49" selection-end-line="39" selection-end-column="49" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/logo_16.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/logo.min.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/logo.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/logout.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/css/auto.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/welcome.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-461">
+          <caret line="114" column="51" selection-start-line="114" selection-start-column="51" selection-end-line="114" selection-end-column="51" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#4;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#4;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#5;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#5;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#6;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#6;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#7;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#7;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#8;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#8;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#9;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#9;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#10;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
