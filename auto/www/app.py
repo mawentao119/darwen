@@ -26,7 +26,8 @@ login_manager.login_view = 'auto.login'
 def load_all_task(app):
     with app.app_context():
         user_path = app.config["AUTO_HOME"] + "/users/"
-        users = list_dir(user_path)
+        #users = list_dir(user_path)
+        users = ["Admin","tester"]
         for user in users:
             if os.path.exists(user_path + user):
                 if not os.path.exists(user_path + user + '/config.json'):

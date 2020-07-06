@@ -71,7 +71,7 @@ echo "### Stage 3 : Install Robot* test system"
 pyenv="py3env"
 
 echo "*** python3 -m virtualenv --no-site-packages /data/uniRobot/py3env"
-python3 -m virtualenv --no-site-packages ${pyenv}
+python3 -m virtualenv ${pyenv}
 echo "export PYENV=${pyenv}">>${pyenv}/bin/activate;
 echo "export uniHome=${uniHome}">>${pyenv}/bin/activate;
 echo "export LANG=zh_CN.UTF8">>${pyenv}/bin/activate;
@@ -102,7 +102,7 @@ pip install -r ${srcdir}/requirements.txt
 
 echo "### Install Finished , Starting ... "
 chmod +x *.sh
-nohup ./start_work.sh   &
+./start_work.sh
 
 echo "******* Please Try : http://${PORTAL}:8082/... \n"
 ####### IF NEEDED: Nginx proxy ###################################
