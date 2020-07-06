@@ -12,3 +12,4 @@ cd work/workspace/Admin/uniRobot
 
 cd ${here}
 
+echo "*** Start finished ... "
