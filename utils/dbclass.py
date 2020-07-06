@@ -97,7 +97,7 @@ class TestDB():
                );''')
     def init_user(self):
         self.runsql('''INSERT INTO user values('Admin','admin',"pbkdf2:sha256:50000$fHCEAiyw$768c4f2ba9cabbc77513b9a25ffea1a19a77c23d8dab86e635d5f62f6fb8be6b",'charisma@tencent.com','Admin');''')
-        #self.runsql('''INSERT INTO user values('tester','tester',"pbkdf2:sha256:50000$kluBmp5X$611e4d66f33fd139b03425f1ad0a21c4009974bd02343bfc69bd4e3d06325d57",'tester@tencent.com','User');''')
+        self.runsql('''INSERT INTO user values('tester','tester',"pbkdf2:sha256:50000$kluBmp5X$611e4d66f33fd139b03425f1ad0a21c4009974bd02343bfc69bd4e3d06325d57",'tester@tencent.com','User');''')
 
     def _case_exists(self, info_key , info_name):
         try:
@@ -195,7 +195,7 @@ class TestDB():
     def init_project(self):
         self.runsql('''INSERT INTO project(projectname,owner,users) VALUES('Demo_Project','Admin','all');''')
         self.runsql('''INSERT INTO project(projectname,owner,users) VALUES('uniRobot','Admin','Admin');''')
-        #self.runsql('''INSERT INTO project(projectname,owner,users) VALUES('RobotTbds','tester','zhangsan,lisi');''')
+        #self.runsql('''INSERT INTO project(projectname,owner,users) VALUES('RobotTbds3','tester','mwt');''')
 
     def add_project(self, projectname, owner ,users):
         try:
