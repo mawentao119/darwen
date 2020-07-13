@@ -99,6 +99,10 @@
     background:url('../img/task.png') no-repeat center center;
 }
 
+.icon-list{
+    background:url('../img/list.png') no-repeat center center;
+}
+
 .icon-image{
     background:url('../img/image.png') no-repeat center center;
 }

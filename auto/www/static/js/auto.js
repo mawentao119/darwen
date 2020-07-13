@@ -906,21 +906,21 @@ function do_casereport(){
     var node = $('#project_tree').tree('getSelected');
     addTab(node.attributes['name']+"- Case Report", '/casereport/{0}'.lym_format(
             node.attributes['key'].replace(/\//g,'--')
-            ), "icon-keyword-help");
+            ), "icon-list");
 }
 
 function do_caselist(){
     var node = $('#project_tree').tree('getSelected');
     addTab(node.attributes['name']+"- Case List", '/caselist/{0}'.lym_format(
             node.attributes['key'].replace(/\//g,'--')
-            ), "icon-keyword-help");
+            ), "icon-list");
 }
 
 function do_excutereport(){
     var node = $('#project_tree').tree('getSelected');
     addTab(node.attributes['name']+"- Execution Report", '/excutereport/{0}'.lym_format(
             node.attributes['key'].replace(/\//g,'--')
-            ), "icon-keyword-help");
+            ), "icon-list");
 }
 
 
