@@ -51,7 +51,7 @@ class TestDB():
 
             log.info("NewDBID, Start create table testcase ...")
             self.createtb_testcase()
-            log.info("NewDBID, Start create table everyday ...")
+            log.info("NewDBID, Start create table loginfo ...")
             self.createtb_loginfo()
 
             log.info("NewDBID, Start create table user ...")
@@ -63,6 +63,10 @@ class TestDB():
 
             log.info("NewDBID, Start create table tasks ...")
             self.createtb_tasks()
+
+            log.info("NewDBID, Start create table settings ...")
+            self.createtb_settings()
+            self.init_settings()
 
         # Refresh Cases info Every time of Start ...
         workspace = os.path.dirname(self.confdir) + '/workspace'
@@ -86,6 +90,35 @@ class TestDB():
             log.error("RUNSQL Exeption:{}".format(e))
             return None
         return res
+
+    def createtb_settings(self):
+        self.runsql('''create table settings(
+               description TEXT,
+               item TEXT UNIQUE,
+               value   TEXT DEFAULT '',
+               demo    TEXT DEFAULT '',
+               category TEXT DEFAULT 'unknown'
+               );''')
+    def init_settings(self):
+        self.runsql('''INSERT INTO settings values('被测系统名称','test_project',"TBDS",'Do not modify twice.','system');''')
+        self.runsql('''INSERT INTO settings values('被测系统版本号','test_projectversion',"V5013",'Do not modify twice.','system');''')
+        self.runsql(
+            '''INSERT INTO settings values('测试用例历史记录git','history_git',"https://www.github.com/abc.git",'','system');''')
+
+        #self.runsql(
+        #    '''INSERT INTO settings values('Testee Project Name','test_project',"TBDS",'Do not modify twice.','system');''')
+        #self.runsql(
+        #    '''INSERT INTO settings values('Testee Project Version','test_projectversion',"V5013",'Do not modify twice.','system');''')
+        #self.runsql(
+        #    '''INSERT INTO settings values('TestCase history git','history_git',"https://www.github.com/abc.git",'','system');''')
+
+    def add_setting(self, description, item, value, demo):
+
+        return self.runsql("INSERT INTO settings values('{}','{}','{}','{}','system'); ".format(description, item, value, demo))
+
+    def del_setting(self, item):
+
+        return self.runsql("DELETE FROM settings WHERE item='{}'; ".format(item))
 
     def createtb_user(self):
         self.runsql('''create table user(

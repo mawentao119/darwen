@@ -1,115 +1,130 @@
 # -*- coding: utf-8 -*-
 
-__author__ = "苦叶子"
+__author__ = "charisma"
 
 """
+这里用来进行系统层面的配置管理，原有的settings 见ORG备份
 """
 import json
 import codecs
 from flask import current_app, session, request, send_file
 from flask_restful import Resource, reqparse
-from utils.file import exists_path, make_nod
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from utils.file import list_dir, exists_path, rename_file, make_nod, remove_dir, write_file, read_file, mk_dirs
 from utils.mylogger import getlogger
 
 class Settings(Resource):
     def __init__(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('method', type=str)
-        self.parser.add_argument('ssl', type=bool, default=False)
-        self.parser.add_argument('server', type=str)
-        self.parser.add_argument('port', type=str)
-        self.parser.add_argument('username', type=str)
-        self.parser.add_argument('password', type=str)
-        self.parser.add_argument('project', type=str)
-        self.parser.add_argument('success_list', type=str)
-        self.parser.add_argument('fail_list', type=str)
+        self.parser.add_argument('description', type=str)
+        self.parser.add_argument('item', type=str)
+        self.parser.add_argument('value', type=str, default="")
+        self.parser.add_argument('demo', type=str)
+        self.parser.add_argument('category', type=str)
         self.log = getlogger("Settings")
         self.app = current_app._get_current_object()
 
+
     def get(self):
-        args = self.parser.parse_args()
-        method = args["method"]
-
-        conf_path = self.app.config["AUTO_HOME"] + "/auto.json"
-        if method == "smtp":
-            config = json.load(codecs.open(conf_path, 'r', 'utf-8'))
-            result = {
-                "ssl": config["smtp"]["ssl"],
-                "server": config["smtp"]["server"],
-                "port": config["smtp"]["port"],
-                "username": config["smtp"]["username"],
-                "password": config["smtp"]["password"]
-            }
-        elif method == "email":
-            conf_path = self.app.config["AUTO_HOME"] + "/users/%s/config.json" % session["username"]
-            config = json.load(codecs.open(conf_path, 'r', 'utf-8'))
-            for p in config["data"]:
-                if p["name"] == args["project"]:
-                    result = {
-                        "success_list": p["success_list"],
-                        "fail_list": p["fail_list"]
-                    }
-                    break
-
-        return result
+        setting_list = {"total": 0, "rows": []}
+        res = self.app.config['DB'].runsql("Select description,item,value,demo from settings;")
+        for r in res:
+            (description, item, value, demo) = r
+            setting_list["rows"].append(
+                {"description": description, "item": item, "value": value, "demo": demo})
+        return setting_list
 
     def post(self):
         args = self.parser.parse_args()
-        method = args["method"]
 
-        if method == "smtp":
-            result = self.__smtp(args)
-        elif method == "email":
-            result = self.__email(args)
+        method = args["method"].lower()
+        if method == "create":
+            result = self.__create(args)
+        elif method == "edit":
+            result = self.__edit(args)
+        elif method == "delete":
+            result = self.__delete(args)
+        else:
+            print(request.files["files"])
 
         return result, 201
 
-    # 配置smtp
-    def __smtp(self, args):
-        result = {"status": "success", "msg": "Config smtp success."}
-        conf_path = self.app.config["AUTO_HOME"] + "/auto.json"
-        if not exists_path(conf_path):
-            make_nod(conf_path)
-        try:
-            config = json.load(codecs.open(conf_path, 'r', 'utf-8'))
-            config["smtp"]["ssl"] = args["ssl"]
-            config["smtp"]["server"] = args["server"]
-            config["smtp"]["port"] = args["port"]
-            config["smtp"]["username"] = args["username"]
-            config["smtp"]["password"] = args["password"]
-            json.dump(config, codecs.open(conf_path, 'w', 'utf-8'))
 
-            self.app.config["MAIL_SERVER"] = args["server"]
-            self.app.config["MAIL_PORT"] = args["port"]
-            self.app.config["MAIL_USERNAME"] = args["username"]
-            self.app.config["MAIL_PASSWORD"] = args["password"]
-            self.app.config["MAIL_USE_SSL"] = args["ssl"]
-        except Exception as e:
+    def __create(self, args):
+        result = {"status": "success", "msg": "创建配置项成功."}
+
+        ## 暂不考虑权限，所有人都可以修改配置项
+        #if not session['username'] == "Admin":
+        #    result["status"] = "fail"
+        #    result["msg"] = "Only Admin can add new user."
+        #    return result
+
+        description = args["description"]
+        item = args["item"]
+        value = args["value"]
+        demo = args["demo"]
+
+        if not self.app.config['DB'].add_setting(description, item, value, demo):
             result["status"] = "fail"
-            result["msg"] = str(e)
+            result["msg"] = "创建失败: 配置项已存在！."
+
+        self.app.config['DB'].insert_loginfo(session['username'], 'settings', 'create', item + ":" + value, result["status"])
 
         return result
 
-    # 设置email通知列表: set email receiver
-    def __email(self, args):
-        result = {"status": "success", "msg": "Config smtp service success."}
 
-        conf_path = self.app.config["AUTO_HOME"] + "/users/%s/config.json" % (session["username"])
-        try:
-            config = json.load(codecs.open(conf_path, 'r', 'utf-8'))
-            index = 0
-            for p in config["data"]:
-                if p["name"] == args["project"]:
-                    config["data"][index]["success_list"] = args["success_list"]
-                    config["data"][index]["fail_list"] = args["fail_list"]
-                    break
-                else:
-                    index = index + 1
-                    continue
+    def __edit(self, args):
+        result = {"status": "success", "msg": "编辑配置项信息成功."}
 
-            json.dump(config, codecs.open(conf_path, 'w', 'utf-8'))
-        except Exception as e:
+        ## 暂不考虑权限
+        #if (not session['username'] == username) and (not session['username'] == 'Admin'):
+        #    result["status"] = "fail"
+        #    result["msg"] = "Only admin can modify user info."
+        #
+        #    self.app.config['DB'].insert_loginfo(session['username'], 'user', 'edit', username,
+        #                                                   result['status'])
+        #    return result
+
+        description = args["description"]
+        item = args["item"]
+        value = args["value"]
+        demo = args["demo"]
+
+        sql = '''UPDATE settings set description='{}',
+                                     value='{}',
+                                     demo='{}'
+                 WHERE item='{}';'''.format(description,value,demo,item)
+
+        res = self.app.config['DB'].runsql(sql)
+
+        if res.rowcount < 1:
             result["status"] = "fail"
-            result["msg"] = str(e)
+            result["msg"] = "编辑失败: 配置项不存在！."
+
+        self.app.config['DB'].insert_loginfo(session['username'], 'setting', 'update', item + ":" + value, result["status"])
+
+        return result
+
+    def __delete(self, args):
+        result = {"status": "success", "msg": "删除配置项成功."}
+
+        #if not session['username'] == "Admin":
+        #    result["status"] = "fail"
+        #    result["msg"] = "Only Admin can do this."
+        #
+        #    self.app.config['DB'].insert_loginfo(session['username'], 'user', 'delete', args["username"],
+        #                                                   result['status'])
+        #    return result
+        #
+        #if args["username"] == "Admin" or args["username"] == "admin":
+        #    result["status"] = "fail"
+        #    result["msg"] = "Cannot delete Admin."
+        #    return result
+
+        self.app.config['DB'].del_setting(args["item"])
+
+        self.app.config['DB'].insert_loginfo(session['username'], 'setting', 'delete', args["item"], result['status'])
 
         return result

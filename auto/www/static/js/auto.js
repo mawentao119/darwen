@@ -929,6 +929,39 @@ function refresh_user_list(data){
     show_msg('Information', data.msg);
 }
 
+function refresh_setting_list(data){
+    $('#setting_list').datagrid("reload");
+    show_msg('Information', data.msg);
+}
+
+function manage_setting(win_id, ff_id, method){
+    if(method == "create"){
+        clear_form(ff_id);
+    }
+    else if(method == "edit"){
+
+    }
+    open_win(win_id);
+}
+
+function create_setting(win_id, ff_id){
+    var data = $("#{0}".lym_format(ff_id)).serializeObject();
+    data["method"] = "create";
+
+    do_ajax('post', '/api/v1/settings/', data, refresh_setting_list);
+
+    close_win(win_id);
+}
+
+function edit_setting(win_id, ff_id){
+    var data = $("#{0}".lym_format(ff_id)).serializeObject();
+    data["method"] = "edit";
+
+    do_ajax('post', '/api/v1/settings/', data, refresh_setting_list);
+
+    close_win(win_id);
+}
+
 function manage_user(win_id, ff_id, method){
     if(method == "create"){
         clear_form(ff_id);

@@ -127,6 +127,10 @@ def test_analyse():
 def user():
     return render_template('user.html')
 
+@routes.route("/settings/")
+def settings():
+    return render_template('settings.html')
+
 
 @routes.route("/view_report/<project>/<task>")
 def view_report(project, task):
