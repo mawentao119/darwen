@@ -42,6 +42,13 @@
                 </thead>
             </table>
         </div>
+
+        <form id="export1result_ff" method="post" action="/api/v1/manage_file/">
+            <input name="method" id="method" value="export1result" hidden>
+            <input name="key" id="key" value="/" hidden>
+            <input name="name" id="name" value="/" hidden>
+        </form>
+
         <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
         <!-- 自定义js库 -->
@@ -163,15 +170,11 @@
                         var row = $('#case_list').datagrid('getSelected');
                         if(row){
                             var data ={"method": "export1result", "name": row.info_name, "key": row.info_key };
-                            do_ajax('post',
-                                '/api/v1/case/',
-                                data,
-                                do_msg);
+                            do_export1result('export1result_ff');
                         }
                         else{
                             show_msg("Alert", "Please select one record!");
                         }
-                        $("#case_list").datagrid('reload');
                     }
 			    }
 			    , '-',

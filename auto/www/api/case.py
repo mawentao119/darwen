@@ -8,6 +8,7 @@ __modifier__ = "mawentao119@gmail.com"
 """
 
 import os
+import time
 from flask import current_app, session, request, send_file, make_response
 from flask_restful import Resource, reqparse
 import werkzeug
@@ -279,6 +280,8 @@ class ManageFile(Resource):
             return self.__downcaseinfox(args)
         elif method == "downcaseinfoz":
             return self.__downcaseinfoz(args)
+        elif method == "export1result":
+            return self.__export1result(args)
         elif method == "downruninfo":
             return self.__downruninfo(args)
 
@@ -358,6 +361,30 @@ class ManageFile(Resource):
             return "Fail:{}".format(casefile)
 
         return self.__sendfile(casefile)
+
+    def __export1result(self, args):
+        key = args['key']
+        name = args['name']
+
+        testproject = self.app.config['DB'].get_setting('test_project')
+        projectversion = self.app.config['DB'].get_setting('test_projectversion')
+
+        sql = '''SELECT info_key,info_name,'{}', '{}', ontime,run_status,run_elapsedtime,run_user
+                 FROM   testcase
+                 WHERE info_key='{}' and info_name='{}'; '''.format(testproject, projectversion, key,name)
+        res = self.app.config['DB'].runsql(sql)
+        if res:
+            (key, name, project, version, ontime,run_status,run_elapsedtime,run_user) = res.fetchone()
+            fname = os.path.join(self.app.config['AUTO_TEMP'],'his_'+str(time.time_ns())+'.txt')
+            with open(fname,'w') as myfile:
+                myfile.write("{}|{}|{}|{}|{}|{}|{}|{}".format(key, name, project, version, ontime,run_status,run_elapsedtime,run_user))
+
+            self.app.config['DB'].insert_loginfo(session['username'], 'caseinfo', 'export1result', key, name)
+
+            return self.__sendfile(fname)
+        else:
+            self.log.error("Fail: export1result of key:{} ,name:{} ,Cannot find case .".format(key,name))
+            return "Cannot find case ."
 
     def __downruninfo(self, args):
         # charis added :
