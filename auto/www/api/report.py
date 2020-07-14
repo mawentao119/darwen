@@ -13,7 +13,7 @@ from flask_restful import Resource, reqparse
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from utils.mylogger import getlogger
-from utils.do_report import get_caseinfo, get_excuteinfo, get_userexcinfo, get_caselist
+from utils.do_report import get_caseinfo, get_excuteinfo, get_userexcinfo, get_caselist, get_comparedata
 
 class Report(Resource):
     def __init__(self):
@@ -37,6 +37,8 @@ class Report(Resource):
             return self.rpt_userexcinfo(args)
         if args['request'] == 'caselist':
             return self.rpt_caselist(args)
+        if args['request'] == 'compare':
+            return self.rpt_compare(args)
 
     def post(self):
         args = self.parser.parse_args()
@@ -53,6 +55,12 @@ class Report(Resource):
         method = args['method']
 
         return get_caselist(key, method)
+
+    def rpt_compare(self, args):
+        key = args['key']
+        method = args['method']
+
+        return get_comparedata(key, method)
 
     def rpt_caseinfo(self, args):
 

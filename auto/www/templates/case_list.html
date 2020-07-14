@@ -176,25 +176,6 @@
                         }
                     }
 			    }
-			    , '-',
-			    {
-			        text:'历史结果比对',
-                    iconCls:'icon-compare',
-                    handler:function(){
-                        var row = $('#case_list').datagrid('getSelected');
-                        if(row){
-                            var data ={"method": "compare1", "name": row.info_name, "key": row.info_key };
-                            do_ajax('post',
-                                '/api/v1/case/',
-                                data,
-                                do_msg);
-                        }
-                        else{
-                            show_msg("Alert", "Please select one record!");
-                        }
-                        $("#case_list").datagrid('reload');
-                    }
-			    }
 			 ];
 
 		    function do_view_case(value, row, index){

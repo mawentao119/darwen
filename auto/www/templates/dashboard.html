@@ -156,6 +156,7 @@
                   <div style="width:150px;">
                       <div onclick="do_casereport();">用例统计</div>
                       <div onclick="do_excutereport();">执行统计</div>
+                      <div onclick="do_comparecase();">历史结果比对</div>
                   </div>
             </div>
             <div>
@@ -205,6 +206,7 @@
             <div class="menu-sep"></div>
             <div onclick="save_caserecord_d()">暂存用例结果</div>
             <div onclick="do_exportresult_d('export_result_ff');">导出用例结果(txt)</div>
+            <div onclick="do_comparecase();">历史结果比对</div>
             <div class="menu-sep"></div>
             <div onclick="manage_file('edit_file', 'edit_file_ff', 'edit')">重命名</div>
             <div onclick="copy_casefile()">复制文件</div>
@@ -218,6 +220,7 @@
             <div onclick="case_recordbug()">记录缺陷</div>
             <div onclick="save_caserecord()">暂存用例结果</div>
             <div onclick="do_exportresult_c('export_result_ff');">导出用例结果(txt)</div>
+            <div class="menu-sep"></div>
         </div>
         <!-- project start -->
         <div id="create_project" class="easyui-window" title="Create Project"

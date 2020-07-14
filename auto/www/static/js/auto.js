@@ -746,6 +746,13 @@ function save_caserecord(){
     }
 }
 
+function do_comparecase(){
+    var node = $('#project_tree').tree('getSelected');
+    addTab(node.attributes['name']+"- Compare", '/compare/{0}'.lym_format(
+            node.attributes['key'].replace(/\//g,'--')
+            ), "icon-compare");
+}
+
 function case_handpass(){
     var node = $('#project_tree').tree('getSelected');
     if(node){

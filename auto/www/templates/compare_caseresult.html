@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>测试用例历史结果比对</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/demo.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/auto.css') }}">
+
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+        <style type="text/css">
+            .lines-no .datagrid-body td{
+                border-right:1px dotted transparent;
+                border-bottom:1px dotted transparent;
+            }
+        </style>
+    </head>
+    <body>
+
+        <h2>测试用例历史结果对比</h2>
+        <p>执行的用例需要保存结果才能对比，也可以功过git clone导入历史结果记录.</p>
+        <div style="margin:10px 0;"></div>
+
+        <div class="easyui-layout" style="width:100%;height:800px;">
+
+        <div data-options="region:'center'">
+            <table id="case_list" class="easyui-datagrid" style="width:100%;height:auto;"
+                    data-options="fit:true, rownumbers:true,singleSelect:true,
+                        fitColumns:true,
+                        url:'/api/v1/report?key={{dir}}&request=compare&method=day',
+                        method:'get'"
+                    >
+                <thead>
+                    <tr>
+                        <th data-options="field:'info_name',align:'center'">用例名</th>
+                        <th data-options="field:'info_testproject'">项目</th>
+                        <th data-options="field:'info_projectversion',align:'left' , halign: 'center'">版本</th>
+                        <th data-options="field:'ontime',align:'left' , halign: 'center'">执行日期</th>
+                        <th data-options="field:'run_status',align:'center' , halign: 'center'">执行结果</th>
+                        <th data-options="field:'run_elapsedtime',align:'center' , halign: 'center'">耗时(ms)</th>
+                        <th data-options="field:'run_user',align:'center' , halign: 'center'">执行人</th>
+                        <th data-options="field:'info_key',align:'left' , halign: 'center'">用例文件</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
+        <!-- 自定义js库 -->
+        <script type="text/javascript" src="{{ url_for('static', filename='js/auto.js') }}"></script>
+        <SCRIPT type="text/javascript">
+            $(document).ready(function(){
+               $('#case_list').datagrid('getPanel').removeClass('lines-both lines-no lines-right lines-bottom').addClass('lines-no');
+            });
+        </SCRIPT>
+
+        </div>
+    </body>
+</html>

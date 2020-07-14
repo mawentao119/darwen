@@ -193,9 +193,19 @@ def caselist(key):
     :return:
     """
     rpkey = key.replace("--", "/")
-    app = current_app._get_current_object()
 
     return render_template("case_list.html", dir=rpkey)
+
+@routes.route("/compare/<key>")
+def compare(key):
+    """
+    用例历史结果对比页面
+    :param key:
+    :return:
+    """
+    rpkey = key.replace("--", "/")
+
+    return render_template("compare_caseresult.html", dir=rpkey)
 
 @routes.route("/excutereport/<key>")
 def excutereport(key):

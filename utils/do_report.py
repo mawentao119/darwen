@@ -453,3 +453,40 @@ def get_caselist(key , method=''):
         })
 
     return {"total": len(case), "rows": case}
+
+def get_comparedata(key , method=''):
+    """
+    取得用例历史结果记录
+    Get Cases List
+    :param key:
+    :param method:
+    :return:
+    """
+    app = current_app._get_current_object()
+    case = []
+
+    icons = {
+        "unknown": url_for('static', filename='img/unknown.png'),
+        "success": url_for('static', filename='img/success.png'),
+        "fail": url_for('static', filename='img/fail.png'),
+        "exception": url_for('static', filename='img/exception.png')}
+
+    sql = '''SELECT info_name, info_testproject, info_projectversion, ontime, run_status,run_elapsedtime,run_user,info_key
+             FROM caserecord where info_key like '{}%' ORDER by info_name, ontime desc ;'''.format(key)
+    res = app.config['DB'].runsql(sql)
+
+    for r in res:
+        (info_name, info_testproject, info_projectversion, ontime, run_status,run_elapsedtime,run_user,info_key) = r
+
+        case.append({
+            "info_name": info_name,
+            "info_testproject": info_testproject,
+            "info_projectversion": info_projectversion,
+            "ontime": ontime,
+            "run_status": run_status,
+            "run_elapsedtime": run_elapsedtime,
+            "run_user": run_user,
+            "info_key": info_key
+        })
+
+    return {"total": len(case), "rows": case}
