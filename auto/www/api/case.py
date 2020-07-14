@@ -280,8 +280,8 @@ class ManageFile(Resource):
             return self.__downcaseinfox(args)
         elif method == "downcaseinfoz":
             return self.__downcaseinfoz(args)
-        elif method == "export1result":
-            return self.__export1result(args)
+        elif method == "export_result":
+            return self.__export_result(args)
         elif method == "downruninfo":
             return self.__downruninfo(args)
 
@@ -362,7 +362,7 @@ class ManageFile(Resource):
 
         return self.__sendfile(casefile)
 
-    def __export1result(self, args):
+    def __export_result(self, args):
         key = args['key']
         name = args['name']
 
@@ -372,18 +372,25 @@ class ManageFile(Resource):
         sql = '''SELECT info_key,info_name,'{}', '{}', ontime,run_status,run_elapsedtime,run_user
                  FROM   testcase
                  WHERE info_key='{}' and info_name='{}'; '''.format(testproject, projectversion, key,name)
+
+        if name == 'export_d_i_r':
+            sql = '''SELECT info_key,info_name,'{}', '{}', ontime,run_status,run_elapsedtime,run_user
+                             FROM   testcase
+                             WHERE info_key='{}' ; '''.format(testproject, projectversion, key)
+
         res = self.app.config['DB'].runsql(sql)
         if res:
-            (key, name, project, version, ontime,run_status,run_elapsedtime,run_user) = res.fetchone()
-            fname = os.path.join(self.app.config['AUTO_TEMP'],'his_'+str(time.time_ns())+'.txt')
+            fname = os.path.join(self.app.config['AUTO_TEMP'], 'his_' + str(time.time_ns()) + '.txt')
             with open(fname,'w') as myfile:
-                myfile.write("{}|{}|{}|{}|{}|{}|{}|{}".format(key, name, project, version, ontime,run_status,run_elapsedtime,run_user))
+                for i in res:
+                    (key, name, project, version, ontime, run_status, run_elapsedtime, run_user) = i
+                    myfile.write("{}|{}|{}|{}|{}|{}|{}|{}\n".format(key, name, project, version, ontime,run_status,run_elapsedtime,run_user))
 
             self.app.config['DB'].insert_loginfo(session['username'], 'caseinfo', 'export1result', key, name)
 
             return self.__sendfile(fname)
         else:
-            self.log.error("Fail: export1result of key:{} ,name:{} ,Cannot find case .".format(key,name))
+            self.log.error("Fail: exportXresult of key:{} ,name:{} ,Cannot find case .".format(key,name))
             return "Cannot find case ."
 
     def __downruninfo(self, args):

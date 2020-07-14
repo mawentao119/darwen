@@ -836,7 +836,7 @@ function do_uploadcase(win_id, ff_id){
     }
 }
 
-function do_export1result(ff_id){
+function do_exportresult(ff_id){
     var row = $('#case_list').datagrid('getSelected');
     var key = row.info_key;
     var name = row.info_name;

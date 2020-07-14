@@ -43,8 +43,8 @@
             </table>
         </div>
 
-        <form id="export1result_ff" method="post" action="/api/v1/manage_file/">
-            <input name="method" id="method" value="export1result" hidden>
+        <form id="export_result_ff" method="post" action="/api/v1/manage_file/">
+            <input name="method" id="method" value="export_result" hidden>
             <input name="key" id="key" value="/" hidden>
             <input name="name" id="name" value="/" hidden>
         </form>
@@ -169,8 +169,7 @@
                     handler:function(){
                         var row = $('#case_list').datagrid('getSelected');
                         if(row){
-                            var data ={"method": "export1result", "name": row.info_name, "key": row.info_key };
-                            do_export1result('export1result_ff');
+                            do_exportresult('export_result_ff');
                         }
                         else{
                             show_msg("Alert", "Please select one record!");
