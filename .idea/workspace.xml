@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ab43467d-ad90-46a2-99ca-651bd4d7e6ad" name="Default" comment="增加'导出用例结果'功能,modify">
+    <list default="true" id="ab43467d-ad90-46a2-99ca-651bd4d7e6ad" name="Default" comment="增加'导出用例结果'功能,菜单添加">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/api/case.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/case.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/static/js/auto.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/auto.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/case_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/case_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/dbclass.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/dbclass.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,17 +22,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/auto/www/templates/case_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="598">
-              <caret line="49" column="15" lean-forward="true" selection-start-line="45" selection-start-column="8" selection-end-line="49" selection-end-column="15" />
+            <state relative-caret-position="892">
+              <caret line="153" column="55" selection-start-line="153" selection-start-column="55" selection-end-line="153" selection-end-column="55" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/auto/www/api/case.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="378" column="44" selection-start-line="378" selection-start-column="44" selection-end-line="378" selection-end-column="44" />
+            <state relative-caret-position="323">
+              <caret line="251" column="42" lean-forward="true" selection-start-line="251" selection-start-column="42" selection-end-line="251" selection-end-column="42" />
               <folding>
                 <element signature="e#94#103#0" expanded="true" />
               </folding>
@@ -55,17 +57,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="448" column="74" lean-forward="true" selection-start-line="448" selection-start-column="64" selection-end-line="448" selection-end-column="74" />
+            <state relative-caret-position="327">
+              <caret line="429" column="40" selection-start-line="429" selection-start-column="36" selection-end-line="429" selection-end-column="40" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/auto/www/templates/dashboard.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="169" column="78" lean-forward="true" selection-start-line="169" selection-start-column="78" selection-end-line="169" selection-end-column="78" />
+            <state relative-caret-position="542">
+              <caret line="170" column="50" selection-start-line="170" selection-start-column="50" selection-end-line="170" selection-end-column="50" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -78,8 +80,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/auto/www/static/js/auto.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="865" column="5" selection-start-line="865" selection-start-column="5" selection-end-line="865" selection-end-column="5" />
+            <state relative-caret-position="441">
+              <caret line="744" column="53" selection-start-line="744" selection-start-column="53" selection-end-line="744" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -88,8 +90,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>add_u</find>
-      <find>RUNSQL Exe</find>
       <find>RUNSQL E</find>
       <find>None</find>
       <find>update</find>
@@ -113,11 +113,13 @@
       <find>export1</find>
       <find>下载</find>
       <find>exportresult_ff</find>
-      <find>like</find>
-      <find>export_d_i_r</find>
       <find>case_handfail</find>
-      <find>export_result_ff</find>
       <find>export</find>
+      <find>like</find>
+      <find>handpass</find>
+      <find>export_d_i_r</find>
+      <find>export_result_ff</find>
+      <find>save_caserecord</find>
     </findStrings>
     <replaceStrings>
       <replace>summary</replace>
@@ -174,9 +176,9 @@
         <option value="$PROJECT_DIR$/auto/www/static/css/auto.css" />
         <option value="$PROJECT_DIR$/utils/dbclass.py" />
         <option value="$PROJECT_DIR$/auto/www/templates/case_list.html" />
-        <option value="$PROJECT_DIR$/auto/www/api/case.py" />
-        <option value="$PROJECT_DIR$/auto/www/static/js/auto.js" />
         <option value="$PROJECT_DIR$/auto/www/templates/dashboard.html" />
+        <option value="$PROJECT_DIR$/auto/www/static/js/auto.js" />
+        <option value="$PROJECT_DIR$/auto/www/api/case.py" />
       </list>
     </option>
   </component>
@@ -524,7 +526,14 @@
       <option name="project" value="LOCAL" />
       <updated>1594715238109</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="增加'导出用例结果'功能,菜单添加">
+      <created>1594716949178</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1594716949178</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -542,12 +551,12 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49776787" weight="0.550495" />
       <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.49776787" weight="0.32673267" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49713877" weight="0.3253012" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49713877" weight="0.32475248" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5028612" side_tool="true" weight="0.32611465" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Structure" order="3" visible="true" weight="0.13258786" />
+      <window_info active="true" anchor="right" id="Structure" order="3" visible="true" weight="0.13258786" />
     </layout>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -613,7 +622,8 @@
     <MESSAGE value="增加'暂存用例结果'功能" />
     <MESSAGE value="增加'导出用例结果'功能" />
     <MESSAGE value="增加'导出用例结果'功能,modify" />
-    <option name="LAST_COMMIT_MESSAGE" value="增加'导出用例结果'功能,modify" />
+    <MESSAGE value="增加'导出用例结果'功能,菜单添加" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加'导出用例结果'功能,菜单添加" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -951,43 +961,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="448" column="74" lean-forward="true" selection-start-line="448" selection-start-column="64" selection-end-line="448" selection-end-column="74" />
+        <state relative-caret-position="327">
+          <caret line="429" column="40" selection-start-line="429" selection-start-column="36" selection-end-line="429" selection-end-column="40" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/case.py">
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/dashboard.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="378" column="44" selection-start-line="378" selection-start-column="44" selection-end-line="378" selection-end-column="44" />
+        <state relative-caret-position="542">
+          <caret line="170" column="50" selection-start-line="170" selection-start-column="50" selection-end-line="170" selection-end-column="50" />
           <folding>
-            <element signature="e#94#103#0" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#13;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/templates/case_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="598">
-          <caret line="49" column="15" lean-forward="true" selection-start-line="45" selection-start-column="8" selection-end-line="49" selection-end-column="15" />
+        <state relative-caret-position="892">
+          <caret line="153" column="55" selection-start-line="153" selection-start-column="55" selection-end-line="153" selection-end-column="55" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/static/js/auto.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="865" column="5" selection-start-line="865" selection-start-column="5" selection-end-line="865" selection-end-column="5" />
+        <state relative-caret-position="441">
+          <caret line="744" column="53" selection-start-line="744" selection-start-column="53" selection-end-line="744" selection-end-column="53" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/dashboard.html">
+    <entry file="file://$PROJECT_DIR$/auto/www/api/case.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="169" column="78" lean-forward="true" selection-start-line="169" selection-start-column="78" selection-end-line="169" selection-end-column="78" />
+        <state relative-caret-position="323">
+          <caret line="251" column="42" lean-forward="true" selection-start-line="251" selection-start-column="42" selection-end-line="251" selection-end-column="42" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#13;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#94#103#0" expanded="true" />
           </folding>
         </state>
       </provider>

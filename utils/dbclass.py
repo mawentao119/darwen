@@ -417,6 +417,21 @@ class TestDB():
             return self.runsql(sql)
         except TypeError:
             return None
+
+    def save_caserecord_d(self, info_key):
+
+        testproject = self.get_setting('test_project')
+        projectversion = self.get_setting('test_projectversion')
+
+        try:
+            sql = '''INSERT into caserecord (info_key,info_name,info_testproject,info_projectversion,ontime,run_status,run_elapsedtime,run_user)
+                     SELECT                  info_key,info_name,'{}',            '{}',               ontime,run_status,run_elapsedtime,run_user
+                     FROM        testcase
+                     WHERE info_key like '{}%' ; 
+                     '''.format(testproject, projectversion, info_key)
+            return self.runsql(sql)
+        except TypeError:
+            return None
     
     def createtb_loginfo(self):
         '''

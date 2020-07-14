@@ -166,8 +166,10 @@
                       <div onclick="do_downcaseinfox('downcaseinfo_ff');">导出测试用例(xlsx)</div>
                       <div onclick="do_downcaseinfoz('downcaseinfo_ff');">导出用例文件(zip)</div>
                       <div class="menu-sep"></div>
-                      <div onclick="do_downruninfo('downruninfo_ff');">导出执行报告</div>
+                      <div onclick="save_caserecord_d()">暂存用例结果</div>
                       <div onclick="do_exportresult_d('export_result_ff');">导出用例结果(txt)</div>
+                      <div class="menu-sep"></div>
+                      <div onclick="do_downruninfo('downruninfo_ff');">导出执行报告</div>
                   </div>
             </div>
             <div class="menu-sep"></div>
@@ -201,6 +203,7 @@
                   </div>
             </div>
             <div class="menu-sep"></div>
+            <div onclick="save_caserecord_d()">暂存用例结果</div>
             <div onclick="do_exportresult_d('export_result_ff');">导出用例结果(txt)</div>
             <div class="menu-sep"></div>
             <div onclick="manage_file('edit_file', 'edit_file_ff', 'edit')">重命名</div>
@@ -213,6 +216,7 @@
             <div onclick="case_handunknown()">标记未执行</div>
             <div class="menu-sep"></div>
             <div onclick="case_recordbug()">记录缺陷</div>
+            <div onclick="save_caserecord()">暂存用例结果</div>
             <div onclick="do_exportresult_c('export_result_ff');">导出用例结果(txt)</div>
         </div>
         <!-- project start -->

@@ -722,6 +722,30 @@ function copy_casefile(){
     }
 }
 
+function save_caserecord_d(){
+    var node = $('#project_tree').tree('getSelected');
+    if(node){
+        var data = {
+                "name": "save_d_i_r",
+                "key": node.attributes['key'],
+                "method": "save_result"
+            };
+        do_ajax('post', "/api/v1/case/", data, do_msg);
+    }
+}
+
+function save_caserecord(){
+    var node = $('#project_tree').tree('getSelected');
+    if(node){
+        var data = {
+                "name": node.attributes['name'],
+                "key": node.attributes['key'],
+                "method": "save_result"
+            };
+        do_ajax('post', "/api/v1/case/", data, do_msg);
+    }
+}
+
 function case_handpass(){
     var node = $('#project_tree').tree('getSelected');
     if(node){

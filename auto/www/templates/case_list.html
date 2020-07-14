@@ -151,7 +151,7 @@
                     handler:function(){
                         var row = $('#case_list').datagrid('getSelected');
                         if(row){
-                            var data ={"method": "save1result", "name": row.info_name, "key": row.info_key };
+                            var data ={"method": "save_result", "name": row.info_name, "key": row.info_key };
                             do_ajax('post',
                                 '/api/v1/case/',
                                 data,
