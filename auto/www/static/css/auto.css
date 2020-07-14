@@ -58,6 +58,18 @@
     background:url('../img/robot_fail.png') no-repeat center center;
 }
 
+.icon-markpass{
+    background:url('../img/markpass.png') no-repeat center center;
+}
+
+.icon-markfail{
+    background:url('../img/markfail.png') no-repeat center center;
+}
+
+.icon-markunknown{
+    background:url('../img/markunknown.png') no-repeat center center;
+}
+
 .icon-yaml{
     background:url('../img/yaml.png') no-repeat center center;
 }
@@ -101,6 +113,14 @@
 
 .icon-list{
     background:url('../img/list.png') no-repeat center center;
+}
+
+.icon-export{
+    background:url('../img/export.png') no-repeat center center;
+}
+
+.icon-compare{
+    background:url('../img/compare.png') no-repeat center center;
 }
 
 .icon-image{

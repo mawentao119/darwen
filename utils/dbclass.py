@@ -68,6 +68,9 @@ class TestDB():
             self.createtb_settings()
             self.init_settings()
 
+            log.info("NewDBID, Start create table caserecord ...")
+            self.createtb_caserecord()
+
         # Refresh Cases info Every time of Start ...
         workspace = os.path.dirname(self.confdir) + '/workspace'
         log.info("Force refresh TestCases of dir: "+workspace)
@@ -119,6 +122,16 @@ class TestDB():
     def del_setting(self, item):
 
         return self.runsql("DELETE FROM settings WHERE item='{}'; ".format(item))
+
+    def get_setting(self, item):
+        try:
+            sql = "SELECT item, value from settings WHERE item='{}'; ".format(item)
+            res = self.runsql(sql)
+            (item, value) = res.fetchone()
+            return value
+        except TypeError:
+            log.warning("Can not find Setting item: "+item)
+            return 'unknown'
 
     def createtb_user(self):
         self.runsql('''create table user(
@@ -342,9 +355,17 @@ class TestDB():
         return self.runsql("Delete from project where projectname = '{}' and owner = '{}' ;".format(projectname, owner))
 
     def createtb_tasks(self):
+        '''
+        暂时没有用到，后续为定时任务使用
+        :return:
+        '''
         return self.runsql('''Create Table tasks(user TEXT , taskkey TEXT, cron TEXT );''')
 
     def createtb_testcase(self):
+        '''
+        保存测试用例
+        :return:
+        '''
         return self.runsql('''create table testcase(
                        info_key TEXT,
                        info_name TEXT,
@@ -364,8 +385,44 @@ class TestDB():
                        rcd_runusers TEXT,
                        primary key (info_key,info_name)                       
                 ); ''')
+
+    def createtb_caserecord(self):
+        '''
+        用于用例的历史结果比对
+        :return:
+        '''
+        return self.runsql('''create table caserecord(
+                       info_key TEXT,
+                       info_name TEXT,
+                       info_testproject TEXT DEFAULT '',
+                       info_projectversion TEXT DEFAULT '',
+                       ontime TIMESTAMP DEFAULT (datetime('now', 'localtime')),
+                       run_status TEXT DEFAULT 'unknown',
+                       run_elapsedtime INTEGER DEFAULT 0,
+                       run_user TEXT,
+                       primary key (info_key,info_name,ontime)                       
+                ); ''')
+
+    def save_caserecord(self, info_key, info_name):
+
+        testproject = self.get_setting('test_project')
+        projectversion = self.get_setting('test_projectversion')
+
+        try:
+            sql = '''INSERT into caserecord (info_key,info_name,info_testproject,info_projectversion,ontime,run_status,run_elapsedtime,run_user)
+                     SELECT                  info_key,info_name,'{}',            '{}',               ontime,run_status,run_elapsedtime,run_user
+                     FROM        testcase
+                     WHERE info_key='{}' and info_name='{}'; 
+                     '''.format(testproject, projectversion, info_key,info_name)
+            return self.runsql(sql)
+        except TypeError:
+            return None
     
     def createtb_loginfo(self):
+        '''
+        保存所有执行日志，用于统计报表和审计
+        :return:
+        '''
         self.runsql(''' CREATE TABLE loginfo(
                        logtime TIMESTAMP DEFAULT (datetime('now', 'localtime')),
                        user TEXT DEFAULT '',

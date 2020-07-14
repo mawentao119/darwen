@@ -85,6 +85,8 @@ class Case(Resource):
             result = self.__handfail(args)
         elif method == "handunknown":
             result = self.__handunknown(args)
+        elif method == "save1result":
+            result = self.__save1result(args)
         elif method == "recordbug":
             result = self.__recordbug(args)
         else:
@@ -236,6 +238,21 @@ class Case(Resource):
 
     def __recordbug(self, args):
         result = {"status": "success", "msg": "This is TODO"}
+        return result
+
+    def __save1result(self, args):
+        info_key = args['key']
+        info_name = args['name']
+        res = self.app.config['DB'].save_caserecord(info_key, info_name)
+        if res :
+            result = {"status": "success", "msg": "保存用例结果成功:" + info_name}
+            self.app.config['DB'].insert_loginfo(session['username'], 'case', 'save1result', info_key,
+                                                 info_name + ':success')
+        else:
+            result = {"status": "fail",
+                      "msg": "保存用例结果失败: " + info_name + ", 用例结果已存在."}
+            self.app.config['DB'].insert_loginfo(session['username'], 'case', 'save1result', info_key,
+                                                 info_name + ':fail')
         return result
 
 class ManageFile(Resource):

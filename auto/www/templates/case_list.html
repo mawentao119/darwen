@@ -52,14 +52,14 @@
             });
             var toolbar = [
                 {
-                    text:'Refresh',
+                    text:'刷新',
                     iconCls:'icon-refresh',
                     handler:function(){
                         $("#case_list").datagrid('reload');
                     }
 			    }, '-',
 			    {
-			        text:'Run',
+			        text:'运行',
                     iconCls:'icon-run',
                     handler:function(){
                         $.messager.confirm('Alert', 'Are you sure to Rerun it?', function(r){
@@ -83,8 +83,8 @@
                     }
 			    }, '-',
 			    {
-			        text:'Mark PASS',
-                    iconCls:'icon-run',
+			        text:'标记成功',
+                    iconCls:'icon-markpass',
                     handler:function(){
                         var row = $('#case_list').datagrid('getSelected');
                         if(row){
@@ -101,8 +101,8 @@
                     }
 			    }, '-',
 			    {
-			        text:'Mark FAIL',
-                    iconCls:'icon-run',
+			        text:'标记失败',
+                    iconCls:'icon-markfail',
                     handler:function(){
                         var row = $('#case_list').datagrid('getSelected');
                         if(row){
@@ -120,12 +120,68 @@
 			    }
 			    , '-',
 			    {
-			        text:'Mark Unknown',
-                    iconCls:'icon-run',
+			        text:'标记未执行',
+                    iconCls:'icon-markunknown',
                     handler:function(){
                         var row = $('#case_list').datagrid('getSelected');
                         if(row){
                             var data ={"method": "handunknown", "name": row.info_name, "key": row.info_key };
+                            do_ajax('post',
+                                '/api/v1/case/',
+                                data,
+                                do_msg);
+                        }
+                        else{
+                            show_msg("Alert", "Please select one record!");
+                        }
+                        $("#case_list").datagrid('reload');
+                    }
+			    }
+			    , '-','-',
+			    {
+			        text:'暂存用例结果',
+                    iconCls:'icon-save',
+                    handler:function(){
+                        var row = $('#case_list').datagrid('getSelected');
+                        if(row){
+                            var data ={"method": "save1result", "name": row.info_name, "key": row.info_key };
+                            do_ajax('post',
+                                '/api/v1/case/',
+                                data,
+                                do_msg);
+                        }
+                        else{
+                            show_msg("Alert", "Please select one record!");
+                        }
+                    }
+			    }
+			    , '-',
+			    {
+			        text:'导出用例结果',
+                    iconCls:'icon-export',
+                    handler:function(){
+                        var row = $('#case_list').datagrid('getSelected');
+                        if(row){
+                            var data ={"method": "export1result", "name": row.info_name, "key": row.info_key };
+                            do_ajax('post',
+                                '/api/v1/case/',
+                                data,
+                                do_msg);
+                        }
+                        else{
+                            show_msg("Alert", "Please select one record!");
+                        }
+                        $("#case_list").datagrid('reload');
+                    }
+			    }
+			    , '-',
+			    {
+			        text:'历史结果比对',
+                    iconCls:'icon-compare',
+                    handler:function(){
+                        var row = $('#case_list').datagrid('getSelected');
+                        if(row){
+                            var data ={"method": "compare1", "name": row.info_name, "key": row.info_key };
                             do_ajax('post',
                                 '/api/v1/case/',
                                 data,
