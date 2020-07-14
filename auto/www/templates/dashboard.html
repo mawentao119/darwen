@@ -167,6 +167,7 @@
                       <div onclick="do_downcaseinfoz('downcaseinfo_ff');">导出用例文件(zip)</div>
                       <div class="menu-sep"></div>
                       <div onclick="do_downruninfo('downruninfo_ff');">导出执行报告</div>
+                      <div onclick="do_exportresult_d('export_result_ff');">导出用例结果(txt)</div>
                   </div>
             </div>
             <div class="menu-sep"></div>
@@ -200,6 +201,8 @@
                   </div>
             </div>
             <div class="menu-sep"></div>
+            <div onclick="do_exportresult_d('export_result_ff');">导出用例结果(txt)</div>
+            <div class="menu-sep"></div>
             <div onclick="manage_file('edit_file', 'edit_file_ff', 'edit')">重命名</div>
             <div onclick="copy_casefile()">复制文件</div>
             <div onclick="delete_file()" data-options="iconCls:'icon-remove'">删除</div>
@@ -210,6 +213,7 @@
             <div onclick="case_handunknown()">标记未执行</div>
             <div class="menu-sep"></div>
             <div onclick="case_recordbug()">记录缺陷</div>
+            <div onclick="do_exportresult_c('export_result_ff');">导出用例结果(txt)</div>
         </div>
         <!-- project start -->
         <div id="create_project" class="easyui-window" title="Create Project"
@@ -455,6 +459,12 @@
             <input name="key" id="key" value="/" hidden>
         </form>
         <!-- file download end-->
+
+        <form id="export_result_ff" method="post" action="/api/v1/manage_file/">
+            <input name="method" id="method" value="export_result" hidden>
+            <input name="key" id="key" value="/" hidden>
+            <input name="name" id="name" value="/" hidden>
+        </form>
 
         <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>

@@ -836,6 +836,36 @@ function do_uploadcase(win_id, ff_id){
     }
 }
 
+function do_exportresult_d(ff_id){
+    var node = $('#project_tree').tree('getSelected');
+    if(node){
+        var key = node.attributes['key'];
+        var name = "export_d_i_r";
+        $("#{0} input#key".lym_format(ff_id)).val("{0}".lym_format(key));
+        $("#{0} input#name".lym_format(ff_id)).val("{0}".lym_format(name));
+        $("#{0}".lym_format(ff_id)).form('submit', {
+            success: function (result) {
+
+            }
+        });
+    }
+}
+
+function do_exportresult_c(ff_id){
+    var node = $('#project_tree').tree('getSelected');
+    if(node){
+        var key = node.attributes['key'];
+        var name = node.attributes['name'];
+        $("#{0} input#key".lym_format(ff_id)).val("{0}".lym_format(key));
+        $("#{0} input#name".lym_format(ff_id)).val("{0}".lym_format(name));
+        $("#{0}".lym_format(ff_id)).form('submit', {
+            success: function (result) {
+
+            }
+        });
+    }
+}
+
 function do_exportresult(ff_id){
     var row = $('#case_list').datagrid('getSelected');
     var key = row.info_key;

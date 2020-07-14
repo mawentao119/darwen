@@ -376,7 +376,7 @@ class ManageFile(Resource):
         if name == 'export_d_i_r':
             sql = '''SELECT info_key,info_name,'{}', '{}', ontime,run_status,run_elapsedtime,run_user
                              FROM   testcase
-                             WHERE info_key='{}' ; '''.format(testproject, projectversion, key)
+                             WHERE info_key like '{}%' ; '''.format(testproject, projectversion, key)
 
         res = self.app.config['DB'].runsql(sql)
         if res:
