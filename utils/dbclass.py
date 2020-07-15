@@ -106,7 +106,7 @@ class TestDB():
         self.runsql('''INSERT INTO settings values('被测系统名称','test_project',"TBDS",'Do not modify twice.','system');''')
         self.runsql('''INSERT INTO settings values('被测系统版本号','test_projectversion',"V5013",'Do not modify twice.','system');''')
         self.runsql(
-            '''INSERT INTO settings values('测试用例历史记录git','history_git',"https://www.github.com/abc.git",'','system');''')
+            '''INSERT INTO settings values('测试用例历史记录git','history_git',"https://github.com/mawentao119/testcasehistory.git",'暂不支持commit','system');''')
 
         #self.runsql(
         #    '''INSERT INTO settings values('Testee Project Name','test_project',"TBDS",'Do not modify twice.','system');''')

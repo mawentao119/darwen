@@ -93,7 +93,10 @@ def scheduler():
 
 @routes.route("/test_env/")
 def test_env():
-    return render_template('test_env.html')
+    app = current_app._get_current_object()
+    test_project = app.config['DB'].get_setting('test_project')
+    test_projectversion = app.config['DB'].get_setting('test_projectversion')
+    return render_template('test_env.html', test_project=test_project,test_projectversion=test_projectversion)
 
 @routes.route("/schedul_mng/")
 def schedul_mng():
