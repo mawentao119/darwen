@@ -19,7 +19,7 @@
     <body>
 
         <div class="easyui-layout" style="width:100%; height:800px; padding:10px;">
-        <div id="p" data-options="region:'west'" title="配置参数" style="width:48%">
+        <div id="p" data-options="region:'west'" title="配置参数" style="width:60%">
             <table id="setting_list" class="easyui-datagrid" style="width:100%;height:auto;"
                     data-options="singleSelect:true,
                         fitColumns:true,
@@ -91,7 +91,7 @@
                     <p style="color:#0099FF;">建议将测试结果远端git保存，本地保存的将随环境的消失而消失</p>
                     <div style="padding:5px 0;">
                         <a href="#" class="easyui-linkbutton" onclick="open_win('uploadcr_win');" data-options="iconCls:'icon-search'" style="width:48%">上传历史用例结果(.txt)</a>
-                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-print'" style="width:48%; margin-left:10px">从历史库Git Clone 用例结果</a>
+                        <a href="#" class="easyui-linkbutton" onclick="manage_gitff('gitclone_caserecord', 'gitclone_caserecord_ff', 'gitclone')" data-options="iconCls:'icon-print'" style="width:48%; margin-left:10px">从历史库Git Clone 用例结果</a>
                         <a href="#" class="easyui-linkbutton" onclick="delete_caserecord();" data-options="iconCls:'icon-search'" style="width:48%; margin-top:10px">清空本地结果缓存</a>
                     </div>
                 </div>
@@ -112,6 +112,21 @@
                     <p>它山之石，可以攻玉</p>
                 </div>
             </div>
+
+            <div id="gitclone_caserecord" class="easyui-window" title="Git clone 导入历史用例结果"
+             data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
+             style="width:400px;height:210px;padding:10px;">
+            <form id="gitclone_caserecord_ff" method="post">
+                <div style="margin-bottom:5px">
+                    <h5>请输入用例历史结果Git库地址(.git)</h5>
+                    <input class="easyui-textbox" id="name" name="name" label="Git URL:" labelPosition="top" data-options="prompt:'不输入，使用默认用例结果git库'" style="width:100%" data-options="required:false">
+                </div>
+            </form>
+            <div style="text-align:right;padding:5px 0">
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('gitclone_caserecord')" style="width:60px">Cancle</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="gitclone_caserecord('gitclone_caserecord', 'gitclone_caserecord_ff')" style="width:60px">Clone</a>
+            </div>
+        </div>
 
             <div id="uploadcr_win" class="easyui-window" title="上传用例历史执行结果"
          data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false,iconCls:'icon-case'"

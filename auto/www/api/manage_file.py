@@ -57,8 +57,7 @@ class ManageFile(Resource):
         os.remove(temp_file) if os.path.exists(temp_file) else None
         file.save(temp_file)
 
-
-        f_ext = os.path.basename(temp_file).split('.')[-1]
+        (_, f_ext) = os.path.splitext(temp_file)
 
         if f_ext == 'xlsx':
             (status, msg) = do_importfromxlsx(temp_file, path)

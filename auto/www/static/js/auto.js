@@ -358,6 +358,13 @@ function manage_project(win_id, ff_id, method){
     open_win(win_id);
 }
 
+function manage_gitff(win_id, ff_id, method){
+    if(method == "gitclone"){
+        clear_form(ff_id);
+    }
+    open_win(win_id);
+}
+
 function refresh_workspace(data){
     var param = $("#project_tree").tree("options").queryParams
     param.category = "root";
@@ -477,6 +484,13 @@ function create_projectgit(win_id, ff_id){
 
     do_ajax('post', '/api/v1/project/', data, refresh_workspace);
 
+    close_win(win_id);
+}
+
+function gitclone_caserecord(win_id, ff_id){
+    var data = $("#{0}".lym_format(ff_id)).serializeObject();
+    data["method"] = "gitclone_caserecord";
+    do_ajax('post', '/api/v1/case/', data, do_msg);
     close_win(win_id);
 }
 

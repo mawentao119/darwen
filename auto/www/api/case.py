@@ -12,8 +12,9 @@ from flask import current_app, session, request
 from flask_restful import Resource, reqparse
 
 from utils.parsing import update_resource
-from utils.file import exists_path, rename_file, make_nod, remove_file, write_file, read_file, copy_file, get_splitext
+from utils.file import exists_path, rename_file, make_nod, remove_file, mk_dirs, remove_dir, write_file, read_file, copy_file, get_splitext
 from utils.mylogger import getlogger
+from utils.gitit import remote_clone
 
 class Case(Resource):
     def __init__(self):
@@ -83,6 +84,8 @@ class Case(Resource):
             result = self.__handunknown(args)
         elif method == "save_result":
             result = self.__save_result(args)
+        elif method == "gitclone_caserecord":
+            result = self.__gitclone_caserecord(args)
         elif method == "delete_caserecord":
             result = self.__delete_caserecord(args)
         elif method == "recordbug":
@@ -268,5 +271,79 @@ class Case(Resource):
                       "msg": "保存用例结果失败: " + info_name + ", 用例结果已存在."}
             self.app.config['DB'].insert_loginfo(session['username'], 'case', 'save_result', info_key,
                                                  info_name + ':fail')
+        return result
+
+    def __gitclone_caserecord(self, args):
+
+        url = args['name']
+        if len(url) < 4:
+            url = self.app.config['DB'].get_setting('history_git')
+            if not url.startswith('http'):
+                result = {"status": "fail", "msg": "Fail:没有配置历史结果git或配置有误！url:" + url}
+                return result
+
+        path = self.app.config['AUTO_TEMP'] + '/caserecordgit'
+        remove_dir(path) if os.path.exists(path) else None
+        mk_dirs(path)
+
+        (ok, info) = remote_clone(url, path)
+
+        if not ok:
+            result = {"status": "fail", "msg": info}
+            self.app.config['DB'].insert_loginfo(session['username'], 'case', 'gitclonecaserecord', url,
+                                                 result['status'])
+            return result
+
+        (gitname, extf) = os.path.splitext(os.path.basename(url))
+        gitpath = os.path.join(path,gitname,'.git')
+        remove_dir(gitpath) if os.path.exists(gitpath) else None
+
+        total = 0
+        success = 0
+        formaterror = 0
+        exits = 0
+        totalfile = 0
+        omitfile = 0
+
+        for root, dirs, files in os.walk(os.path.join(path,gitname), topdown=False):
+            for name in files:
+                ff = os.path.join(root, name)
+                (_, f_ext) = os.path.splitext(ff)
+                totalfile += 1
+                if not f_ext == '.txt':
+                    self.log.warning("Gitclone caserecord Omit file:"+ff)
+                    omitfile += 1
+                    continue
+                with open(ff, 'r') as f:
+                    for l in f:
+                        l = l.strip()
+                        if len(l) != 0:
+                            total += 1
+                        else:
+                            continue
+                        splits = l.split('|')
+                        if len(splits) != 8:
+                            formaterror += 1
+                            self.log.error("uploadcaserecord Fail with wrong cols:" + l)
+                            continue
+                        (
+                        info_key, info_name, info_testproject, info_projectversion, ontime, run_status, run_elapsedtime,
+                        run_user) = splits
+                        sql = ''' INSERT into caserecord (info_key,info_name,info_testproject,info_projectversion,ontime,run_status,run_elapsedtime,run_user)
+                                  VALUES ('{}','{}','{}','{}','{}','{}','{}','{}');
+                                  '''.format(info_key, info_name, info_testproject, info_projectversion, ontime,
+                                             run_status, run_elapsedtime, run_user)
+                        res = self.app.config['DB'].runsql(sql)
+                        if res:
+                            success += 1
+                        else:
+                            exits += 1
+                            self.log.error("uploadcaserecord Fail with record exists:" + l)
+
+        remove_dir(path) if os.path.exists(path) else None
+
+        info = 'Finished with totalfile:{}, omitfile:{}, total:{}, sucess:{}, error:{}, exists:{}'.format(totalfile, omitfile, total, success, formaterror, exits)
+        result = {"status": "success", "msg": info}
+
         return result
 
