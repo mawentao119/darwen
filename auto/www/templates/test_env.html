@@ -70,8 +70,8 @@
 
                 <script src="{{ url_for('static', filename='lib/codemirror/lib/codemirror.js') }}"></script>
                 <script src="{{ url_for('static', filename='lib/codemirror/mode/yaml/yaml.js') }}"></script>
+                <script src="{{ url_for('static', filename='lib/codemirror/mode/python/python.js') }}"></script>
                 <script src="{{ url_for('static', filename='lib/codemirror/addon/display/placeholder.js') }}"></script>
-                <script src="{{ url_for('static', filename='lib/codemirror//addon/hint/show-hint.js') }}"></script>
 
                 <SCRIPT type="text/javascript">
                     $(document).ready(function(){
@@ -82,7 +82,7 @@
                     //charis added
                     var key = "{{ key }}";
                     editor = CodeMirror.fromTextArea(document.getElementById("code_editor"), {
-                        mode: 'yaml',
+                        mode: 'python',
                         lineNumbers: true,
                         lineWrapping: true,
                         styleActiveLine: true,

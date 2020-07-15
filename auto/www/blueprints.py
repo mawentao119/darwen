@@ -99,9 +99,9 @@ def test_env():
     auto_conffile = os.path.join(app.config['AUTO_HOME'], app.config['DB'].get_setting('test_env_conf'))
     if not os.path.exists(auto_conffile):
         with open(app.config['AUTO_TEMP']+'/env_temp.conf','w') as f:
-            f.write("Cannot Find configfile:\n")
+            f.write("无法找到配置文件:\n")
             f.write("{}\n".format(auto_conffile))
-            f.write("Please config 'test_env_conf' config item.\n")
+            f.write("请在'系统配置'中配置'test_env_conf'项.\n")
         auto_conffile = app.config['AUTO_TEMP']+'/env_temp.conf'
     return render_template('test_env.html', test_project=test_project,test_projectversion=test_projectversion, key=auto_conffile)
 
