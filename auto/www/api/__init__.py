@@ -28,8 +28,10 @@ api.add_resource(ProjectList, "/project_list/")
 from .suite import Suite
 api.add_resource(Suite, "/suite/")
 
-from .case import Case, ManageFile
+from .case import Case
 api.add_resource(Case, "/case/")
+
+from .manage_file import ManageFile
 api.add_resource(ManageFile, "/manage_file/")
 
 from .keyword import Keyword

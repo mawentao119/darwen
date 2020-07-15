@@ -852,6 +852,20 @@ function do_upload(win_id, ff_id){
     }
 }
 
+function do_uploadcaserecord(win_id, ff_id){
+
+    $("#{0} input#key".lym_format(ff_id)).val("{0}".lym_format("maybeusedlater"));
+    $("#{0}".lym_format(ff_id)).form('submit', {
+        success: function (result) {
+            var d = JSON.parse(result);
+            //show_msg('Information', d.msg);
+            refresh_suite_node(d);
+            close_win(win_id);
+        }
+    });
+
+}
+
 function do_uploadcase(win_id, ff_id){
     var node = $('#project_tree').tree('getSelected');
     if(node){
@@ -860,7 +874,7 @@ function do_uploadcase(win_id, ff_id){
             success: function (result) {
                 var d = JSON.parse(result);
                 //show_msg('Information', d.msg);
-                refresh_suite_node(d);
+                //refresh_suite_node(d);
                 close_win(win_id);
             }
         });

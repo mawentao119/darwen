@@ -196,6 +196,43 @@ def do_importfromzip(temp_file, path):
         log.error("import from zip Exception:{}".format(e))
         return ("fail", "Exception occured .")
 
+def do_uploadcaserecord(temp_file):
+
+    if not os.path.exists(temp_file):
+        return ('fail', 'Can not find file :{}'.format(temp_file))
+
+    app = current_app._get_current_object()
+
+    total = 0
+    success = 0
+    formaterror =0
+    exits = 0
+
+    with open(temp_file,'r') as f:
+        for l in f:
+            l = l.strip()
+            if len(l) != 0:
+                total +=1
+            else:
+                continue
+            splits = l.split('|')
+            if len(splits) != 8:
+                formaterror += 1
+                log.error("uploadcaserecord Fail with wrong cols:"+l)
+                continue
+            (info_key, info_name, info_testproject, info_projectversion, ontime, run_status, run_elapsedtime, run_user) = splits
+            sql = ''' INSERT into caserecord (info_key,info_name,info_testproject,info_projectversion,ontime,run_status,run_elapsedtime,run_user)
+                      VALUES ('{}','{}','{}','{}','{}','{}','{}','{}');
+                      '''.format(info_key, info_name, info_testproject, info_projectversion, ontime, run_status, run_elapsedtime, run_user)
+            res = app.config['DB'].runsql(sql)
+            if res:
+                success += 1
+            else:
+                exits += 1
+                log.error("uploadcaserecord Fail with record exists:"+l)
+
+    return ('success', 'Finished with total:{}, sucess:{}, error:{}, exists:{}'.format(total,success,formaterror,exits))
+
 def do_importfromxlsx(temp_file, path):
 
     xls_file = temp_file

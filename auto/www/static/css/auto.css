@@ -115,6 +115,10 @@
     background:url('../img/list.png') no-repeat center center;
 }
 
+.icon-configitem{
+    background:url('../img/configitem.png') no-repeat center center;
+}
+
 .icon-export{
     background:url('../img/export.png') no-repeat center center;
 }

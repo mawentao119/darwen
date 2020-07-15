@@ -16,9 +16,10 @@
             }
         </style>
     </head>
-    <body class="easyui-layout" style="padding:10">
+    <body>
 
-        <div data-options="region:'center'" style="padding: 5px 5px 5px 5px">
+        <div class="easyui-layout" style="width:100%; height:800px; padding:10px;">
+        <div id="p" data-options="region:'west'" title="配置参数" style="width:48%">
             <table id="setting_list" class="easyui-datagrid" style="width:100%;height:auto;"
                     data-options="singleSelect:true,
                         fitColumns:true,
@@ -83,9 +84,54 @@
                     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="edit_setting('edit_setting', 'edit_setting_ff')" style="width:60px">Save</a>
                 </div>
             </div>
-            <!-- end -->
         </div>
+        <div data-options="region:'center'" title="配置操作">
+            <div class="easyui-accordion" style="height:300px;">
+                <div title="测试用例历史结果比对" data-options="iconCls:'icon-configitem'" style="overflow:auto;padding:10px;">
+                    <p style="color:#0099FF;">建议将测试结果远端git保存，本地保存的将随环境的消失而消失</p>
+                    <div style="padding:5px 0;">
+                        <a href="#" class="easyui-linkbutton" onclick="open_win('uploadcr_win');" data-options="iconCls:'icon-search'" style="width:48%">上传历史用例结果(.txt)</a>
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-print'" style="width:48%; margin-left:10px">从历史库Git Clone 用例结果</a>
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" style="width:48%; margin-top:10px">清空本地结果缓存</a>
+                    </div>
+                </div>
+                <div title="调度管理" data-options="iconCls:'icon-configitem'" style="padding:10px;">
+                    <h3 style="color:#0099FF;">测试执行的默认设定</h3>
+                    <li>当前测试的是什么系统，版本号是多少</li>
+                    <li>在什么机器上测试，机器、系统的配置是什么样的</li>
+                    <li>如果是分布式环境，拓扑信息如何、组件状态是否健康.</li>
+                    <p>环境对测试的影响就像环境对人的影响一样大，只是人的环境难以自动获取</p>
+                </div>
+                <div title="监控告警" data-options="iconCls:'icon-configitem'" style="padding:10px;">
+                    <h3 style="color:#0099FF;">工具要成套，扩展很必要</h3>
+                    <li>测试过程中可能用到各种外部工具，放在这个盒子里，减少各种查找、输入的时间</li>
+                    <li>测试数据的构造工具</li>
+                    <li>编解码的对比工具</li>
+                    <li>复杂结构的格式化工具</li>
+                    <li>... ...</li>
+                    <p>它山之石，可以攻玉</p>
+                </div>
+            </div>
 
+            <div id="uploadcr_win" class="easyui-window" title="上传用例历史执行结果"
+         data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false,iconCls:'icon-case'"
+            style="width:500px;height:140px;padding:10px;">
+            <form id="uploadcr_ff" method="POST" action="/api/v1/manage_file/" enctype="multipart/form-data">
+                <div style="margin-bottom:20px">
+                    <input name="method" id="method" value="uploadcaserecord" hidden>
+                    <input name="key" id="key" value="/" hidden>
+                    <input id="files" name="files" class="easyui-filebox" label="" labelPosition="top"
+                           data-options="prompt:'Select a file...',buttonText:'Select'" style="width:100%">
+                </div>
+                <div style="text-align:right;">
+                    <a href="#" class="easyui-linkbutton" style="width:80px;" onclick="do_uploadcaserecord('uploadcr_win', 'uploadcr_ff')">Upload</a>
+                </div>
+
+            </form>
+            </div>
+
+        </div>
+        </div>
 
         <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
