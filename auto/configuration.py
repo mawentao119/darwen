@@ -44,6 +44,7 @@ class Config:
 
     # get_cwd = xxx/work/workspace/Admin/uniRobot
     AUTO_HOME = os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))).replace('\\','/')
+    # AUTO_HOME = /data/uniRobot/work
     AUTO_TEMP = AUTO_HOME + '/runtime'
     os.mkdir(AUTO_TEMP) if not os.path.exists(AUTO_TEMP) else None
     #AUTO_HOME = os.getcwd().replace('\\', '/') + '/.beats'

@@ -33,17 +33,16 @@
                         <table id="machine_list" class="easyui-datagrid" style="width:100%;height:auto;"
                                data-options="singleSelect:true,
                                fitColumns:true,
-                               url:'/api/v1/report?key={{dir}}&request=excuteinfo&method=day',
+                               url:'/api/v1/settings?method=machines',
                                method:'get' "
                         >
                             <thead>
                             <tr>
-                                <th data-options="field:'category',align:'center' , halign: 'center'">机器IP</th>
-                                <th data-options="field:'passed',align:'center' , halign: 'center'">操作系统</th>
-                                <th data-options="field:'failed',align:'center' , halign: 'center'">配置</th>
-                                <th data-options="field:'unknown',align:'center' , halign: 'center'">CPUidle</th>
-                                <th data-options="field:'percent',align:'center' , halign: 'center'">内存占用</th>
-                                <th data-options="field:'time',align:'center' , halign: 'center'">更新时间</th>
+                                <th data-options="field:'ip',align:'center' , halign: 'center'">机器IP</th>
+                                <th data-options="field:'os',align:'center' , halign: 'center'">操作系统</th>
+                                <th data-options="field:'cpus',align:'center' , halign: 'center'">核数</th>
+                                <th data-options="field:'mem',align:'center' , halign: 'center'">内存</th>
+                                <th data-options="field:'ontime',align:'center' , halign: 'center'">更新时间</th>
                             </tr>
                             </thead>
                         </table>
@@ -52,23 +51,21 @@
 
             </div>
             <div data-options="region:'center'">  <!-- 组件信息 -->
-                <div id="submodule" style="margin: 0 auto">
+                <div id="submodule" style="margin: 10px">
                     <h3>组件详细信息</h3>
                 </div>
                 <table id="mudule_list" class="easyui-datagrid" style="width:100%;height:auto;"
                                data-options="singleSelect:true,
                                fitColumns:true,
-                               url:'/api/v1/report?key={{dir}}&request=excuteinfo&method=day',
+                               url:'/api/v1/settings?method=modules',
                                method:'get' "
                         >
                             <thead>
                             <tr>
-                                <th data-options="field:'category',align:'center' , halign: 'center'">组件名称</th>
-                                <th data-options="field:'passed',align:'center' , halign: 'center'">机器列表</th>
-                                <th data-options="field:'failed',align:'center' , halign: 'center'">组件状态</th>
-                                <th data-options="field:'unknown',align:'center' , halign: 'center'">更新时间</th>
-                                <th data-options="field:'percent',align:'center' , halign: 'center'">内存占用</th>
-                                <th data-options="field:'time',align:'center' , halign: 'center'">更新时间</th>
+                                <th data-options="field:'name',align:'center' , halign: 'center'">组件名称</th>
+                                <th data-options="field:'machines',align:'center' , halign: 'center'">机器列表</th>
+                                <th data-options="field:'status',align:'center' , halign: 'center'">组件状态</th>
+                                <th data-options="field:'ontime',align:'center' , halign: 'center'">更新时间</th>
                             </tr>
                             </thead>
                         </table>

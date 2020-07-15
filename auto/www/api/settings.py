@@ -5,13 +5,9 @@ __author__ = "charisma"
 """
 这里用来进行系统层面的配置管理，原有的settings 见ORG备份
 """
-import json
-import codecs
+
 from flask import current_app, session, request, send_file
 from flask_restful import Resource, reqparse
-from werkzeug.security import generate_password_hash, check_password_hash
-
-from utils.file import list_dir, exists_path, rename_file, make_nod, remove_dir, write_file, read_file, mk_dirs
 from utils.mylogger import getlogger
 
 class Settings(Resource):
@@ -26,15 +22,14 @@ class Settings(Resource):
         self.log = getlogger("Settings")
         self.app = current_app._get_current_object()
 
-
     def get(self):
-        setting_list = {"total": 0, "rows": []}
-        res = self.app.config['DB'].runsql("Select description,item,value,demo from settings;")
-        for r in res:
-            (description, item, value, demo) = r
-            setting_list["rows"].append(
-                {"description": description, "item": item, "value": value, "demo": demo})
-        return setting_list
+        args = self.parser.parse_args()
+        if args['method'] == 'setting_list':
+            return self.__get_settinglist(args)
+        if args['method'] == 'machines':
+            return self.__get_machines(args)
+        if args['method'] == 'modules':
+            return self.__get_modules(args)
 
     def post(self):
         args = self.parser.parse_args()
@@ -128,3 +123,59 @@ class Settings(Resource):
         self.app.config['DB'].insert_loginfo(session['username'], 'setting', 'delete', args["item"], result['status'])
 
         return result
+
+    def __get_settinglist(self, args):
+        setting_list = {"total": 0, "rows": []}
+        res = self.app.config['DB'].runsql("Select description,item,value,demo from settings;")
+        for r in res:
+            (description, item, value, demo) = r
+            setting_list["rows"].append(
+                {"description": description, "item": item, "value": value, "demo": demo})
+        return setting_list
+
+
+    def __get_machines(self, args):
+        import os  ## ?? why cannot put it on top.
+        setting_list = {"total": 0, "rows": []}
+
+        infof = self.app.config['DB'].get_setting('test_env_machines')
+        ff = os.path.join(self.app.config['AUTO_HOME'], infof)
+
+        if not os.path.exists(ff):
+            self.log.error("Get Machines: Cannot find file:{}".format(ff))
+            return setting_list
+
+        with open(ff,'r') as f:
+            for l in f:
+                splits = l.strip().split('|')
+                if len(splits) !=5 :
+                    self.log.error("Get Machines: from file:{} found err line:{}".format(ff,l))
+                    continue
+                (ip, os, cpus , mem, ontime ) = splits
+                setting_list["rows"].append(
+                    {"ip": ip, "os": os, "cpus": cpus, "mem": mem, "ontime":ontime})
+
+        return setting_list
+
+    def __get_modules(self, args):
+        import os  ## ?? why cannot put it on top.
+        setting_list = {"total": 0, "rows": []}
+
+        infof = self.app.config['DB'].get_setting('test_env_modules')
+        ff = os.path.join(self.app.config['AUTO_HOME'], infof)
+
+        if not os.path.exists(ff):
+            self.log.error("Get Modules: Cannot find file:{}".format(ff))
+            return setting_list
+
+        with open(ff,'r') as f:
+            for l in f:
+                splits = l.strip().split('|')
+                if len(splits) != 4:
+                    self.log.error("Get Module: from file:{} found err line:{}".format(ff,l))
+                    continue
+                (name, machines, status , ontime ) = splits
+                setting_list["rows"].append(
+                    {"name": name, "machines": machines, "status": status, "ontime":ontime})
+
+        return setting_list

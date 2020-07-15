@@ -105,15 +105,9 @@ class TestDB():
     def init_settings(self):
         self.runsql('''INSERT INTO settings values('被测系统名称','test_project',"TBDS",'Do not modify twice.','system');''')
         self.runsql('''INSERT INTO settings values('被测系统版本号','test_projectversion',"V5013",'Do not modify twice.','system');''')
-        self.runsql(
-            '''INSERT INTO settings values('测试用例历史记录git','history_git',"https://github.com/mawentao119/testcasehistory.git",'暂不支持commit','system');''')
-
-        #self.runsql(
-        #    '''INSERT INTO settings values('Testee Project Name','test_project',"TBDS",'Do not modify twice.','system');''')
-        #self.runsql(
-        #    '''INSERT INTO settings values('Testee Project Version','test_projectversion',"V5013",'Do not modify twice.','system');''')
-        #self.runsql(
-        #    '''INSERT INTO settings values('TestCase history git','history_git',"https://www.github.com/abc.git",'','system');''')
+        self.runsql('''INSERT INTO settings values('测试用例历史记录git','history_git',"https://github.com/mawentao119/testcasehistory.git",'暂不支持commit','system');''')
+        self.runsql('''INSERT INTO settings values('机器列表文件','test_env_machines',"runtime/test_env_machines.info",'ip|os|cpus|mem|ontime','system');''')
+        self.runsql('''INSERT INTO settings values('组件列表文件','test_env_modules',"runtime/test_env_modules.info",'name|machines|status|ontime','system');''')
 
     def add_setting(self, description, item, value, demo):
 
