@@ -83,6 +83,8 @@ class Case(Resource):
             result = self.__handunknown(args)
         elif method == "save_result":
             result = self.__save_result(args)
+        elif method == "delete_caserecord":
+            result = self.__delete_caserecord(args)
         elif method == "recordbug":
             result = self.__recordbug(args)
         else:
@@ -160,6 +162,16 @@ class Case(Resource):
 
         self.app.config['DB'].insert_loginfo(session['username'], 'suite', 'delete', user_path, result['status'])
 
+        return result
+
+    def __delete_caserecord(self, args):
+        res = self.app.config['DB'].runsql("DELETE from caserecord;")
+        if res:
+            result = {"status": "success", "msg": "Delete caserecord success!"}
+        else:
+            result = {"status": "fail", "msg": "Delete caserecord failed!"}
+
+        self.app.config['DB'].insert_loginfo(session['username'], 'caserecord', 'delete', 'none', result['status'])
         return result
 
     def __save(self, args):

@@ -530,6 +530,17 @@ function delete_project(){
     }
 }
 
+function delete_caserecord(){
+    $.messager.confirm('Alert', '<br>确认删除所有历史结果记录吗?', function(r){
+        if (r){
+            var data = {
+                    "method": "delete_caserecord"
+                };
+            do_ajax('post', "/api/v1/case/", data, do_msg);
+        }
+    });
+}
+
 function manage_suite(win_id, ff_id, method){
     if(method == "create"){
         clear_form(ff_id);
