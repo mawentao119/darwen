@@ -310,7 +310,7 @@ class Case(Resource):
                 ff = os.path.join(root, name)
                 (_, f_ext) = os.path.splitext(ff)
                 totalfile += 1
-                if not f_ext == '.txt':
+                if not f_ext == '.his':
                     self.log.warning("Gitclone caserecord Omit file:"+ff)
                     omitfile += 1
                     continue

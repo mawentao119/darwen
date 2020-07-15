@@ -59,10 +59,10 @@ class ManageFile(Resource):
 
         (_, f_ext) = os.path.splitext(temp_file)
 
-        if f_ext == 'xlsx':
+        if f_ext == '.xlsx':
             (status, msg) = do_importfromxlsx(temp_file, path)
             result = {"status": status, "msg": msg}
-        elif f_ext == 'zip':
+        elif f_ext == '.zip':
             (status, msg) = do_importfromzip(temp_file, path)
             result = {"status": status, "msg": msg}
         else:
@@ -83,13 +83,16 @@ class ManageFile(Resource):
         os.remove(temp_file) if os.path.exists(temp_file) else None
         file.save(temp_file)
 
-        f_ext = os.path.basename(temp_file).split('.')[-1]
+        (_, f_ext) = os.path.splitext(temp_file)
 
-        if f_ext == 'txt':
+        self.log.error("******* temp_file:{} ; f_ext:{}".format(temp_file,f_ext))
+
+        if f_ext == '.his':
             (status, msg) = do_uploadcaserecord(temp_file)
             result = {"status": status, "msg": msg}
         else:
-            result = {"status": "fail", "msg": "文件后缀不符合要求(txt):{}".format(f_ext)}
+            msg = "文件后缀不符合要求(.his):{}".format(f_ext)
+            result = {"status": "fail", "msg": msg}
 
         self.app.config['DB'].insert_loginfo(session['username'], 'file', 'uploadcaserecord', msg, file.filename)
 
@@ -168,7 +171,7 @@ class ManageFile(Resource):
 
         res = self.app.config['DB'].runsql(sql)
         if res:
-            fname = os.path.join(self.app.config['AUTO_TEMP'], 'his_' + str(time.time_ns()) + '.txt')
+            fname = os.path.join(self.app.config['AUTO_TEMP'], 'his_' + str(time.time_ns()) + '.his')
             with open(fname,'w') as myfile:
                 for i in res:
                     (key, name, project, version, ontime, run_status, run_elapsedtime, run_user) = i
