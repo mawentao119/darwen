@@ -14,12 +14,11 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/auto.js') }}"></script>
 </head>
 <body>
-<div class="easyui-layout" data-options="fit:true">
-    <div data-options="region:'north',split:true" style="height:400px">  <!-- 版本、机器、组件信息 -->
+        <!-- 版本、机器、组件信息 -->
         <div class="easyui-layout" data-options="fit:true">
-            <div data-options="region:'west',split:false" style="width:40%">  <!-- 版本 + 机器列表 ;padding:10px -->
+            <div data-options="region:'west',split:false" style="width:30%">  <!-- 版本 + 机器列表 ;padding:10px -->
                 <div class="easyui-layout" data-options="fit:true">
-                    <div data-options="region:'north',split:false" style="height:28%">  <!-- 版本 信息 -->
+                    <div data-options="region:'north',split:false" style="height:100px">  <!-- 版本 信息 -->
                         <div class="easyui-panel" style="width:100%;height:100%;padding:10px 10px;">
                             <div style="margin-bottom:10px">
                                 <h3>被测系统名称：{{test_project}}</h3>
@@ -50,32 +49,8 @@
                 </div>
 
             </div>
-            <div data-options="region:'center'">  <!-- 组件信息 -->
-                <div id="submodule" style="margin: 10px">
-                    <h3>组件详细信息</h3>
-                </div>
-                <table id="mudule_list" class="easyui-datagrid" style="width:100%;height:auto;"
-                               data-options="singleSelect:true,
-                               fitColumns:true,
-                               url:'/api/v1/settings?method=modules',
-                               method:'get' "
-                        >
-                            <thead>
-                            <tr>
-                                <th data-options="field:'name',align:'center' , halign: 'center'">组件名称</th>
-                                <th data-options="field:'machines',align:'center' , halign: 'center'">机器列表</th>
-                                <th data-options="field:'status',align:'center' , halign: 'center'">组件状态</th>
-                                <th data-options="field:'ontime',align:'center' , halign: 'center'">更新时间</th>
-                            </tr>
-                            </thead>
-                        </table>
-            </div>
-        </div>
-
-    </div>
-        <div data-options="region:'center',split:true">            <!-- 自动化配置 、 生成、保存 -->
-            <div data-options="region:'center'" style="padding: 5px 5px 5px 5px">
-            <table id="user_list" class="easyui-datagrid" style="width:100%;height:auto;"
+            <div data-options="region:'east'" style="width:40%">
+                <table id="user_list" class="easyui-datagrid" style="width:100%;height:auto;"
                     data-options="singleSelect:true,
                         fitColumns:true,
                         url:'/api/v1/user/',
@@ -169,11 +144,28 @@
                     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="do_smtp('edit_smtp', 'edit_smtp_ff')" style="width:60px">Save</a>
                 </div>
             </div>
-            <!-- end -->
+            </div>
+            <div data-options="region:'center'" style="width:30%">  <!-- 组件信息 -->
+                <div id="submodule" style="margin: 10px">
+                    <h3>组件详细信息</h3>
+                </div>
+                <table id="mudule_list" class="easyui-datagrid" style="width:100%;height:auto;"
+                               data-options="singleSelect:true,
+                               fitColumns:true,
+                               url:'/api/v1/settings?method=modules',
+                               method:'get' "
+                        >
+                            <thead>
+                            <tr>
+                                <th data-options="field:'name',align:'center' , halign: 'center'">组件名称</th>
+                                <th data-options="field:'machines',align:'center' , halign: 'center'">机器列表</th>
+                                <th data-options="field:'status',align:'center' , halign: 'center'">组件状态</th>
+                                <th data-options="field:'ontime',align:'center' , halign: 'center'">更新时间</th>
+                            </tr>
+                            </thead>
+                        </table>
+            </div>
         </div>
-
-        </div>
-    </div>
 
     <SCRIPT type="text/javascript">
             $(document).ready(function(){
