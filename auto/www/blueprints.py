@@ -96,7 +96,14 @@ def test_env():
     app = current_app._get_current_object()
     test_project = app.config['DB'].get_setting('test_project')
     test_projectversion = app.config['DB'].get_setting('test_projectversion')
-    return render_template('test_env.html', test_project=test_project,test_projectversion=test_projectversion)
+    auto_conffile = os.path.join(app.config['AUTO_HOME'], app.config['DB'].get_setting('test_env_conf'))
+    if not os.path.exists(auto_conffile):
+        with open(app.config['AUTO_TEMP']+'/env_temp.conf','w') as f:
+            f.write("Cannot Find configfile:\n")
+            f.write("{}\n".format(auto_conffile))
+            f.write("Please config 'test_env_conf' config item.\n")
+        auto_conffile = app.config['AUTO_TEMP']+'/env_temp.conf'
+    return render_template('test_env.html', test_project=test_project,test_projectversion=test_projectversion, key=auto_conffile)
 
 @routes.route("/schedul_mng/")
 def schedul_mng():

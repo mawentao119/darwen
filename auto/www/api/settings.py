@@ -131,6 +131,10 @@ class Settings(Resource):
             (description, item, value, demo) = r
             setting_list["rows"].append(
                 {"description": description, "item": item, "value": value, "demo": demo})
+
+        setting_list["rows"].append(
+            {"description": "系统Home目录", "item": "AUTO_HOME", "value": self.app.config['AUTO_HOME'], "demo": "测试用例在{AUTO_HOME}/workspace/{user}/{project}/下"})
+
         return setting_list
 
 

@@ -106,8 +106,9 @@ class TestDB():
         self.runsql('''INSERT INTO settings values('被测系统名称','test_project',"TBDS",'Do not modify twice.','system');''')
         self.runsql('''INSERT INTO settings values('被测系统版本号','test_projectversion',"V5013",'Do not modify twice.','system');''')
         self.runsql('''INSERT INTO settings values('测试用例历史记录git','history_git',"https://github.com/mawentao119/testcasehistory.git",'暂不支持commit','system');''')
-        self.runsql('''INSERT INTO settings values('机器列表文件','test_env_machines',"runtime/test_env_machines.info",'ip|os|cpus|mem|ontime','system');''')
-        self.runsql('''INSERT INTO settings values('组件列表文件','test_env_modules',"runtime/test_env_modules.info",'name|machines|status|ontime','system');''')
+        self.runsql('''INSERT INTO settings values('机器列表文件','test_env_machines',"runtime/test_env_machines.conf",'ip|os|cpus|mem|ontime','system');''')
+        self.runsql('''INSERT INTO settings values('组件列表文件','test_env_modules',"runtime/test_env_modules.conf",'name|machines|status|ontime','system');''')
+        self.runsql('''INSERT INTO settings values('自动化配置文件','test_env_conf',"runtime/env.conf",'建议自动化配置项自动生成','system');''')
 
     def add_setting(self, description, item, value, demo):
 
