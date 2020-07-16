@@ -348,7 +348,7 @@ def send_robot_report(username, name, task_no, result, output):
         if config["smtp"]["ssl"]:
             smtp = smtplib.SMTP_SSL()
         else:
-            smtp = smtp.SMTP()
+            smtp = smtplib.SMTP()
 
         # 连接至服务器
         smtp.connect(config["smtp"]["server"], int(config["smtp"]["port"]))
@@ -400,12 +400,12 @@ class RobotRun(threading.Thread):
         # Generating log files requires processing the earlier generated output XML.
         # ResultWriter(self.output + '/output.xml').write_results()
 
-        self.result = ExecutionResult(out + "/output.xml")
+        self.result = ExecutionResult(output + "/output.xml")
 
         self.reset_last_status(self.result, output, index)
 
         # Report and xUnit files can be generated based on the result object.
-        ResultWriter(self.result).write_results(report=out + '/report.html', log=out + '/log.html')
+        ResultWriter(self.result).write_results(report=output + '/report.html', log=output + '/log.html')
 
     def reset_next_build_numb(self):
 
