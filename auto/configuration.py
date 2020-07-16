@@ -11,13 +11,9 @@ Email: lymking@foxmail.com
 """
 import logging
 import os
-import json
-import codecs
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.executors.pool import ProcessPoolExecutor
 from utils.dbclass import TestDB
-
-from utils.file import exists_path
-
 
 class Config:
     # conf_path = os.getcwd() + "/.beats/auto.json"
@@ -55,15 +51,21 @@ class Config:
     AUTO_ROBOT = []
     MAX_PROCS = 10
 
-    executors = {
-        'default': {'type': 'threadpool', 'max_workers': 20},
-        'processpool': ProcessPoolExecutor(max_workers=5)
+    dbfile = DB.get_dbfilename()
+    SCHEDULER_JOBSTORES = {
+        'default': SQLAlchemyJobStore(url='sqlite:///' + dbfile)
     }
-
-    job_defaults = {
+    #SCHEDULER_EXECUTORS = {
+    #    'default': {'type': 'threadpool', 'class': 'apscheduler.executors.pool:ThreadPoolExecutor', 'max_workers': 20},
+    #    'processpool': ProcessPoolExecutor(max_workers=5)
+    #}
+    SCHEDULER_JOB_DEFAULTS = {
         'coalesce': False,
-        'max_instances': 10
+        'max_instances': 3
     }
+    SCHEDULER_TIMEZONE = "Asia/Shanghai"
+
+    SCHEDULER_API_ENABLED = True
 
     @staticmethod
     def init_app(app):

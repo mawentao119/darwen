@@ -79,7 +79,7 @@ class TestDB():
         log.info("Force refresh TestCases of dir: "+workspace)
         self.refresh_caseinfo(workspace, "start")
 
-    def get_dbfile(self):
+    def get_dbfilename(self):
         return self.DBFileName
 
     # datetime like: 20190112091212

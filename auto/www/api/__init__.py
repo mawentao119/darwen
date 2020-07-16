@@ -37,8 +37,9 @@ api.add_resource(ManageFile, "/manage_file/")
 from .keyword import Keyword
 api.add_resource(Keyword, "/keyword/")
 
-from .task import Task, TaskList
+from .task import Task
 api.add_resource(Task, "/task/")
+from .tasklist import TaskList
 api.add_resource(TaskList, "/task_list/")
 
 
