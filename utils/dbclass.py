@@ -22,6 +22,7 @@ class TestDB():
         self.refresh_interval = 180  # seconds
         self.refresh_time = self.get_timenow()
         self.DBIDFileName = 'TestCaseDB.id'
+        self.DBFileName = ''
         self.IsNewDBID = False
 
         log.info("DB confdir : "+self.confdir)
@@ -36,14 +37,16 @@ class TestDB():
             with open(self.dbpath + self.DBIDFileName, 'w') as f:
                 f.write(self.DBID)
                 log.info("Create new File with ID: " + self.DBID)
+
+        self.DBFileName = self.dbpath + self.DBID+'.db'
         
-        if not os.path.exists(self.dbpath + self.DBID+'.db'):
+        if not os.path.exists(self.DBFileName):
             log.warning("Found ID file:" + self.dbpath + self.DBIDFileName + " with DBID:" + self.DBID + " But no .db file found!")
             log.warning("Will create a new DB file ... ")
             self.IsNewDBID = True
 
         # init DB 
-        self.DBcon = db.connect(self.dbpath + self.DBID+'.db', isolation_level=None,check_same_thread=False)
+        self.DBcon = db.connect(self.DBFileName, isolation_level=None,check_same_thread=False)
         self.DBcor = self.DBcon.cursor()
     
         # if NewDBID , Create Table 
@@ -75,6 +78,9 @@ class TestDB():
         workspace = os.path.dirname(self.confdir) + '/workspace'
         log.info("Force refresh TestCases of dir: "+workspace)
         self.refresh_caseinfo(workspace, "start")
+
+    def get_dbfile(self):
+        return self.DBFileName
 
     # datetime like: 20190112091212
     def get_timenow(self):
