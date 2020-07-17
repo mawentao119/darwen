@@ -297,7 +297,12 @@ def is_run(app, name):
 
 def is_full(app):
     remove_robot(app)
-    return len(app.config["AUTO_ROBOT"]) > app.config["MAX_PROCS"]
+    max = app.config['DB'].get_setting('MAX_PROCS')
+    if max == 'unknown' or max == '' or (not max):
+        max_procs = 20
+    else:
+        max_procs = int(max)
+    return len(app.config["AUTO_ROBOT"]) > max_procs
 
 
 def send_robot_report(username, name, task_no, result, output):

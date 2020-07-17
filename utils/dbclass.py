@@ -109,12 +109,13 @@ class TestDB():
                category TEXT DEFAULT 'unknown'
                );''')
     def init_settings(self):
-        self.runsql('''INSERT INTO settings values('被测系统名称','test_project',"TBDS",'Do not modify twice.','system');''')
-        self.runsql('''INSERT INTO settings values('被测系统版本号','test_projectversion',"V5013",'Do not modify twice.','system');''')
-        self.runsql('''INSERT INTO settings values('测试用例历史记录git','history_git',"https://github.com/mawentao119/testcasehistory.git",'暂不支持commit','system');''')
-        self.runsql('''INSERT INTO settings values('机器列表文件','test_env_machines',"runtime/test_env_machines.conf",'ip|os|cpus|mem|ontime','system');''')
-        self.runsql('''INSERT INTO settings values('组件列表文件','test_env_modules',"runtime/test_env_modules.conf",'name|machines|status|ontime','system');''')
-        self.runsql('''INSERT INTO settings values('自动化配置文件','test_env_conf',"runtime/env.conf",'建议自动化配置项自动生成','system');''')
+        self.runsql('''INSERT INTO settings values('被测系统名称','test_project',"TBDS",'Do not modify twice.','user');''')
+        self.runsql('''INSERT INTO settings values('被测系统版本号','test_projectversion',"V5013",'Do not modify twice.','user');''')
+        self.runsql('''INSERT INTO settings values('测试用例历史记录git','history_git',"https://github.com/mawentao119/testcasehistory.git",'暂不支持commit','user');''')
+        self.runsql('''INSERT INTO settings values('机器列表文件','test_env_machines',"runtime/test_env_machines.conf",'ip|os|cpus|mem|ontime','user');''')
+        self.runsql('''INSERT INTO settings values('组件列表文件','test_env_modules',"runtime/test_env_modules.conf",'name|machines|status|ontime','user');''')
+        self.runsql('''INSERT INTO settings values('自动化配置文件','test_env_conf',"runtime/env.conf",'建议自动化配置项自动生成','user');''')
+        self.runsql('''INSERT INTO settings values('最大任务并发数','MAX_PROCS',"20",'只限制手工并发数','system');''')
 
     def add_setting(self, description, item, value, demo):
 

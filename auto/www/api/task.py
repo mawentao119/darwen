@@ -7,22 +7,16 @@ __modifier__ = "mawentao119@gmail.com"
 
 """
 
-from flask import current_app, session, url_for
+from flask import current_app, session
 from flask_restful import Resource, reqparse
 from utils.file import get_projectdirfromkey
-import json
 import os
 import time
-import codecs
-import threading
-import multiprocessing
-from dateutil import tz
 
-from robot.api import ExecutionResult
+import multiprocessing
 
 from utils.file import exists_path, remove_dir, get_splitext, get_projectnamefromkey
 from utils.run import robot_run, is_run, is_full, remove_robot, stop_robot, robot_job, robot_debugrun, py_debugrun,bzt_debugrun
-from ..app import scheduler
 from utils.mylogger import getlogger
 
 class Task(Resource):
@@ -66,16 +60,16 @@ class Task(Resource):
 
         elif args["method"] == "delete":
             delete_task_record(self.app, args)
-            return {"status": "success", "msg": "Record is deleted."}
+            return {"status": "success", "msg": "删除成功."}
         else:
-            return {"status": "fail", "msg": "Parameter method Error:{}".format(args['method'])}
+            return {"status": "fail", "msg": "Parameter 'method' Error:{}".format(args['method'])}
 
     def runall(self, args):
         cases = args['key']
         if not os.path.isdir(cases):
             fext = get_splitext(cases)[1]
             if not fext in (".robot"):
-                return {"status": "fail", "msg": "Fail：Do not support Run this type of file now :" + fext}
+                return {"status": "fail", "msg": "Fail：暂不支持运行此类型的文件 :" + fext}
 
         case_name = os.path.basename(cases)
 
@@ -86,7 +80,7 @@ class Task(Resource):
             self.app.config["AUTO_ROBOT"].append(
                 {"name": "%s" % case_name, "process": p})
         else:
-            return {"status": "fail", "msg": "Please wait for the former task finished."}
+            return {"status": "fail", "msg": "超过最大进程数，请等待."}
 
         return {"status": "success", "msg": "Start run:" + case_name}
 
@@ -111,7 +105,7 @@ class Task(Resource):
         for key in suites:
             case_name = os.path.basename(key)
             if is_full(self.app):
-                return {"status": "fail", "msg": "Exceed Max processes:{},Try later.".format(self.app.config['MAX_PROCS'])}
+                return {"status": "fail", "msg": "超过最大进程数 MAX_PROCS ,请稍后尝试."}
             if not is_run(self.app, case_name):
                 p = multiprocessing.Process(target=robot_run,
                                             args=(self.app, key))
@@ -124,9 +118,9 @@ class Task(Resource):
             else:
                 retry += 1
         if retry > 0 :
-            return {"status": "success", "msg": "Start Run:{} cases conflict，Need retry.".format(retry)}
+            return {"status": "success", "msg": "运行:{} 用例冲突，需要重试.".format(retry)}
         else:
-            return {"status": "success", "msg": "Start Run:" + args['key']}
+            return {"status": "success", "msg": "开始运行:" + args['key']}
 
     def runtags(self, args):
         arg_tags = args['tags']
@@ -155,9 +149,9 @@ class Task(Resource):
             self.app.config["AUTO_ROBOT"].append(
                 {"name": "%s" % case_name, "process": p})
         else:
-            return {"status": "fail", "msg": "Please wait for the former task finished"}
+            return {"status": "fail", "msg": "请等待前面的任务运行完成."}
 
-        return {"status": "success", "msg": "Start Run:" + case_name}
+        return {"status": "success", "msg": "开始运行:" + case_name}
 
     def runfile(self, args):
         conffile = args['conffile'].strip()
@@ -173,7 +167,7 @@ class Task(Resource):
             conffile = os.path.join( key, conffile )
 
         if not os.path.isfile(conffile):
-            return {"status": "fail", "msg": "Cannot find config file:{}".format(conffile)}
+            return {"status": "fail", "msg": "无法找到配置文件:{}".format(conffile)}
 
         case_name = os.path.basename(key)
 
@@ -184,9 +178,9 @@ class Task(Resource):
             self.app.config["AUTO_ROBOT"].append(
                 {"name": "%s" % case_name, "process": p})
         else:
-            return {"status": "fail", "msg": "Please wait for the former task finished"}
+            return {"status": "fail", "msg": "请等待前面的任务运行完成."}
 
-        return {"status": "success", "msg": "Start Run:{}".format(conffile)}
+        return {"status": "success", "msg": "开始运行:{}".format(conffile)}
 
     def debug_run(self, args):
         fext = os.path.splitext(args['key'])[1]
@@ -199,14 +193,14 @@ class Task(Resource):
         if fext == ".yaml":
             result = bzt_debugrun(self.app, args['key'])
             return {"data": decorate_pyout(result)}
-        return {"data": "Do not support DegugRun <{}> this type of file.".format(fext)}
+        return {"data": "暂不支持运行此类文件 <{}> .".format(fext)}
 
     def rerun_task(self, args):
         project = args['project']
         task_no = args['task_no']
         cmdfile = self.app.config["AUTO_HOME"] + "/jobs/%s/%s/%s/cmd.txt" % (session['username'], project,str(task_no))
         if not os.path.isfile(cmdfile):
-            return {"status": "fail", "msg": "Cannot find command file，file may be deleted:{}".format(cmdfile)}
+            return {"status": "fail", "msg": "无法找到命令文件:{}".format(cmdfile)}
 
         cmdline = ''
         with open(cmdfile,'r') as f:
@@ -214,12 +208,13 @@ class Task(Resource):
 
         cmdline = cmdline.strip()
         if cmdline == '':
-            return {"status": "fail", "msg": "Command file content is Null."}
+            return {"status": "fail", "msg": "命令文件为空."}
 
         self.log.info("rerun_task CMD:"+cmdline)
 
-        cases = cmdline.split('|')[-1]    # robot|args|output=xxx|cases
-        args = cmdline.split('|')[1]
+        splits = cmdline.split('|')
+        cases = splits[-1]    # robot|args|output=xxx|cases
+        args = splits[1]
         case_name = os.path.basename(cases)
 
         if not is_run(self.app, case_name):
@@ -229,9 +224,9 @@ class Task(Resource):
             self.app.config["AUTO_ROBOT"].append(
                 {"name": "%s" % case_name, "process": p})
         else:
-            return {"status": "fail", "msg": "Please wait for the former task finished."}
+            return {"status": "fail", "msg": "请等待前面的任务运行完成."}
 
-        return {"status": "success", "msg": "Start Run {}:{}".format(project,task_no)}
+        return {"status": "success", "msg": "重新运行 {}:{}".format(project,task_no)}
 
     def rerunfail_task(self, args):
         """
@@ -245,9 +240,9 @@ class Task(Resource):
         cmdfile = self.app.config["AUTO_HOME"] + "/jobs/%s/%s/%s/cmd.txt" % (session['username'], project,str(task_no))
         outfile = self.app.config["AUTO_HOME"] + "/jobs/%s/%s/%s/output.xml" % (session['username'], project,str(task_no))
         if not os.path.isfile(cmdfile):
-            return {"status": "fail", "msg": "Cannot find command file，file may be deleted:{}".format(cmdfile)}
+            return {"status": "fail", "msg": "无法找到命令文件:{}".format(cmdfile)}
         if not os.path.isfile(outfile):
-            return {"status": "fail", "msg": "Cannot find output file，file may be deleted:{}".format(outfile)}
+            return {"status": "fail", "msg": "无法找到历史结果文件:{}".format(outfile)}
 
         cmdline = ''
         with open(cmdfile,'r') as f:
@@ -255,10 +250,11 @@ class Task(Resource):
 
         cmdline = cmdline.strip()
         if cmdline == '':
-            return {"status": "fail", "msg": "Command file content is Null."}
+            return {"status": "fail", "msg": "命令文件为空."}
 
-        cases = cmdline.split('|')[-1]    # robot|args|output=xxx|cases
-        args = cmdline.split('|')[1] + ' -S ' + outfile
+        splits = cmdline.split('|') # robot|args|output=xxx|cases
+        cases = splits[-1]
+        args = splits[1] + ' -S ' + outfile
         case_name = os.path.basename(cases)
 
         self.log.info("rerunfail_task args:" + args)
@@ -270,9 +266,9 @@ class Task(Resource):
             self.app.config["AUTO_ROBOT"].append(
                 {"name": "%s" % case_name, "process": p})
         else:
-            return {"status": "fail", "msg": "Please wait for the former task finished"}
+            return {"status": "fail", "msg": "请等待前面的任务运行完成."}
 
-        return {"status": "success", "msg": "Rerun failed suite{}:{}".format(project,task_no)}
+        return {"status": "success", "msg": "运行场景失败用例 {}:{}".format(project,task_no)}
 
 def delete_task_record(app, args):
     project = args['project']

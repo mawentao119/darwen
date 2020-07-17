@@ -2,16 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab43467d-ad90-46a2-99ca-651bd4d7e6ad" name="Default" comment="modify dbclass">
-      <change afterPath="$PROJECT_DIR$/auto/www/api/tasklist.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/configuration.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/configuration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/api/task.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/task.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/dbclass.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/dbclass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/run.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,17 +33,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../../../pyenv/lib/python3.7/site-packages/flask_apscheduler/scheduler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
+            <state relative-caret-position="233">
               <caret line="66" column="8" selection-start-line="66" selection-start-column="8" selection-end-line="66" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="82" column="30" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -54,8 +42,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/auto/configuration.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="67" column="14" lean-forward="true" selection-start-line="67" selection-start-column="14" selection-end-line="67" selection-end-column="14" />
+            <state relative-caret-position="408">
+              <caret line="50" column="126" selection-start-line="50" selection-start-column="126" selection-end-line="50" selection-end-column="126" />
               <folding>
                 <element signature="e#93#107#0" expanded="true" />
               </folding>
@@ -66,8 +54,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/uniRobot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" column="12" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
+            <state relative-caret-position="525">
+              <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
               <folding>
                 <element signature="e#106#115#0" expanded="true" />
               </folding>
@@ -75,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/run.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="575">
-              <caret line="349" column="13" lean-forward="true" selection-start-line="349" selection-start-column="13" selection-end-line="349" selection-end-column="13" />
+            <state relative-caret-position="276">
+              <caret line="299" column="49" selection-start-line="299" selection-start-column="40" selection-end-line="299" selection-end-column="49" />
               <folding>
                 <element signature="e#72#82#0" expanded="true" />
               </folding>
@@ -87,11 +75,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/auto/www/api/task.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="690">
-              <caret line="283" lean-forward="true" selection-start-line="283" selection-end-line="283" />
+            <state relative-caret-position="1153">
+              <caret line="228" column="47" selection-start-line="228" selection-start-column="47" selection-end-line="228" selection-end-column="47" />
               <folding>
                 <element signature="e#94#141#0" expanded="true" />
               </folding>
@@ -102,12 +90,19 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/auto/www/api/tasklist.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="825">
-              <caret line="55" column="48" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="48" />
+            <state relative-caret-position="1460">
+              <caret line="128" column="34" lean-forward="true" selection-start-line="128" selection-start-column="34" selection-end-line="128" selection-end-column="34" />
               <folding>
                 <element signature="e#94#141#0" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/auto/www/templates/task_list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1066" />
           </provider>
         </entry>
       </file>
@@ -127,11 +122,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>DB</find>
-      <find>do_upl</find>
-      <find>delet</find>
-      <find>do_login</find>
-      <find>Git</find>
       <find>gitCrea</find>
       <find>clone</find>
       <find>manage_pro</find>
@@ -157,6 +147,11 @@
       <find>cron_win</find>
       <find>do_edit</find>
       <find>is_run</find>
+      <find>_build</find>
+      <find>is_full</find>
+      <find>AUTO_ROBOT</find>
+      <find>full</find>
+      <find>MAX_PROCS</find>
     </findStrings>
     <replaceStrings>
       <replace>summary</replace>
@@ -217,13 +212,15 @@
         <option value="$PROJECT_DIR$/auto/www/templates/test_env.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/compare_caseresult.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/dashboard.html" />
-        <option value="$PROJECT_DIR$/utils/dbclass.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/auto/www/app.py" />
-        <option value="$PROJECT_DIR$/auto/configuration.py" />
         <option value="$PROJECT_DIR$/auto/www/api/__init__.py" />
-        <option value="$PROJECT_DIR$/auto/www/api/task.py" />
         <option value="$PROJECT_DIR$/auto/www/api/tasklist.py" />
+        <option value="$PROJECT_DIR$/abc.py" />
+        <option value="$PROJECT_DIR$/utils/run.py" />
+        <option value="$PROJECT_DIR$/auto/configuration.py" />
+        <option value="$PROJECT_DIR$/utils/dbclass.py" />
+        <option value="$PROJECT_DIR$/auto/www/api/task.py" />
       </list>
     </option>
   </component>
@@ -314,9 +311,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/auto/www/api" />
       <recent name="$PROJECT_DIR$/auto/www/templates" />
-      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/auto/www" />
       <recent name="E:\AutoLink\docs\img" />
     </key>
@@ -666,14 +663,28 @@
       <option name="project" value="LOCAL" />
       <updated>1594891907040</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="modify dbclass and split tasklist">
+      <created>1594899894778</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1594899894778</updated>
+    </task>
+    <task id="LOCAL-00048" summary="fix bug">
+      <created>1594899997051</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1594899997051</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1920" y="-116" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20127796" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.157082" />
       <window_info id="Favorites" order="1" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49785408" weight="0.32891566" />
@@ -683,13 +694,13 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49776787" weight="0.550495" />
-      <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.49776787" weight="0.17029703" />
+      <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.49776787" visible="true" weight="0.36930692" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49713877" weight="0.32475248" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50214595" side_tool="true" weight="0.32891566" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Structure" order="3" visible="true" weight="0.17784877" />
+      <window_info active="true" anchor="right" id="Structure" order="3" visible="true" weight="0.23855165" />
     </layout>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -734,8 +745,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="update new files" />
-    <MESSAGE value="构造初步界面元素" />
     <MESSAGE value="更新wellcome页面，增加性能基准 和 调优大盘 按钮" />
     <MESSAGE value="修改logoin页面，临时加入用户名和密码" />
     <MESSAGE value="修改logoin页面" />
@@ -759,7 +768,9 @@
     <MESSAGE value="auto config file modified." />
     <MESSAGE value="bug fix : description fault." />
     <MESSAGE value="modify dbclass" />
-    <option name="LAST_COMMIT_MESSAGE" value="modify dbclass" />
+    <MESSAGE value="modify dbclass and split tasklist" />
+    <MESSAGE value="fix bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -772,13 +783,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/auto/www/api/system.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="32" column="18" lean-forward="true" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/api/user.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -1056,11 +1060,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/task_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1061" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/templates/schedul_mng.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1396" />
@@ -1108,34 +1107,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/uniRobot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="12" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
-          <folding>
-            <element signature="e#106#115#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="82" column="30" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../pyenv/lib/python3.7/site-packages/flask_apscheduler/scheduler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="66" column="8" selection-start-line="66" selection-start-column="8" selection-end-line="66" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -1145,16 +1120,6 @@
           <caret line="76" column="27" selection-start-line="76" selection-start-column="27" selection-end-line="76" selection-end-column="27" />
           <folding>
             <element signature="e#88#97#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/configuration.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="67" column="14" lean-forward="true" selection-start-line="67" selection-start-column="14" selection-end-line="67" selection-end-column="14" />
-          <folding>
-            <element signature="e#93#107#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1169,16 +1134,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/task.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="283" lean-forward="true" selection-start-line="283" selection-end-line="283" />
-          <folding>
-            <element signature="e#94#141#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/api/settings_ORG.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1189,22 +1144,78 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/tasklist.py">
+    <entry file="file://$PROJECT_DIR$/abc.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="825">
-          <caret line="55" column="48" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="48" />
+        <state relative-caret-position="180">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/uniRobot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
           <folding>
-            <element signature="e#94#141#0" expanded="true" />
+            <element signature="e#106#115#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="575">
-          <caret line="349" column="13" lean-forward="true" selection-start-line="349" selection-start-column="13" selection-end-line="349" selection-end-column="13" />
+        <state relative-caret-position="276">
+          <caret line="299" column="49" selection-start-line="299" selection-start-column="40" selection-end-line="299" selection-end-column="49" />
           <folding>
             <element signature="e#72#82#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/configuration.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="50" column="126" selection-start-line="50" selection-start-column="126" selection-end-line="50" selection-end-column="126" />
+          <folding>
+            <element signature="e#93#107#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/api/tasklist.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1460">
+          <caret line="128" column="34" lean-forward="true" selection-start-line="128" selection-start-column="34" selection-end-line="128" selection-end-column="34" />
+          <folding>
+            <element signature="e#94#141#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/task_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1066" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="117" column="87" selection-start-line="117" selection-start-column="87" selection-end-line="117" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../pyenv/lib/python3.7/site-packages/flask_apscheduler/scheduler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="66" column="8" selection-start-line="66" selection-start-column="8" selection-end-line="66" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/api/task.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1153">
+          <caret line="228" column="47" selection-start-line="228" selection-start-column="47" selection-end-line="228" selection-end-column="47" />
+          <folding>
+            <element signature="e#94#141#0" expanded="true" />
           </folding>
         </state>
       </provider>

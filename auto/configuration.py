@@ -48,8 +48,7 @@ class Config:
 
     DB = TestDB(AUTO_HOME + '/DBs')
 
-    AUTO_ROBOT = []
-    MAX_PROCS = 10
+    AUTO_ROBOT = []    # Process list of running tasks, only for hand running ,not for schceduled jobs. MAX: setting:MAX_PROCS
 
     dbfile = DB.get_dbfilename()
     SCHEDULER_JOBSTORES = {
