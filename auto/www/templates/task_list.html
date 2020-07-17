@@ -112,67 +112,66 @@
 			        text:'重跑',
                     iconCls:'icon-run',
                     handler:function(){
-                        $.messager.confirm('Alert', 'Are you sure to run it again?', function(r){
-                            if (r){
-                                var row = $('#task_list').datagrid('getSelected');
-                                if(row){
+                        var row = $('#task_list').datagrid('getSelected');
+                        if(!row){
+                            show_msg("Alert", "请先选择一个任务！");
+                        }
+                        else{
+                            $.messager.confirm('Alert', '确定要重新运行该任务吗?', function(r){
+                                if (r){
                                     var data ={"method": "rerun", "category": "project", "project": "{{ project }}", "task_no": row.task_no };
                                     do_ajax('post',
-                                        '/api/v1/task/',
-                                        data,
-                                        do_msg);
+                                    '/api/v1/task/',
+                                    data,
+                                    function(r){do_msg(r); $("#task_list").datagrid('reload');});
                                 }
-                                else{
-                                    show_msg("Alert", "Please select one record！");
-                                }
+                            });
 
-                                $("#task_list").datagrid('reload');
-                            }
-                        });
-
+                        }
                     }
 			    }, '-',
 			    {
 			        text:'运行失败用例',
                     iconCls:'icon-run',
                     handler:function(){
-                        $.messager.confirm('Alert', 'Are you sure to run failed cases?', function(r){
-                            if (r){
-                                var row = $('#task_list').datagrid('getSelected');
-                                if(row){
+                        var row = $('#task_list').datagrid('getSelected');
+                        if(!row){
+                            show_msg("Alert", "请先选择一条记录！");
+                        }
+                        else{
+                            $.messager.confirm('Alert', '确定要运行该任务的失败用例吗?', function(r){
+                                if (r){
                                     var data ={"method": "rerunfail", "category": "project", "project": "{{ project }}", "task_no": row.task_no };
                                     do_ajax('post',
                                         '/api/v1/task/',
                                         data,
-                                        do_msg);
+                                        function(r){do_msg(r); $("#task_list").datagrid('reload');});
                                 }
-                                else{
-                                    show_msg("Alert", "Please select one record！");
-                                }
+                            });
 
-                                $("#task_list").datagrid('reload');
-                            }
-                        });
-
+                        }
                     }
 			    }, '-',
 			    {
 			        text:'停止',
                     iconCls:'icon-stop',
                     handler:function(){
-                        $.messager.confirm('Alert', 'Are you sure to stop task?', function(r){
-                            if (r){
-                                var row = $('#task_list').datagrid('getSelected');
-                                var data ={"method": "stop", "category": "project", "project": "{{ project }}", "task_no": row.task_no };
-                                do_ajax('post',
+                        var row = $('#task_list').datagrid('getSelected');
+                        if(!row){
+                            show_msg("Alert", "请先选择一条记录！");
+                        }
+                        else{
+                            $.messager.confirm('Alert', '确定要停止任务吗?', function(r){
+                                if (r){
+                                    var data ={"method": "stop", "category": "project", "project": "{{ project }}", "task_no": row.task_no };
+                                    do_ajax('post',
                                     '/api/v1/task/',
                                     data,
-                                    do_msg);
+                                    function(r){do_msg(r); $("#task_list").datagrid('reload');});
+                                }
+                            });
 
-                                $("#task_list").datagrid('reload');
-                            }
-                        });
-
+                        }
                     }
 			    }
 			    , '-',
