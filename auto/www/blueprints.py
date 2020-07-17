@@ -105,9 +105,9 @@ def test_env():
         auto_conffile = app.config['AUTO_TEMP']+'/env_temp.conf'
     return render_template('test_env.html', test_project=test_project,test_projectversion=test_projectversion, key=auto_conffile)
 
-@routes.route("/schedul_mng/")
-def schedul_mng():
-    return render_template('schedul_mng.html')
+@routes.route("/schedule_mng/")
+def schedule_mng():
+    return render_template('schedule_mng.html')
 
 @routes.route("/monitor/")
 def monitor():

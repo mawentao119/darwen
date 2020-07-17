@@ -1058,11 +1058,30 @@ function manage_setting(win_id, ff_id, method){
     open_win(win_id);
 }
 
+function schedule_job(win_id, ff_id, method){
+    if(method == "add_schedulejob"){
+        clear_form(ff_id);
+    }
+    else if(method == "edit"){
+
+    }
+    open_win(win_id);
+}
+
 function create_setting(win_id, ff_id){
     var data = $("#{0}".lym_format(ff_id)).serializeObject();
     data["method"] = "create";
 
     do_ajax('post', '/api/v1/settings/', data, refresh_setting_list);
+
+    close_win(win_id);
+}
+
+function add_schedulejob(win_id, ff_id){
+    var data = $("#{0}".lym_format(ff_id)).serializeObject();
+    data["method"] = "add_schedulejob";
+
+    do_ajax('post', '/api/v1/task_list/', data, refresh_setting_list);
 
     close_win(win_id);
 }

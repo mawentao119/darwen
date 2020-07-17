@@ -103,6 +103,11 @@ class TaskList(Resource):
 
             return {"status": "success", "msg": "Edit cron info OK."}
 
+        elif args["method"] == "add_schedulejob":
+            print("*********************************")
+            print(args)
+            return {"status": "success", "msg": "新增调度任务成功"}
+
 
 def get_task_list(app, username, project):
     job_path = app.config["AUTO_HOME"] + "/jobs/%s/%s" % (username, project)

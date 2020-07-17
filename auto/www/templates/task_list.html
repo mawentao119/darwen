@@ -42,6 +42,55 @@
                 </thead>
             </table>
         </div>
+        
+        <div id="add_schedulejob" class="easyui-window" title="新增调度任务"
+                 data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
+                 style="width:430px;height:330px;padding:10px;">
+                <form id="add_schedulejob_ff" method="post">
+                    <div style="margin-bottom:10px">
+                    <p>选择调度类型: 配置参见<a href="https://apscheduler.readthedocs.io/en/stable/userguide.html" target="_blank">APScheduler</a></p>
+                    <label><input id="interval" name="schedul_type" type="radio" value="interval" />间隔运行</label>
+                    <label><input id="cron" name="schedul_type" type="radio" value="cron" />周期运行</label>
+                    <label><input id="date" name="schedul_type" type="radio" value="date" />定时运行</label>
+                    </div>
+
+                    <div id="p" class="easyui-panel" style="width:400px;height:80px;padding:10px;">
+                        <table border="0">
+                          <tr>
+                            <th>年</th><th>月</th><th>日</th><th>时</th><th>分</th><th>秒</th>
+                          </tr>
+                          <tr>
+                            <td><input id="year" name="year" class="easyui-textbox" style="width:80%;"></td>
+                            <td><input id="mon" name="mon" class="easyui-textbox" style="width:80%;"></td>
+                              <td><input id="day" name="day" class="easyui-textbox" style="width:80%;"></td>
+                            <td><input id="hour" name="hour" class="easyui-textbox" style="width:80%;"></td>
+                              <td><input id="min" name="min" class="easyui-textbox" style="width:80%;"></td>
+                            <td><input id="sec" name="sec" class="easyui-textbox" style="width:80%;"></td>
+                          </tr>
+                        </table>
+                    </div>
+
+                    <div id="p2" class="easyui-panel" style="width:400px;height:80px;padding:10px;margin-top:10px">
+                        <table border="0">
+                          <tr>
+                            <th>第几周</th><th>每周几</th><th>开始日期</th><th>结束日期</th>
+                          </tr>
+                          <tr>
+                            <td><input id="week" name="week" class="easyui-textbox" style="width:90%;"></td>
+                            <td><input id="day_of_week" name="day_of_week" class="easyui-textbox" style="width:90%;"></td>
+                              <td><input id="start_date" name="start_date" class="easyui-textbox" style="width:90%;"></td>
+                            <td><input id="end_date" name="end_date" class="easyui-textbox" style="width:90%;"></td>
+
+                          </tr>
+                        </table>
+                    </div>
+
+                </form>
+                <div style="text-align:right;padding:5px 0">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('add_schedulejob')" style="width:60px">Cancle</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="add_schedulejob('add_schedulejob', 'add_schedulejob_ff')" style="width:60px">Add</a>
+                </div>
+            </div>
 
 
         <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
@@ -131,24 +180,35 @@
 			        text:'删除',
                     iconCls:'icon-remove',
                     handler:function(){
-                        $.messager.confirm('Alert', 'Are you sure to delete it?', function(r){
-                            if (r){
-                                var row = $('#task_list').datagrid('getSelected');
-                                if(row){
+                        var row = $('#task_list').datagrid('getSelected');
+                        if(!row){
+                            show_msg("Alert", "请先选择一条记录！");
+                        }
+                        else{
+                            $.messager.confirm('Alert', '确定要删除任务记录吗?', function(r){
+                                if (r){
                                     var data ={"method": "delete", "category": "project", "project": "{{ project }}", "task_no": row.task_no };
                                     do_ajax('post',
-                                        '/api/v1/task/',
-                                        data,
-                                        do_msg);
+                                            '/api/v1/task/',
+                                            data,
+                                            function(r){do_msg(r); $("#task_list").datagrid('reload');});
                                 }
-                                else{
-                                    show_msg("Alert", "Please select one record！");
-                                }
+                            });
 
-                                $("#task_list").datagrid('reload');
-                            }
-                        });
-
+                        }
+                    }
+			    }, '-',
+			    {
+			        text:'配置成调度任务',
+                    iconCls:'icon-schedule_mng',
+                    handler:function(){
+                        var row = $('#task_list').datagrid('getSelected');
+                        if(row){
+                            schedule_job("add_schedulejob", "add_schedulejob_ff", "add_schedulejob");
+                        }
+                        else{
+                            show_msg("Alert", "请先选择一个任务！");
+                        }
                     }
 			    }
 			 ];
