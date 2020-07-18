@@ -160,6 +160,7 @@ def get_task_list(app, username, project):
             for i in range(next_build-last, -1, -1):
                 if exists_path(job_path + "/%s" % i):
                     try:
+                        driver = get_taskdriver(job_path + "/%s/cmd.txt" % i)
                         suite = ExecutionResult(job_path + "/%s/output.xml" % i).suite
                         stat = suite.statistics.critical
                         name = suite.name
@@ -171,6 +172,7 @@ def get_task_list(app, username, project):
                             "task_no": i,
                             "status": status,
                             "name": "<a href='/view_report/%s/%s_log' target='_blank'>%s_#%s_log</a>" % (project, i, name, i),
+                            "driver": driver,
                             "success": stat.passed,
                             "fail": stat.failed,
                             "starttime": suite.starttime,
@@ -186,6 +188,7 @@ def get_task_list(app, username, project):
                             "task_no": i,
                             "status": status,
                             "name": "%s_#%s" % (project, i),
+                            "driver":driver,
                             "success": "-",
                             "fail": "-",
                             "starttime": "-",
@@ -314,3 +317,12 @@ def get_projecttaskdir(app, project):
     #TODO : 适配多用户公用project
     projecttaskdir = app.config["AUTO_HOME"] + "/jobs/" + session["username"] + "/%s" % (project)
     return projecttaskdir
+
+def get_taskdriver(cmdfile):
+    if not os.path.exists(cmdfile):
+        return 'Unknown'
+    else:
+        with open(cmdfile, 'r') as f:
+            ln = f.readline().strip()
+            splits = ln.split('|')
+            return splits[0] if len(splits) > 1 else 'Unknown'
