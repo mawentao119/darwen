@@ -1061,6 +1061,7 @@ function manage_setting(win_id, ff_id, method) {
 function schedule_job(win_id, ff_id, method) {
     if (method == "add_schedulejob") {
         clear_form(ff_id);
+        $('#schedule_type').combobox('setValue', 'interval');
     } else if (method == "edit") {
 
     }
