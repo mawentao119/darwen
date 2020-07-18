@@ -58,11 +58,13 @@ def robot_debugrun(app, cases):
     return cp.stdout
 
 # This fun is for standard Run, Result will be recorded in Scheduler output.
-def robot_run(app, case_key, args=''):
+def robot_run(app, case_key, args='', user='', driver='USER'):
 
-    username = session['username']
+    username = user
+    username = session['username'] if username == '' else None
+
     project = get_projectnamefromkey(case_key)
-    output = app.config["AUTO_HOME"] + "/jobs/%s/%s" % (session['username'], project)
+    output = app.config["AUTO_HOME"] + "/jobs/%s/%s" % (username, project)
 
     if not exists_path(output):
         mk_dirs(output)
@@ -80,14 +82,14 @@ def robot_run(app, case_key, args=''):
 
     log.info("Robot_run CMD:{}".format(cmd))
     with open(out + "/cmd.txt", 'w') as f:
-        f.write("robot|{}|--outputdir={}|{}\n".format(args,out,case_key))
+        f.write("{}|robot|{}|--outputdir={}|{}\n".format(driver, args,out,case_key))
 
     cp = subRun(cmd, shell=True, stdout=PIPE, stderr=STDOUT, text=True, timeout=7200)  # timeout: sec 2hrs
 
     with open(out + "/debug.txt", 'w') as f:
         f.write(cp.stdout)
 
-    app.config['DB'].insert_loginfo(session['username'], 'task', 'run', case_key, 'OK')
+    app.config['DB'].insert_loginfo(username, 'task', 'run', case_key, 'OK')
 
     # Report and xUnit files can be generated based on the result object.
     # ResultWriter(result).write_results(report=out + '/report.html', log=out + '/log.html')
@@ -270,8 +272,9 @@ def stop_robot(app, args):
 
     log.info("stop_task CMD:" + cmdline)
 
-    cases = cmdline.split('|')[-1]  # robot|args|output=xxx|cases
-    args = cmdline.split('|')[1]
+    splits = cmdline.split('|')
+
+    cases = splits[-1]                # driver|robot|args|output=xxx|cases
     name = os.path.basename(cases)
 
     for p in app.config["AUTO_ROBOT"]:

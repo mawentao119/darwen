@@ -75,7 +75,7 @@ class Task(Resource):
 
         if not is_run(self.app, case_name):
             p = multiprocessing.Process(target=robot_run,
-                                        args=(self.app, cases))
+                                        args=(self.app, cases, ''))
             p.start()
             self.app.config["AUTO_ROBOT"].append(
                 {"name": "%s" % case_name, "process": p})
@@ -108,7 +108,7 @@ class Task(Resource):
                 return {"status": "fail", "msg": "超过最大进程数 MAX_PROCS ,请稍后尝试."}
             if not is_run(self.app, case_name):
                 p = multiprocessing.Process(target=robot_run,
-                                            args=(self.app, key))
+                                            args=(self.app, key, ''))
                 p.start()
                 self.app.config["AUTO_ROBOT"].append(
                     {"name": "%s" % case_name, "process": p})
@@ -213,8 +213,9 @@ class Task(Resource):
         self.log.info("rerun_task CMD:"+cmdline)
 
         splits = cmdline.split('|')
-        cases = splits[-1]    # robot|args|output=xxx|cases
-        args = splits[1]
+
+        cases = splits[-1]    # driver|robot|args|output=xxx|cases
+        args = splits[2]
         case_name = os.path.basename(cases)
 
         if not is_run(self.app, case_name):
@@ -252,9 +253,9 @@ class Task(Resource):
         if cmdline == '':
             return {"status": "fail", "msg": "命令文件为空."}
 
-        splits = cmdline.split('|') # robot|args|output=xxx|cases
+        splits = cmdline.split('|') # driver|robot|args|output=xxx|cases
         cases = splits[-1]
-        args = splits[1] + ' -S ' + outfile
+        args = splits[2] + ' -S ' + outfile
         case_name = os.path.basename(cases)
 
         self.log.info("rerunfail_task args:" + args)
