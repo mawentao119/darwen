@@ -27,7 +27,6 @@ class TaskList(Resource):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('method', type=str)
         self.parser.add_argument('name', type=str)
-        #self.parser.add_argument('cron', type=str)
         self.parser.add_argument('schedule_type', type=str)
         self.parser.add_argument('year', type=str)
         self.parser.add_argument('mon', type=str)
@@ -52,8 +51,8 @@ class TaskList(Resource):
     def post(self):
         args = self.parser.parse_args()
         job_id = "%s_%s" % (session["username"], args["name"])
-        if args["method"] == "query":
-            return get_all_task(self.app)
+        if args["method"] == "get_projecttask":
+            return get_projecttask(self.app)
         elif args["method"] == "start":
             result = {"status": "success", "msg": "Scheduler start success."}
             lock = threading.Lock()
@@ -227,7 +226,7 @@ def get_last_task(app, username, project):
     return status
 
 
-def get_all_task(app):
+def get_projecttask(app):
     projects = app.config['DB'].get_allproject(session["username"])
     task_list = {"total": len(projects), "rows": []}
     for op in projects:

@@ -22,7 +22,7 @@
             <table id="task_scheduler" class="easyui-datagrid" style="width:100%;height:auto;"
                     data-options="singleSelect:true,
                         fitColumns:true,
-                        url:'/api/v1/task_list/?method=query',
+                        url:'/api/v1/task_list/?method=get_projecttask',
                         method:'post',
                         toolbar: toolbar"
                     >
@@ -99,7 +99,7 @@
                     }
 			    }, '-',
 			    {
-			        text:'开始',
+			        text:'开始(后续按钮暂不可用，有待变更为项目相关按钮)',
                     iconCls:'icon-run',
                     handler:function(){
                         var row = $('#task_scheduler').datagrid('getSelected');
