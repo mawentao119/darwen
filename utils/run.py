@@ -60,8 +60,7 @@ def robot_debugrun(app, cases):
 # This fun is for standard Run, Result will be recorded in Scheduler output.
 def robot_run(app, case_key, args='', user='', driver='USER'):
 
-    username = user
-    username = session['username'] if username == '' else None
+    username = user if user != '' else session['username']
 
     project = get_projectnamefromkey(case_key)
     output = app.config["AUTO_HOME"] + "/jobs/%s/%s" % (username, project)

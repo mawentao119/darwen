@@ -50,10 +50,12 @@ class Config:
 
     AUTO_ROBOT = []    # Process list of running tasks, only for hand running ,not for schceduled jobs. MAX: setting:MAX_PROCS
 
-    dbfile = DB.get_dbfilename()
-    SCHEDULER_JOBSTORES = {
-        'default': SQLAlchemyJobStore(url='sqlite:///' + dbfile)
-    }
+    ##dbfile = DB.get_dbfilename()
+    ##url = 'sqlite:///' + dbfile
+    ##SCHEDULER_JOBSTORES = {
+    ##    'default': SQLAlchemyJobStore(url = "sqlite:////Users/tester/PycharmProjects/uniRobotDev/work/DBs/schedule.db")
+    ##}
+    ##print("*************url:{}".format('sqlite:///' + dbfile))
     #SCHEDULER_EXECUTORS = {
     #    'default': {'type': 'threadpool', 'class': 'apscheduler.executors.pool:ThreadPoolExecutor', 'max_workers': 20},
     #    'processpool': ProcessPoolExecutor(max_workers=5)

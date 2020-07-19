@@ -46,8 +46,11 @@
         
         <div id="add_schedulejob" class="easyui-window" title="新增调度任务"
                  data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
-                 style="width:430px;height:350px;padding:10px;">
+                 style="width:430px;height:380px;padding:10px;">
                 <form id="add_schedulejob_ff" method="post">
+                    <div style="margin-bottom:10px">
+                        <input id="task_name", name="task_name" class="easyui-textbox" data-options="label:'任务名称:',labelPosition:'left'" style="width:80%;">
+                    </div>
                     <div style="margin-bottom:10px">
                     <p>选择调度类型: 配置参见<a href="https://apscheduler.readthedocs.io/en/stable/userguide.html" target="_blank">APScheduler</a></p>
                         <select id="schedule_type" class="easyui-combobox" name="schedule_type" style="width:200px;" >
@@ -99,6 +102,31 @@
         <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/auto.js') }}"></script>
+        <SCRIPT>
+            function schedule_job(win_id, ff_id, method) {
+                if (method == "add_schedulejob") {
+                    clear_form(ff_id);
+                    var row = $('#task_list').datagrid('getSelected');
+                    let v = row.name; //"<a href='/view_report/Demo_Project/36_log' target='_blank'>03Variables_#36_log</a>"
+                    let n = v.split('>')[1].split('<')[0]; //"03Variables_#36_log"
+                    let name = n.slice(0,-4); //"03Variables_#36"
+                    $("#task_name").textbox("setValue", "{{project}}_#"+name);
+                    $('#schedule_type').combobox('setValue', 'interval');
+                } else if (method == "edit") {
+
+                }
+                open_win(win_id);
+            }
+
+            function add_schedulejob(win_id, ff_id) {
+                var data = $("#{0}".lym_format(ff_id)).serializeObject();
+                data["method"] = "add_schedulejob";
+
+                do_ajax('post', '/api/v1/task_list/', data, refresh_setting_list);
+
+                close_win(win_id);
+            }
+        </SCRIPT>
         <SCRIPT type="text/javascript">
             $(document).ready(function(){
                $('#task_list').datagrid('getPanel').removeClass('lines-both lines-no lines-right lines-bottom').addClass('lines-no');
