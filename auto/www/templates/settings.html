@@ -96,11 +96,12 @@
                     </div>
                 </div>
                 <div title="调度管理" data-options="iconCls:'icon-configitem'" style="padding:10px;">
-                    <h3 style="color:#0099FF;">测试执行的默认设定</h3>
-                    <li>当前测试的是什么系统，版本号是多少</li>
-                    <li>在什么机器上测试，机器、系统的配置是什么样的</li>
-                    <li>如果是分布式环境，拓扑信息如何、组件状态是否健康.</li>
-                    <p>环境对测试的影响就像环境对人的影响一样大，只是人的环境难以自动获取</p>
+                    <p style="color:#0099FF;">调度器的操作可以重复执行，不影响最终结果</p>
+                    <div style="padding:5px 0;">
+                        <a href="#" class="easyui-linkbutton" onclick="open_win('uploadcr_win');" data-options="iconCls:'icon-search'" style="width:48%">暂停调度器</a>
+                        <a href="#" class="easyui-linkbutton" onclick="manage_gitff('gitclone_caserecord', 'gitclone_caserecord_ff', 'gitclone')" data-options="iconCls:'icon-print'" style="width:48%; margin-left:10px">恢复调度器</a>
+                        <a href="#" class="easyui-linkbutton" onclick="delete_caserecord();" data-options="iconCls:'icon-search'" style="width:48%; margin-top:10px">清空所有调度任务</a>
+                    </div>
                 </div>
                 <div title="监控告警" data-options="iconCls:'icon-configitem'" style="padding:10px;">
                     <h3 style="color:#0099FF;">工具要成套，扩展很必要</h3>
