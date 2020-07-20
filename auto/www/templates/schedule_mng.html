@@ -50,12 +50,86 @@
             </table>
         </div>
 
+        <div id="edit_schedulejob" class="easyui-window" title="修改调度任务"
+                 data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
+                 style="width:430px;height:380px;padding:10px;">
+                <form id="edit_schedulejob_ff" method="post">
+                    <div style="margin-bottom:10px">
+                        <input id="task_name", name="task_name" class="easyui-textbox" data-options="label:'任务名称:',labelPosition:'left'" style="width:80%;">
+                    </div>
+                    <div style="margin-bottom:10px">
+                    <p>选择调度类型: 配置参见<a href="https://apscheduler.readthedocs.io/en/stable/userguide.html" target="_blank">APScheduler</a></p>
+                        <select id="schedule_type" class="easyui-combobox" name="schedule_type" style="width:200px;" >
+                            <option value="interval">间隔调度(interval)</option>
+                            <option value="cron">周期调度(corn)</option>
+                            <option value="date">定时调度(date)</option>
+                        </select>
+                    </div>
 
+                    <div id="p" class="easyui-panel" style="width:400px;height:80px;padding:10px;">
+                        <table border="0">
+                          <tr>
+                            <th align="center">年</th><th align="center">月</th><th align="center">日</th><th align="center">时</th><th align="center">分</th><th align="center">秒</th>
+                          </tr>
+                          <tr>
+                            <td><input id="year" name="year" class="easyui-textbox" style="width:80%;"></td>
+                            <td><input id="mon" name="mon" class="easyui-textbox" style="width:80%;"></td>
+                              <td><input id="day" name="day" class="easyui-textbox" style="width:80%;"></td>
+                            <td><input id="hour" name="hour" class="easyui-textbox" style="width:80%;"></td>
+                              <td><input id="min" name="min" class="easyui-textbox" style="width:80%;"></td>
+                            <td><input id="sec" name="sec" class="easyui-textbox" style="width:80%;"></td>
+                          </tr>
+                        </table>
+                    </div>
+
+                    <div id="p2" class="easyui-panel" style="width:400px;height:80px;padding:10px;margin-top:10px">
+                        <table border="0">
+                          <tr>
+                            <th align="center">第几周</th><th align="center">每周几</th><th align="center">开始日期</th><th align="center">结束日期</th>
+                          </tr>
+                          <tr>
+                            <td><input id="week" name="week" class="easyui-textbox" style="width:90%;"></td>
+                            <td><input id="day_of_week" name="day_of_week" class="easyui-textbox" style="width:90%;"></td>
+                              <td><input id="start_date" name="start_date" class="easyui-textbox" style="width:90%;"></td>
+                            <td><input id="end_date" name="end_date" class="easyui-textbox" style="width:90%;"></td>
+
+                          </tr>
+                        </table>
+                    </div>
+
+                </form>
+                <div style="text-align:right;padding:5px 0">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('edit_schedulejob')" style="width:60px">Cancle</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="do_edit_schedulejob('edit_schedulejob', 'edit_schedulejob_ff')" style="width:60px">Modify</a>
+                </div>
+            </div>
 
         <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
         <!-- 自定义js库 -->
         <script type="text/javascript" src="{{ url_for('static', filename='js/auto.js') }}"></script>
+
+        <SCRIPT type="text/javascript">
+            function edit_schedulejob(win_id, ff_id, method) {
+                if (method == "edit_schedulejob") {
+                    clear_form(ff_id);
+                    var row = $('#schedulejob_list').datagrid('getSelected');
+                    $("#task_name").textbox("setValue", row.user+'_#'+row.project+'_#'+row.task_name);
+                    $('#schedule_type').combobox('setValue', 'interval');
+                }
+                open_win(win_id);
+            }
+
+            function do_edit_schedulejob(win_id, ff_id) {
+                var data = $("#{0}".lym_format(ff_id)).serializeObject();
+                data["method"] = "edit_schedulejob";
+
+                do_ajax('post', '/api/v1/task_list/', data, function(m){ $("#schedulejob_list").datagrid('reload'); do_msg(m)});
+
+                close_win(win_id);
+            }
+        </SCRIPT>
+
         <SCRIPT type="text/javascript">
             $(document).ready(function(){
                $('#task_scheduler').datagrid('getPanel').removeClass('lines-both lines-no lines-right lines-bottom').addClass('lines-no');
@@ -136,9 +210,9 @@
 			        text:'修改调度参数',
                     iconCls:'icon-edit',
                     handler:function(){
-                        var row = $('#task_list').datagrid('getSelected');
+                        var row = $('#schedulejob_list').datagrid('getSelected');
                         if(row){
-                            schedule_job("add_schedulejob", "add_schedulejob_ff", "add_schedulejob");
+                            edit_schedulejob("edit_schedulejob", "edit_schedulejob_ff", "edit_schedulejob");
                         }
                         else{
                             show_msg("Alert", "请先选择一个任务！");

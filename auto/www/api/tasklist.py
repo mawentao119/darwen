@@ -139,6 +139,11 @@ class TaskList(Resource):
                 self.app.config['DB'].insert_loginfo(session["username"],'schedulejob','add_job2schedule',job_id,'auth fail')
                 return {"status": "fail", "msg": "Fail:不允许操作其它人的任务!"}
 
+            job = scheduler.get_job(job_id)
+            if job:
+                job.resume()
+                return {"status": "success", "msg": "任务已存在，开始调度!"}
+
             res = self.app.config['DB'].runsql("SELECT * from schedule_job where user='{}' and project='{}' and task_name='{}' limit 1;".format(user,project,task_name))
             if not res:
                 return {"status": "fail", "msg": "Fail:找不到任务!"}
@@ -166,6 +171,54 @@ class TaskList(Resource):
                       }
 
             return add_schedulejob(self.app, scheduler, myargs)
+
+        elif args["method"] == "edit_schedulejob":
+
+            self.log.info("edit_schedulejob, args:{}".format(args))
+
+            splits = args["task_name"].split('_#')  # user#project#task_name
+            if len(splits) != 3:
+                return {"status": "fail", "msg": "任务名称的格式错误:{}".format(args["task_name"])}
+
+            (user, project, task_name) = splits
+            job_id = "{}#{}#{}".format(user, project, task_name)
+
+            if not user == session["username"]:
+                self.app.config['DB'].insert_loginfo(session["username"],'schedulejob','edit_schedulejob',job_id,'auth fail')
+                return {"status": "fail", "msg": "Fail:不允许操作其它人的任务!"}
+
+            lock = threading.Lock()
+            lock.acquire()
+            try:
+                job = scheduler.get_job(job_id)
+                scheduler.remove_job(job_id) if job else None
+            except Exception as e:
+                lock.release()
+                return {"status": "fail", "msg": "Fail:清理调度任务失败 {}".format(e)}
+            lock.release()
+
+            res = self.app.config['DB'].runsql(''' UPDATE schedule_job set
+                                    schedule_type='{}',
+                                    year='{}',
+                                    mon='{}',
+                                    day='{}',
+                                    hour='{}',
+                                    min='{}',
+                                    sec='{}',
+                                    week='{}',
+                                    day_of_week='{}',
+                                    start_date='{}',
+                                    end_date='{}' WHERE user='{}' and project='{}' and task_name='{}' ;
+                                    '''.format(args['schedule_type'], args['year'], args['mon'], args['day'],
+                                               args['hour'], args['min'],
+                                               args['sec'], args['week'], args['day_of_week'], args['start_date'],
+                                               args['end_date'],
+                                               user, project, task_name))
+
+            if res:
+                return {"status": "success", "msg": "修改调度信息成功，可以加入调度任务"}
+            else:
+                return {"status": "fail", "msg": "Fail：数据操作失败"}
 
         elif args["method"] == "add_schedulejob":
             user = session["username"]

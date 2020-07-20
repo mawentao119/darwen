@@ -122,7 +122,7 @@
                 var data = $("#{0}".lym_format(ff_id)).serializeObject();
                 data["method"] = "add_schedulejob";
 
-                do_ajax('post', '/api/v1/task_list/', data, refresh_setting_list);
+                do_ajax('post', '/api/v1/task_list/', data, do_msg);
 
                 close_win(win_id);
             }
