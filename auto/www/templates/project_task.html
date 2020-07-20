@@ -29,7 +29,7 @@
                 <thead>
                     <tr>
                         <th data-options="field:'status',align:'center' , halign: 'center',formatter:do_view_status"></th>
-                        <th data-options="field:'name'">名称</th>
+                        <th data-options="field:'project'">名称</th>
                         <th data-options="field:'next_time',align:'center' , halign: 'center'">下一次调度时间</th>
                         <th data-options="field:'cron',align:'center' , halign: 'center'">Cron 配置</th>
                         <th data-options="field:'task',align:'center' , halign: 'center',formatter:do_view_task">查看任务</th>
@@ -104,7 +104,7 @@
                     handler:function(){
                         var row = $('#task_scheduler').datagrid('getSelected');
                         if(row){
-                            var data ={"method": "start", "name": "{0}".lym_format(row.name), "cron": "{0}".lym_format(row.cron) };
+                            var data ={"method": "start", "project": "{0}".lym_format(row.project), "cron": "{0}".lym_format(row.cron) };
                             do_ajax('post',
                                 '/api/v1/task_list/',
                                 data,
@@ -125,7 +125,7 @@
                             if (r){
                                 var row = $('#task_scheduler').datagrid('getSelected');
                                 if(row){
-                                    var data ={"method": "stop", "name": "{0}".lym_format(row.name) };
+                                    var data ={"method": "stop", "project": "{0}".lym_format(row.project) };
                                     do_ajax('post',
                                         '/api/v1/task_list/',
                                         data,
@@ -159,7 +159,7 @@
                     handler:function(){
                         var row = $('#task_scheduler').datagrid('getSelected');
                         if(row){
-                            init_email_ff(row["name"]);
+                            init_email_ff(row["project"]);
                             open_win("notify_win");
                         }
                         else{
@@ -171,7 +171,7 @@
 
 			function do_edit(){
 			    var row = $('#task_scheduler').datagrid('getSelected');
-			    var data = {"name": row["name"], "method": "edit", "cron": $("#cron").combobox("getValue")};
+			    var data = {"project": row["project"], "method": "edit", "cron": $("#cron").combobox("getValue")};
 			    do_ajax('post',
                     '/api/v1/task_list/',
                     data,
@@ -184,7 +184,7 @@
 			    var row = $('#task_scheduler').datagrid('getSelected');
 			    var data = {
 			        "method": "email",
-			        "project": row["name"],
+			        "project": row["project"],
 			        "success_list": $("#notify_ff input#success_list").textbox('getValue'),
 			        "fail_list": $("#notify_ff input#fail_list").textbox('getValue'),
 			    };
@@ -196,7 +196,7 @@
 			}
 
 			function do_view_task(value, row, index){
-                return '<a href="#" onclick="parent.addTab(\'{0}\', \'/task_list/{1}\', \'icon-task\');">查看</a>'.lym_format(row.name, row.name);
+                return '<a href="#" onclick="parent.addTab(\'{0}\', \'/task_list/{1}\', \'icon-task\');">查看</a>'.lym_format(row.project, row.project);
             }
 
             function do_view_status(value, row, index){

@@ -27,7 +27,7 @@ class TaskList(Resource):
     def __init__(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('method', type=str)
-        self.parser.add_argument('name', type=str)
+        self.parser.add_argument('project', type=str)
         self.parser.add_argument('task_name', type=str)
         self.parser.add_argument('schedule_type', type=str)
         self.parser.add_argument('year', type=str)
@@ -45,13 +45,15 @@ class TaskList(Resource):
 
     def get(self):
         args = self.parser.parse_args()
-        project = args["name"]
-
-        return get_task_list(self.app, session['username'], project)
+        if args['method'] == 'get_tasklist':
+            project = args["project"]
+            return get_task_list(self.app, session['username'], project)
+        if args['method'] == 'get_schedulejoblist':
+            return get_schedulejob_list(self.app, args)
 
     def post(self):
         args = self.parser.parse_args()
-        job_id = "%s_%s" % (session["username"], args["name"])
+        job_id = "%s_%s" % (session["username"], args["project"])
         if args["method"] == "get_projecttask":
             return get_projecttask(self.app)
         elif args["method"] == "start":
@@ -64,9 +66,9 @@ class TaskList(Resource):
             cron = args["cron"].replace("\n", "").strip().split(" ")
             if args["cron"] != "* * * * * *" and len(cron) == 6:
                 scheduler.add_job(id=job_id,
-                                  name=args["name"],
+                                  name=args["project"],
                                   func=robot_job,
-                                  args=(self.app, args["name"], session["username"]),
+                                  args=(self.app, args["project"], session["username"]),
                                   trigger="cron",
                                   second=cron[0],
                                   minute=cron[1],
@@ -89,9 +91,9 @@ class TaskList(Resource):
             return {"status": "success", "msg": "Stop task OK"}
         elif args["method"] == "edit":
 
-            result = edit_cron(self.app, args["name"], args["cron"])
+            result = edit_cron(self.app, args["project"], args["cron"])
             if result:
-                # job_id = "%s_%s" % (session["username"], args["name"])
+                # job_id = "%s_%s" % (session["username"], args["project"])
                 lock = threading.Lock()
                 lock.acquire()
                 job = scheduler.get_job(job_id)
@@ -101,9 +103,9 @@ class TaskList(Resource):
                 cron = args["cron"].replace("\n", "").strip().split(" ")
                 if args["cron"] != "* * * * * *" and len(cron) == 6:
                     scheduler.add_job(id=job_id,
-                                      name=args["name"],
+                                      name=args["project"],
                                       func=robot_job,
-                                      args=(self.app, args["name"], session["username"]),
+                                      args=(self.app, args["project"], session["username"]),
                                       trigger="cron",
                                       second=cron[0],
                                       minute=cron[1],
@@ -226,6 +228,63 @@ def get_task_list(app, username, project):
 
     return {"total": next_build-1, "rows": task}
 
+def get_schedulejob_list(app, args):
+
+    joblist = []
+    res = app.config['DB'].runsql('SELECT * from schedule_job;')
+    for i in res:
+        (user,project,task_no,task_name,method,schedule_type,
+         year,mon,day,hour,min,sec,week,
+         day_of_week,start_date,end_date,sponsor) = i
+
+        joblist.append([user,project,task_name,task_no,method,schedule_type,
+         year,mon,day,hour,min,sec,week,
+         day_of_week,start_date,end_date,sponsor,'unScheduled',''])  #job_id = "{}#{}#{}".format(user,project,task_name)
+
+    jobs = scheduler.get_jobs()
+
+    jobids = [x.id for x in jobs]
+
+    for j in joblist:
+        id = j[0]+'#'+j[1]+'#'+j[2]
+        if id in jobids:
+            jb = scheduler.get_job(id)
+            j[18] = jb.next_run_time
+            j[17] = 'running' if j[18] is not None else 'pause'
+            jobids.remove(id)
+
+    for i in jobids:
+        (u,p,t) = i.split('#')
+        jb = scheduler.get_job(i)
+        joblist.append(u,p,t,'','','','','','','','','','','','','','',
+                      'running' if jb.next_run_time is not None else 'pause', jb.next_run_time)
+
+    rlist = []
+    for j in joblist:
+        rlist.append(
+            {
+                "user": j[0],
+                "project": j[1],
+                "task_name": j[2],
+                #"task_no": j[3],
+                #"method": j[4],
+                "schedule_type": j[5],
+                "year": j[6],
+                "mon": j[7],
+                "day": j[8],
+                "hour": j[9],
+                "min": j[10],
+                "sec": j[11],
+                "week": j[12],
+                "day_of_week": j[13],
+                "start_date": j[14],
+                "end_date": j[15],
+                "sponsor": j[16],
+                "status": j[17],
+                "next_time": str(j[18])
+            }
+        )
+    return {"total": 1, "rows": rlist}
 
 def get_last_task(app, username, project):
     icons = {
@@ -263,7 +322,7 @@ def get_projecttask(app):
         p = op.split(':')[1]     # projects = ["owner:project","o:p"]
         task = {
             # "status": status,
-            "name": p,
+            "project": p,
             # "last_success": get_last_pass(job_path + "/lastPassed"),
             # "last_fail": get_last_fail(job_path + "/lastFail"),
             "enable": "Enalble",

@@ -43,7 +43,7 @@ def add_schedulejob(app, scheduler, args):
     cases = splits[-1]  # driver|robot|args|output=xxx|cases
     jobargs = splits[2]
 
-    job_id = "{}_{}_{}".format(user,project,task_name)
+    job_id = "{}#{}#{}".format(user,project,task_name)
 
     lock = threading.Lock()
     lock.acquire()

@@ -19,65 +19,37 @@
     <body class="easyui-layout" style="padding:10">
 
         <div data-options="region:'center'" style="padding: 5px 5px 5px 5px">
-            <table id="task_scheduler" class="easyui-datagrid" style="width:100%;height:auto;"
-                    data-options="singleSelect:true,
+            <table id="task_list" class="easyui-datagrid" style="width:100%;height:auto;"
+                    data-options="fit:true, singleSelect:true,
                         fitColumns:true,
-                        url:'/api/v1/task_list/?method=query',
-                        method:'post',
+                        url:'/api/v1/task_list?method=get_schedulejoblist&project=all',
+                        method:'get',
                         toolbar: toolbar"
                     >
                 <thead>
                     <tr>
-                        <th data-options="field:'status',align:'center' , halign: 'center',formatter:do_view_status"></th>
-                        <th data-options="field:'name'">任务名称</th>
-                        <th data-options="field:'next_time',align:'center' , halign: 'center'">上次运行时间</th>
-                        <th data-options="field:'cron',align:'center' , halign: 'center'">状态</th>
-                        <th data-options="field:'task',align:'center' , halign: 'center',formatter:do_view_task">调度周期</th>
+                        <th data-options="field:'user',align:'center' , halign: 'center'">用户</th>
+                        <th data-options="field:'project',align:'center' , halign: 'center'">项目</th>
+                        <th data-options="field:'task_name',align:'center' , halign: 'center'">任务名称</th>
+                        <th data-options="field:'status',align:'center' , halign: 'center'">状态</th>
+                        <th data-options="field:'next_time',align:'center' , halign: 'center'">下次调度</th>
+                        <th data-options="field:'schedule_type',align:'center' , halign: 'center'">调度类型</th>
+                        <th data-options="field:'year',align:'center' , halign: 'center'">年</th>
+                        <th data-options="field:'mon',align:'center' , halign: 'center'">月</th>
+                        <th data-options="field:'day',align:'center' , halign: 'center'">日</th>
+                        <th data-options="field:'hour',align:'center' , halign: 'center'">时</th>
+                        <th data-options="field:'min',align:'center' , halign: 'center'">分</th>
+                        <th data-options="field:'sec',align:'center' , halign: 'center'">秒</th>
+                        <th data-options="field:'week',align:'center' , halign: 'center'">第几周</th>
+                        <th data-options="field:'day_of_week',align:'center' , halign: 'center'">每周几</th>
+                        <th data-options="field:'start_date',align:'center' , halign: 'center'">开始时间</th>
+                        <th data-options="field:'end_date',align:'center' , halign: 'center'">结束时间</th>
+                        <th data-options="field:'sponsor',align:'center' , halign: 'center'">发起方</th>
                     </tr>
                 </thead>
             </table>
         </div>
-        <!-- edit project cron -->
-        <div id="cron_win" class="easyui-window" title="Edit Cron"
-             data-options="iconCls:'icon-edit',collapsible:false,minimizable:false,maximizable:false"
-             style="width:400px;height:140px;padding:10px;">
-            <form id="cron_ff" method="post">
-                <div style="margin-bottom:20px">
-                    <select class="easyui-combobox" name="cron" id="cron" label="Cron Config" style="width:100%">
-                        <option value="* * * * * *">Default(* * * * * *)</option>
-                        <option value="0 0 1 * * *">Once at 1:00 per day(0 0 1 * * *)</option>
-                        <option value="0 0 12 * * *">Once at 12:00 per day(0 0 12 * * *)</option>
-                        <option value="0 0 23 * * *">Once at 23:00 per day(0 0 23 * * *)</option>
-                        <option value="0 0/30 * * * *">Once per 30 Min(0 0/5 * * * *)</option>
-                        <option value="0 0 0/1 0 0 6/7">Once each hour at weekend(0 0 0/1 0 0 6/7)</option>
-                        <option value="0 0 0/1 0 0 1/5">Once each hour at weekday(0 0 0/1 0 0 1/5)</option>
-                    </select>
-                </div>
-                <div style="text-align:right;margin-bottom:10px">
-                    <a href="#" class="easyui-linkbutton" style="width:80px;height:32px" onclick="do_edit();">刷新</a>
-                </div>
-            </form>
-        </div>
-        <!-- -->
-        <!-- edit project notifys -->
-        <div id="notify_win" class="easyui-window" title="Email Report"
-             data-options="iconCls:'icon-notification',collapsible:false,minimizable:false,maximizable:false"
-             style="width:400px;height:210px;padding:10px;">
-            <form id="notify_ff" method="post">
 
-                <div style="margin-bottom:10px">
-                    <input class="easyui-textbox" id="success_list" name="success_list" label="Pass List" labelPosition="left" style="width:100%;height:50px;" data-options="multiline:true">
-                </div>
-                <div style="margin-bottom:10px">
-                    <input class="easyui-textbox" id="fail_list" name="fail_list" label="Fail List" labelPosition="left" style="width:100%;height:50px;" data-options="multiline:true">
-                </div>
-
-                <div style="text-align:right;margin-bottom:10px">
-                    <a href="#" class="easyui-linkbutton" style="width:80px;height:32px" onclick="do_notify_edit();">Save</a>
-                </div>
-            </form>
-        </div>
-        <!-- -->
 
 
         <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
@@ -87,8 +59,6 @@
         <SCRIPT type="text/javascript">
             $(document).ready(function(){
                $('#task_scheduler').datagrid('getPanel').removeClass('lines-both lines-no lines-right lines-bottom').addClass('lines-no');
-               $("#cron_win").window('close');
-               $("#notify_win").window('close');
             });
             var toolbar = [
                 {
@@ -152,56 +122,9 @@
                             show_msg("Alert", "Please select one record！");
                         }
                     }
-			    }, '-',
-			    {
-			        text:'没有报告',
-                    iconCls:'icon-notification',
-                    handler:function(){
-                        var row = $('#task_scheduler').datagrid('getSelected');
-                        if(row){
-                            init_email_ff(row["name"]);
-                            open_win("notify_win");
-                        }
-                        else{
-                            show_msg("Alert", "Please select one record！");
-                        }
-                    }
 			    }
 			 ];
 
-			function do_edit(){
-			    var row = $('#task_scheduler').datagrid('getSelected');
-			    var data = {"name": row["name"], "method": "edit", "cron": $("#cron").combobox("getValue")};
-			    do_ajax('post',
-                    '/api/v1/task_list/',
-                    data,
-                    do_msg);
-                $("#task_scheduler").datagrid('reload');
-                close_win("cron_win");
-			}
-
-			function do_notify_edit(){
-			    var row = $('#task_scheduler').datagrid('getSelected');
-			    var data = {
-			        "method": "email",
-			        "project": row["name"],
-			        "success_list": $("#notify_ff input#success_list").textbox('getValue'),
-			        "fail_list": $("#notify_ff input#fail_list").textbox('getValue'),
-			    };
-			    do_ajax('post',
-                    '/api/v1/settings/',
-                    data,
-                    do_msg);
-                close_win("notify_win");
-			}
-
-			function do_view_task(value, row, index){
-                return '<a href="#" onclick="parent.addTab(\'{0}\', \'/task_list/{1}\', \'icon-task\');">查看</a>'.lym_format(row.name, row.name);
-            }
-
-            function do_view_status(value, row, index){
-                return '<img width="24px" height="24px" border="0" src="{0}"/>'.lym_format(row.status) ;
-            }
         </SCRIPT>
     </body>
 </html>

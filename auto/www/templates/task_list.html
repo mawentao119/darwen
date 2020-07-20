@@ -22,7 +22,7 @@
             <table id="task_list" class="easyui-datagrid" style="width:100%;height:auto;"
                     data-options="fit:true, singleSelect:true,
                         fitColumns:true,
-                        url:'/api/v1/task_list?name={{ project }}',
+                        url:'/api/v1/task_list?method=get_tasklist&project={{ project }}',
                         method:'get',
                         toolbar: toolbar"
                     >
