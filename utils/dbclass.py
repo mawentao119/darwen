@@ -117,12 +117,12 @@ class TestDB():
                        primary key (user,project,task_name)  
                        );''')
 
-    def add_chedulejob(self, args, sponsor='user'):
+    def add_chedulejob(self, args):
         return self.runsql('''INSERT INTO schedule_job values(
         '{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}');
         '''.format(args['user'],args['project'],args['task_no'],args['task_name'],args['method'],args['schedule_type'],
                    args['year'],args['mon'],args['day'],args['hour'],args['min'],args['sec'],args['week'],
-                   args['day_of_week'],args['start_date'],args['end_date'],sponsor))
+                   args['day_of_week'],args['start_date'],args['end_date'],args['sponsor']))
 
     def createtb_settings(self):
         self.runsql('''create table settings(

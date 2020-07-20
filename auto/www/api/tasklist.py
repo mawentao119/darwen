@@ -27,6 +27,7 @@ class TaskList(Resource):
     def __init__(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('method', type=str)
+        self.parser.add_argument('user', type=str)
         self.parser.add_argument('project', type=str)
         self.parser.add_argument('task_name', type=str)
         self.parser.add_argument('schedule_type', type=str)
@@ -53,69 +54,118 @@ class TaskList(Resource):
 
     def post(self):
         args = self.parser.parse_args()
-        job_id = "%s_%s" % (session["username"], args["project"])
+
         if args["method"] == "get_projecttask":
             return get_projecttask(self.app)
-        elif args["method"] == "start":
-            result = {"status": "success", "msg": "Scheduler start success."}
+
+        elif args["method"] == "pause":
+            (user,project,task_name) = (args['user'],args['project'],args['task_name'])
+            job_id = "{}#{}#{}".format(user, project, task_name)
+
+            if not user == session["username"]:
+                self.app.config['DB'].insert_loginfo(session["username"],'schedulejob','pause',job_id,'auth fail')
+                return {"status": "fail", "msg": "Fail:不允许冻结其它人的任务!"}
+
             lock = threading.Lock()
             lock.acquire()
-            job = scheduler.get_job(job_id)
-            if job:
-                scheduler.remove_job(job_id)
-            cron = args["cron"].replace("\n", "").strip().split(" ")
-            if args["cron"] != "* * * * * *" and len(cron) == 6:
-                scheduler.add_job(id=job_id,
-                                  name=args["project"],
-                                  func=robot_job,
-                                  args=(self.app, args["project"], session["username"]),
-                                  trigger="cron",
-                                  second=cron[0],
-                                  minute=cron[1],
-                                  hour=cron[2],
-                                  day=cron[3],
-                                  month=cron[4],
-                                  day_of_week=cron[5])
-            else:
-                result["msg"] = "cron default * * * * * *, <br><br>Cannot start scheduler，Please modify cron setting."
-            lock.release()
-            return result
 
-        elif args["method"] == "stop":
-            lock = threading.Lock()
-            lock.acquire()
-            job = scheduler.get_job(job_id)
-            if job:
-                scheduler.remove_job(id=job_id)
-            lock.release()
-            return {"status": "success", "msg": "Stop task OK"}
-        elif args["method"] == "edit":
-
-            result = edit_cron(self.app, args["project"], args["cron"])
-            if result:
-                # job_id = "%s_%s" % (session["username"], args["project"])
-                lock = threading.Lock()
-                lock.acquire()
-                job = scheduler.get_job(job_id)
-                if job:
-                    scheduler.remove_job(job_id)
-
-                cron = args["cron"].replace("\n", "").strip().split(" ")
-                if args["cron"] != "* * * * * *" and len(cron) == 6:
-                    scheduler.add_job(id=job_id,
-                                      name=args["project"],
-                                      func=robot_job,
-                                      args=(self.app, args["project"], session["username"]),
-                                      trigger="cron",
-                                      second=cron[0],
-                                      minute=cron[1],
-                                      hour=cron[2],
-                                      day=cron[3],
-                                      month=cron[4],
-                                      day_of_week=cron[5])
+            try:
+                scheduler.pause_job(job_id)
+            except Exception as e:
                 lock.release()
+                return {"status": "fail", "msg": "Fail:{}".format(e)}
 
-            return {"status": "success", "msg": "Edit cron info OK."}
+            lock.release()
+
+            self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'pause', job_id, 'success')
+            return {"status": "success", "msg": "冻结任务成功:{}".format(job_id)}
+
+        elif args["method"] == "resume":
+            (user,project,task_name) = (args['user'],args['project'],args['task_name'])
+            job_id = "{}#{}#{}".format(user, project, task_name)
+
+            if not user == session["username"]:
+                self.app.config['DB'].insert_loginfo(session["username"],'schedulejob','resume',job_id,'auth fail')
+                return {"status": "fail", "msg": "Fail:不允许恢复其它人的任务!"}
+
+            lock = threading.Lock()
+            lock.acquire()
+
+            try:
+                scheduler.resume_job(job_id)
+            except Exception as e:
+                lock.release()
+                return {"status": "fail", "msg": "Fail: {}".format(e)}
+
+            lock.release()
+
+            self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'resume', job_id, 'success')
+            return {"status": "success", "msg": "恢复任务成功:{}".format(job_id)}
+
+        elif args["method"] == "remove_schedulejob":
+            (user,project,task_name) = (args['user'],args['project'],args['task_name'])
+            job_id = "{}#{}#{}".format(user, project, task_name)
+
+            if not user == session["username"]:
+                self.app.config['DB'].insert_loginfo(session["username"],'schedulejob','remove_schedulejob',job_id,'auth fail')
+                return {"status": "fail", "msg": "Fail:不允许操作其它人的任务!"}
+
+            lock = threading.Lock()
+            lock.acquire()
+
+            try:
+                scheduler.remove_job(job_id)
+            except Exception as e:
+                lock.release()
+                return {"status": "fail", "msg": "Fail: {}".format(e)}
+
+            lock.release()
+
+            res = self.app.config['DB'].runsql("DELETE from schedule_job where user='{}' and project='{}' and task_name='{}';".format(user,project,task_name))
+
+            if res:
+                self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'remove_schedulejob', job_id, 'success')
+            else:
+                self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'remove_schedulejob', job_id, 'DB Fail')
+                return {"status": "fail", "msg": "数据库操作失败:{}".format(job_id)}
+
+            return {"status": "success", "msg": "删除任务成功:{}".format(job_id)}
+
+        elif args["method"] == "add_job2schedule":
+            (user,project,task_name) = (args['user'],args['project'],args['task_name'])
+            job_id = "{}#{}#{}".format(user, project, task_name)
+
+            if not user == session["username"]:
+                self.app.config['DB'].insert_loginfo(session["username"],'schedulejob','add_job2schedule',job_id,'auth fail')
+                return {"status": "fail", "msg": "Fail:不允许操作其它人的任务!"}
+
+            res = self.app.config['DB'].runsql("SELECT * from schedule_job where user='{}' and project='{}' and task_name='{}' limit 1;".format(user,project,task_name))
+            if not res:
+                return {"status": "fail", "msg": "Fail:找不到任务!"}
+            else:
+                (user,project,task_no,task_name,method,schedule_type,year,mon,day,hour,min,sec,week,
+                 day_of_week,start_date,end_date,sponsor) = res.fetchone()
+
+            myargs = {'user': user,
+                      'project': project,
+                      'task_no': task_no,
+                      'task_name': task_name,
+                      'method': method,
+                      'schedule_type': schedule_type,
+                      'year': year,
+                      'mon': mon,
+                      'day': day,
+                      'hour': hour,
+                      'min': min,
+                      'sec': sec,
+                      'week': week,
+                      'day_of_week': day_of_week,
+                      'start_date': start_date,
+                      'end_date': end_date,
+                      'sponsor': sponsor
+                      }
+
+            return add_schedulejob(self.app, scheduler, myargs)
 
         elif args["method"] == "add_schedulejob":
             user = session["username"]
@@ -142,9 +192,11 @@ class TaskList(Resource):
                       'week': args['week'],
                       'day_of_week': args['day_of_week'],
                       'start_date': args['start_date'],
-                      'end_date': args['end_date']}
+                      'end_date': args['end_date'],
+                      'sponsor': 'user'
+                      }
 
-            if self.app.config['DB'].add_chedulejob(myargs,'user'):
+            if self.app.config['DB'].add_chedulejob(myargs):
                 return add_schedulejob(self.app, scheduler, myargs)
             else:
                 return {"status": "fail", "msg": "Fail：添加调度任务失败，插入数据库失败。"}
@@ -263,7 +315,7 @@ def get_schedulejob_list(app, args):
         "pause": url_for('static', filename='img/unknown.png'),
         "running": url_for('static', filename='img/success.png'),
         "unScheduled": url_for('static', filename='img/fail.png'),
-        "schedulerPaused": url_for('static', filename='img/paused.png')
+        "schedulerPaused": url_for('static', filename='img/innormal.png')
     }
 
     rlist = []

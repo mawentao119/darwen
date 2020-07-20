@@ -70,56 +70,99 @@
 			    }, '-',
 			    {
 			        text:'冻结任务',
-                    iconCls:'icon-run',
-                    handler:function(){
-                        var row = $('#task_scheduler').datagrid('getSelected');
-                        if(row){
-                            var data ={"method": "start", "name": "{0}".lym_format(row.name), "cron": "{0}".lym_format(row.cron) };
-                            do_ajax('post',
-                                '/api/v1/task_list/',
-                                data,
-                                do_msg);
-
-                            $("#task_scheduler").datagrid('reload');
-                        }
-                        else{
-                            show_msg("Alert", "Please select one record！");
-                        }
-                    }
-			    }, '-',
-			    {
-			        text:'修改调度周期',
                     iconCls:'icon-stop',
                     handler:function(){
-                        $.messager.confirm('Alert', 'Wont generate report，still stop ?', function(r){
-                            if (r){
-                                var row = $('#task_scheduler').datagrid('getSelected');
-                                if(row){
-                                    var data ={"method": "stop", "name": "{0}".lym_format(row.name) };
+                        var row = $('#schedulejob_list').datagrid('getSelected');
+                        if(!row){
+                            show_msg("Alert", "请先选择一个任务！");
+                        }
+                        else{
+                            $.messager.confirm('Alert', '确定要冻结该任务吗?', function(r){
+                                if (r){
+                                    var data ={"method": "pause", "user": row.user, "project": row.project, "task_name": row.task_name };
                                     do_ajax('post',
-                                        '/api/v1/task_list/',
-                                        data,
-                                        do_msg);
-                                    $("#task_scheduler").datagrid('reload');
+                                    '/api/v1/task_list/',
+                                    data,
+                                    function(r){do_msg(r); $("#schedulejob_list").datagrid('reload');});
                                 }
-                                else{
-                                    show_msg("Alert", "Please select one record!");
+                            });
+                        }
+                    }
+			    }, '-',
+			    {
+			        text:'恢复任务',
+                    iconCls:'icon-resume',
+                    handler:function(){
+                        var row = $('#schedulejob_list').datagrid('getSelected');
+                        if(!row){
+                            show_msg("Alert", "请先选择一个任务！");
+                        }
+                        else{
+                            $.messager.confirm('Alert', '确定要恢复该调度任务吗?', function(r){
+                                if (r){
+                                    var data ={"method": "resume", "user": row.user, "project": row.project, "task_name": row.task_name };
+                                    do_ajax('post',
+                                    '/api/v1/task_list/',
+                                    data,
+                                    function(r){do_msg(r); $("#schedulejob_list").datagrid('reload');});
                                 }
-                            }
-                        });
+                            });
+                        }
+                    }
+			    }, '-',
+			    {
+			        text:'加入调度',
+                    iconCls:'icon-expand',
+                    handler:function(){
+                        var row = $('#schedulejob_list').datagrid('getSelected');
+                        if(!row){
+                            show_msg("Alert", "请先选择一个任务！");
+                        }
+                        else{
+                            $.messager.confirm('Alert', '确定要加入该调度任务吗?', function(r){
+                                if (r){
+                                    var data ={"method": "add_job2schedule", "user": row.user, "project": row.project, "task_name": row.task_name };
+                                    do_ajax('post',
+                                    '/api/v1/task_list/',
+                                    data,
+                                    function(r){do_msg(r); $("#schedulejob_list").datagrid('reload');});
+                                }
+                            });
+                        }
 
                     }
 			    }, '-',
 			    {
-			        text:'没有编辑',
+			        text:'修改调度参数',
                     iconCls:'icon-edit',
                     handler:function(){
-                        var row = $('#task_scheduler').datagrid('getSelected');
+                        var row = $('#task_list').datagrid('getSelected');
                         if(row){
-                            open_win('cron_win');
+                            schedule_job("add_schedulejob", "add_schedulejob_ff", "add_schedulejob");
                         }
                         else{
-                            show_msg("Alert", "Please select one record！");
+                            show_msg("Alert", "请先选择一个任务！");
+                        }
+                    }
+			    }, '-',
+			    {
+			        text:'删除任务',
+                    iconCls:'icon-remove',
+                    handler:function(){
+                        var row = $('#schedulejob_list').datagrid('getSelected');
+                        if(!row){
+                            show_msg("Alert", "请先选择一个任务！");
+                        }
+                        else{
+                            $.messager.confirm('Alert', '确定要删除该调度任务吗?', function(r){
+                                if (r){
+                                    var data ={"method": "remove_schedulejob", "user": row.user, "project": row.project, "task_name": row.task_name };
+                                    do_ajax('post',
+                                    '/api/v1/task_list/',
+                                    data,
+                                    function(r){do_msg(r); $("#schedulejob_list").datagrid('reload');});
+                                }
+                            });
                         }
                     }
 			    }

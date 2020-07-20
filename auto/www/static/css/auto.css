@@ -151,6 +151,10 @@
     background:url('../img/stop.png') no-repeat center center;
 }
 
+.icon-resume{
+    background:url('../img/resume.png') no-repeat center center;
+}
+
 .icon-edit{
     background:url('../img/edit.png') no-repeat center center;
 }
