@@ -142,7 +142,10 @@ class TaskList(Resource):
                       'start_date': args['start_date'],
                       'end_date': args['end_date']}
 
-            return add_schedulejob(self.app, scheduler, myargs)
+            if self.app.config['DB'].add_chedulejob(myargs,'user'):
+                return add_schedulejob(self.app, scheduler, myargs)
+            else:
+                return {"status": "fail", "msg": "Fail：添加调度任务失败，插入数据库失败。"}
 
 def get_task_list(app, username, project):
     job_path = app.config["AUTO_HOME"] + "/jobs/%s/%s" % (username, project)

@@ -51,27 +51,22 @@ class TestDB():
     
         # if NewDBID , Create Table 
         if self.IsNewDBID:
+            log.info("NewDBID, Start create tables ...")
 
-            log.info("NewDBID, Start create table testcase ...")
             self.createtb_testcase()
-            log.info("NewDBID, Start create table loginfo ...")
             self.createtb_loginfo()
 
-            log.info("NewDBID, Start create table user ...")
             self.createtb_user()
             self.init_user()
-            log.info("NewDBID, Start create table project ...")
             self.createtb_project()
             self.init_project()
 
-            log.info("NewDBID, Start create table tasks ...")
             self.createtb_tasks()
+            self.createtb_schedule_job()
 
-            log.info("NewDBID, Start create table settings ...")
             self.createtb_settings()
             self.init_settings()
 
-            log.info("NewDBID, Start create table caserecord ...")
             self.createtb_caserecord()
 
         # Refresh Cases info Every time of Start ...
@@ -99,6 +94,35 @@ class TestDB():
             log.error("RUNSQL Exeption:{}".format(e))
             return None
         return res
+
+    def createtb_schedule_job(self):
+        self.runsql('''create table schedule_job(
+                       user    TEXT DEFAULT '',
+                       project TEXT DEFAULT '',
+                       task_no   TEXT DEFAULT '',
+                       task_name    TEXT DEFAULT '',
+                       method    TEXT DEFAULT '',
+                       schedule_type TEXT DEFAULT '',
+                       year   TEXT DEFAULT '',
+                       mon    TEXT DEFAULT '',
+                       day   TEXT DEFAULT '',
+                       hour    TEXT DEFAULT '',
+                       min   TEXT DEFAULT '',
+                       sec    TEXT DEFAULT '',
+                       week   TEXT DEFAULT '',
+                       day_of_week    TEXT DEFAULT '',
+                       start_date    TEXT DEFAULT '',
+                       end_date    TEXT DEFAULT '',
+                       sponser TEXT DEFAULT 'unknown',
+                       primary key (user,project,task_name)  
+                       );''')
+
+    def add_chedulejob(self, args, sponser='user'):
+        return self.runsql('''INSERT INTO schedule_job values(
+        '{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}');
+        '''.format(args['user'],args['project'],args['task_no'],args['task_name'],args['method'],args['schedule_type'],
+                   args['year'],args['mon'],args['day'],args['hour'],args['min'],args['sec'],args['week'],
+                   args['day_of_week'],args['start_date'],args['end_date'],sponser))
 
     def createtb_settings(self):
         self.runsql('''create table settings(
