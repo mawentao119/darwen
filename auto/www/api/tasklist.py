@@ -131,6 +131,31 @@ class TaskList(Resource):
 
             return {"status": "success", "msg": "删除任务成功:{}".format(job_id)}
 
+        elif args["method"] == "delete_allschedulejobs":
+
+            if not session['username'] == 'Admin':
+                return {"status": "fail", "msg": "Fail:只有管理员可以进行此操作"}
+
+            lock = threading.Lock()
+            lock.acquire()
+
+            try:
+                scheduler.remove_all_jobs()
+            except Exception as e:
+                lock.release()
+                return {"status": "fail", "msg": "Fail: {}".format(e)}
+            lock.release()
+
+            res = self.app.config['DB'].runsql("DELETE from schedule_job;")
+
+            if res:
+                self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'delete_allschedulejobs', 'all', 'success')
+            else:
+                self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'delete_allschedulejobs', "all", 'DB Fail')
+                return {"status": "fail", "msg": "数据库操作失败:{}".format('all')}
+
+            return {"status": "success", "msg": "删除任务成功:{}".format('all')}
+
         elif args["method"] == "add_job2schedule":
             (user,project,task_name) = (args['user'],args['project'],args['task_name'])
             job_id = "{}#{}#{}".format(user, project, task_name)
@@ -253,6 +278,42 @@ class TaskList(Resource):
                 return add_schedulejob(self.app, scheduler, myargs)
             else:
                 return {"status": "fail", "msg": "Fail：添加调度任务失败，插入数据库失败。"}
+
+        elif args["method"] == "pause_scheduler":
+
+            if not session['username'] == 'Admin':
+                return {"status": "fail", "msg": "Fail:只有管理员可以进行此操作"}
+
+            lock = threading.Lock()
+            lock.acquire()
+
+            try:
+                scheduler.pause()
+            except Exception as e:
+                lock.release()
+                return {"status": "fail", "msg": "Fail: {}".format(e)}
+            lock.release()
+
+            self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'pause_scheduler', "all", 'success')
+            return {"status": "success", "msg": "调度器已停止"}
+
+        elif args["method"] == "resume_scheduler":
+
+            if not session['username'] == 'Admin':
+                return {"status": "fail", "msg": "Fail:只有管理员可以进行此操作"}
+
+            lock = threading.Lock()
+            lock.acquire()
+
+            try:
+                scheduler.resume()
+            except Exception as e:
+                lock.release()
+                return {"status": "fail", "msg": "Fail: {}".format(e)}
+            lock.release()
+
+            self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'resume_scheduler', "all", 'success')
+            return {"status": "success", "msg": "调度器已恢复运行"}
 
 def get_task_list(app, username, project):
     job_path = app.config["AUTO_HOME"] + "/jobs/%s/%s" % (username, project)

@@ -559,6 +559,39 @@ function delete_caserecord() {
     });
 }
 
+function delete_allschedulejobs() {
+    $.messager.confirm('Alert', '<br>确认删除所有调度任务吗?', function (r) {
+        if (r) {
+            var data = {
+                "method": "delete_allschedulejobs"
+            };
+            do_ajax('post', "/api/v1/task_list/", data, do_msg);
+        }
+    });
+}
+
+function pause_scheduler() {
+    $.messager.confirm('Alert', '<br>确认停止调度器吗?', function (r) {
+        if (r) {
+            var data = {
+                "method": "pause_scheduler"
+            };
+            do_ajax('post', "/api/v1/task_list/", data, do_msg);
+        }
+    });
+}
+
+function resume_scheduler() {
+    $.messager.confirm('Alert', '<br>确认要启动调度器吗?', function (r) {
+        if (r) {
+            var data = {
+                "method": "resume_scheduler"
+            };
+            do_ajax('post', "/api/v1/task_list/", data, do_msg);
+        }
+    });
+}
+
 function manage_suite(win_id, ff_id, method) {
     if (method == "create") {
         clear_form(ff_id);

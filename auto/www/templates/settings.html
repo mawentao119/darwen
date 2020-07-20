@@ -98,9 +98,9 @@
                 <div title="调度管理" data-options="iconCls:'icon-configitem'" style="padding:10px;">
                     <p style="color:#0099FF;">调度器的操作可以重复执行，不影响最终结果</p>
                     <div style="padding:5px 0;">
-                        <a href="#" class="easyui-linkbutton" onclick="open_win('uploadcr_win');" data-options="iconCls:'icon-search'" style="width:48%">暂停调度器</a>
-                        <a href="#" class="easyui-linkbutton" onclick="manage_gitff('gitclone_caserecord', 'gitclone_caserecord_ff', 'gitclone')" data-options="iconCls:'icon-print'" style="width:48%; margin-left:10px">恢复调度器</a>
-                        <a href="#" class="easyui-linkbutton" onclick="delete_caserecord();" data-options="iconCls:'icon-search'" style="width:48%; margin-top:10px">清空所有调度任务</a>
+                        <a href="#" class="easyui-linkbutton" onclick="pause_scheduler();" data-options="iconCls:'icon-search'" style="width:48%">暂停调度器</a>
+                        <a href="#" class="easyui-linkbutton" onclick="resume_scheduler();" data-options="iconCls:'icon-print'" style="width:48%; margin-left:10px">恢复调度器</a>
+                        <a href="#" class="easyui-linkbutton" onclick="delete_allschedulejobs();" data-options="iconCls:'icon-search'" style="width:48%; margin-top:10px">清空所有调度任务</a>
                     </div>
                 </div>
                 <div title="监控告警" data-options="iconCls:'icon-configitem'" style="padding:10px;">
