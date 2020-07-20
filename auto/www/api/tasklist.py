@@ -259,8 +259,21 @@ def get_schedulejob_list(app, args):
         joblist.append(u,p,t,'','','','','','','','','','','','','','',
                       'running' if jb.next_run_time is not None else 'pause', jb.next_run_time)
 
+    icons = {
+        "pause": url_for('static', filename='img/unknown.png'),
+        "running": url_for('static', filename='img/success.png'),
+        "unScheduled": url_for('static', filename='img/fail.png')}
+
     rlist = []
     for j in joblist:
+
+        if j[17] == 'running':
+            status = icons['running']
+        elif j[17] == 'pause':
+            status = icons['pause']
+        else:
+            status = icons['unScheduled']
+
         rlist.append(
             {
                 "user": j[0],
@@ -280,7 +293,7 @@ def get_schedulejob_list(app, args):
                 "start_date": j[14],
                 "end_date": j[15],
                 "sponsor": j[16],
-                "status": j[17],
+                "status": status,
                 "next_time": str(j[18])
             }
         )
