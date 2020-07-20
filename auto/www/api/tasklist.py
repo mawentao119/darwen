@@ -262,7 +262,9 @@ def get_schedulejob_list(app, args):
     icons = {
         "pause": url_for('static', filename='img/unknown.png'),
         "running": url_for('static', filename='img/success.png'),
-        "unScheduled": url_for('static', filename='img/fail.png')}
+        "unScheduled": url_for('static', filename='img/fail.png'),
+        "schedulerPaused": url_for('static', filename='img/paused.png')
+    }
 
     rlist = []
     for j in joblist:
@@ -273,6 +275,9 @@ def get_schedulejob_list(app, args):
             status = icons['pause']
         else:
             status = icons['unScheduled']
+
+        if scheduler.state == 2:
+            status = icons['schedulerPaused']
 
         rlist.append(
             {

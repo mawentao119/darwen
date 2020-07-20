@@ -19,7 +19,7 @@
     <body class="easyui-layout" style="padding:10">
 
         <div data-options="region:'center'" style="padding: 5px 5px 5px 5px">
-            <table id="task_list" class="easyui-datagrid" style="width:100%;height:auto;"
+            <table id="schedulejob_list" class="easyui-datagrid" style="width:100%;height:auto;"
                     data-options="fit:true, singleSelect:true,
                         fitColumns:true,
                         url:'/api/v1/task_list?method=get_schedulejoblist&project=all',
@@ -62,14 +62,14 @@
             });
             var toolbar = [
                 {
-                    text:'删除',
+                    text:'刷新',
                     iconCls:'icon-refresh',
                     handler:function(){
-                        $("#task_scheduler").datagrid('reload');
+                        $("#schedulejob_list").datagrid('reload');
                     }
 			    }, '-',
 			    {
-			        text:'冻结',
+			        text:'冻结任务',
                     iconCls:'icon-run',
                     handler:function(){
                         var row = $('#task_scheduler').datagrid('getSelected');
