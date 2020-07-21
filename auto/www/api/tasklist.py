@@ -315,6 +315,33 @@ class TaskList(Resource):
             self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'resume_scheduler', "all", 'success')
             return {"status": "success", "msg": "调度器已恢复运行"}
 
+        elif args['method'] == "remove_myschedulejobs":
+
+            lock = threading.Lock()
+            lock.acquire()
+            try:
+                for job in scheduler.get_jobs():
+                    (user,project,task_name) = job.id.split('#')
+                    if user == session['username']:
+                        scheduler.remove_job(job.id)
+            except Exception as e:
+                lock.release()
+                return {"status": "fail", "msg": "Fail: {}".format(e)}
+            lock.release()
+
+            res = self.app.config['DB'].runsql("DELETE from schedule_job where user='{}';".format(session['username']))
+
+            if res:
+                self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'remove_myschedulejobs', 'all',
+                                                     'success')
+            else:
+                self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'remove_myschedulejobs', 'all',
+                                                     'DB Fail')
+                return {"status": "fail", "msg": "数据库操作失败"}
+
+            return {"status": "success", "msg": "删除任务成功"}
+
+
 def get_task_list(app, username, project):
     job_path = app.config["AUTO_HOME"] + "/jobs/%s/%s" % (username, project)
     next_build = 0

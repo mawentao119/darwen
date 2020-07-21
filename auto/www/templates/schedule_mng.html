@@ -239,6 +239,20 @@
                             });
                         }
                     }
+			    }, '-',
+			    {
+			        text:'删除所有自己的调度任务',
+                    iconCls:'icon-remove',
+                    handler:function(){
+                        $.messager.confirm('Alert', '<br>确认要删除当前用户的调度任务吗?', function (r) {
+                            if (r) {
+                                var data = {
+                                    "method": "remove_myschedulejobs"
+                                };
+                                do_ajax('post', "/api/v1/task_list/", data, function(r){$("#schedulejob_list").datagrid('reload'); do_msg(r);});
+                            }
+                        });
+                    }
 			    }
 			 ];
 
