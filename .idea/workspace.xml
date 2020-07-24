@@ -2,14 +2,53 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab43467d-ad90-46a2-99ca-651bd4d7e6ad" name="Default" comment="bug fix">
+      <change beforePath="$PROJECT_DIR$/.beats/auto.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/1/log.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/1/output.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/1/report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/2/output.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/3/log.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/3/output.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/3/report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/4/log.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/4/output.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/4/report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/5/output.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/6/output.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/7/output.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/8/log.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/8/output.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/8/report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/9/log.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/9/output.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/9/report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/lastFail" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/lastPassed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/jobs/AutoLink/标准项目组织结构_demo/nextBuildNumber" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/users/AutoLink/config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/HTTP接口测试项目_demo/000_resources/AutoLink_api_tests.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/HTTP接口测试项目_demo/000_resources/所有用例公用变量和关键字.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/HTTP接口测试项目_demo/001_api_auth/001_login.robot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/HTTP接口测试项目_demo/002_api_user/000_public_user_resources.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/HTTP接口测试项目_demo/002_api_user/001_create_user.robot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/HTTP接口测试项目_demo/002_api_user/002_edit_user.robot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/Python测试项目_demo/000_resource/commonLibrary.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/Python测试项目_demo/000_resource/districtCode.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/Python测试项目_demo/001_testSuit/001_xxx.robot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/标准项目组织结构_demo/001_资源集/元素对象.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/标准项目组织结构_demo/001_资源集1/元素对象.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/标准项目组织结构_demo/002_用例集/001_xxx流程.robot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/标准项目组织结构_demo/003_用例集/001_xxx流程.robot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/标准项目组织结构_demo/003_用例集/111111.robot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.beats/workspace/AutoLink/标准项目组织结构_demo/003_用例集/123.robot" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/tasklist.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/tasklist.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/static/css/auto.css" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/css/auto.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/static/img/paused.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/static/img/logo.min.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/static/img/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/img/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/static/img/logo_16.png" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/img/logo_16.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/templates/schedule_mng.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/schedule_mng.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/dbclass.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/dbclass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/login.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,62 +60,52 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/www/templates/task_list.html">
+        <entry file="file://$PROJECT_DIR$/auto/www/templates/dashboard.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="780">
-              <caret line="240" column="25" lean-forward="true" selection-start-line="234" selection-start-column="24" selection-end-line="240" selection-end-column="25" />
+            <state relative-caret-position="375">
+              <caret line="25" column="196" selection-start-line="25" selection-start-column="196" selection-end-line="25" selection-end-column="196" />
               <folding>
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#11;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#12;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#13;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#0;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#td#0;n#tr#1;n#table#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#td#1;n#tr#1;n#table#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#td#2;n#tr#1;n#table#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#td#3;n#tr#1;n#table#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/www/templates/schedule_mng.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2370">
-              <caret line="158" column="76" selection-start-line="158" selection-start-column="58" selection-end-line="158" selection-end-column="76" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/auto/www/api/tasklist.py">
+        <entry file="file://$PROJECT_DIR$/auto/www/templates/login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="129" column="57" selection-start-line="129" selection-start-column="57" selection-end-line="129" selection-end-column="57" />
-              <folding>
-                <element signature="e#94#141#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="390">
+              <caret line="26" column="36" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="447">
-              <caret line="125" lean-forward="true" selection-start-line="125" selection-end-line="125" />
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/auto/www/static/img/logo.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/auto/www/static/img/logo_16.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/auto/www/static/img/monitor.png">
+          <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>运行成功</find>
       <find>do_runpass</find>
       <find>task_no</find>
       <find>hid</find>
@@ -106,6 +135,7 @@
       <find>fe</find>
       <find>joblist</find>
       <find>do_view_task</find>
+      <find>logo.min.png</find>
     </findStrings>
     <replaceStrings>
       <replace>summary</replace>
@@ -131,7 +161,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/docs/简介.md" />
         <option value="$PROJECT_DIR$/auto/www/templates/shell.html" />
         <option value="$PROJECT_DIR$/auto/www/config.py" />
         <option value="$PROJECT_DIR$/webshell/webshell_app.py" />
@@ -168,8 +197,6 @@
         <option value="$PROJECT_DIR$/auto/www/blueprints.py" />
         <option value="$PROJECT_DIR$/auto/www/templates/settings.html" />
         <option value="$PROJECT_DIR$/auto/www/static/js/suite.js" />
-        <option value="$PROJECT_DIR$/auto/www/templates/dashboard.html" />
-        <option value="$PROJECT_DIR$/auto/www/templates/login.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/welcome.html" />
         <option value="$PROJECT_DIR$/auto/www/api/task.py" />
         <option value="$PROJECT_DIR$/auto/www/static/js/auto.js" />
@@ -182,13 +209,16 @@
         <option value="$PROJECT_DIR$/utils/dbclass.py" />
         <option value="$PROJECT_DIR$/auto/www/templates/schedule_mng.html" />
         <option value="$PROJECT_DIR$/auto/www/api/tasklist.py" />
+        <option value="$PROJECT_DIR$/auto/www/static/lib/easyui/themes/bootstrap/easyui.css" />
+        <option value="$PROJECT_DIR$/auto/www/templates/dashboard.html" />
+        <option value="$PROJECT_DIR$/auto/www/templates/login.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
     <option name="x" value="-1920" />
     <option name="y" value="-116" />
-    <option name="width" value="1920" />
+    <option name="width" value="954" />
     <option name="height" value="1080" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -201,71 +231,41 @@
         <subPane>
           <expand>
             <path>
-              <item name="uniRobot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="uniRobot" type="462c0819:PsiDirectoryNode" />
+              <item name="darwen" type="b2602c69:ProjectViewProjectNode" />
+              <item name="darwen" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="uniRobot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="uniRobot" type="462c0819:PsiDirectoryNode" />
+              <item name="darwen" type="b2602c69:ProjectViewProjectNode" />
+              <item name="darwen" type="462c0819:PsiDirectoryNode" />
               <item name="auto" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="uniRobot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="uniRobot" type="462c0819:PsiDirectoryNode" />
-              <item name="auto" type="462c0819:PsiDirectoryNode" />
-              <item name="www" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="uniRobot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="uniRobot" type="462c0819:PsiDirectoryNode" />
+              <item name="darwen" type="b2602c69:ProjectViewProjectNode" />
+              <item name="darwen" type="462c0819:PsiDirectoryNode" />
               <item name="auto" type="462c0819:PsiDirectoryNode" />
               <item name="www" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="uniRobot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="uniRobot" type="462c0819:PsiDirectoryNode" />
+              <item name="darwen" type="b2602c69:ProjectViewProjectNode" />
+              <item name="darwen" type="462c0819:PsiDirectoryNode" />
               <item name="auto" type="462c0819:PsiDirectoryNode" />
               <item name="www" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="uniRobot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="uniRobot" type="462c0819:PsiDirectoryNode" />
+              <item name="darwen" type="b2602c69:ProjectViewProjectNode" />
+              <item name="darwen" type="462c0819:PsiDirectoryNode" />
               <item name="auto" type="462c0819:PsiDirectoryNode" />
               <item name="www" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="uniRobot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="uniRobot" type="462c0819:PsiDirectoryNode" />
-              <item name="auto" type="462c0819:PsiDirectoryNode" />
-              <item name="www" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="uniRobot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="uniRobot" type="462c0819:PsiDirectoryNode" />
+              <item name="darwen" type="b2602c69:ProjectViewProjectNode" />
+              <item name="darwen" type="462c0819:PsiDirectoryNode" />
               <item name="auto" type="462c0819:PsiDirectoryNode" />
               <item name="www" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="uniRobot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="uniRobot" type="462c0819:PsiDirectoryNode" />
-              <item name="driver" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="uniRobot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="uniRobot" type="462c0819:PsiDirectoryNode" />
-              <item name="offlinePackages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="uniRobot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="uniRobot" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -276,7 +276,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -309,13 +309,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1534349381434</updated>
-    </task>
-    <task id="LOCAL-00014" summary="delete the codemirror links in html">
-      <created>1585638833311</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1585638833311</updated>
     </task>
     <task id="LOCAL-00015" summary="Add config item 'SHOW_DIR_DETAIL' for performance concern.">
       <created>1585842632297</created>
@@ -653,14 +646,21 @@
       <option name="project" value="LOCAL" />
       <updated>1595231780044</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="change to darwen">
+      <created>1595574524263</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1595574524264</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1920" y="-116" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1368477" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10330138" />
       <window_info id="Favorites" order="1" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49785408" weight="0.32891566" />
@@ -669,14 +669,14 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49776787" weight="0.26831684" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49776787" visible="true" weight="0.21980198" />
       <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.49776787" weight="0.44851485" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49713877" weight="0.32409638" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50214595" side_tool="true" weight="0.32891566" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" anchor="right" id="Structure" order="3" visible="true" weight="0.09105431" />
+      <window_info anchor="right" id="Structure" order="3" visible="true" weight="0.067625135" />
     </layout>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -721,7 +721,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="增加'导出用例结果'功能,modify" />
     <MESSAGE value="增加'导出用例结果'功能,菜单添加" />
     <MESSAGE value="增加'暂存用例结果'功能,菜单添加" />
     <MESSAGE value="增加'结果对比'功能,菜单添加" />
@@ -746,7 +745,8 @@
     <MESSAGE value="add schedule_job web table" />
     <MESSAGE value="add status" />
     <MESSAGE value="bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
+    <MESSAGE value="change to darwen" />
+    <option name="LAST_COMMIT_MESSAGE" value="change to darwen" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -759,106 +759,14 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/editor.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="49" column="104" lean-forward="true" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="104" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/test_env.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="611">
-          <caret line="94" column="25" lean-forward="true" selection-start-line="94" selection-start-column="25" selection-end-line="94" selection-end-column="25" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#table#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="135" column="152" selection-start-line="135" selection-start-column="152" selection-end-line="135" selection-end-column="152" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/img/task.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/img/task_mng.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/compare_caseresult.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="59" selection-start-line="22" selection-start-column="59" selection-end-line="22" selection-end-column="59" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/settings.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/start_work.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/driver/readme.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/help.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="41" column="22" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
-          <folding>
-            <element signature="e#94#121#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/settings_ORG.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/auto/settings.py" />
+    <entry file="file://$PROJECT_DIR$/start_work.sh" />
+    <entry file="file://$PROJECT_DIR$/driver/readme.md" />
+    <entry file="file://$PROJECT_DIR$/utils/help.py" />
+    <entry file="file://$PROJECT_DIR$/requirements.txt" />
+    <entry file="file://$PROJECT_DIR$/auto/www/api/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/auto/www/api/settings_ORG.py" />
     <entry file="file://$PROJECT_DIR$/../../../../pyenv/lib/python3.7/site-packages/dateutil/tz/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -867,16 +775,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/abc.py" />
-    <entry file="file://$PROJECT_DIR$/uniRobot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
-          <folding>
-            <element signature="e#106#115#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/darwen.py" />
     <entry file="file://$PROJECT_DIR$/../../../../pyenv/lib/python3.7/site-packages/flask_apscheduler/scheduler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="233">
@@ -884,312 +783,80 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/js/auto_ORG.js">
+    <entry file="file://$PROJECT_DIR$/auto/www/static/js/auto_ORG.js" />
+    <entry file="file://$PROJECT_DIR$/auto/www/static/js/dashboard.js" />
+    <entry file="file://$PROJECT_DIR$/auto/www/static/js/suite.js" />
+    <entry file="file://$PROJECT_DIR$/auto/www/static/js/editor.js" />
+    <entry file="file://$PROJECT_DIR$/auto/www/api/suite.py" />
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/welcome.html" />
+    <entry file="file://$PROJECT_DIR$/auto/www/blueprints.py" />
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/user.html" />
+    <entry file="file://$PROJECT_DIR$/auto/www/api/task.py" />
+    <entry file="file://$PROJECT_DIR$/auto/configuration.py" />
+    <entry file="file://$PROJECT_DIR$/utils/run.py" />
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/project_task.html" />
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/running.gif" />
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/success.png" />
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/fail.png" />
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/exception.png" />
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/run.png" />
+    <entry file="file://$PROJECT_DIR$/auto/www/static/js/auto.js" />
+    <entry file="file://$PROJECT_DIR$/auto/www/app.py" />
+    <entry file="file://$PROJECT_DIR$/utils/schedule.py" />
+    <entry file="file://$PROJECT_DIR$/auto/www/api/case.py" />
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/case_list.html" />
+    <entry file="file://$PROJECT_DIR$/auto/www/api/report.py" />
+    <entry file="file://$PROJECT_DIR$/utils/do_report.py" />
+    <entry file="file://$PROJECT_DIR$/auto/www/static/css/auto.css" />
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/case_report.html" />
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/settings.html" />
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/task_list.html" />
+    <entry file="file://$PROJECT_DIR$/utils/dbclass.py" />
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/schedule_mng.html" />
+    <entry file="file://$PROJECT_DIR$/auto/www/api/tasklist.py" />
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/monitor.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/lib/easyui/themes/bootstrap/easyui.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="991" selection-start-line="991" selection-end-line="991" />
+        <state relative-caret-position="259">
+          <caret line="725" column="2" selection-start-line="725" selection-start-column="2" selection-end-line="725" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/js/dashboard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="108" column="9" selection-start-line="108" selection-start-column="9" selection-end-line="108" selection-end-column="9" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/logo_16.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/js/suite.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="51" column="68" selection-start-line="51" selection-start-column="68" selection-end-line="51" selection-end-column="68" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/logo_org.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/js/editor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="12" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="46" column="78" selection-start-line="46" selection-start-column="78" selection-end-line="46" selection-end-column="78" />
-          <folding>
-            <element signature="n#style#0;n#h5#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/suite.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="59" column="8" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/welcome.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="42" column="62" selection-start-line="42" selection-start-column="62" selection-end-line="42" selection-end-column="62" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#3;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#4;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#5;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#6;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#6;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#7;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#7;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#8;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#8;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#9;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#9;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#10;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/blueprints.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="91" column="40" selection-start-line="91" selection-start-column="28" selection-end-line="91" selection-end-column="40" />
-          <folding>
-            <element signature="e#54#63#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/user.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="159" column="92" selection-start-line="159" selection-start-column="28" selection-end-line="159" selection-end-column="92" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/logo.min.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/templates/dashboard.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="143" column="43" selection-start-line="143" selection-start-column="39" selection-end-line="143" selection-end-column="43" />
+        <state relative-caret-position="375">
+          <caret line="25" column="196" selection-start-line="25" selection-start-column="196" selection-end-line="25" selection-end-column="196" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#11;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#12;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#13;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#9;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/task.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="194" column="51" lean-forward="true" selection-start-line="194" selection-start-column="51" selection-end-line="194" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/configuration.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="52" column="6" selection-start-line="52" selection-start-column="6" selection-end-line="52" selection-end-column="6" />
-          <caret line="53" column="6" selection-start-line="53" selection-start-column="6" selection-end-line="53" selection-end-column="6" />
-          <caret line="54" column="6" selection-start-line="54" selection-start-column="6" selection-end-line="54" selection-end-column="6" />
-          <caret line="55" column="6" selection-start-line="55" selection-start-column="6" selection-end-line="55" selection-end-column="6" />
-          <caret line="56" column="6" selection-start-line="56" selection-start-column="6" selection-end-line="56" selection-end-column="6" />
-          <caret line="57" column="6" selection-start-line="57" selection-start-column="6" selection-end-line="57" selection-end-column="6" />
-          <folding>
-            <element signature="e#93#107#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/run.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="25" selection-start-line="25" selection-end-line="25" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/project_task.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="46" selection-start-line="24" selection-start-column="37" selection-end-line="24" selection-end-column="46" />
-          <folding>
             <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#select#0;n#div#0;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#1;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/img/running.gif">
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/logo.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/img/success.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/img/fail.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/img/exception.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/img/run.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/js/auto.js">
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="1003" column="35" selection-start-line="1003" selection-start-column="18" selection-end-line="1003" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-747">
-          <caret line="21" selection-start-line="21" selection-end-line="21" selection-end-column="25" />
-          <folding>
-            <element signature="e#88#97#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/schedule.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-50">
-          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
-          <folding>
-            <element signature="e#73#82#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/case.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="487">
-          <caret line="322" column="36" lean-forward="true" selection-start-line="322" selection-start-column="36" selection-end-line="322" selection-end-column="36" />
-          <folding>
-            <element signature="e#94#103#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/case_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-50" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/report.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="56" column="22" lean-forward="true" selection-start-line="56" selection-start-column="22" selection-end-line="56" selection-end-column="22" />
-          <folding>
-            <element signature="e#73#84#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/do_report.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="412" column="67" selection-start-line="412" selection-start-column="8" selection-end-line="412" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/css/auto.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-350">
-          <caret line="154" column="33" selection-start-line="154" selection-start-column="33" selection-end-line="154" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/case_report.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-162" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/settings.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="170" column="40" lean-forward="true" selection-start-line="170" selection-start-column="29" selection-end-line="170" selection-end-column="40" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#table#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#2;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#1;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#0;n#form#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/task_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="240" column="25" lean-forward="true" selection-start-line="234" selection-start-column="24" selection-end-line="240" selection-end-column="25" />
-          <folding>
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#0;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#td#0;n#tr#1;n#table#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#td#1;n#tr#1;n#table#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#td#2;n#tr#1;n#table#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#td#3;n#tr#1;n#table#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="125" lean-forward="true" selection-start-line="125" selection-end-line="125" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/schedule_mng.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2370">
-          <caret line="158" column="76" selection-start-line="158" selection-start-column="58" selection-end-line="158" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/tasklist.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="129" column="57" selection-start-line="129" selection-start-column="57" selection-end-line="129" selection-end-column="57" />
-          <folding>
-            <element signature="e#94#141#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="390">
+          <caret line="26" column="36" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
         </state>
       </provider>
     </entry>

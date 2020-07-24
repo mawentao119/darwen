@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>uniRobot - RobotFramework Web UI</title>
+        <title>Darwen</title>
 
         <meta name="keywords" content="robotframework webui"/>
         <meta name="description" content="A Web-based test excuting system. Auto test and Human test ."/>
@@ -21,9 +21,9 @@
         </style>
     </head>
     <body class="easyui-layout">
-        <div data-options="region:'north',border:true" style="padding:0;height:60px;">
-            <div class="easyui-panel" style="padding:0">
-                <a href="https://github.com/mawentao119/uniRobot.git" target="_blank" class="easyui-linkbutton" data-options="plain:true"><img src="{{ url_for('static', filename='img/logo.min.png') }}" alt="uniRobot" style="padding-top:8px;"/></a>
+        <div data-options="region:'north',border:true" style="padding:0;height:50px;">
+            <div class="easyui-panel">
+                <a href="https://github.com/mawentao119/uniRobot.git" target="_blank" class="easyui-linkbutton" data-options="plain:true"><img src="{{ url_for('static', filename='img/logo_header32.png') }}" alt="uniRobot" style="margin-top:5px;"/></a>
                 <a href="#" onclick="addTab('测试环境', '/test_env/', 'icon-test_env')" class="easyui-linkbutton" data-options="iconCls:'icon-test_env'">测试环境</a>
                 <a href="#" onclick="addTab('任务管理', '/project_task/', 'icon-task_mng')" class="easyui-linkbutton" data-options="iconCls:'icon-task_mng'">任务管理</a>
                 <a href="#" onclick="addTab('调度管理', '/schedule_mng/', 'icon-schedule_mng')" class="easyui-linkbutton" data-options="iconCls:'icon-schedule_mng'">调度管理</a>
@@ -35,13 +35,13 @@
                 <a href="#" onclick="addTab('测试报告', '/scheduler/', 'icon-report')" class="easyui-linkbutton" data-options="iconCls:'icon-report'">测试报告</a>
                 <a href="#" onclick="addTab('辅助工具', '/tools/', 'icon-tools')" class="easyui-linkbutton" data-options="iconCls:'icon-tools'">辅助工具</a>
 
-                <a href="#" onclick="do_logout('{{ username }}');" class="easyui-linkbutton" data-options="iconCls:'icon-logout'" style="float:right;margin-top:10px;margin-right:10px;">登出</a>
-                <a href="#" onclick="addTab('系统配置', '/settings', 'icon-settings')" class="easyui-linkbutton" data-options="iconCls:'icon-settings'" style="float:right;margin-top:10px;margin-right:10px;">系统配置</a>
-                <a href="#" onclick="addTab('用户管理', '/user', 'icon-settings')" class="easyui-linkbutton" data-options="iconCls:'icon-user_mng'" style="float:right;margin-top:10px;margin-right:5px;">用户管理</a>
+                <a href="#" onclick="do_logout('{{ username }}');" class="easyui-linkbutton" data-options="iconCls:'icon-logout'" style="float:right;margin-top:8px;margin-right:10px;">登出</a>
+                <a href="#" onclick="addTab('系统配置', '/settings', 'icon-settings')" class="easyui-linkbutton" data-options="iconCls:'icon-settings'" style="float:right;margin-top:8px;margin-right:10px;">系统配置</a>
+                <a href="#" onclick="addTab('用户管理', '/user', 'icon-settings')" class="easyui-linkbutton" data-options="iconCls:'icon-user_mng'" style="float:right;margin-top:8px;margin-right:5px;">用户管理</a>
 
             </div>
         </div>
-        <div data-options="region:'west',split:true" title="个人/共享 项目" style="width:240px;padding:5px;">
+        <div data-options="region:'west',split:true" title="个人/共享 项目" style="width:240px;">
             <ul id="project_tree" class="easyui-tree"
                 data-options="
                     url:'/api/v1/project_list/',
