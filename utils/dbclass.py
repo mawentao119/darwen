@@ -65,14 +65,43 @@ class TestDB():
             self.createtb_schedule_job()
 
             self.createtb_settings()
-            self.init_settings()
+            ##Drw self.init_settings()
 
             self.createtb_caserecord()
 
-        # Refresh Cases info Every time of Start ...
-        workspace = os.path.dirname(self.confdir) + '/workspace'
-        log.info("Force refresh TestCases of dir: "+workspace)
-        self.refresh_caseinfo(workspace, "start")
+            workspace = os.path.dirname(self.confdir) + '/workspace'
+            self.load_user_and_project(workspace)
+
+    def load_user_and_project(self, workspace):
+        log.info("Load user from workspace: {}".format(workspace))
+        for user in os.listdir(workspace):
+            if user.lower() == "admin":  # user=Admin
+                continue
+            for project in os.listdir(os.path.join(workspace, user)):
+                userfile = os.path.join(workspace, user, project, 'darwen/conf/user.conf')
+                users = []
+                log.info("Read user file: {}".format(userfile))
+                if os.path.exists(userfile):
+                    with open(userfile, 'r') as f:
+                        for l in f:
+                            if l.startswith('#'):
+                                continue
+                            if len(l.strip()) == 0:
+                                continue
+                            splits = l.strip().split('|')  # user.conf using '|' as splitor
+                            if len(splits) != 5:
+                                print("Wrong user Line " + l)
+                            (username, fullname, password, email, category) = splits
+                            users.append(username)
+                            log.info("Add user: {}".format(username))
+                            self.add_user(username,fullname,password,email)
+
+                if user in users:   # add project of the
+                    log.info("Create Project with owner:{}".format(user))
+                    self.add_project(project,user,','.join(users))
+                    self.refresh_caseinfo(os.path.join(workspace,user,project), mode='force')
+                else:
+                    log.error("Load Project Fail: Find project:{}, But user {} not in file {} ".format(project,user,userfile))
 
     def get_dbfilename(self):
         return self.DBFileName
@@ -169,7 +198,6 @@ class TestDB():
                );''')
     def init_user(self):
         self.runsql('''INSERT INTO user values('Admin','admin',"pbkdf2:sha256:50000$fHCEAiyw$768c4f2ba9cabbc77513b9a25ffea1a19a77c23d8dab86e635d5f62f6fb8be6b",'charisma@tencent.com','Admin');''')
-        self.runsql('''INSERT INTO user values('tester','tester',"pbkdf2:sha256:50000$kluBmp5X$611e4d66f33fd139b03425f1ad0a21c4009974bd02343bfc69bd4e3d06325d57",'tester@tencent.com','User');''')
 
     def _case_exists(self, info_key , info_name):
         try:
@@ -248,12 +276,7 @@ class TestDB():
         if username in ['myself','Admin','admin','all','All']:
             log.error("It is not allowed username:{}".format(username))
             return False
-        try:
-            self.runsql("INSERT INTO user values('{}','{}','{}','{}','User'); ".format(username, fullname, passwordHash, email))
-        except Exception as e:
-            log.error("Exception in add_user, User exists.{}".format(e))
-            return False
-        return True
+        return self.runsql("INSERT INTO user values('{}','{}','{}','{}','User'); ".format(username, fullname, passwordHash, email))
 
     def createtb_project(self):
         self.runsql('''create table project(
@@ -266,8 +289,7 @@ class TestDB():
 
     def init_project(self):
         self.runsql('''INSERT INTO project(projectname,owner,users) VALUES('Demo_Project','Admin','all');''')
-        self.runsql('''INSERT INTO project(projectname,owner,users) VALUES('uniRobot','Admin','Admin');''')
-        #self.runsql('''INSERT INTO project(projectname,owner,users) VALUES('RobotTbds3','tester','mwt');''')
+        self.runsql('''INSERT INTO project(projectname,owner,users) VALUES('darwen','Admin','Admin');''')
 
     def add_project(self, projectname, owner ,users):
         try:
@@ -499,9 +521,6 @@ class TestDB():
                 return False
 
         log.info("Start refresh cases:"+target)
-
-        if target.find(self.exclude_suite) != -1:
-            return True
 
         suite = TestData(source=target, extensions='robot')
         self._refresh_case(suite, mode)
