@@ -43,7 +43,9 @@ class Config:
     # AUTO_HOME = /data/uniRobot/work
     AUTO_TEMP = AUTO_HOME + '/runtime'
     os.mkdir(AUTO_TEMP) if not os.path.exists(AUTO_TEMP) else None
-    #AUTO_HOME = os.getcwd().replace('\\', '/') + '/.beats'
+
+    # Current test-code project
+    CUR_PROJECT = 'Demo_Project'
 
 
     DB = TestDB(AUTO_HOME + '/DBs')

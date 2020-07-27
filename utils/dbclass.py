@@ -65,7 +65,7 @@ class TestDB():
             self.createtb_schedule_job()
 
             self.createtb_settings()
-            ##Drw self.init_settings()
+            self.init_settings()
 
             self.createtb_caserecord()
 
@@ -161,14 +161,47 @@ class TestDB():
                demo    TEXT DEFAULT '',
                category TEXT DEFAULT 'unknown'
                );''')
+
     def init_settings(self):
+        self.runsql(''' DELETE FROM settings;''')
         self.runsql('''INSERT INTO settings values('被测系统名称','test_project',"TBDS",'Do not modify twice.','user');''')
-        self.runsql('''INSERT INTO settings values('被测系统版本号','test_projectversion',"V5013",'Do not modify twice.','user');''')
-        self.runsql('''INSERT INTO settings values('测试用例历史记录git','history_git',"https://github.com/mawentao119/testcasehistory.git",'暂不支持commit','user');''')
-        self.runsql('''INSERT INTO settings values('机器列表文件','test_env_machines',"runtime/test_env_machines.conf",'ip|os|cpus|mem|ontime','user');''')
-        self.runsql('''INSERT INTO settings values('组件列表文件','test_env_modules',"runtime/test_env_modules.conf",'name|machines|status|ontime','user');''')
-        self.runsql('''INSERT INTO settings values('自动化配置文件','test_env_conf',"runtime/env.conf",'建议自动化配置项自动生成','user');''')
+        self.runsql(
+            '''INSERT INTO settings values('被测系统版本号','test_projectversion',"V5013",'Do not modify twice.','user');''')
+        self.runsql(
+            '''INSERT INTO settings values('测试用例历史记录git','history_git',"https://github.com/mawentao119/testcasehistory.git",'暂不支持commit','user');''')
+        self.runsql(
+            '''INSERT INTO settings values('机器列表文件','test_env_machines',"runtime/test_env_machines.conf",'ip|os|cpus|mem|ontime','user');''')
+        self.runsql(
+            '''INSERT INTO settings values('组件列表文件','test_env_modules',"runtime/test_env_modules.conf",'name|machines|status|ontime','user');''')
+        self.runsql(
+            '''INSERT INTO settings values('自动化配置文件','test_env_conf',"runtime/env.conf",'建议自动化配置项自动生成','user');''')
         self.runsql('''INSERT INTO settings values('最大任务并发数','MAX_PROCS',"20",'只限制手工并发数','system');''')
+
+    def init_project_settings(self, key):
+        log.info("Load Settings from dir: {}".format(key))
+
+        if key.lower().endswith('darwen') or key.lower().endswith('demo_project'):
+            return True
+
+        settings_file = os.path.join(key, 'darwen/conf/settings.conf')
+        log.info("Read Settings file: {}".format(settings_file))
+        if os.path.exists(settings_file):
+            self.runsql(''' DELETE FROM settings;''')
+            with open(settings_file, 'r') as f:
+                for l in f:
+                    if l.startswith('#'):
+                        continue
+                    if len(l.strip()) == 0:
+                        continue
+                    splits = l.strip().split('#')  # settings.conf using '#' as splitor
+                    if len(splits) != 5:
+                        print("Wrong settings Line " + l)
+                    (description,item,value,demo,category) = splits
+                    self.runsql(''' INSERT INTO settings values('{}','{}','{}','{}','{}');'''.format(description,item,value,demo,category))
+        else:
+            log.error("Cannot find settings.conf for project:{}".format(key))
+
+        return True
 
     def add_setting(self, description, item, value, demo):
 
@@ -365,6 +398,9 @@ class TestDB():
         res = self.runsql("select owner,projectname,users from project ;")
         for i in res:
             (o,p,u) = i
+            if username == 'Admin':
+                all.append("{}:{}".format(o, p))
+                continue
             if o == username:
                 all.append("{}:{}".format(o, p))
             us = u.split(',')
@@ -373,6 +409,7 @@ class TestDB():
 
         all = list(set(all))    # delete the same values
         all.sort()              # order , TODO order by category
+
         return all
 
     def get_projectusers(self,project):

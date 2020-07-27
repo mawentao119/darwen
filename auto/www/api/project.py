@@ -339,6 +339,13 @@ def get_projects(app, username):
             "children": []
         })
 
+        if username == "Admin":
+            app.config["DB"].init_settings()
+            app.config["CUR_PROJECT"] = 'Demo_Project'
+        else:
+            app.config["DB"].init_project_settings(key)
+            app.config["CUR_PROJECT"] = prj
+
         generate_high_light(key)
         generate_auto_complete(key)
 

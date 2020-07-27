@@ -133,7 +133,10 @@ class Settings(Resource):
                 {"description": description, "item": item, "value": value, "demo": demo})
 
         setting_list["rows"].append(
-            {"description": "系统Home目录", "item": "AUTO_HOME", "value": self.app.config['AUTO_HOME'], "demo": "测试用例在{AUTO_HOME}/workspace/{user}/{project}/下"})
+            {"description": "当前主项目", "item": "CUR_PROJECT", "value": self.app.config['CUR_PROJECT'], "demo": "使用该项目darwen/conf下的配置"})
+        setting_list["rows"].append(
+            {"description": "系统Home目录", "item": "AUTO_HOME", "value": self.app.config['AUTO_HOME'],
+             "demo": "测试用例在{AUTO_HOME}/workspace/{user}/{project}/下"})
 
         return setting_list
 
