@@ -66,14 +66,7 @@
         <div id="root_menu" class="easyui-menu" style="width:160px;">
             <div onclick="addTab('User Guide', '/welcome', 'icon-workspace');" data-options="iconCls:'icon-workspace'">用户指南</div>
             <div onclick="manage_project('create_project', 'create_project_ff', 'create')" data-options="iconCls:'icon-project'">创建项目</div>
-            <div>
-                <span>Git 项目</span>
-                  <div style="width:150px;">
-                      <div onclick="manage_project('create_projectgit', 'create_projectgit_ff', 'gitclone')">clone</div>
-                      <div onclick="gitcommit();">Commit</div>
-                      <div onclick="gitpush();">Push</div>
-                  </div>
-            </div>
+            <div onclick="manage_project('create_projectgit', 'create_projectgit_ff', 'gitclone')">Git clone</div>
             <div class="menu-sep"></div>
             {% if username == "Admin" %}
             <div onclick="addTab('User Management', '/user', 'icon-user')" data-options="iconCls:'icon-user'">用户管理</div>

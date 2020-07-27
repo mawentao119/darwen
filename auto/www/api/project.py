@@ -84,11 +84,8 @@ class Project(Resource):
 
         if ok:
             projectname = get_projectnamefromkey(info)
+            self.app.config['DB'].load_project_from_path(info)
             result = {"status": "success", "msg": "Create Project success:"+projectname }
-            if not self.app.config['DB'].add_project(projectname, session["username"], 'myself'):
-                result["status"] = "fail"
-                result["msg"] = "Create Failed: Project name exists!"
-
             self.app.config['DB'].insert_loginfo(session['username'], 'project', 'gitcreate', info,
                                                            result['status'])
         else:

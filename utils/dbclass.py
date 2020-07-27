@@ -103,6 +103,40 @@ class TestDB():
                 else:
                     log.error("Load Project Fail: Find project:{}, But user {} not in file {} ".format(project,user,userfile))
 
+    def load_project_from_path(self, project_path):
+        log.info("Load project from path: {}".format(project_path))
+
+        if project_path.endswith('/'):
+            project = project_path.split('/')[-2]
+            user = project_path.split('/')[-3]
+        else:
+            project = project_path.split('/')[-1]
+            user = project_path.split('/')[-2]
+
+        userfile = os.path.join(project_path, 'darwen/conf/user.conf')
+        users = []
+        log.info("Read user file: {}".format(userfile))
+        if os.path.exists(userfile):
+            with open(userfile, 'r') as f:
+                for l in f:
+                    if l.startswith('#'):
+                        continue
+                    if len(l.strip()) == 0:
+                        continue
+                    splits = l.strip().split('|')  # user.conf using '|' as splitor
+                    if len(splits) != 5:
+                        print("Wrong user Line " + l)
+                    (username, fullname, password, email, category) = splits
+                    users.append(username)
+                    log.info("Add user: {}".format(username))
+                    self.add_user(username,fullname,password,email)
+
+        log.info("Create Project with owner:{}".format(user))
+        self.add_project(project,user,','.join(users))
+        self.refresh_caseinfo(project_path, mode='force')
+
+
+
     def get_dbfilename(self):
         return self.DBFileName
 
