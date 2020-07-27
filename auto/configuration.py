@@ -44,10 +44,6 @@ class Config:
     AUTO_TEMP = AUTO_HOME + '/runtime'
     os.mkdir(AUTO_TEMP) if not os.path.exists(AUTO_TEMP) else None
 
-    # Current test-code project
-    CUR_PROJECT = 'Demo_Project'
-
-
     DB = TestDB(AUTO_HOME + '/DBs')
 
     AUTO_ROBOT = []    # Process list of running tasks, only for hand running ,not for schceduled jobs. MAX: setting:MAX_PROCS

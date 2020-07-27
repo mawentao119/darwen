@@ -9,8 +9,7 @@ __modifier__ = 'charisma'
 
 """
 
-import json
-import codecs
+import os
 from flask import current_app, session, request, send_file
 from flask_restful import Resource, reqparse
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -59,9 +58,11 @@ class User(Resource):
     def __create(self, args):
         result = {"status": "success", "msg": "Create user success."}
 
-        if not session['username'] == "Admin":
+        owner = self.app.config['DB'].get_projectowner(self.app.config['DB'].get_user_category(session['username']))
+
+        if not (session['username'] == owner):
             result["status"] = "fail"
-            result["msg"] = "Only Admin can add new user."
+            result["msg"] = "你无权操作，请联系管理员{}.".format(owner)
             return result
 
         fullname = args["fullname"]
@@ -78,6 +79,7 @@ class User(Resource):
             result["status"] = "fail"
             result["msg"] = "Create user Failed : username exists."
 
+        self.save_user(self.app.config['DB'].get_user_category(session['username']))
         self.app.config['DB'].insert_loginfo(session['username'], 'user', 'create', username, result['status'])
 
         return result
@@ -87,10 +89,11 @@ class User(Resource):
         result = {"status": "success", "msg": "Edit user info success."}
 
         username = args['username']
+        owner = self.app.config['DB'].get_projectowner(self.app.config['DB'].get_user_category(session['username']))
 
-        if (not session['username'] == username) and (not session['username'] == 'Admin'):
+        if not ( session['username'] == username or session['username'] == 'Admin' or session['username'] == owner):
             result["status"] = "fail"
-            result["msg"] = "Only admin can modify user info."
+            result["msg"] = "你无权操作，请联系管理员或{}.".format(owner)
 
             self.app.config['DB'].insert_loginfo(session['username'], 'user', 'edit', username,
                                                            result['status'])
@@ -114,15 +117,19 @@ class User(Resource):
         except Exception as e:
             self.log.error("Edite user {} Exception:{}".format(username,e))
 
+        self.save_user(self.app.config['DB'].get_user_category(session['username']))
+
         return result
 
 
     def __delete(self, args):
         result = {"status": "success", "msg": "Delete user success."}
 
-        if not session['username'] == "Admin":
+        owner = self.app.config['DB'].get_projectowner(self.app.config['DB'].get_user_category(session['username']))
+
+        if not (session['username'] == owner or session['username'] == 'Admin'):
             result["status"] = "fail"
-            result["msg"] = "Only Admin can do this."
+            result["msg"] = "你无权操作，请联系管理员或{}.".format(owner)
 
             self.app.config['DB'].insert_loginfo(session['username'], 'user', 'delete', args["username"],
                                                            result['status'])
@@ -140,8 +147,18 @@ class User(Resource):
         else:
             self.app.config['DB'].del_user(args["username"])
 
+        self.save_user(self.app.config['DB'].get_user_category(session['username']))
         self.app.config['DB'].insert_loginfo(session['username'], 'user', 'delete', args["username"], result['status'])
 
         return result
 
-
+    def save_user(self, project):
+        self.log.info("Start Save users to file...")
+        owner = self.app.config['DB'].get_projectowner(project)
+        userfile = os.path.join(self.app.config['AUTO_HOME'], 'workspace', owner, project, 'darwen/conf/user.conf')
+        self.log.info("Save users to file:{}".format(userfile))
+        with open(userfile, 'w') as f:
+            res = self.app.config['DB'].runsql("select * from user;")
+            for i in res:
+                f.write('|'.join(i))
+                f.write('\n')

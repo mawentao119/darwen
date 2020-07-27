@@ -46,6 +46,8 @@ class Project(Resource):
             result = self.__edit(args)
         elif method == "delete":
             result = self.__delete(args)
+        elif method == "set_main":
+            result = self.__set_main(args)
         elif method == "adduser":
             result = self.__adduser(args)
         elif method == "deluser":
@@ -85,6 +87,7 @@ class Project(Resource):
         if ok:
             projectname = get_projectnamefromkey(info)
             self.app.config['DB'].load_project_from_path(info)
+            self.app.config['DB'].set_user_category(session['username'],projectname)
             result = {"status": "success", "msg": "Create Project success:"+projectname }
             self.app.config['DB'].insert_loginfo(session['username'], 'project', 'gitcreate', info,
                                                            result['status'])
@@ -153,6 +156,22 @@ class Project(Resource):
 
         #Delete resource is not dangerous, all of that can be auto generated.
         clear_projectres('usepath',user_path)
+
+        return result
+
+    def __set_main(self, args):
+        result = {"status": "success", "msg": "设置为主项目成功"}
+
+        self.log.debug("Delete Project args:{}".format(args))
+
+        #user_path = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session["username"], args["name"])
+        user_path = args['key']
+        if exists_path(user_path):
+            self.app.config['DB'].init_project_settings(user_path)
+            projectname = get_projectnamefromkey(user_path)
+            self.app.config['DB'].set_user_category(session['username'],projectname)
+
+        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'set_main', user_path, result['status'])
 
         return result
 
@@ -321,11 +340,13 @@ def get_projects(app, username):
         owner = p.split(':')[0]
         prj = p.split(':')[1]
         key = app.config["AUTO_HOME"] + "/workspace/" + owner + '/' + prj
-        ico = "icon-project"
+        ico = "icon-project_s"
         text_p = prj
+
         if not owner == username :
-            ico = "icon-project_c"
             text_p = owner + ':' + prj
+        if prj == app.config['DB'].get_user_category(session['username']):
+            ico = "icon-project_m"
         children.append({
             "text": text_p, "iconCls": ico, "state": "closed",
             "attributes": {
@@ -336,15 +357,11 @@ def get_projects(app, username):
             "children": []
         })
 
-        if username == "Admin":
-            app.config["DB"].init_settings()
-            app.config["CUR_PROJECT"] = 'Demo_Project'
-        else:
-            app.config["DB"].init_project_settings(key)
-            app.config["CUR_PROJECT"] = prj
-
         generate_high_light(key)
         generate_auto_complete(key)
+
+        project_path = app.config['DB'].get_project_path(app.config['DB'].get_user_category(session['username']))
+        app.config['DB'].init_project_settings(project_path)
 
     return [{
         "text": session['username'], "iconCls": "icon-workspace",

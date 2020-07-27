@@ -38,12 +38,12 @@
 	background:url('../img/suite.open_case.png') no-repeat center center;
 }
 
-.icon-project{
-    background:url('../img/project.png') no-repeat center center;
+.icon-project_m{
+    background:url('../img/project_m24.png') no-repeat center center;
 }
 
-.icon-project_c{
-    background:url('../img/project_c.png') no-repeat center center;
+.icon-project_s{
+    background:url('../img/project_s24.png') no-repeat center center;
 }
 
 .icon-robot{

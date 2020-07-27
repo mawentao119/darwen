@@ -61,7 +61,6 @@ class TestDB():
             self.createtb_project()
             self.init_project()
 
-            self.createtb_tasks()
             self.createtb_schedule_job()
 
             self.createtb_settings()
@@ -99,6 +98,7 @@ class TestDB():
                 if user in users:   # add project of the
                     log.info("Create Project with owner:{}".format(user))
                     self.add_project(project,user,','.join(users))
+                    self.set_user_category(user,project)   #这里只是load，登录的时候会调用下面的函数初始化settings
                     self.refresh_caseinfo(os.path.join(workspace,user,project), mode='force')
                 else:
                     log.error("Load Project Fail: Find project:{}, But user {} not in file {} ".format(project,user,userfile))
@@ -135,7 +135,48 @@ class TestDB():
         self.add_project(project,user,','.join(users))
         self.refresh_caseinfo(project_path, mode='force')
 
+        self.set_user_category(user, project)
+        self.init_project_settings(project_path)
 
+    def load_project_from_name(self, project_name):
+        log.info("Load project from name: {}".format(project_name))
+
+        user = self.get_projectowner(project_name)
+        project = project_name
+        project_path = os.path.join(self.dbpath,'../workspace',user,project)
+
+        userfile = os.path.join(project_path, 'darwen/conf/user.conf')
+
+        users = []
+        log.info("Read user file: {}".format(userfile))
+        if os.path.exists(userfile):
+            with open(userfile, 'r') as f:
+                for l in f:
+                    if l.startswith('#'):
+                        continue
+                    if len(l.strip()) == 0:
+                        continue
+                    splits = l.strip().split('|')  # user.conf using '|' as splitor
+                    if len(splits) != 5:
+                        print("Wrong user Line " + l)
+                    (username, fullname, password, email, category) = splits
+                    users.append(username)
+                    log.info("Add user: {}".format(username))
+                    self.add_user(username,fullname,password,email)
+
+        log.info("Create Project with owner:{}".format(user))
+        self.add_project(project,user,','.join(users))
+        self.refresh_caseinfo(project_path, mode='force')
+
+        self.set_user_category(user, project)
+        self.init_project_settings(project_path)
+
+    def get_project_path(self, project):
+        log.info("Get Project Path of Project:{}".format(project))
+        user = self.get_projectowner(project)
+        project_path = os.path.join(self.dbpath, '../workspace', user, project)
+        log.info("Project path of {} is : {}".format(project,project_path))
+        return project_path
 
     def get_dbfilename(self):
         return self.DBFileName
@@ -339,6 +380,19 @@ class TestDB():
         self.runsql("Delete from user where username = '{}' ;".format(username))
         return True
 
+    def set_user_category(self, user, project):
+        log.info("Set user category: user {} ,category : {} ".format(user,project))
+        return self.runsql("Update user set category='{}' where username='{}' ; ".format(project,user))
+
+    def get_user_category(self, user):
+        res = self.runsql("SELECT category, username from user where username='{}' ;".format(user))
+        if res:
+            (c, u) = res.fetchone()
+            return c
+        else:
+            return ""
+
+
     def add_user(self, username, fullname, passwordHash, email):
         if username in ['myself','Admin','admin','all','All']:
             log.error("It is not allowed username:{}".format(username))
@@ -351,7 +405,7 @@ class TestDB():
                owner TEXT,
                users TEXT DEFAULT 'myself',
                cron  TEXT DEFAULT '* * * * * *',
-               primary key (projectname,owner)
+               primary key (projectname)
                );''')
 
     def init_project(self):
@@ -416,6 +470,13 @@ class TestDB():
 
         return projects
 
+    def get_projectowner(self,project):
+
+        res = self.runsql("select owner,projectname from project where projectname = '{}';".format(project))
+        (owner,project) = res.fetchone()
+
+        return owner
+
     def get_othproject(self,username):
         res = self.runsql("select projectname,users from project;")
         projects = []
@@ -472,13 +533,6 @@ class TestDB():
 
     def del_project(self, projectname, owner):
         return self.runsql("Delete from project where projectname = '{}' and owner = '{}' ;".format(projectname, owner))
-
-    def createtb_tasks(self):
-        '''
-        暂时没有用到，后续为定时任务使用
-        :return:
-        '''
-        return self.runsql('''Create Table tasks(user TEXT , taskkey TEXT, cron TEXT );''')
 
     def createtb_testcase(self):
         '''
