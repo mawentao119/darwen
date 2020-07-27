@@ -23,54 +23,6 @@ scheduler = APScheduler()
 login_manager = LoginManager()
 login_manager.login_view = 'auto.login'
 
-
-def load_all_task(app):
-    with app.app_context():
-        user_path = app.config["AUTO_HOME"] + "/users/"
-        #users = list_dir(user_path)
-        users = ["Admin","tester"]
-        for user in users:
-            if os.path.exists(user_path + user):
-                if not os.path.exists(user_path + user + '/config.json'):
-                    continue
-
-                conf = json.load(codecs.open(user_path + user + '/config.json', 'r', 'utf-8'))
-                data = conf['data']
-                # 遍历项目
-                for p in data:
-                    if p["cron"] == "* * * * * *":
-                        continue
-
-                    cron = p["cron"].replace("\n", "").strip().split(" ")
-                    if scheduler.get_job("%s_%s" % (user, p["name"])) is None:
-                        scheduler.add_job(id="%s_%s" % (user, p["name"]),
-                                          name=p["name"],
-                                          func=robot_job,
-                                          args=(app, p["name"], user),
-                                          trigger="cron",
-                                          replace_existing=True,
-                                          second=cron[0],
-                                          minute=cron[1],
-                                          hour=cron[2],
-                                          day=cron[3],
-                                          month=cron[4],
-                                          day_of_week=cron[5])
-                    else:
-                        scheduler.remove_job("%s_%s" % (user, p["name"]))
-                        scheduler.add_job(id="%s_%s" % (user, p["name"]),
-                                          name=p["name"],
-                                          func=robot_job,
-                                          args=(app, p["name"], user),
-                                          trigger="cron",
-                                          replace_existing=True,
-                                          second=cron[0],
-                                          minute=cron[1],
-                                          hour=cron[2],
-                                          day=cron[3],
-                                          month=cron[4],
-                                          day_of_week=cron[5])
-
-
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])

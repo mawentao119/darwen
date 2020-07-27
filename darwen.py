@@ -11,7 +11,7 @@ import sys
 
 from flask_script import Manager
 
-from auto.www.app import create_app, load_all_task
+from auto.www.app import create_app
 from auto.settings import HEADER
 from utils.help import check_version
 
@@ -29,7 +29,5 @@ manager = Manager(app)
 if __name__ == '__main__':
 
     check_version()
-
-    load_all_task(app)
 
     manager.run()

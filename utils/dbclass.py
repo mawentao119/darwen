@@ -18,7 +18,7 @@ class TestDB():
 
         self.confdir = confdir
         self.dbpath = self.confdir + '/'
-        self.exclude_suite = '/work/workspace/Admin/uniRobot'
+        self.exclude_suite = '/work/workspace/Admin/darwen'
         self.refresh_interval = 180  # seconds
         self.refresh_time = self.get_timenow()
         self.DBIDFileName = 'TestCaseDB.id'
