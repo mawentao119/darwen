@@ -87,7 +87,7 @@ class Project(Resource):
         if ok:
             projectname = get_projectnamefromkey(info)
             self.app.config['DB'].load_project_from_path(info)
-            self.app.config['DB'].set_user_category(session['username'],projectname)
+            self.app.config['DB'].set_user_main_project(session['username'],projectname)
             result = {"status": "success", "msg": "Create Project success:"+projectname }
             self.app.config['DB'].insert_loginfo(session['username'], 'project', 'gitcreate', info,
                                                            result['status'])
@@ -169,7 +169,7 @@ class Project(Resource):
         if exists_path(user_path):
             self.app.config['DB'].init_project_settings(user_path)
             projectname = get_projectnamefromkey(user_path)
-            self.app.config['DB'].set_user_category(session['username'],projectname)
+            self.app.config['DB'].set_user_main_project(session['username'],projectname)
 
         self.app.config['DB'].insert_loginfo(session['username'], 'project', 'set_main', user_path, result['status'])
 
@@ -345,7 +345,7 @@ def get_projects(app, username):
 
         if not owner == username :
             text_p = owner + ':' + prj
-        if prj == app.config['DB'].get_user_category(session['username']):
+        if prj == app.config['DB'].get_user_main_project(session['username']):
             ico = "icon-project_m"
         children.append({
             "text": text_p, "iconCls": ico, "state": "closed",
@@ -360,7 +360,7 @@ def get_projects(app, username):
         generate_high_light(key)
         generate_auto_complete(key)
 
-        project_path = app.config['DB'].get_project_path(app.config['DB'].get_user_category(session['username']))
+        project_path = app.config['DB'].get_project_path(app.config['DB'].get_user_main_project(session['username']))
         app.config['DB'].init_project_settings(project_path)
 
     return [{

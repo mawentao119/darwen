@@ -27,13 +27,13 @@
                 <a href="#" onclick="addTab('测试环境', '/test_env/', 'icon-test_env')" class="easyui-linkbutton" data-options="iconCls:'icon-test_env'">测试环境</a>
                 <a href="#" onclick="addTab('任务管理', '/project_task/', 'icon-task_mng')" class="easyui-linkbutton" data-options="iconCls:'icon-task_mng'">任务管理</a>
                 <a href="#" onclick="addTab('调度管理', '/schedule_mng/', 'icon-schedule_mng')" class="easyui-linkbutton" data-options="iconCls:'icon-schedule_mng'">调度管理</a>
-                <a href="#" onclick="addTab('监控告警', '/monitor/', 'icon-monitor')" class="easyui-linkbutton" data-options="iconCls:'icon-monitor'">监控告警</a>
+                <!--a href="#" onclick="addTab('监控告警', '/monitor/', 'icon-monitor')" class="easyui-linkbutton" data-options="iconCls:'icon-monitor'">监控告警</a>
                 <a href="#" onclick="addTab('异常注入', '/inject/', 'icon-inject')" class="easyui-linkbutton" data-options="iconCls:'icon-inject'">异常注入</a>
                 <a href="#" onclick="addTab('性能基准', '/performance/', 'icon-performance')" class="easyui-linkbutton" data-options="iconCls:'icon-performance'">性能基准</a>
                 <a href="#" onclick="addTab('调优大盘', '/turning/', 'icon-turning')" class="easyui-linkbutton" data-options="iconCls:'icon-turning'">调优大盘</a>
                 <a href="#" onclick="addTab('测试分析', '/test_analyse/', 'icon-analyse')" class="easyui-linkbutton" data-options="iconCls:'icon-analyse'">测试分析</a>
                 <a href="#" onclick="addTab('测试报告', '/scheduler/', 'icon-report')" class="easyui-linkbutton" data-options="iconCls:'icon-report'">测试报告</a>
-                <a href="#" onclick="addTab('辅助工具', '/tools/', 'icon-tools')" class="easyui-linkbutton" data-options="iconCls:'icon-tools'">辅助工具</a>
+                <a href="#" onclick="addTab('辅助工具', '/tools/', 'icon-tools')" class="easyui-linkbutton" data-options="iconCls:'icon-tools'">辅助工具</a> -->
 
                 <a href="#" onclick="do_logout('{{ username }}');" class="easyui-linkbutton" data-options="iconCls:'icon-logout'" style="float:right;margin-top:8px;margin-right:10px;">登出</a>
                 <a href="#" onclick="addTab('系统配置', '/settings', 'icon-settings')" class="easyui-linkbutton" data-options="iconCls:'icon-settings'" style="float:right;margin-top:8px;margin-right:10px;">系统配置</a>
@@ -41,7 +41,7 @@
 
             </div>
         </div>
-        <div data-options="region:'west',split:true" title="个人/共享 项目" style="width:240px;">
+        <div data-options="region:'west',split:true" title="测试用例(项目)" style="width:240px;">
             <ul id="project_tree" class="easyui-tree"
                 data-options="
                     url:'/api/v1/project_list/',

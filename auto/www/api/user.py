@@ -13,8 +13,6 @@ import os
 from flask import current_app, session, request, send_file
 from flask_restful import Resource, reqparse
 from werkzeug.security import generate_password_hash, check_password_hash
-
-from utils.file import list_dir, exists_path, rename_file, make_nod, remove_dir, write_file, read_file, mk_dirs
 from utils.mylogger import getlogger
 
 class User(Resource):
@@ -32,11 +30,11 @@ class User(Resource):
 
     def get(self):
         user_list = {"total": 0, "rows": []}
-        res = self.app.config['DB'].runsql("Select username,fullname,email,category from user;")
+        res = self.app.config['DB'].runsql("Select username,fullname,email,category,main_project from user;")
         for r in res:
-            (username, fullname, email, category) = r
+            (username, fullname, email, category,main_project) = r
             user_list["rows"].append(
-                {"name": username, "fullname": fullname, "email": email, "category": category})
+                {"name": username, "fullname": fullname, "email": email, "category": category, "main_project":main_project})
         return user_list
 
     def post(self):
@@ -58,11 +56,11 @@ class User(Resource):
     def __create(self, args):
         result = {"status": "success", "msg": "Create user success."}
 
-        owner = self.app.config['DB'].get_projectowner(self.app.config['DB'].get_user_category(session['username']))
+        owner = self.app.config['DB'].get_projectowner(self.app.config['DB'].get_user_main_project(session['username']))
 
         if not (session['username'] == owner):
             result["status"] = "fail"
-            result["msg"] = "你无权操作，请联系管理员{}.".format(owner)
+            result["msg"] = "你无权操作，请联系项目管理员{}.".format(owner)
             return result
 
         fullname = args["fullname"]
@@ -70,16 +68,16 @@ class User(Resource):
 
         if username in ['myself', 'Admin', 'admin', 'all', 'All']:
             result["status"] = "fail"
-            result["msg"] = "Illegal username : "+username
+            result["msg"] = "Fail:非法用户名 "+username
             return result
 
         passwordHash = generate_password_hash(args["password"])
         email = args["email"]
-        if not self.app.config['DB'].add_user(username, fullname, passwordHash, email):
+        if not self.app.config['DB'].add_user(username, fullname, passwordHash, email,'User',self.app.config['DB'].get_user_main_project(session['username'])):
             result["status"] = "fail"
             result["msg"] = "Create user Failed : username exists."
 
-        self.save_user(self.app.config['DB'].get_user_category(session['username']))
+        self.save_user(self.app.config['DB'].get_user_main_project(session['username']))
         self.app.config['DB'].insert_loginfo(session['username'], 'user', 'create', username, result['status'])
 
         return result
@@ -89,11 +87,11 @@ class User(Resource):
         result = {"status": "success", "msg": "Edit user info success."}
 
         username = args['username']
-        owner = self.app.config['DB'].get_projectowner(self.app.config['DB'].get_user_category(session['username']))
+        owner = self.app.config['DB'].get_projectowner(self.app.config['DB'].get_user_main_project(session['username']))
 
-        if not ( session['username'] == username or session['username'] == 'Admin' or session['username'] == owner):
+        if not ( session['username'] == username or session['username'] == owner):
             result["status"] = "fail"
-            result["msg"] = "你无权操作，请联系管理员或{}.".format(owner)
+            result["msg"] = "你无权操作，请联系项目管理员{}.".format(owner)
 
             self.app.config['DB'].insert_loginfo(session['username'], 'user', 'edit', username,
                                                            result['status'])
@@ -105,19 +103,19 @@ class User(Resource):
             passwordHash = generate_password_hash(args["new_password"])
             email = args["email"]
             self.app.config['DB'].del_user(username)
-            if not self.app.config['DB'].add_user(username, fullname, passwordHash, email):
+            if not self.app.config['DB'].add_user(username, fullname, passwordHash, email,'User',self.app.config['DB'].get_user_main_project(session['username'])):
                 result["status"] = "fail"
                 result["msg"] = "DB failed，Please see log file."
         else:
             result["status"] = "fail"
-            result["msg"] = "Password Wrong or user Not exits!"
+            result["msg"] = "Fail：密码错误或用户不存在!"
 
         try:
             res = self.app.config['DB'].insert_loginfo(session['username'], 'user', 'edit', username, result['status'])
         except Exception as e:
             self.log.error("Edite user {} Exception:{}".format(username,e))
 
-        self.save_user(self.app.config['DB'].get_user_category(session['username']))
+        self.save_user(self.app.config['DB'].get_user_main_project(session['username']))
 
         return result
 
@@ -125,11 +123,11 @@ class User(Resource):
     def __delete(self, args):
         result = {"status": "success", "msg": "Delete user success."}
 
-        owner = self.app.config['DB'].get_projectowner(self.app.config['DB'].get_user_category(session['username']))
+        owner = self.app.config['DB'].get_projectowner(self.app.config['DB'].get_user_main_project(session['username']))
 
-        if not (session['username'] == owner or session['username'] == 'Admin'):
+        if not (session['username'] == owner):
             result["status"] = "fail"
-            result["msg"] = "你无权操作，请联系管理员或{}.".format(owner)
+            result["msg"] = "你无权操作，请联系管理员{}.".format(owner)
 
             self.app.config['DB'].insert_loginfo(session['username'], 'user', 'delete', args["username"],
                                                            result['status'])
@@ -147,7 +145,7 @@ class User(Resource):
         else:
             self.app.config['DB'].del_user(args["username"])
 
-        self.save_user(self.app.config['DB'].get_user_category(session['username']))
+        self.save_user(self.app.config['DB'].get_user_main_project(session['username']))
         self.app.config['DB'].insert_loginfo(session['username'], 'user', 'delete', args["username"], result['status'])
 
         return result
@@ -158,7 +156,9 @@ class User(Resource):
         userfile = os.path.join(self.app.config['AUTO_HOME'], 'workspace', owner, project, 'darwen/conf/user.conf')
         self.log.info("Save users to file:{}".format(userfile))
         with open(userfile, 'w') as f:
+            f.write("# username|fullname|passworkdHash|email|category|main_project\n")
+            cur_project = self.app.config['DB'].get_user_main_project(session['username'])
             res = self.app.config['DB'].runsql("select * from user;")
             for i in res:
-                f.write('|'.join(i))
-                f.write('\n')
+                (username,fullname,passworkdHash,email,category,main_project) = i
+                f.write("{}|{}|{}|{}|{}|{}\n".format(username,fullname,passworkdHash,email,category,main_project)) if cur_project == main_project else None

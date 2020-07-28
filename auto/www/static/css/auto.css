@@ -187,6 +187,10 @@
     background:url('../img/schedule_mng.png') no-repeat center center;
 }
 
+.icon-project_mng{
+    background:url('../img/project_mng.png') no-repeat center center;
+}
+
 .icon-user_mng{
     background:url('../img/user_mng.png') no-repeat center center;
 }

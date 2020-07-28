@@ -65,7 +65,7 @@ class Settings(Resource):
             result["status"] = "fail"
             result["msg"] = "创建失败: 配置项已存在！."
 
-        self.save_settings(self.app.config['DB'].get_user_category(session['username']))
+        self.save_settings(self.app.config['DB'].get_user_main_project(session['username']))
         self.app.config['DB'].insert_loginfo(session['username'], 'settings', 'create', item + ":" + value, result["status"])
 
         return result
@@ -99,7 +99,7 @@ class Settings(Resource):
             result["status"] = "fail"
             result["msg"] = "编辑失败: 配置项不存在！."
 
-        self.save_settings(self.app.config['DB'].get_user_category(session['username']))
+        self.save_settings(self.app.config['DB'].get_user_main_project(session['username']))
         self.app.config['DB'].insert_loginfo(session['username'], 'setting', 'update', item + ":" + value, result["status"])
 
         return result
@@ -122,7 +122,7 @@ class Settings(Resource):
 
         self.app.config['DB'].del_setting(args["item"])
 
-        self.save_settings(self.app.config['DB'].get_user_category(session['username']))
+        self.save_settings(self.app.config['DB'].get_user_main_project(session['username']))
         self.app.config['DB'].insert_loginfo(session['username'], 'setting', 'delete', args["item"], result['status'])
 
         return result
@@ -136,7 +136,7 @@ class Settings(Resource):
                 {"description": description, "item": item, "value": value, "demo": demo})
 
         setting_list["rows"].append(
-            {"description": "当前主项目", "item": "CUR_PROJECT", "value": self.app.config['DB'].get_user_category(session['username']), "demo": "使用该项目darwen/conf下的配置"})
+            {"description": "当前主项目", "item": "CUR_PROJECT", "value": self.app.config['DB'].get_user_main_project(session['username']), "demo": "使用该项目darwen/conf下的配置"})
         setting_list["rows"].append(
             {"description": "系统Home目录", "item": "AUTO_HOME", "value": self.app.config['AUTO_HOME'],
              "demo": "测试用例在{AUTO_HOME}/workspace/{user}/{project}/下"})
@@ -196,7 +196,7 @@ class Settings(Resource):
         settingsfile = os.path.join(self.app.config['AUTO_HOME'],'workspace',owner,project,'darwen/conf/settings.conf')
         self.log.info("Save settings to file :{}".format(settingsfile))
         with open(settingsfile, 'w') as f:
+            f.write("#description#item#value#demo#category")
             res = self.app.config['DB'].runsql("select * from settings;")
             for i in res:
-                f.write('#'.join(i))
-                f.write('\n')
+                f.write('#'.join(i) + '\n')

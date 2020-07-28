@@ -88,17 +88,16 @@ class TestDB():
                             if len(l.strip()) == 0:
                                 continue
                             splits = l.strip().split('|')  # user.conf using '|' as splitor
-                            if len(splits) != 5:
-                                print("Wrong user Line " + l)
-                            (username, fullname, password, email, category) = splits
+                            if len(splits) != 6:
+                                log.error("Wrong user Line " + l)
+                            (username, fullname, password, email, category, main_project) = splits
                             users.append(username)
                             log.info("Add user: {}".format(username))
-                            self.add_user(username,fullname,password,email)
+                            self.add_user(username,fullname,password,email,category,main_project)
 
                 if user in users:   # add project of the
                     log.info("Create Project with owner:{}".format(user))
                     self.add_project(project,user,','.join(users))
-                    self.set_user_category(user,project)   #这里只是load，登录的时候会调用下面的函数初始化settings
                     self.refresh_caseinfo(os.path.join(workspace,user,project), mode='force')
                 else:
                     log.error("Load Project Fail: Find project:{}, But user {} not in file {} ".format(project,user,userfile))
@@ -124,18 +123,18 @@ class TestDB():
                     if len(l.strip()) == 0:
                         continue
                     splits = l.strip().split('|')  # user.conf using '|' as splitor
-                    if len(splits) != 5:
-                        print("Wrong user Line " + l)
-                    (username, fullname, password, email, category) = splits
+                    if len(splits) != 6:
+                        log.error("Wrong user Line " + l)
+                    (username, fullname, password, email, category,main_project) = splits
                     users.append(username)
                     log.info("Add user: {}".format(username))
-                    self.add_user(username,fullname,password,email)
+                    self.add_user(username,fullname,password,email,category,main_project)
 
         log.info("Create Project with owner:{}".format(user))
         self.add_project(project,user,','.join(users))
         self.refresh_caseinfo(project_path, mode='force')
 
-        self.set_user_category(user, project)
+        self.set_user_main_project(user, project)
         self.init_project_settings(project_path)
 
     def load_project_from_name(self, project_name):
@@ -157,18 +156,18 @@ class TestDB():
                     if len(l.strip()) == 0:
                         continue
                     splits = l.strip().split('|')  # user.conf using '|' as splitor
-                    if len(splits) != 5:
-                        print("Wrong user Line " + l)
-                    (username, fullname, password, email, category) = splits
+                    if len(splits) != 6:
+                        log.error("Wrong user Line " + l)
+                    (username, fullname, password, email, category,main_project) = splits
                     users.append(username)
                     log.info("Add user: {}".format(username))
-                    self.add_user(username,fullname,password,email)
+                    self.add_user(username,fullname,password,email,category,main_project)
 
         log.info("Create Project with owner:{}".format(user))
         self.add_project(project,user,','.join(users))
         self.refresh_caseinfo(project_path, mode='force')
 
-        self.set_user_category(user, project)
+        self.set_user_main_project(user, project)
         self.init_project_settings(project_path)
 
     def get_project_path(self, project):
@@ -270,7 +269,7 @@ class TestDB():
                         continue
                     splits = l.strip().split('#')  # settings.conf using '#' as splitor
                     if len(splits) != 5:
-                        print("Wrong settings Line " + l)
+                        log.error("Wrong settings Line " + l)
                     (description,item,value,demo,category) = splits
                     self.runsql(''' INSERT INTO settings values('{}','{}','{}','{}','{}');'''.format(description,item,value,demo,category))
         else:
@@ -302,10 +301,13 @@ class TestDB():
                fullname TEXT,
                passwordHash   TEXT,
                email    TEXT,
-               category TEXT DEFAULT 'user'
+               category TEXT DEFAULT 'user',
+               main_project TEXT DEFAULT ''
                );''')
     def init_user(self):
-        self.runsql('''INSERT INTO user values('Admin','admin',"pbkdf2:sha256:50000$fHCEAiyw$768c4f2ba9cabbc77513b9a25ffea1a19a77c23d8dab86e635d5f62f6fb8be6b",'charisma@tencent.com','Admin');''')
+        self.runsql('''
+        INSERT INTO user values('Admin','admin',"pbkdf2:sha256:50000$fHCEAiyw$768c4f2ba9cabbc77513b9a25ffea1a19a77c23d8dab86e635d5f62f6fb8be6b",'charisma@tencent.com','Admin','Demo_Project');
+        ''')
 
     def _case_exists(self, info_key , info_name):
         try:
@@ -380,12 +382,12 @@ class TestDB():
         self.runsql("Delete from user where username = '{}' ;".format(username))
         return True
 
-    def set_user_category(self, user, project):
-        log.info("Set user category: user {} ,category : {} ".format(user,project))
-        return self.runsql("Update user set category='{}' where username='{}' ; ".format(project,user))
+    def set_user_main_project(self, user, project):
+        log.info("Set user main_project: user {} ,main_project : {} ".format(user,project))
+        return self.runsql("Update user set main_project='{}' where username='{}' ; ".format(project,user))
 
-    def get_user_category(self, user):
-        res = self.runsql("SELECT category, username from user where username='{}' ;".format(user))
+    def get_user_main_project(self, user):
+        res = self.runsql("SELECT main_project, username from user where username='{}' ;".format(user))
         if res:
             (c, u) = res.fetchone()
             return c
@@ -393,11 +395,8 @@ class TestDB():
             return ""
 
 
-    def add_user(self, username, fullname, passwordHash, email):
-        if username in ['myself','Admin','admin','all','All']:
-            log.error("It is not allowed username:{}".format(username))
-            return False
-        return self.runsql("INSERT INTO user values('{}','{}','{}','{}','User'); ".format(username, fullname, passwordHash, email))
+    def add_user(self, username, fullname, passwordHash, email, category='User', main_project=''):
+        return self.runsql("INSERT INTO user values('{}','{}','{}','{}','{}','{}'); ".format(username, fullname, passwordHash, email,category,main_project))
 
     def createtb_project(self):
         self.runsql('''create table project(
@@ -409,7 +408,7 @@ class TestDB():
                );''')
 
     def init_project(self):
-        self.runsql('''INSERT INTO project(projectname,owner,users) VALUES('Demo_Project','Admin','all');''')
+        self.runsql('''INSERT INTO project(projectname,owner,users) VALUES('Demo_Project','Admin','Admin');''')
         self.runsql('''INSERT INTO project(projectname,owner,users) VALUES('darwen','Admin','Admin');''')
 
     def add_project(self, projectname, owner ,users):
