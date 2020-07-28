@@ -82,21 +82,17 @@ class Project(Resource):
     def __gitclone(self, args):
 
         url = args['name']
-
-        user_path = self.app.config["AUTO_HOME"] + "/workspace/%s" % (session["username"])
-
-        (ok, info) = remote_clone(url, user_path)
+        (ok, info) = remote_clone(self.app , url)
 
         if ok:
             projectname = get_projectnamefromkey(info)
-            self.app.config['DB'].load_project_from_path(info)
-            self.app.config['DB'].set_user_main_project(session['username'],projectname)
-            result = {"status": "success", "msg": "Create Project success:"+projectname }
+            msg = self.app.config['DB'].load_project_from_path(info)
+            result = {"status": "success", "msg": "Result: {} project:{}".format(msg,projectname) }
             self.app.config['DB'].insert_loginfo(session['username'], 'project', 'gitcreate', info,
                                                            result['status'])
         else:
             result = {"status": "fail", "msg": info}
-            self.app.config['DB'].insert_loginfo(session['username'], 'project', 'gitcreate', user_path,
+            self.app.config['DB'].insert_loginfo(session['username'], 'project', 'gitcreate', url,
                                                            result['status'])
 
         return result

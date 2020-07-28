@@ -98,6 +98,10 @@ class TestDB():
                     (username, fullname, password, email, category,main_project) = splits
                     log.info("Add user: {}".format(username))
                     self.add_user(username,fullname,password,email,category,main_project)
+        else:
+            msg = "Load user Fail: Cannot find user.conf:{} ".format(userfile)
+            log.error(msg)
+            return msg
 
         projectfile = os.path.join(project_path, 'darwen/conf/project.conf')
         log.info("Read Project file: {}".format(projectfile))
@@ -116,7 +120,11 @@ class TestDB():
                     self.add_project(projectname, owner, users)
                     self.refresh_caseinfo(project_path, mode='force')
         else:
-            log.error("Load Project Fail: Cannot find project.conf:{} ".format(projectfile))
+            msg = "Load Project Fail: Cannot find project.conf:{} ".format(projectfile)
+            log.error(msg)
+            return msg
+
+        return "Load project Success"
 
     def load_project_from_name(self, project_name):
         log.info("Load project from name: {}".format(project_name))

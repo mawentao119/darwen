@@ -23,6 +23,13 @@ def copy_file(s,d):
         return False
     return True
 
+def copy_tree(sdir,ddir):
+    try:
+        shutil.copy(sdir,ddir)
+    except Exception:
+        return False
+    return True
+
 def walk_dir(path):
     try:
         return os.walk(path)
