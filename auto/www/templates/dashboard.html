@@ -36,7 +36,10 @@
                 <a href="#" onclick="addTab('辅助工具', '/tools/', 'icon-tools')" class="easyui-linkbutton" data-options="iconCls:'icon-tools'">辅助工具</a> -->
 
                 <a href="#" onclick="do_logout('{{ username }}');" class="easyui-linkbutton" data-options="iconCls:'icon-logout'" style="float:right;margin-top:8px;margin-right:10px;">登出</a>
-                <a href="#" onclick="addTab('系统配置', '/settings', 'icon-settings')" class="easyui-linkbutton" data-options="iconCls:'icon-settings'" style="float:right;margin-top:8px;margin-right:10px;">系统配置</a>
+                {% if username == "Admin" %}
+                <a href="#" onclick="addTab('项目管理', '/project_mng', 'icon-project_mng')" class="easyui-linkbutton" data-options="iconCls:'icon-project_mng'" style="float:right;margin-top:8px;margin-right:10px;">项目管理</a>
+                {% endif %}
+                <a href="#" onclick="addTab('系统配置', '/settings', 'icon-settings')" class="easyui-linkbutton" data-options="iconCls:'icon-settings'" style="float:right;margin-top:8px;margin-right:5px;">系统配置</a>
                 <a href="#" onclick="addTab('用户管理', '/user', 'icon-settings')" class="easyui-linkbutton" data-options="iconCls:'icon-user_mng'" style="float:right;margin-top:8px;margin-right:5px;">用户管理</a>
 
             </div>
@@ -65,10 +68,10 @@
 
         <div id="root_menu" class="easyui-menu" style="width:160px;">
             <div onclick="addTab('User Guide', '/welcome', 'icon-workspace');" data-options="iconCls:'icon-workspace'">用户指南</div>
+            {% if username == "Admin" %}
             <div onclick="manage_project('create_project', 'create_project_ff', 'create')" data-options="iconCls:'icon-project'">创建项目</div>
             <div onclick="manage_project('create_projectgit', 'create_projectgit_ff', 'gitclone')">Git clone</div>
             <div class="menu-sep"></div>
-            {% if username == "Admin" %}
             <div onclick="addTab('User Management', '/user', 'icon-user')" data-options="iconCls:'icon-user'">用户管理</div>
             <div class="menu-sep"></div>
             {% endif %}
@@ -76,14 +79,7 @@
         </div>
         <div id="project_menu" class="easyui-menu" style="width:160px;">
             <div onclick="manage_suite('create_suite', 'create_suite_ff', 'create')" data-options="iconCls:'icon-suite'">创建目录</div>
-            <div>
-                <span>Git 目录</span>
-                  <div style="width:150px;">
-                      <div onclick="manage_suite('create_suitegit', 'create_suite_ffgit', 'gitclone')">Clone</div>
-                      <div onclick="gitcommit();">Commit</div>
-                      <div onclick="gitpush();">Push</div>
-                  </div>
-            </div>
+            <div onclick="manage_suite('create_suitegit', 'create_suite_ffgit', 'gitclone')">Git Clone</div>
             <div onclick="set_main_project()">设置为主项目</div>
             <div class="menu-sep"></div>
             <div onclick="do_run();" data-options="iconCls:'icon-run'">运行全部用例</div>
@@ -113,7 +109,7 @@
                       <div onclick="open_win('uploadcase_win');">导入测试用例</div>
                       <div class="menu-sep"></div>
                       <div onclick="do_downcaseinfox('downcaseinfo_ff');">导出测试用例 (xlsx)</div>
-                      <div onclick="do_downcaseinfoz('downcaseinfo_ff');">导出用例文件 (zip)</div>
+                      <div onclick="do_downcaseinfoz('downcaseinfo_ff');">导出项目文件 (zip)</div>
                       <div class="menu-sep"></div>
                       <div onclick="do_downruninfo('downruninfo_ff');">导出执行报告</div>
                   </div>
@@ -125,20 +121,15 @@
                       <div onclick="manage_project('delu_project', 'delu_project_ff', 'deluser')">移除共享用户</div>
                   </div>
             </div>
+            {% if username == "Admin" %}
             <div class="menu-sep"></div>
             <div onclick="manage_project('edit_project', 'edit_project_ff', 'edit')">重命名</div>
             <div onclick="delete_project()" data-options="iconCls:'icon-remove'">删除项目</div>
+            {% endif %}
         </div>
         <div id="suite_menu" class="easyui-menu" style="width:160px;">
             <div onclick="manage_suite('create_suite', 'create_suite_ff', 'create')" data-options="iconCls:'icon-suite'">创建目录</div>
-            <div>
-                <span>Git</span>
-                  <div style="width:150px;">
-                      <div onclick="manage_suite('create_suitegit', 'create_suite_ffgit', 'gitclone')">Clone</div>
-                      <div onclick="gitcommit();">Commit</div>
-                      <div onclick="gitpush();">Push</div>
-                  </div>
-            </div>
+            <div onclick="manage_suite('create_suitegit', 'create_suite_ffgit', 'gitclone')">Git Clone</div>
             <div onclick="refresh_suite_cases()" data-options="iconCls:'icon-refresh'">刷新目录</div>
             <div class="menu-sep"></div>
             <div onclick="manage_file('create_file', 'create_file_ff', 'create')">创建文件</div>
@@ -159,7 +150,7 @@
                       <div onclick="open_win('uploadcase_win');">导入用例</div>
                       <div class="menu-sep"></div>
                       <div onclick="do_downcaseinfox('downcaseinfo_ff');">导出测试用例(.xlsx)</div>
-                      <div onclick="do_downcaseinfoz('downcaseinfo_ff');">导出用例文件(.zip)</div>
+                      <div onclick="do_downcaseinfoz('downcaseinfo_ff');">导出目录文件(.zip)</div>
                       <div class="menu-sep"></div>
                       <div onclick="save_caserecord_d()">暂存用例结果</div>
                       <div onclick="do_exportresult_d('export_result_ff');">导出用例结果(.his)</div>

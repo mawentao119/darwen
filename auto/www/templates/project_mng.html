@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Porject management</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/auto.css') }}">
+
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+        <style type="text/css">
+            .lines-no .datagrid-body td{
+                border-right:1px dotted transparent;
+                border-bottom:1px dotted transparent;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="easyui-layout" style="width:100%; height:800px; padding:10px;">
+        <div id="p" data-options="region:'west'" title="项目列表" style="width:60%">
+            <table id="setting_list" class="easyui-datagrid" style="width:100%;height:auto;"
+                    data-options="singleSelect:true,
+                        fitColumns:true,
+                        url:'/api/v1/project?method=project_list',
+                        method:'get',
+                        toolbar: toolbar"
+                    >
+                <thead>
+                    <tr>
+                        <th data-options="field:'projectname',align:'center' , halign: 'center'">项目名称</th>
+                        <th data-options="field:'owner',align:'center' , halign: 'center'">管理员</th>
+                        <th data-options="field:'users',align:'center' , halign: 'center'">用户</th>
+                        <th data-options="field:'cron',align:'center' , halign: 'center'">备注</th>
+                    </tr>
+                </thead>
+            </table>
+            <!-- create user -->
+            <div id="create_setting" class="easyui-window" title="新增配置项"
+                 data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
+                 style="width:350px;height:270px;padding:10px;">
+                <form id="create_setting_ff" method="post">
+                    <div style="margin-bottom:10px">
+                        <input class="easyui-textbox" id="description" name="description" label="配置描述" labelPosition="left" style="width:100%" data-options="required:true">
+                    </div>
+                    <div style="margin-bottom:10px">
+                        <input class="easyui-textbox" id="item" name="item" label="配置项" labelPosition="left" style="width:100%" data-options="required:true">
+                    </div>
+                    <div style="margin-bottom:10px">
+                        <input class="easyui-textbox" id="value" name="value" label="值" labelPosition="left" style="width:100%" data-options="required:true">
+                    </div>
+                    <div style="margin-bottom:20px">
+                        <input class="easyui-textbox" id="demo" name="demo" label="备注" labelPosition="left" style="width:100%" data-options="required:false">
+                    </div>
+                </form>
+                <div style="text-align:right;padding:5px 0">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('create_setting')" style="width:60px">Cancle</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="create_setting('create_setting', 'create_setting_ff')" style="width:60px">Create</a>
+                </div>
+            </div>
+            <!-- end -->
+            <!-- edit user -->
+            <div id="edit_setting" class="easyui-window" title="编辑配置项"
+                 data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
+                 style="width:320px;height:300px;padding:10px;">
+                <form id="edit_setting_ff" method="post">
+                    <div style="margin-bottom:10px">
+                        <input class="easyui-textbox" id="description" name="description" label="配置描述" labelPosition="left" style="width:100%" data-options="required:true">
+                    </div>
+                    <div style="margin-bottom:10px">
+                        <input class="easyui-textbox" id="item" name="item" label="配置项" labelPosition="left" style="width:100%" data-options="required:true" readonly>
+                    </div>
+                    <div style="margin-bottom:10px">
+                        <input class="easyui-textbox" id="value" name="value" label="值" labelPosition="left" style="width:100%" data-options="required:true">
+                    </div>
+                    <div style="margin-bottom:10px">
+                        <input class="easyui-textbox" id="demo" name="demo" label="备注" labelPosition="left" style="width:100%" data-options="required:true">
+                    </div>
+
+                </form>
+                <div style="text-align:right;padding:5px 0">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('edit_setting')" style="width:60px">Cancle</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="edit_setting('edit_setting', 'edit_setting_ff')" style="width:60px">Save</a>
+                </div>
+            </div>
+        </div>
+        <div data-options="region:'center'" title="项目操作">
+            <div class="easyui-accordion" style="height:300px;">
+                <div title="导入项目" data-options="iconCls:'icon-configitem'" style="overflow:auto;padding:10px;">
+                    <p style="color:#0099FF;">建议将测试结果远端git保存，本地保存的将随环境的消失而消失</p>
+                    <div style="padding:5px 0;">
+                        <a href="#" class="easyui-linkbutton" onclick="open_win('uploadcr_win');" data-options="iconCls:'icon-search'" style="width:48%">上传历史用例结果(.his)</a>
+                        <a href="#" class="easyui-linkbutton" onclick="manage_gitff('gitclone_caserecord', 'gitclone_caserecord_ff', 'gitclone')" data-options="iconCls:'icon-print'" style="width:48%; margin-left:10px">从历史库Git Clone 用例结果</a>
+                        <a href="#" class="easyui-linkbutton" onclick="delete_caserecord();" data-options="iconCls:'icon-search'" style="width:48%; margin-top:10px">清空本地结果缓存</a>
+                    </div>
+                </div>
+                <div title="导出项目" data-options="iconCls:'icon-configitem'" style="padding:10px;">
+                    <p style="color:#0099FF;">调度器的操作可以重复执行，不影响最终结果</p>
+                    <div style="padding:5px 0;">
+                        <a href="#" class="easyui-linkbutton" onclick="pause_scheduler();" data-options="iconCls:'icon-search'" style="width:48%">暂停调度器</a>
+                        <a href="#" class="easyui-linkbutton" onclick="resume_scheduler();" data-options="iconCls:'icon-print'" style="width:48%; margin-left:10px">恢复调度器</a>
+                        <a href="#" class="easyui-linkbutton" onclick="delete_allschedulejobs();" data-options="iconCls:'icon-search'" style="width:48%; margin-top:10px">清空所有调度任务</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gitclone_caserecord" class="easyui-window" title="Git clone 导入历史用例结果"
+             data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
+             style="width:400px;height:210px;padding:10px;">
+            <form id="gitclone_caserecord_ff" method="post">
+                <div style="margin-bottom:5px">
+                    <h5>请输入用例历史结果Git库地址(.git)</h5>
+                    <input class="easyui-textbox" id="name" name="name" label="Git URL:" labelPosition="top" data-options="prompt:'不输入，使用默认用例结果git库'" style="width:100%" data-options="required:false">
+                </div>
+            </form>
+            <div style="text-align:right;padding:5px 0">
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('gitclone_caserecord')" style="width:60px">Cancle</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="gitclone_caserecord('gitclone_caserecord', 'gitclone_caserecord_ff')" style="width:60px">Clone</a>
+            </div>
+        </div>
+
+            <div id="uploadcr_win" class="easyui-window" title="上传用例历史执行结果"
+         data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false,iconCls:'icon-case'"
+            style="width:500px;height:140px;padding:10px;">
+            <form id="uploadcr_ff" method="POST" action="/api/v1/manage_file/" enctype="multipart/form-data">
+                <div style="margin-bottom:20px">
+                    <input name="method" id="method" value="uploadcaserecord" hidden>
+                    <input name="key" id="key" value="/" hidden>
+                    <input id="files" name="files" class="easyui-filebox" label="" labelPosition="top"
+                           data-options="prompt:'Select a file...',buttonText:'Select'" style="width:100%">
+                </div>
+                <div style="text-align:right;">
+                    <a href="#" class="easyui-linkbutton" style="width:80px;" onclick="do_uploadcaserecord('uploadcr_win', 'uploadcr_ff')">Upload</a>
+                </div>
+
+            </form>
+            </div>
+
+        </div>
+        </div>
+
+        <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
+
+        <!-- 自定义js库 -->
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/auto.js') }}"></script>
+        <SCRIPT type="text/javascript">
+            $(document).ready(function(){
+                //$('#edit_smtp_ff').form('load','/api/v1/settings?method=smtp');
+
+            });
+            var toolbar = [
+                {
+                    text:'刷新',
+                    iconCls:'icon-refresh',
+                    handler:function(){
+                        $("#setting_list").datagrid('reload');
+                    }
+			    }, '-',
+			    {
+			        text:'添加',
+                    iconCls:'icon-expand',
+                    handler:function(){
+                        manage_setting("create_setting", "create_setting_ff", "create");
+                        /*var data ={"method": "run", "category": "project", "project": "{{ project }}" };
+                        do_ajax('post',
+                            '/api/v1/task/',
+                            data,
+                            do_msg);
+
+                        $("#user_list").datagrid('reload');
+                        */
+                    }
+			    }, '-',
+			    {
+			        text:'编辑',
+                    iconCls:'icon-edit',
+                    handler:function(){
+                        var row = $('#setting_list').datagrid('getSelected');
+                        if(row){
+                            $("#edit_setting_ff input#description").textbox("setValue", row.description);
+                            $("#edit_setting_ff input#item").textbox("setValue", row.item);
+                            $("#edit_setting_ff input#value").textbox("setValue", row.value);
+                            $("#edit_setting_ff input#demo").textbox("setValue", row.demo);
+                            open_win('edit_setting');
+                        }
+                        else{
+                            show_msg("Alert", "Please select one record！");
+                        }
+                    }
+			    }, '-',
+			    {
+			        text:'删除',
+                    iconCls:'icon-remove',
+                    handler:function(){
+                        var row = $('#setting_list').datagrid('getSelected');
+                        if(row){
+                            $.messager.confirm('Alert', '删除配置项?', function(r){
+                                if (r){
+                                    var data ={"method": "delete", "item": "{0}".lym_format(row.item) };
+                                    do_ajax('post',
+                                        '/api/v1/settings/',
+                                        data,
+                                        do_msg);
+
+                                    $("#setting_list").datagrid('reload');
+                                }
+                            });
+                        }
+                    }
+			    }
+			 ];
+        </SCRIPT>
+    </body>
+</html>

@@ -77,43 +77,13 @@ class TestDB():
             if user.lower() == "admin":  # user=Admin
                 continue
             for project in os.listdir(os.path.join(workspace, user)):
-                userfile = os.path.join(workspace, user, project, 'darwen/conf/user.conf')
-                users = []
-                log.info("Read user file: {}".format(userfile))
-                if os.path.exists(userfile):
-                    with open(userfile, 'r') as f:
-                        for l in f:
-                            if l.startswith('#'):
-                                continue
-                            if len(l.strip()) == 0:
-                                continue
-                            splits = l.strip().split('|')  # user.conf using '|' as splitor
-                            if len(splits) != 6:
-                                log.error("Wrong user Line " + l)
-                            (username, fullname, password, email, category, main_project) = splits
-                            users.append(username)
-                            log.info("Add user: {}".format(username))
-                            self.add_user(username,fullname,password,email,category,main_project)
-
-                if user in users:   # add project of the
-                    log.info("Create Project with owner:{}".format(user))
-                    self.add_project(project,user,','.join(users))
-                    self.refresh_caseinfo(os.path.join(workspace,user,project), mode='force')
-                else:
-                    log.error("Load Project Fail: Find project:{}, But user {} not in file {} ".format(project,user,userfile))
+                project_path = os.path.join(workspace, user, project)
+                self.load_project_from_path(project_path)
 
     def load_project_from_path(self, project_path):
         log.info("Load project from path: {}".format(project_path))
 
-        if project_path.endswith('/'):
-            project = project_path.split('/')[-2]
-            user = project_path.split('/')[-3]
-        else:
-            project = project_path.split('/')[-1]
-            user = project_path.split('/')[-2]
-
         userfile = os.path.join(project_path, 'darwen/conf/user.conf')
-        users = []
         log.info("Read user file: {}".format(userfile))
         if os.path.exists(userfile):
             with open(userfile, 'r') as f:
@@ -126,49 +96,32 @@ class TestDB():
                     if len(splits) != 6:
                         log.error("Wrong user Line " + l)
                     (username, fullname, password, email, category,main_project) = splits
-                    users.append(username)
                     log.info("Add user: {}".format(username))
                     self.add_user(username,fullname,password,email,category,main_project)
 
-        log.info("Create Project with owner:{}".format(user))
-        self.add_project(project,user,','.join(users))
-        self.refresh_caseinfo(project_path, mode='force')
-
-        self.set_user_main_project(user, project)
-        self.init_project_settings(project_path)
+        projectfile = os.path.join(project_path, 'darwen/conf/project.conf')
+        log.info("Read Project file: {}".format(projectfile))
+        if os.path.exists(projectfile):
+            with open(projectfile, 'r') as f:
+                for l in f:
+                    if l.startswith('#'):
+                        continue
+                    if len(l.strip()) == 0:
+                        continue
+                    splits = l.strip().split('|')
+                    if len(splits) != 4:
+                        log.error("Wrong projectfile Line " + l)
+                    (projectname, owner, users, cron) = splits
+                    log.info("Create Project with owner:{}".format(owner))
+                    self.add_project(projectname, owner, users)
+                    self.refresh_caseinfo(project_path, mode='force')
+        else:
+            log.error("Load Project Fail: Cannot find project.conf:{} ".format(projectfile))
 
     def load_project_from_name(self, project_name):
         log.info("Load project from name: {}".format(project_name))
-
-        user = self.get_projectowner(project_name)
-        project = project_name
-        project_path = os.path.join(self.dbpath,'../workspace',user,project)
-
-        userfile = os.path.join(project_path, 'darwen/conf/user.conf')
-
-        users = []
-        log.info("Read user file: {}".format(userfile))
-        if os.path.exists(userfile):
-            with open(userfile, 'r') as f:
-                for l in f:
-                    if l.startswith('#'):
-                        continue
-                    if len(l.strip()) == 0:
-                        continue
-                    splits = l.strip().split('|')  # user.conf using '|' as splitor
-                    if len(splits) != 6:
-                        log.error("Wrong user Line " + l)
-                    (username, fullname, password, email, category,main_project) = splits
-                    users.append(username)
-                    log.info("Add user: {}".format(username))
-                    self.add_user(username,fullname,password,email,category,main_project)
-
-        log.info("Create Project with owner:{}".format(user))
-        self.add_project(project,user,','.join(users))
-        self.refresh_caseinfo(project_path, mode='force')
-
-        self.set_user_main_project(user, project)
-        self.init_project_settings(project_path)
+        project_path = self.get_project_path(project_name)
+        self.load_project_from_path(project_path)
 
     def get_project_path(self, project):
         log.info("Get Project Path of Project:{}".format(project))
@@ -254,8 +207,8 @@ class TestDB():
     def init_project_settings(self, key):
         log.info("Load Settings from dir: {}".format(key))
 
-        if key.lower().endswith('darwen') or key.lower().endswith('demo_project'):
-            return True
+        if key.lower().endswith('darwen'):
+            return "Do not allowed config this project."
 
         settings_file = os.path.join(key, 'darwen/conf/settings.conf')
         log.info("Read Settings file: {}".format(settings_file))
@@ -272,10 +225,11 @@ class TestDB():
                         log.error("Wrong settings Line " + l)
                     (description,item,value,demo,category) = splits
                     self.runsql(''' INSERT INTO settings values('{}','{}','{}','{}','{}');'''.format(description,item,value,demo,category))
+            return "Operation Success."
         else:
-            log.error("Cannot find settings.conf for project:{}".format(key))
-
-        return True
+            msg = "Cannot find settings.conf for project:{}".format(key)
+            log.error(msg)
+            return msg
 
     def add_setting(self, description, item, value, demo):
 

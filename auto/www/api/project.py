@@ -35,6 +35,9 @@ class Project(Resource):
 
     def get(self):
         args = self.parser.parse_args()
+        method = args["method"].lower()
+        if method == 'project_list':
+            return self.__get_projectlist(args)
 
     def post(self):
         args = self.parser.parse_args()
@@ -160,18 +163,17 @@ class Project(Resource):
         return result
 
     def __set_main(self, args):
-        result = {"status": "success", "msg": "设置为主项目成功"}
-
-        self.log.debug("Delete Project args:{}".format(args))
 
         #user_path = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session["username"], args["name"])
         user_path = args['key']
         if exists_path(user_path):
-            self.app.config['DB'].init_project_settings(user_path)
+            info = self.app.config['DB'].init_project_settings(user_path)
             projectname = get_projectnamefromkey(user_path)
             self.app.config['DB'].set_user_main_project(session['username'],projectname)
 
-        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'set_main', user_path, result['status'])
+        result = {"status": "success", "msg": info}
+
+        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'set_main', user_path, info)
 
         return result
 
@@ -219,6 +221,15 @@ class Project(Resource):
 
         return result
 
+    def __get_projectlist(self, args):
+        project_list = {"total": 0, "rows": []}
+        res = self.app.config['DB'].runsql("Select projectname,owner,users,cron from project;")
+        for r in res:
+            (projectname,owner,users,cron) = r
+            project_list["rows"].append(
+                {"projectname": projectname, "owner": owner, "users": users, "cron": cron})
+
+        return project_list
 
 class ProjectList(Resource):
     def __init__(self):

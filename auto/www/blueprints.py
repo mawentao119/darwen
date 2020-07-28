@@ -141,6 +141,10 @@ def user():
 def settings():
     return render_template('settings.html')
 
+@routes.route("/project_mng/")
+def project_mng():
+    return render_template('project_mng.html')
+
 
 @routes.route("/view_report/<project>/<task>")
 def view_report(project, task):

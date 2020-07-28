@@ -196,7 +196,7 @@ class Settings(Resource):
         settingsfile = os.path.join(self.app.config['AUTO_HOME'],'workspace',owner,project,'darwen/conf/settings.conf')
         self.log.info("Save settings to file :{}".format(settingsfile))
         with open(settingsfile, 'w') as f:
-            f.write("#description#item#value#demo#category")
+            f.write("#description#item#value#demo#category\n")
             res = self.app.config['DB'].runsql("select * from settings;")
             for i in res:
                 f.write('#'.join(i) + '\n')
