@@ -11,8 +11,6 @@ Email: lymking@foxmail.com
 """
 import logging
 import os
-from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
-from apscheduler.executors.pool import ProcessPoolExecutor
 from utils.dbclass import TestDB
 
 class Config:

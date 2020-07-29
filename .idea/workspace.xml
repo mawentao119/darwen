@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ab43467d-ad90-46a2-99ca-651bd4d7e6ad" name="Default" comment="bug fix">
+    <list default="true" id="ab43467d-ad90-46a2-99ca-651bd4d7e6ad" name="Default" comment="set main project finished">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auto/configuration.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/configuration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/project.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/project.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/static/css/auto.css" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/css/auto.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/static/js/autocomplete.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/autocomplete.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/static/js/highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/highlight.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/dbclass.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/dbclass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/static/js/darwen_demo/autocomplete.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/static/js/darwen_demo/highlight.js" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,95 +18,20 @@
   <component name="ChangesViewManager" show_ignored="true" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/auto/configuration.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="171">
+              <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1017">
-              <caret line="384" column="103" lean-forward="true" selection-start-line="384" selection-start-column="103" selection-end-line="384" selection-end-column="103" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/www/templates/dashboard.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="86" column="50" selection-start-line="86" selection-start-column="50" selection-end-line="86" selection-end-column="50" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#11;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#12;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#13;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/auto/www/static/lib/auto.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="457">
-              <caret line="558" column="39" selection-start-line="558" selection-start-column="39" selection-end-line="558" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/www/api/project.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="502">
-              <caret line="360" column="35" lean-forward="true" selection-start-line="360" selection-start-column="35" selection-end-line="360" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/www/static/img/project.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/www/static/css/auto.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="45" column="38" selection-start-line="45" selection-start-column="38" selection-end-line="45" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utils/file.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="125" column="20" selection-start-line="125" selection-start-column="4" selection-end-line="125" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/www/api/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="951">
-              <caret line="67" column="27" selection-start-line="67" selection-start-column="27" selection-end-line="67" selection-end-column="27" />
-              <folding>
-                <element signature="e#93#99#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/www/api/user.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="86" lean-forward="true" selection-start-line="86" selection-end-line="86" />
-              <folding>
-                <element signature="e#89#95#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="398">
+              <caret line="506" column="65" selection-start-line="506" selection-start-column="65" selection-end-line="506" selection-end-column="65" />
             </state>
           </provider>
         </entry>
@@ -119,36 +40,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>do_view_task</find>
-      <find>logo.min.png</find>
-      <find>users</find>
-      <find>init_user</find>
-      <find>load_all_task</find>
-      <find>open</find>
-      <find>MAX_PROCS</find>
-      <find>init_setting</find>
-      <find>AUTO_HOME</find>
-      <find>clone</find>
-      <find>manage_project</find>
-      <find>create_projectgit</find>
-      <find>auto.js</find>
-      <find>init_pro</find>
-      <find>js/auto.js</find>
-      <find>get_project</find>
-      <find>fetchone</find>
-      <find>get_projects</find>
-      <find>init_project_settings</find>
-      <find>create_projectgit_ff</find>
-      <find>project_s</find>
-      <find>delete_project</find>
-      <find>project</find>
-      <find>cate</find>
-      <find>_user</find>
-      <find>CUR_PROJECT</find>
       <find>CUR_PROJ</find>
+      <find>set_user</find>
+      <find>set_user_category</find>
+      <find>get_user_category</find>
+      <find>add_user</find>
+      <find>category</find>
+      <find>load_project_from_path</find>
+      <find>load_project_from_name</find>
+      <find>print</find>
+      <find>Wrong</find>
       <find>categ</find>
-      <find>load</find>
       <find>setting</find>
+      <find>mng</find>
+      <find>if username == &quot;Admin&quot;</find>
+      <find>创建目录</find>
+      <find>导出用例文件</find>
+      <find>主项目</find>
+      <find>tb_pro</find>
+      <find>load</find>
+      <find>function refresh_project_node</find>
+      <find>adduser_project</find>
+      <find>addu_project_ff</find>
+      <find>delete_project</find>
+      <find>删除项目</find>
+      <find>rename</find>
+      <find>settings</find>
+      <find>edit_project_ff</find>
+      <find>rename_project</find>
+      <find>Read user file</find>
+      <find>demo_project</find>
     </findStrings>
     <replaceStrings>
       <replace>summary</replace>
@@ -159,6 +80,7 @@
       <replace>j</replace>
       <replace>, jobargs, user</replace>
       <replace>lib/auto.js</replace>
+      <replace>get_user_main_project</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/auto/www/templates</dir>
@@ -175,11 +97,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/auto/www/templates/excute_report.html" />
-        <option value="$PROJECT_DIR$/auto/www/templates/case_report.html" />
-        <option value="$PROJECT_DIR$/auto/www/templates/report.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/scheduler.html" />
-        <option value="$PROJECT_DIR$/auto/www/templates/user.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/schedul_mng.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/monitor.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/inject.html" />
@@ -201,7 +119,6 @@
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/auto/www/api/__init__.py" />
         <option value="$PROJECT_DIR$/abc.py" />
-        <option value="$PROJECT_DIR$/auto/www/blueprints.py" />
         <option value="$PROJECT_DIR$/auto/www/templates/settings.html" />
         <option value="$PROJECT_DIR$/auto/www/static/js/suite.js" />
         <option value="$PROJECT_DIR$/auto/www/templates/welcome.html" />
@@ -218,14 +135,19 @@
         <option value="$PROJECT_DIR$/darwen.py" />
         <option value="$PROJECT_DIR$/auto/www/app.py" />
         <option value="$PROJECT_DIR$/auto/www/templates_en/default.html" />
-        <option value="$PROJECT_DIR$/auto/www/static/lib/auto.js" />
-        <option value="$PROJECT_DIR$/auto/www/templates/dashboard.html" />
+        <option value="$PROJECT_DIR$/auto/www/templates/user.html" />
         <option value="$PROJECT_DIR$/auto/www/static/css/auto.css" />
-        <option value="$PROJECT_DIR$/auto/www/api/user.py" />
-        <option value="$PROJECT_DIR$/auto/configuration.py" />
+        <option value="$PROJECT_DIR$/auto/www/blueprints.py" />
+        <option value="$PROJECT_DIR$/auto/www/templates/project_mng.html" />
         <option value="$PROJECT_DIR$/auto/www/api/settings.py" />
-        <option value="$PROJECT_DIR$/auto/www/api/project.py" />
         <option value="$PROJECT_DIR$/utils/dbclass.py" />
+        <option value="$PROJECT_DIR$/utils/file.py" />
+        <option value="$PROJECT_DIR$/utils/gitit.py" />
+        <option value="$PROJECT_DIR$/auto/www/api/user.py" />
+        <option value="$PROJECT_DIR$/auto/www/templates/dashboard.html" />
+        <option value="$PROJECT_DIR$/auto/www/api/project.py" />
+        <option value="$PROJECT_DIR$/auto/configuration.py" />
+        <option value="$PROJECT_DIR$/auto/www/static/lib/auto.js" />
       </list>
     </option>
   </component>
@@ -279,22 +201,6 @@
               <item name="auto" type="462c0819:PsiDirectoryNode" />
               <item name="www" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="darwen" type="b2602c69:ProjectViewProjectNode" />
-              <item name="darwen" type="462c0819:PsiDirectoryNode" />
-              <item name="auto" type="462c0819:PsiDirectoryNode" />
-              <item name="www" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="img" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="darwen" type="b2602c69:ProjectViewProjectNode" />
-              <item name="darwen" type="462c0819:PsiDirectoryNode" />
-              <item name="auto" type="462c0819:PsiDirectoryNode" />
-              <item name="www" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -330,10 +236,10 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/auto/www/templates" />
       <recent name="$PROJECT_DIR$/auto/www/static/lib" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/auto/www/api" />
-      <recent name="$PROJECT_DIR$/auto/www/templates" />
       <recent name="$PROJECT_DIR$/auto/www" />
     </key>
   </component>
@@ -359,41 +265,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1534349381434</updated>
-    </task>
-    <task id="LOCAL-00022" summary="修改logoin页面，临时加入用户名和密码">
-      <created>1593431676454</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1593431676454</updated>
-    </task>
-    <task id="LOCAL-00023" summary="修改logoin页面">
-      <created>1593497496440</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1593497496440</updated>
-    </task>
-    <task id="LOCAL-00024" summary="修改logoin页面">
-      <created>1594031015703</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1594031015703</updated>
-    </task>
-    <task id="LOCAL-00025" summary="add offline packages">
-      <created>1594031065815</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1594031065815</updated>
-    </task>
-    <task id="LOCAL-00026" summary="add  start  script">
-      <created>1594031143937</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1594031143937</updated>
     </task>
     <task id="LOCAL-00027" summary="add  start  script">
       <created>1594039872688</created>
@@ -703,11 +574,47 @@
       <option name="project" value="LOCAL" />
       <updated>1595839588199</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="set main project finished">
+      <created>1595856510403</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1595856510403</updated>
+    </task>
+    <task id="LOCAL-00072" summary="set main project finished">
+      <created>1595950346848</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1595950346848</updated>
+    </task>
+    <task id="LOCAL-00073" summary="set main project finished">
+      <created>1595957543979</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1595957543979</updated>
+    </task>
+    <task id="LOCAL-00074" summary="add git clone project">
+      <created>1595962442026</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1595962442026</updated>
+    </task>
+    <task id="LOCAL-00075" summary="bug fix">
+      <created>1595995905777</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1595995905778</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1920" y="-116" width="1920" height="1080" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10330138" />
       <window_info id="Favorites" order="1" side_tool="true" />
@@ -718,7 +625,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49776787" visible="true" weight="0.26732674" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49776787" visible="true" weight="0.26534653" />
       <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.49776787" weight="0.44851485" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49713877" weight="0.32409638" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50214595" side_tool="true" weight="0.32891566" />
@@ -770,8 +677,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="增加'结果对比'功能,菜单添加" />
-    <MESSAGE value="增加'上传历史结果'功能" />
     <MESSAGE value="增加'Delete历史结果'功能" />
     <MESSAGE value="增加'git clone caserecord'功能" />
     <MESSAGE value="完成测试环境页面的变量" />
@@ -794,6 +699,8 @@
     <MESSAGE value="change to darwen" />
     <MESSAGE value="change png" />
     <MESSAGE value="finished split 1" />
+    <MESSAGE value="set main project finished" />
+    <MESSAGE value="add git clone project" />
     <MESSAGE value="bug fix" />
     <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
   </component>
@@ -804,29 +711,21 @@
           <url>file://$PROJECT_DIR$/auto/www/api/auth.py</url>
           <line>39</line>
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/auto/configuration.py</url>
+          <line>11</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/abc.py" />
-    <entry file="file://$PROJECT_DIR$/darwen.py" />
-    <entry file="file://$PROJECT_DIR$/../../../../pyenv/lib/python3.7/site-packages/flask_apscheduler/scheduler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="66" column="8" selection-start-line="66" selection-start-column="8" selection-end-line="66" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/js/auto_ORG.js" />
-    <entry file="file://$PROJECT_DIR$/auto/www/static/js/dashboard.js" />
     <entry file="file://$PROJECT_DIR$/auto/www/static/js/suite.js" />
     <entry file="file://$PROJECT_DIR$/auto/www/static/js/editor.js" />
     <entry file="file://$PROJECT_DIR$/auto/www/api/suite.py" />
     <entry file="file://$PROJECT_DIR$/auto/www/templates/welcome.html" />
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/user.html" />
     <entry file="file://$PROJECT_DIR$/auto/www/api/task.py" />
     <entry file="file://$PROJECT_DIR$/utils/run.py" />
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/project_task.html" />
     <entry file="file://$PROJECT_DIR$/auto/www/static/img/running.gif" />
     <entry file="file://$PROJECT_DIR$/auto/www/static/img/success.png" />
     <entry file="file://$PROJECT_DIR$/auto/www/static/img/fail.png" />
@@ -838,10 +737,8 @@
     <entry file="file://$PROJECT_DIR$/auto/www/api/report.py" />
     <entry file="file://$PROJECT_DIR$/utils/do_report.py" />
     <entry file="file://$PROJECT_DIR$/auto/www/templates/case_report.html" />
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/settings.html" />
     <entry file="file://$PROJECT_DIR$/auto/www/templates/task_list.html" />
     <entry file="file://$PROJECT_DIR$/auto/www/templates/schedule_mng.html" />
-    <entry file="file://$PROJECT_DIR$/auto/www/api/tasklist.py" />
     <entry file="file://$PROJECT_DIR$/auto/www/static/img/monitor.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -860,11 +757,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/static/img/logo.min.png">
       <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/blueprints.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-83" />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/static/favicon.ico">
       <provider selected="true" editor-type-id="images" />
@@ -886,13 +778,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/configuration.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="47" column="32" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/static/js/auto.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
@@ -907,33 +792,81 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/settings.py">
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/project.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/project_c.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/user.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="951">
-          <caret line="67" column="27" selection-start-line="67" selection-start-column="27" selection-end-line="67" selection-end-column="27" />
+        <state relative-caret-position="383">
+          <caret line="34" column="106" selection-start-line="34" selection-start-column="106" selection-end-line="34" selection-end-column="106" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/css/auto.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="190" column="34" selection-start-line="190" selection-start-column="34" selection-end-line="190" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/settings.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/api/tasklist.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="528" column="4" selection-start-line="528" selection-start-column="4" selection-end-line="528" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/project_task.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-59" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/project_mng.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1830">
+          <caret line="104" column="22" selection-start-line="104" selection-start-column="22" selection-end-line="104" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/project_s24.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/img/project_m24.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/api/project.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="455">
+          <caret line="234" column="38" selection-start-line="234" selection-start-column="38" selection-end-line="234" selection-end-column="38" />
           <folding>
-            <element signature="e#93#99#0" expanded="true" />
+            <element signature="e#81#90#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/lib/auto.js">
+    <entry file="file://$PROJECT_DIR$/auto/www/blueprints.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="558" column="39" selection-start-line="558" selection-start-column="39" selection-end-line="558" selection-end-column="39" />
+        <state relative-caret-position="370">
+          <caret line="147" lean-forward="true" selection-start-line="147" selection-end-line="147" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/templates/dashboard.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="86" column="50" selection-start-line="86" selection-start-column="50" selection-end-line="86" selection-end-column="50" />
+        <state relative-caret-position="68">
+          <caret line="125" column="93" selection-start-line="125" selection-start-column="93" selection-end-line="125" selection-end-column="93" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#11;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#12;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#13;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#6;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -941,47 +874,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/img/project.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/img/project_c.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/static/css/auto.css">
+    <entry file="file://$PROJECT_DIR$/utils/clear.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="45" column="38" selection-start-line="45" selection-start-column="38" selection-end-line="45" selection-end-column="38" />
+        <state relative-caret-position="90">
+          <caret line="8" column="4" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/gitit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="52" column="50" lean-forward="true" selection-start-line="52" selection-start-column="50" selection-end-line="52" selection-end-column="50" />
+          <folding>
+            <element signature="e#23#32#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/file.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="125" column="20" selection-start-line="125" selection-start-column="4" selection-end-line="125" selection-end-column="20" />
+        <state relative-caret-position="405">
+          <caret line="27" column="29" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
+          <folding>
+            <element signature="e#76#99#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/api/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="810">
+          <caret line="198" column="60" selection-start-line="198" selection-start-column="60" selection-end-line="198" selection-end-column="60" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/api/user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="86" lean-forward="true" selection-start-line="86" selection-end-line="86" />
-          <folding>
-            <element signature="e#89#95#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/api/project.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="502">
-          <caret line="360" column="35" lean-forward="true" selection-start-line="360" selection-start-column="35" selection-end-line="360" selection-end-column="35" />
+        <state relative-caret-position="861">
+          <caret line="166" column="155" lean-forward="true" selection-start-line="155" selection-start-column="4" selection-end-line="166" selection-end-column="155" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1017">
-          <caret line="384" column="103" lean-forward="true" selection-start-line="384" selection-start-column="103" selection-end-line="384" selection-end-column="103" />
+        <state relative-caret-position="310">
+          <caret line="383" column="8" selection-start-line="383" selection-start-column="8" selection-end-line="383" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/configuration.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/static/lib/auto.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="506" column="65" selection-start-line="506" selection-start-column="65" selection-end-line="506" selection-end-column="65" />
         </state>
       </provider>
     </entry>
