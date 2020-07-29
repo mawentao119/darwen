@@ -54,12 +54,12 @@ class User(Resource):
 
 
     def __create(self, args):
-        result = {"status": "success", "msg": "Create user success."}
+        result = {"status": "success", "msg": "成功：创建用户."}
         main_project = self.app.config['DB'].get_user_main_project(session['username'])
         owner = self.app.config['DB'].get_projectowner(main_project)
         if not (session['username'] == owner):
             result["status"] = "fail"
-            result["msg"] = "你无权操作，请联系项目管理员{}.".format(owner)
+            result["msg"] = "失败：你无权操作，请联系项目管理员{}.".format(owner)
             return result
 
         fullname = args["fullname"]
@@ -67,7 +67,7 @@ class User(Resource):
 
         if username in ['myself', 'Admin', 'admin', 'all', 'All']:
             result["status"] = "fail"
-            result["msg"] = "Fail:非法用户名 "+username
+            result["msg"] = "失败:非法用户名 "+username
             return result
 
         passwordHash = generate_password_hash(args["password"])
@@ -75,7 +75,7 @@ class User(Resource):
 
         if not self.app.config['DB'].add_user(username, fullname, passwordHash, email,'User', main_project):
             result["status"] = "fail"
-            result["msg"] = "Create user Failed : username exists."
+            result["msg"] = "失败：用户名已存在."
 
         self.log.info("创建用户: 增加用户到项目 project:{} users:{}".format(main_project, username))
         self.app.config['DB'].add_projectuser(main_project, username)
@@ -87,14 +87,14 @@ class User(Resource):
 
 
     def __edit(self, args):
-        result = {"status": "success", "msg": "Edit user info success."}
+        result = {"status": "success", "msg": "成功：编辑用户信息."}
 
         username = args['username']
         owner = self.app.config['DB'].get_projectowner(self.app.config['DB'].get_user_main_project(session['username']))
 
         if not ( session['username'] == username or session['username'] == owner):
             result["status"] = "fail"
-            result["msg"] = "你无权操作，请联系项目管理员{}.".format(owner)
+            result["msg"] = "失败：你无权操作，请联系项目管理员{}.".format(owner)
 
             self.app.config['DB'].insert_loginfo(session['username'], 'user', 'edit', username,
                                                            result['status'])
@@ -108,10 +108,10 @@ class User(Resource):
             self.app.config['DB'].del_user(username)
             if not self.app.config['DB'].add_user(username, fullname, passwordHash, email,'User',self.app.config['DB'].get_user_main_project(session['username'])):
                 result["status"] = "fail"
-                result["msg"] = "DB failed，Please see log file."
+                result["msg"] = "失败：DB操作失败，见日志."
         else:
             result["status"] = "fail"
-            result["msg"] = "Fail：密码错误或用户不存在!"
+            result["msg"] = "失败：密码错误或用户不存在!"
 
         try:
             res = self.app.config['DB'].insert_loginfo(session['username'], 'user', 'edit', username, result['status'])
@@ -124,13 +124,13 @@ class User(Resource):
 
 
     def __delete(self, args):
-        result = {"status": "success", "msg": "Delete user success."}
+        result = {"status": "success", "msg": "成功：删除用户."}
 
         owner = self.app.config['DB'].get_projectowner(self.app.config['DB'].get_user_main_project(session['username']))
 
         if not (session['username'] == owner):
             result["status"] = "fail"
-            result["msg"] = "你无权操作，请联系管理员{}.".format(owner)
+            result["msg"] = "失败：你无权操作，请联系管理员{}.".format(owner)
 
             self.app.config['DB'].insert_loginfo(session['username'], 'user', 'delete', args["username"],
                                                            result['status'])
@@ -138,13 +138,13 @@ class User(Resource):
 
         if args["username"] == "Admin" or args["username"] == "admin":
             result["status"] = "fail"
-            result["msg"] = "Cannot delete Admin."
+            result["msg"] = "失败：Cannot delete Admin."
             return result
 
         projects = self.app.config['DB'].get_ownproject(args["username"])
         if len(projects) > 0:
             result["status"] = "fail"
-            result["msg"] = "Please Delete user project first!"
+            result["msg"] = "失败：请先删除用户项目!"
         else:
             self.app.config['DB'].del_user(args["username"])
 

@@ -34,16 +34,11 @@ class Case(Resource):
 
     def get(self):
         args = self.parser.parse_args()
-        #charis added TODO 应该没有传path的地方了，考虑删除掉
-        '''if args["path"]:
-            args["path"] = args["path"].replace("--","/")
-        if args["key"]:
-            args["key"] = args["key"].replace("--","/")'''
 
         key = args["key"].replace("--","/") if args["key"] else args["path"].replace("--","/")
 
         self.log.debug("Get args:{}".format(args))
-        result = {"status": "success", "msg": "Read file success."}
+        result = {"status": "success", "msg": "读取文件成功."}
 
         ext = get_splitext(key)
         result["ext"] = ext[1]
@@ -53,7 +48,7 @@ class Case(Resource):
         data = read_file(key)
         if not data["status"]:
             result["status"] = "fail"
-            result["msg"] = "Read file failed."
+            result["msg"] = "读取文件失败."
 
         result["data"] = data["data"]
         return result, 201
@@ -104,12 +99,12 @@ class Case(Resource):
         else:
             user_path = args["key"] + '/' + args['name'] + args['category']
 
-        result = {"status": "success", "msg": "Create success"+":"+os.path.basename(user_path)+":"+user_path}
+        result = {"status": "success", "msg": "创建成功"+":"+os.path.basename(user_path)+":"+user_path}
         if not exists_path(user_path):
             make_nod(user_path)
         else:
             result["status"] = "fail"
-            result["msg"] = "Create Fail: File exists !"
+            result["msg"] = "失败: 文件已存在 !"
 
         self.app.config['DB'].insert_loginfo(session['username'], 'suite', 'create', user_path, result['status'])
 
@@ -128,10 +123,10 @@ class Case(Resource):
         else:
             new_name = fpre + '/' + args["new_name"] + args["new_category"]
 
-        result = {"status": "success", "msg": "Rename success:"+new_name}
+        result = {"status": "success", "msg": "重命名成功:"+new_name}
         if not rename_file(old_name, new_name):
             result["status"] = "fail"
-            result["msg"] = "Rename Failed , filename exists."
+            result["msg"] = "重命名失败，文件已存在."
             return result
 
         if old_name.endswith('.robot'):
@@ -148,14 +143,14 @@ class Case(Resource):
         return result
 
     def __delete(self, args):
-        result = {"status": "success", "msg": "Delete success:"+args['key']}
+        result = {"status": "success", "msg": "删除成功:"+args['key']}
 
         user_path = args["key"]
         if exists_path(user_path):
             remove_file(user_path)
         else:
             result["status"] = "fail"
-            result["msg"] = "Delete Failed, File not exists!"
+            result["msg"] = "删除失败，文件不存在!"
             return result
 
         if user_path.endswith('.robot'):
@@ -170,20 +165,20 @@ class Case(Resource):
     def __delete_caserecord(self, args):
         res = self.app.config['DB'].runsql("DELETE from caserecord;")
         if res:
-            result = {"status": "success", "msg": "Delete caserecord success!"}
+            result = {"status": "success", "msg": "成功：删除用例记录!"}
         else:
-            result = {"status": "fail", "msg": "Delete caserecord failed!"}
+            result = {"status": "fail", "msg": "失败：删除用例记录!"}
 
         self.app.config['DB'].insert_loginfo(session['username'], 'caserecord', 'delete', 'none', result['status'])
         return result
 
     def __save(self, args):
-        result = {"status": "success", "msg": "Save success."}
+        result = {"status": "success", "msg": "成功：保存成功."}
         user_path = args["key"]
 
         if not write_file(user_path, args["data"]):
             result["status"] = "fail"
-            result["msg"] = "Save Failed"
+            result["msg"] = "失败：保存失败"
 
         if user_path.endswith('.robot'):
             self.app.config['DB'].refresh_caseinfo(user_path, 'force')
@@ -201,10 +196,10 @@ class Case(Resource):
 
         new_file = fpre + '/' + new_name
 
-        result = {"status": "success", "msg": "File copy success"+":"+new_name +":" + new_file}
+        result = {"status": "success", "msg": "文件拷贝成功"+":"+new_name +":" + new_file}
         if not copy_file(old_name, new_file):
             result["status"] = "fail"
-            result["msg"] = "File copy Failed，new name exists!"
+            result["msg"] = "失败：新文件已存在!"
 
         self.app.config['DB'].insert_loginfo(session['username'], 'suite', 'copy', old_name, result['status'])
 
@@ -236,14 +231,14 @@ class Case(Resource):
                 res = self.app.config['DB'].set_casestatus(info_key, info_name, status, runuser)
 
             if res.rowcount > 0:
-                result = {"status": "success", "msg": "Set status OK :" + info_name}
+                result = {"status": "success", "msg": "设置状态 OK :" + info_name}
             else:
                 result = {"status": "fail",
-                          "msg": "Cannot find case: " + info_name + ", you can try Refresh Dir."}
+                          "msg": "找不到用例: " + info_name + ", you can try Refresh Dir."}
             self.app.config['DB'].insert_loginfo(session['username'], 'case', 'hand', info_key, info_name+':'+status)
         except Exception as e:
             self.log.error("handpass Exception:{}".format(e))
-            result = {"status": "fail", "msg": "Update DB Failed! See log file."}
+            result = {"status": "fail", "msg": "更新DB失败! See log file."}
 
         return result
 
@@ -311,7 +306,7 @@ class Case(Resource):
                 (_, f_ext) = os.path.splitext(ff)
                 totalfile += 1
                 if not f_ext == '.his':
-                    self.log.warning("Gitclone caserecord Omit file:"+ff)
+                    self.log.warning("Gitclone caserecord 忽略文件:"+ff)
                     omitfile += 1
                     continue
                 with open(ff, 'r') as f:
@@ -324,7 +319,7 @@ class Case(Resource):
                         splits = l.split('|')
                         if len(splits) != 8:
                             formaterror += 1
-                            self.log.error("uploadcaserecord Fail with wrong cols:" + l)
+                            self.log.error("uploadcaserecord 错误行:" + l)
                             continue
                         (
                         info_key, info_name, info_testproject, info_projectversion, ontime, run_status, run_elapsedtime,
@@ -338,7 +333,7 @@ class Case(Resource):
                             success += 1
                         else:
                             exits += 1
-                            self.log.error("uploadcaserecord Fail with record exists:" + l)
+                            self.log.error("uploadcaserecord 失败，记录存在:" + l)
 
         remove_dir(path) if os.path.exists(path) else None
 

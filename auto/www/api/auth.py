@@ -29,7 +29,7 @@ class Auth(Resource):
         if username in session:
             session.pop(username, None)
 
-        return {"status": "success", "msg": "logout success", "url": url_for('routes.index')}, 201
+        return {"status": "success", "msg": "登出成功", "url": url_for('routes.index')}, 201
 
     # chairs added: use DB
     def post(self):
@@ -45,7 +45,7 @@ class Auth(Resource):
         if passwordHash:
             if check_password_hash(passwordHash, password):
                 session['username'] = username
-                return {"status": "success", "msg": "login success", "url": url_for('routes.dashboard')}, 201
+                return {"status": "success", "msg": "登录成功", "url": url_for('routes.dashboard')}, 201
 
         self.log.warning("登录失败: user: {} password xxx".format(username))
 

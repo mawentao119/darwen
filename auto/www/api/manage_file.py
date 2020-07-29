@@ -66,7 +66,7 @@ class ManageFile(Resource):
             (status, msg) = do_importfromzip(temp_file, path)
             result = {"status": status, "msg": msg}
         else:
-            result = {"status": "fail", "msg": "Unexpected file ext:{}".format(f_ext)}
+            result = {"status": "fail", "msg": "异常后缀:{}".format(f_ext)}
 
         self.app.config['DB'].insert_loginfo(session['username'], 'file', 'uploadcase', path, file.filename)
 
@@ -97,7 +97,7 @@ class ManageFile(Resource):
         return result
 
     def __upload(self, file, path):
-        result = {"status": "success", "msg": "Upload success."}
+        result = {"status": "success", "msg": "成功：上传文件."}
 
         #charis added  TODO: 如果统一菜单的话，可以这里判断path是否为目录或文件
         user_path = path + '/' + file.filename
@@ -106,7 +106,7 @@ class ManageFile(Resource):
             file.save(user_path)
         else:
             result["status"] = "fail"
-            result["msg"] = "Upload Failed."
+            result["msg"] = "失败：上传文件."
 
         self.app.config['DB'].insert_loginfo(session['username'], 'file', 'upload', user_path)
 
@@ -115,7 +115,7 @@ class ManageFile(Resource):
     def __download(self, args):
         # charis added :
         user_path = args['key']
-        self.log.info("Download casefile request:" + user_path)
+        self.log.info("下载文件请求路径:" + user_path)
 
         self.app.config['DB'].insert_loginfo(session['username'], 'file', 'download', user_path)
 
@@ -180,7 +180,7 @@ class ManageFile(Resource):
             return self.__sendfile(fname)
         else:
             self.log.error("Fail: exportXresult of key:{} ,name:{} ,找不到用例.".format(key,name))
-            return "Cannot find case ."
+            return "找不到用例."
 
     def __downruninfo(self, args):
         # charis added :

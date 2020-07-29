@@ -61,10 +61,10 @@ class Project(Resource):
         return result, 201
 
     def __create(self, args):
-        result = {"status": "success", "msg": "Create Project Success."}
+        result = {"status": "success", "msg": "成功：创建项目."}
         
         if args["name"] in self.reserved_names :
-            result = {"status": "fail", "msg": "Please use other project name."}
+            result = {"status": "fail", "msg": "请换一个用户名."}
             return result
 
         user_path = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session["username"], args["name"])
@@ -73,7 +73,7 @@ class Project(Resource):
 
         if not self.app.config['DB'].add_project(args["name"],session["username"],'myself'):
             result["status"] = "fail"
-            result["msg"] = "Create Failed: Project name exists!"
+            result["msg"] = "失败: 项目名已存在!"
 
         self.save_project(user_path)
         self.app.config['DB'].insert_loginfo(session['username'], 'project', 'create', user_path, result['status'])
@@ -99,20 +99,20 @@ class Project(Resource):
         return result
 
     def __edit(self, args):
-        result = {"status": "success", "msg": "Rename project success."}
+        result = {"status": "success", "msg": "成功：重命名."}
         
         if args["new_name"] in self.reserved_names :
-            result = {"status": "fail", "msg": "Please use other name."}
+            result = {"status": "fail", "msg": "失败：请用其它名字."}
             return result
         
         if args["name"] in self.reserved_names :
-            result = {"status": "fail", "msg": "Cannot rename this project."}
+            result = {"status": "fail", "msg": "失败：无法重命名此项目."}
             return result
 
         owner = get_ownerfromkey(args['key'])
         if not session["username"] == "Admin":
             result["status"] = "fail"
-            result["msg"] = "FAIL：Only Admin can do this."
+            result["msg"] = "失败：只有Admin可以进行此操作."
             return result
 
         old_name = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (owner, args["name"])
@@ -120,10 +120,10 @@ class Project(Resource):
 
         if not rename_file(old_name, new_name):
             result["status"] = "fail"
-            result["msg"] = "Rename Failed, new name exits!"
+            result["msg"] = "失败：新名字已存在于目录中!"
         if not self.app.config['DB'].edit_project(args["name"], args["new_name"], owner):
             result["status"] = "fail"
-            result["msg"] = "Rename Failed, new name exits!"
+            result["msg"] = "失败：新名字已存在于数据库中!"
 
         self.log.info("更新用户到主项目为 {}".format(args["new_name"]))
         self.app.config['DB'].runsql("UPDATE user set main_project='{}' where main_project='{}';".format(args["new_name"], args["name"]))
@@ -176,7 +176,7 @@ class Project(Resource):
         owner = self.app.config['DB'].get_projectowner(main_project)
 
         if session['username'] == owner:
-            return {"status": "Fail", "msg": "Project manager cannot switch Main Project."}
+            return {"status": "Fail", "msg": "失败：项目管理员不能切换主项目."}
 
         #user_path = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session["username"], args["name"])
         user_path = args['key']
@@ -192,13 +192,13 @@ class Project(Resource):
         return result
 
     def __adduser(self, args):
-        result = {"status": "success", "msg": "Add user to project success."}
+        result = {"status": "success", "msg": "成功：增加项目用户."}
 
         project = get_projectnamefromkey(args['key'])
         owner = get_ownerfromkey(args['key'])
         if not session["username"] == owner:
             result["status"] = "fail"
-            result["msg"] = "FAIL：没有权限操作，请联系{}.".format(owner)
+            result["msg"] = "失败：没有权限操作，请联系{}.".format(owner)
             return result
 
         new_name = args["new_name"]
@@ -207,7 +207,7 @@ class Project(Resource):
             self.app.config['DB'].add_projectuser(project, new_name)
         except Exception:
             result["status"] = "fail"
-            result["msg"] = "DB failed！"
+            result["msg"] = "数据库操作失败！"
 
         self.save_project(args['key'])
         self.app.config['DB'].insert_loginfo(session['username'], 'project', 'adduser', args['key'], new_name)
@@ -215,13 +215,13 @@ class Project(Resource):
         return result
 
     def __deluser(self, args):
-        result = {"status": "success", "msg": "Remove user success."}
+        result = {"status": "success", "msg": "成功：移除用户."}
 
         project = get_projectnamefromkey(args['key'])
         owner = get_ownerfromkey(args['key'])
         if not session["username"] == owner:
             result["status"] = "fail"
-            result["msg"] = "FAIL：没有权限操作，请联系{}.".format(owner)
+            result["msg"] = "失败：没有权限操作，请联系{}.".format(owner)
             return result
 
         new_name = args["new_name"]
@@ -230,7 +230,7 @@ class Project(Resource):
             self.app.config['DB'].del_projectuser(project, new_name)
         except Exception:
             result["status"] = "fail"
-            result["msg"] = "DB failed！"
+            result["msg"] = "DB操作失败！"
 
         self.save_project(args['key'])
         self.app.config['DB'].insert_loginfo(session['username'], 'project', 'deluser', args['key'], new_name)
@@ -374,7 +374,6 @@ def get_project_list(app, username):
 
 def get_projects(app, username):
     projects = get_project_list(app, username)
-    print("get_projectlist:user:{},{}".format(username,projects))
     children = []
     for p in projects:
         owner = p.split(':')[0]

@@ -64,7 +64,7 @@ class TaskList(Resource):
 
             if not user == session["username"]:
                 self.app.config['DB'].insert_loginfo(session["username"],'schedulejob','pause',job_id,'auth fail')
-                return {"status": "fail", "msg": "Fail:不允许冻结其它人的任务!"}
+                return {"status": "fail", "msg": "失败:不允许冻结其它人的任务!"}
 
             lock = threading.Lock()
             lock.acquire()
@@ -73,12 +73,12 @@ class TaskList(Resource):
                 scheduler.pause_job(job_id)
             except Exception as e:
                 lock.release()
-                return {"status": "fail", "msg": "Fail:{}".format(e)}
+                return {"status": "fail", "msg": "失败:{}".format(e)}
 
             lock.release()
 
             self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'pause', job_id, 'success')
-            return {"status": "success", "msg": "冻结任务成功:{}".format(job_id)}
+            return {"status": "success", "msg": "成功：冻结任务:{}".format(job_id)}
 
         elif args["method"] == "resume":
             (user,project,task_name) = (args['user'],args['project'],args['task_name'])
@@ -86,7 +86,7 @@ class TaskList(Resource):
 
             if not user == session["username"]:
                 self.app.config['DB'].insert_loginfo(session["username"],'schedulejob','resume',job_id,'auth fail')
-                return {"status": "fail", "msg": "Fail:不允许恢复其它人的任务!"}
+                return {"status": "fail", "msg": "失败:不允许恢复其它人的任务!"}
 
             lock = threading.Lock()
             lock.acquire()
@@ -95,12 +95,12 @@ class TaskList(Resource):
                 scheduler.resume_job(job_id)
             except Exception as e:
                 lock.release()
-                return {"status": "fail", "msg": "Fail: {}".format(e)}
+                return {"status": "fail", "msg": "失败: {}".format(e)}
 
             lock.release()
 
             self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'resume', job_id, 'success')
-            return {"status": "success", "msg": "恢复任务成功:{}".format(job_id)}
+            return {"status": "success", "msg": "成功：恢复任务:{}".format(job_id)}
 
         elif args["method"] == "remove_schedulejob":
             (user,project,task_name) = (args['user'],args['project'],args['task_name'])
@@ -108,7 +108,7 @@ class TaskList(Resource):
 
             if not user == session["username"]:
                 self.app.config['DB'].insert_loginfo(session["username"],'schedulejob','remove_schedulejob',job_id,'auth fail')
-                return {"status": "fail", "msg": "Fail:不允许操作其它人的任务!"}
+                return {"status": "fail", "msg": "失败:不允许操作其它人的任务!"}
 
             lock = threading.Lock()
             lock.acquire()
@@ -117,7 +117,7 @@ class TaskList(Resource):
                 scheduler.remove_job(job_id)
             except Exception as e:
                 lock.release()
-                return {"status": "fail", "msg": "Fail: {}".format(e)}
+                return {"status": "fail", "msg": "失败: {}".format(e)}
 
             lock.release()
 
@@ -127,14 +127,14 @@ class TaskList(Resource):
                 self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'remove_schedulejob', job_id, 'success')
             else:
                 self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'remove_schedulejob', job_id, 'DB Fail')
-                return {"status": "fail", "msg": "数据库操作失败:{}".format(job_id)}
+                return {"status": "fail", "msg": "失败：数据库操作失败:{}".format(job_id)}
 
-            return {"status": "success", "msg": "删除任务成功:{}".format(job_id)}
+            return {"status": "success", "msg": "成功：删除任务成功:{}".format(job_id)}
 
         elif args["method"] == "delete_allschedulejobs":
 
             if not session['username'] == 'Admin':
-                return {"status": "fail", "msg": "Fail:只有管理员可以进行此操作"}
+                return {"status": "fail", "msg": "失败:只有Admin可以进行此操作"}
 
             lock = threading.Lock()
             lock.acquire()
@@ -143,7 +143,7 @@ class TaskList(Resource):
                 scheduler.remove_all_jobs()
             except Exception as e:
                 lock.release()
-                return {"status": "fail", "msg": "Fail: {}".format(e)}
+                return {"status": "fail", "msg": "失败: {}".format(e)}
             lock.release()
 
             res = self.app.config['DB'].runsql("DELETE from schedule_job;")
@@ -152,9 +152,9 @@ class TaskList(Resource):
                 self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'delete_allschedulejobs', 'all', 'success')
             else:
                 self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'delete_allschedulejobs', "all", 'DB Fail')
-                return {"status": "fail", "msg": "数据库操作失败:{}".format('all')}
+                return {"status": "fail", "msg": "失败：数据库操作失败:{}".format('all')}
 
-            return {"status": "success", "msg": "删除任务成功:{}".format('all')}
+            return {"status": "success", "msg": "成功：删除任务成功:{}".format('all')}
 
         elif args["method"] == "add_job2schedule":
             (user,project,task_name) = (args['user'],args['project'],args['task_name'])
@@ -162,7 +162,7 @@ class TaskList(Resource):
 
             if not user == session["username"]:
                 self.app.config['DB'].insert_loginfo(session["username"],'schedulejob','add_job2schedule',job_id,'auth fail')
-                return {"status": "fail", "msg": "Fail:不允许操作其它人的任务!"}
+                return {"status": "fail", "msg": "失败:不允许操作其它人的任务!"}
 
             job = scheduler.get_job(job_id)
             if job:
@@ -171,7 +171,7 @@ class TaskList(Resource):
 
             res = self.app.config['DB'].runsql("SELECT * from schedule_job where user='{}' and project='{}' and task_name='{}' limit 1;".format(user,project,task_name))
             if not res:
-                return {"status": "fail", "msg": "Fail:找不到任务!"}
+                return {"status": "fail", "msg": "失败:找不到任务!"}
             else:
                 (user,project,task_no,task_name,method,schedule_type,year,mon,day,hour,min,sec,week,
                  day_of_week,start_date,end_date,sponsor) = res.fetchone()
@@ -203,14 +203,14 @@ class TaskList(Resource):
 
             splits = args["task_name"].split('_#')  # user#project#task_name
             if len(splits) != 3:
-                return {"status": "fail", "msg": "任务名称的格式错误:{}".format(args["task_name"])}
+                return {"status": "fail", "msg": "失败：任务名称的格式错误:{}".format(args["task_name"])}
 
             (user, project, task_name) = splits
             job_id = "{}#{}#{}".format(user, project, task_name)
 
             if not user == session["username"]:
                 self.app.config['DB'].insert_loginfo(session["username"],'schedulejob','edit_schedulejob',job_id,'auth fail')
-                return {"status": "fail", "msg": "Fail:不允许操作其它人的任务!"}
+                return {"status": "fail", "msg": "失败:不允许操作其它人的任务!"}
 
             lock = threading.Lock()
             lock.acquire()
@@ -219,7 +219,7 @@ class TaskList(Resource):
                 scheduler.remove_job(job_id) if job else None
             except Exception as e:
                 lock.release()
-                return {"status": "fail", "msg": "Fail:清理调度任务失败 {}".format(e)}
+                return {"status": "fail", "msg": "失败:清理调度任务失败 {}".format(e)}
             lock.release()
 
             res = self.app.config['DB'].runsql(''' UPDATE schedule_job set
@@ -241,9 +241,9 @@ class TaskList(Resource):
                                                user, project, task_name))
 
             if res:
-                return {"status": "success", "msg": "修改调度信息成功，可以加入调度任务"}
+                return {"status": "success", "msg": "成功：修改调度信息成功，可以加入调度任务"}
             else:
-                return {"status": "fail", "msg": "Fail：数据操作失败"}
+                return {"status": "fail", "msg": "失败：数据操作失败"}
 
         elif args["method"] == "add_schedulejob":
             user = session["username"]
@@ -251,7 +251,7 @@ class TaskList(Resource):
 
             splits = args["task_name"].split('_#')  # Project_#03Variables_#36
             if len(splits) != 3:
-                return {"status": "fail", "msg": "任务名称的格式错误:{}".format(args["task_name"])}
+                return {"status": "fail", "msg": "失败：任务名称的格式错误:{}".format(args["task_name"])}
 
             (project, task_name, task_no) = splits
 
@@ -277,12 +277,12 @@ class TaskList(Resource):
             if self.app.config['DB'].add_chedulejob(myargs):
                 return add_schedulejob(self.app, scheduler, myargs)
             else:
-                return {"status": "fail", "msg": "Fail：添加调度任务失败，插入数据库失败。"}
+                return {"status": "fail", "msg": "失败：添加调度任务失败，插入数据库失败。"}
 
         elif args["method"] == "pause_scheduler":
 
             if not session['username'] == 'Admin':
-                return {"status": "fail", "msg": "Fail:只有管理员可以进行此操作"}
+                return {"status": "fail", "msg": "失败:只有Admin可以进行此操作"}
 
             lock = threading.Lock()
             lock.acquire()
@@ -291,16 +291,16 @@ class TaskList(Resource):
                 scheduler.pause()
             except Exception as e:
                 lock.release()
-                return {"status": "fail", "msg": "Fail: {}".format(e)}
+                return {"status": "fail", "msg": "失败: {}".format(e)}
             lock.release()
 
             self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'pause_scheduler', "all", 'success')
-            return {"status": "success", "msg": "调度器已停止"}
+            return {"status": "success", "msg": "成功：调度器已停止"}
 
         elif args["method"] == "resume_scheduler":
 
             if not session['username'] == 'Admin':
-                return {"status": "fail", "msg": "Fail:只有管理员可以进行此操作"}
+                return {"status": "fail", "msg": "失败:只有Admin可以进行此操作"}
 
             lock = threading.Lock()
             lock.acquire()
@@ -309,11 +309,11 @@ class TaskList(Resource):
                 scheduler.resume()
             except Exception as e:
                 lock.release()
-                return {"status": "fail", "msg": "Fail: {}".format(e)}
+                return {"status": "fail", "msg": "失败: {}".format(e)}
             lock.release()
 
             self.app.config['DB'].insert_loginfo(session["username"], 'schedulejob', 'resume_scheduler', "all", 'success')
-            return {"status": "success", "msg": "调度器已恢复运行"}
+            return {"status": "success", "msg": "成功：调度器已恢复运行"}
 
         elif args['method'] == "remove_myschedulejobs":
 

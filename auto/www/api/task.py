@@ -69,7 +69,7 @@ class Task(Resource):
         if not os.path.isdir(cases):
             fext = get_splitext(cases)[1]
             if not fext in (".robot"):
-                return {"status": "fail", "msg": "Fail：暂不支持运行此类型的文件 :" + fext}
+                return {"status": "fail", "msg": "失败：暂不支持运行此类型的文件 :" + fext}
 
         case_name = os.path.basename(cases)
 
@@ -80,9 +80,9 @@ class Task(Resource):
             self.app.config["AUTO_ROBOT"].append(
                 {"name": "%s" % case_name, "process": p})
         else:
-            return {"status": "fail", "msg": "超过最大进程数，请等待."}
+            return {"status": "fail", "msg": "失败：超过最大进程数，请等待."}
 
-        return {"status": "success", "msg": "Start run:" + case_name}
+        return {"status": "success", "msg": "运行:" + case_name}
 
     def runpassfail(self, args, passed=True):
 
@@ -105,7 +105,7 @@ class Task(Resource):
         for key in suites:
             case_name = os.path.basename(key)
             if is_full(self.app):
-                return {"status": "fail", "msg": "超过最大进程数 MAX_PROCS ,请稍后尝试."}
+                return {"status": "fail", "msg": "失败：超过最大进程数 MAX_PROCS ,请稍后尝试."}
             if not is_run(self.app, case_name):
                 p = multiprocessing.Process(target=robot_run,
                                             args=(self.app, key, ''))
