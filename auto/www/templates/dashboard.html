@@ -71,6 +71,7 @@
             {% if username == "Admin" %}
             <div onclick="manage_project('create_project', 'create_project_ff', 'create')" data-options="iconCls:'icon-project'">创建项目</div>
             <div onclick="manage_project('create_projectgit', 'create_projectgit_ff', 'gitclone')">Git clone</div>
+            <div onclick="open_win('uploadproject_win');">导入项目(.zip)</div>
             <div class="menu-sep"></div>
             <div onclick="addTab('User Management', '/user', 'icon-user')" data-options="iconCls:'icon-user'">用户管理</div>
             <div class="menu-sep"></div>
@@ -425,6 +426,26 @@
                 </div>
                 <div style="text-align:right;">
                     <a href="#" class="easyui-linkbutton" style="width:80px;" onclick="do_uploadcase('uploadcase_win', 'uploadcase_ff')">Import</a>
+                </div>
+
+            </form>
+        </div>
+        <!-- file uploadcase end -->
+
+        <!-- file uploadcase start -->
+        <div id="uploadproject_win" class="easyui-window" title="导入项目(-master.zip)"
+         data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false,iconCls:'icon-case'"
+            style="width:500px;height:240px;padding:10px;">
+            <form id="uploadproject_ff" method="POST" action="/api/v1/manage_file/" enctype="multipart/form-data">
+                <div style="margin-bottom:20px">
+                    <input name="method" id="method" value="uploadproject" hidden>
+                    <h5>注意：只支持git或github界面下载的zip包(-master.zip)，不支持自己打包</h5>
+                    <h5>注意：默认项目名称就是项目管理员的名字，密码一样</h5>
+                    <input id="files" name="files" class="easyui-filebox" label="" labelPosition="top"
+                           data-options="prompt:'Select a zip file ...',buttonText:'Select'" style="width:100%">
+                </div>
+                <div style="text-align:right;">
+                    <a href="#" class="easyui-linkbutton" style="width:80px;" onclick="do_uploadproject('uploadproject_win', 'uploadproject_ff')">Import</a>
                 </div>
 
             </form>

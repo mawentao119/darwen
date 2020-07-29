@@ -956,6 +956,16 @@ function do_uploadcase(win_id, ff_id) {
     }
 }
 
+function do_uploadproject(win_id, ff_id) {
+    $("#{0}".lym_format(ff_id)).form('submit', {
+        success: function (result) {
+            var d = JSON.parse(result);
+            refresh_workspace(d);
+            close_win(win_id);
+        }
+    });
+}
+
 function do_exportresult_d(ff_id) {
     var node = $('#project_tree').tree('getSelected');
     if (node) {

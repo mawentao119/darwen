@@ -15,8 +15,8 @@ import werkzeug
 from robot.api import ExecutionResult
 
 from urllib.parse import quote
-from utils.file import exists_path, rename_file, make_nod, remove_file, write_file, read_file, copy_file, get_splitext, get_projectnamefromkey
-from utils.testcaseunite import export_casexlsx, export_casezip, do_importfromxlsx ,do_importfromzip, do_uploadcaserecord
+from utils.file import exists_path, get_projectnamefromkey
+from utils.testcaseunite import export_casexlsx, export_casezip, do_importfromxlsx ,do_importfromzip, do_uploadcaserecord, do_unzip_project
 from utils.mylogger import getlogger
 
 class ManageFile(Resource):
@@ -34,6 +34,9 @@ class ManageFile(Resource):
         if method == "uploadcase":
             file = request.files.to_dict()['files']
             return self.__uploadcase(file, args['key']), 201
+        elif method == "uploadproject":
+            file = request.files.to_dict()['files']
+            return self.__uploadproject(file), 201
         elif method == "uploadcaserecord":
             file = request.files.to_dict()['files']
             return self.__uploadcaserecord(file, args['key']), 201
@@ -69,6 +72,31 @@ class ManageFile(Resource):
             result = {"status": "fail", "msg": "异常后缀:{}".format(f_ext)}
 
         self.app.config['DB'].insert_loginfo(session['username'], 'file', 'uploadcase', path, file.filename)
+
+        return result
+
+    def __uploadproject(self, file):
+
+        temp_file = os.path.join(self.app.config['AUTO_TEMP'],file.filename)
+        os.remove(temp_file) if os.path.exists(temp_file) else None
+        file.save(temp_file)
+
+        (_, f_ext) = os.path.splitext(temp_file)
+
+        if f_ext == '.zip':
+            path = os.path.join(self.app.config['AUTO_TEMP'],'unzipfile')
+            (status, info) = do_unzip_project(temp_file, path)
+
+            if status == 'success':
+                projectname = get_projectnamefromkey(info)
+                msg = self.app.config['DB'].load_project_from_path(info)
+                result = {"status": "success", "msg": "Result: {} project:{}".format(msg, projectname)}
+                self.app.config['DB'].insert_loginfo(session['username'], 'project', 'upload_project', info,
+                                                     result['status'])
+            else:
+                result = {"status": "fail", "msg": info}
+                self.app.config['DB'].insert_loginfo(session['username'], 'project', 'upload_project', info,
+                                                     result['status'])
 
         return result
 

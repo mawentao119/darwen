@@ -179,8 +179,6 @@ def do_importfromzip(temp_file, path):
         if not os.path.isdir(path):
             return ('fail', 'The Node is NOT A DIR :{}'.format(path))
 
-        app = current_app._get_current_object()
-
         if not zipfile.is_zipfile(zip_file):
             return ('fail', 'The file is not a zip file :{}'.format(os.path.basename(zip_file)))
 
@@ -192,6 +190,68 @@ def do_importfromzip(temp_file, path):
             fz.extract(file, path)
 
         return ('success', path)
+    except Exception as e:
+        log.error("从zip文件导入发生异常:{}".format(e))
+        return ("fail", "Exception occured .")
+
+def do_unzip_project(temp_file, path):
+
+    zip_file = temp_file
+
+    try:
+        if not os.path.exists(zip_file):
+            return ('fail', '找不到zip文件:{}'.format(zip_file))
+
+        app = current_app._get_current_object()
+
+        if not zipfile.is_zipfile(zip_file):
+            return ('fail', '不是一个zip文件 :{}'.format(os.path.basename(zip_file)))
+
+        remove_dir(path) if os.path.exists(path) else None
+        os.mkdir(path)
+
+        fz = zipfile.ZipFile(zip_file, 'r')
+        for file in fz.namelist():
+            fz.extract(file, path)
+
+        projectfile = ''
+        project_content = ''
+        for p in os.listdir(path):
+            if os.path.exists(os.path.join(path,p,'darwen/conf/project.conf')):
+                projectfile = os.path.join(path,p,'darwen/conf/project.conf')
+                project_content = os.path.join(path,p)
+
+        if not projectfile:
+            msg = "Load Project Fail: 找不到 project.conf:{} ".format(projectfile)
+            log.error(msg)
+            return ('fail', msg)
+
+        log.info("读取 Project file: {}".format(projectfile))
+
+        with open(projectfile, 'r') as f:
+            for l in f:
+                if l.startswith('#'):
+                    continue
+                if len(l.strip()) == 0:
+                    continue
+                splits = l.strip().split('|')
+                if len(splits) != 4:
+                    log.error("错误的 project.conf 行 " + l)
+                    return ('fail', "错误的 project.conf 行 " + l)
+                (projectname, owner, users, cron) = splits
+                project_path = os.path.join(app.config['AUTO_HOME'], 'workspace', owner, projectname)
+                if os.path.exists(project_path):
+                    msg = '目标目录存在:{}'.format(project_path)
+                    log.error(msg)
+                    return ('fail', msg)
+                log.info("复制文件从 {} 到 {} ".format(project_content, project_path))
+                try:
+                    shutil.copytree(project_content, project_path)
+                except Exception as e:
+                    return ('fail', "{}".format(e))
+
+        return ('success', project_path)
+
     except Exception as e:
         log.error("从zip文件导入发生异常:{}".format(e))
         return ("fail", "Exception occured .")

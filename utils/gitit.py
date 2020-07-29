@@ -26,7 +26,8 @@ def remote_clone(app, url):
         log.info("{}".format(e))
         return (False, "{}".format(e))
 
-    log.info("Clone 从 {} 到路径:{}".format(url,to_path))
+    log.info("Clone 从 {} 到路径:{} 成功".format(url,to_path))
+
     projectfile = os.path.join(to_path, 'darwen/conf/project.conf')
     log.info("读取 Project file: {}".format(projectfile))
     if os.path.exists(projectfile):
