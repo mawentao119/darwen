@@ -3,19 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ab43467d-ad90-46a2-99ca-651bd4d7e6ad" name="Default" comment="汉化">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/case.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/case.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/manage_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/manage_file.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/project.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/project.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/suite.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/suite.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/task.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/task.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/tasklist.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/tasklist.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/api/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/templates/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/schedule_mng.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/schedule_mng.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/templates/task_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/templates/task_list.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,7 +14,34 @@
   </component>
   <component name="ChangesViewManager" show_ignored="true" />
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/auto/www/templates/task_list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="481">
+              <caret line="78" column="83" selection-start-line="78" selection-start-column="83" selection-end-line="78" selection-end-column="83" />
+              <folding>
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/auto/www/templates/schedule_mng.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="543">
+              <caret line="84" column="82" selection-start-line="84" selection-start-column="82" selection-end-line="84" selection-end-column="82" />
+              <folding>
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -106,9 +122,7 @@
         <option value="$PROJECT_DIR$/auto/www/static/js/auto.js" />
         <option value="$PROJECT_DIR$/utils/run.py" />
         <option value="$PROJECT_DIR$/auto/www/templates/project_task.html" />
-        <option value="$PROJECT_DIR$/auto/www/templates/task_list.html" />
         <option value="$PROJECT_DIR$/utils/schedule.py" />
-        <option value="$PROJECT_DIR$/auto/www/templates/schedule_mng.html" />
         <option value="$PROJECT_DIR$/auto/www/static/lib/easyui/themes/bootstrap/easyui.css" />
         <option value="$PROJECT_DIR$/auto/www/templates/login.html" />
         <option value="$PROJECT_DIR$/darwen.py" />
@@ -137,6 +151,8 @@
         <option value="$PROJECT_DIR$/auto/www/api/user.py" />
         <option value="$PROJECT_DIR$/auto/www/templates/dashboard.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/user.html" />
+        <option value="$PROJECT_DIR$/auto/www/templates/schedule_mng.html" />
+        <option value="$PROJECT_DIR$/auto/www/templates/task_list.html" />
       </list>
     </option>
   </component>
@@ -238,13 +254,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1534349381434</updated>
-    </task>
-    <task id="LOCAL-00029" summary="Add settings Tab page functions finished .">
-      <created>1594634094473</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1594634094473</updated>
     </task>
     <task id="LOCAL-00030" summary="增加'暂存用例结果'功能">
       <created>1594703425502</created>
@@ -582,11 +591,19 @@
       <option name="project" value="LOCAL" />
       <updated>1596005641736</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="汉化">
+      <created>1596008159261</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1596008159261</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1920" y="-116" width="1920" height="1080" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10330138" />
       <window_info id="Favorites" order="1" side_tool="true" />
@@ -942,21 +959,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/schedule_mng.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="14" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/templates/settings.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2340" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/auto/www/templates/task_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1360" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/templates/test_analyse.html">
@@ -986,6 +991,28 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="29">
           <caret line="40" column="54" selection-start-line="40" selection-start-column="49" selection-end-line="40" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/schedule_mng.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="543">
+          <caret line="84" column="82" selection-start-line="84" selection-start-column="82" selection-end-line="84" selection-end-column="82" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/auto/www/templates/task_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="481">
+          <caret line="78" column="83" selection-start-line="78" selection-start-column="83" selection-end-line="78" selection-end-column="83" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#form#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
