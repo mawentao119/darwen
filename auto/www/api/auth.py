@@ -40,14 +40,14 @@ class Auth(Resource):
 
         passwordHash = app.config["DB"].get_password(username)
 
-        self.log.info("Login request: user: {} password xxx".format(username))
+        self.log.info("登录请求: user: {} password xxx".format(username))
 
         if passwordHash:
             if check_password_hash(passwordHash, password):
                 session['username'] = username
                 return {"status": "success", "msg": "login success", "url": url_for('routes.dashboard')}, 201
 
-        self.log.warning("Login FAILD: user: {} password xxx".format(username))
+        self.log.warning("登录失败: user: {} password xxx".format(username))
 
         app.config['DB'].insert_loginfo(username, 'login', username, password)
 

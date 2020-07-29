@@ -81,17 +81,17 @@ def get_robotress_res(resfile):
 
         if not os.path.exists(rsfile) and (
                 rsfile.find('/') != -1 or rsfile.find('.robot') != -1 or rsfile.find('.resource') != -1):
-            log.error("Cannot find Resource File:{} ,maybe miss typed !".format(rsfile))
+            log.error("找不到资源文件:{} !".format(rsfile))
             continue
 
         if os.path.exists(rsfile):
             res = generate_resource_xml(rsfile, xmlfile) if not os.path.exists(xmlfile) else None
             resources.append(fpre) if os.path.exists(xmlfile) else log.error(
-                "Generate Resource XML failed:{},INFO:{}".format(xmlfile, res))
+                "生成资源失败 XML :{},INFO:{}".format(xmlfile, res))
         else:
             res = generate_resource_xml(fpre, xmlfile) if not os.path.exists(xmlfile) else None
             resources.append(fpre) if os.path.exists(xmlfile) else log.error(
-                "Generate Resource XML failed:{},INFO:{}".format(xmlfile, res))
+                "生成资源失败 XML :{},INFO:{}".format(xmlfile, res))
 
         if rsfile.endswith('.robot') or rsfile.endswith('.resource'):
             resources += get_robotress_res(rsfile)
@@ -133,17 +133,17 @@ def get_robotcase_res(casefile):
         xmlfile = cwd + "/%s.xml" % fpre
 
         if not os.path.exists(rsfile) and (rsfile.find('/') != -1 or rsfile.find('.robot') != -1 or rsfile.find('.resource') != -1):
-            log.error("Cannot find Resource File:{} ,maybe miss typed !".format(rsfile))
+            log.error("找不到资源文件:{} !".format(rsfile))
             continue
 
         if os.path.exists(rsfile):
             res = generate_resource_xml(rsfile, xmlfile) if not os.path.exists(xmlfile) else None
             resources.append(fpre) if os.path.exists(xmlfile) else log.error(
-                "Generate Resource XML failed:{},INFO:{}".format(xmlfile, res))
+                "生成资源文件失败 XML:{},INFO:{}".format(xmlfile, res))
         else:
             res = generate_resource_xml(fpre, xmlfile) if not os.path.exists(xmlfile) else None
             resources.append(fpre) if os.path.exists(xmlfile) else log.error(
-                "Generate Resource XML failed:{},INFO:{}".format(xmlfile, res))
+                "生成资源文件失败 XML:{},INFO:{}".format(xmlfile, res))
 
         if rsfile.endswith('.robot') or rsfile.endswith('.resource'):
             resources += get_robotress_res(rsfile)
@@ -232,7 +232,7 @@ def generate_high_light(doc_dir):
 
     ''' This is new fun, Invoked by project.get ,then loaded in editor.html. '''
 
-    log.info("Generate high light js ...")
+    log.info("生成高亮显示 js ...")
     project = get_projectnamefromkey(doc_dir)
     kwd = os.getcwd() + "/keyword/" + project
     jsd = os.getcwd() + "/auto/www/static/js/" + project
@@ -266,7 +266,7 @@ def generate_high_light(doc_dir):
 
 def generate_auto_complete(doc_dir):  # This is new fun, Invoked by project.get ,then loaded in editor.html.
 
-    log.info("Generate auto complete js ...")
+    log.info("生成自动完成 js ...")
 
     project = get_projectnamefromkey(doc_dir)
     kwd = os.getcwd() + "/keyword/" + project
@@ -353,19 +353,19 @@ def generate_auto_complete_org(doc_dir):  # This is original fun, I don't think 
 def generate_resource_xml(srcfile, desfile):
 
     if not os.path.isfile(srcfile) and srcfile.endswith('.resource'):
-        log.warning("Cannot generate xml file of "+srcfile)
+        log.warning("无法生成 xml file of "+srcfile)
         return ''
 
-    log.info("Generate xml file of :"+srcfile)
+    log.info("生成 xml file of :"+srcfile)
 
     try:
         cmd = 'python -m robot.libdoc -f xml ' + srcfile + ' ' + desfile
         cp = subRun(cmd, shell=True, stdout=PIPE, stderr=STDOUT, text=True, timeout=180)  # timeout: sec
     except SyntaxError as e:
-        log.error("Exception:Generate resource of file:{} {}".format(srcfile,e))
+        log.error("生成资源文件异常:{} {}".format(srcfile,e))
         return ''
     except Exception as e:
-        log.error("Exception:Generate resource of file:{} ".format(srcfile,e))
+        log.error("生成资源文件异常:{} {}".format(srcfile,e))
         return ''
 
     return cp.stdout
@@ -380,7 +380,7 @@ def prepare_editorjs(key):
 def update_resource(path):
     '''when update,rename,delete resource file, xml file should be updated.'''
     if not path.endswith('.resource'):
-        log.error("Update Resource should be resource file: "+path)
+        log.error("更新资源文件应该已resource为后缀: "+path)
         return
     project = get_projectnamefromkey(path)
 

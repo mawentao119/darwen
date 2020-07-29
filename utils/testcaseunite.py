@@ -60,7 +60,7 @@ def export_casezip(key, exp_filedir=''):
                 z.write(os.path.join(dirpath, filename), fpath + filename)
         z.close()
     except Exception as e:
-        log.error("download zip case Execpiton:{}".format(e))
+        log.error("下载zip用例异常:{}".format(e))
         return (False, "{}".format(e))
 
     return (True, zip_path)
@@ -69,8 +69,8 @@ def export_casexlsx(key, db, exp_filedir=''):
 
     export_dir = key
     if not os.path.isdir(export_dir):
-        log.error("Do not support export cases of a file:"+export_dir)
-        return (False,"Do not support export cases of a file:"+export_dir )
+        log.error("不支持导出一个文件中的用例:"+export_dir)
+        return (False,"不支持导出一个文件中的用例:"+export_dir )
 
     basename = os.path.basename(export_dir)
 
@@ -145,7 +145,7 @@ def export_casexlsx(key, db, exp_filedir=''):
 
     os.remove(export_file) if os.path.exists(export_file) else None
     wb.save(export_file)
-    log.info("Generate TestCasefile of {} to {}".format(export_dir,export_file))
+    log.info("生成测试用例文件 {} 到目录 {}".format(export_dir,export_file))
 
     return (True, export_file)
 
@@ -193,7 +193,7 @@ def do_importfromzip(temp_file, path):
 
         return ('success', path)
     except Exception as e:
-        log.error("import from zip Exception:{}".format(e))
+        log.error("从zip文件导入发生异常:{}".format(e))
         return ("fail", "Exception occured .")
 
 def do_uploadcaserecord(temp_file):
@@ -218,7 +218,7 @@ def do_uploadcaserecord(temp_file):
             splits = l.split('|')
             if len(splits) != 8:
                 formaterror += 1
-                log.error("uploadcaserecord Fail with wrong cols:"+l)
+                log.error("uploadcaserecord 错误到列:"+l)
                 continue
             (info_key, info_name, info_testproject, info_projectversion, ontime, run_status, run_elapsedtime, run_user) = splits
             sql = ''' INSERT into caserecord (info_key,info_name,info_testproject,info_projectversion,ontime,run_status,run_elapsedtime,run_user)
@@ -229,7 +229,7 @@ def do_uploadcaserecord(temp_file):
                 success += 1
             else:
                 exits += 1
-                log.error("uploadcaserecord Fail with record exists:"+l)
+                log.error("uploadcaserecord 记录存在:"+l)
 
     return ('success', 'Finished with total:{}, sucess:{}, error:{}, exists:{}'.format(total,success,formaterror,exits))
 
@@ -289,7 +289,7 @@ def do_importfromxlsx(temp_file, path):
         return ('success', 'S:{},F:{},Failist:{}'.format(update_cases,unupdate_case,'\n'.join(failedlist)))
 
     except Exception as e:
-        log.error("do_uploadcase Exception:{}".format(e))
+        log.error("do_uploadcase 异常:{}".format(e))
         return ('fail','Deal with xlsx file fail :{}'.format(xls_file))
 
 def _update_onecase(dest_dir,sheetname,fields):
@@ -338,7 +338,7 @@ def _update_onecase(dest_dir,sheetname,fields):
         # 如果文件不存在，直接创建文件和用例
         if not os.path.exists(robotfile):
 
-            log.info("Case file is Not exists CREATE it :"+robotfile)
+            log.info("测试用例文件不存在，创建 :"+robotfile)
             with open(robotfile,'w') as f:
                 f.write(brandnew)
 
@@ -374,7 +374,7 @@ def _update_onecase(dest_dir,sheetname,fields):
 
         for t in suite.testcase_table.tests:
             if t.name == name:      # 2用例存在:Case exists
-                log.info("Case file exits, case exists update it: "+name)
+                log.info("用例文件存在，且用例存在，更新: "+name)
                 t.tags.value = tags
                 t.doc.value = doc.replace('\n', '\\n')
 
@@ -397,7 +397,7 @@ def _update_onecase(dest_dir,sheetname,fields):
         suite = TestData(source=robotfile)
 
         if len( suite.testcase_table.tests ) > 0:
-            log.info("Case file exists and Not null ,copy and modify a case as a new one.")
+            log.info("用例文件存在且非空 ,复制并修改成新的用例.")
             t = copy.deepcopy(suite.testcase_table.tests[-1])
             t.name = name
             t.tags.value = tags
@@ -428,7 +428,7 @@ def _update_onecase(dest_dir,sheetname,fields):
 
         else:
             #用例文件存在，但是用例文件里面没有用例，异常
-            log.warning("Case file exist but There isnt any case. Remove it and create a new one.")
+            log.warning("用例文件存在但无内容，删除并新建.")
             os.remove(robotfile)
             with open(robotfile,'w') as f:
                 f.write(brandnew)
@@ -461,7 +461,7 @@ def _update_onecase(dest_dir,sheetname,fields):
             return (DONE, robotfile)
 
     except Exception as e:
-        log.error("updateOneCase Execption:{}".format(e))
+        log.error("updateOneCase 异常:{}".format(e))
         return(DONE,"ErrorOccur:{}".format(e))
 
 

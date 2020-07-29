@@ -23,7 +23,7 @@ class Keyword(Resource):
     def get(self):
         args = self.parser.parse_args()
         fext = os.path.splitext(args['key'])[1]
-        self.log.debug("GET args:{}".format(args))
+        #self.log.debug("GET args:{}".format(args))
         if fext in ('.robot', '.resource'):
             return parser_robot_keyword_list(args['key'])
         else:

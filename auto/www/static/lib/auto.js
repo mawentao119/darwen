@@ -684,7 +684,7 @@ function rename_suite(win_id, ff_id) {
 function delete_suite() {
     var node = $('#project_tree').tree('getSelected');
     if (node) {
-        $.messager.confirm('Alert', '<br>Are you sure Delete Dir: {0}?'.lym_format(node.attributes['name']), function (r) {
+        $.messager.confirm('Alert', '<br>确定要删除目录: {0}?'.lym_format(node.attributes['name']), function (r) {
             if (r) {
                 var project = $('#project_tree').tree('getParent', node.target);
                 var data = {

@@ -85,8 +85,6 @@ class ManageFile(Resource):
 
         (_, f_ext) = os.path.splitext(temp_file)
 
-        self.log.error("******* temp_file:{} ; f_ext:{}".format(temp_file,f_ext))
-
         if f_ext == '.his':
             (status, msg) = do_uploadcaserecord(temp_file)
             result = {"status": status, "msg": msg}
@@ -126,14 +124,14 @@ class ManageFile(Resource):
     def __downcaseinfox(self, args):
         # charis added :
         key = args['key']
-        self.log.info("Download xlsx caseinfo of dir:"+key)
+        self.log.info("下载 xlsx caseinfo 目录:"+key)
 
         (isok, casefile) = export_casexlsx(key, self.app.config['DB'], self.app.config['AUTO_TEMP'])
 
         self.app.config['DB'].insert_loginfo(session['username'], 'caseinfo', 'download', key,'xlsx')
 
         if not isok :
-            self.log.error("Download case Failed,return is :{}".format(casefile))
+            self.log.error("下载用例失败:{}".format(casefile))
             return "Fail:{}".format(casefile)
 
         return self.__sendfile(casefile)
@@ -141,14 +139,14 @@ class ManageFile(Resource):
     def __downcaseinfoz(self, args):
         # charis added :
         key = args['key']
-        self.log.info("Download zip caseinfo of dir:"+key)
+        self.log.info("下载zip文件失败 dir:"+key)
 
         (isok, casefile) = export_casezip(key, self.app.config['AUTO_TEMP'])
 
         self.app.config['DB'].insert_loginfo(session['username'], 'caseinfo', 'download', key,'zip')
 
         if not isok :
-            self.log.error("Download case Failed,return is :{}".format(casefile))
+            self.log.error("下载用例失败:{}".format(casefile))
             return "Fail:{}".format(casefile)
 
         return self.__sendfile(casefile)
@@ -181,14 +179,14 @@ class ManageFile(Resource):
 
             return self.__sendfile(fname)
         else:
-            self.log.error("Fail: exportXresult of key:{} ,name:{} ,Cannot find case .".format(key,name))
+            self.log.error("Fail: exportXresult of key:{} ,name:{} ,找不到用例.".format(key,name))
             return "Cannot find case ."
 
     def __downruninfo(self, args):
         # charis added :
         user_path = args["key"]
         project = get_projectnamefromkey(user_path)
-        self.log.info("Download runinfo request:"+user_path)
+        self.log.info("下载请求 runinfo:"+user_path)
 
         jobpath = self.app.config["AUTO_HOME"] + "/jobs"
         job_path = self.app.config["AUTO_HOME"] + "/jobs/%s/%s" % (session['username'], project)

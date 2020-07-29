@@ -125,7 +125,7 @@ class Project(Resource):
             result["status"] = "fail"
             result["msg"] = "Rename Failed, new name exits!"
 
-        self.log.info("UPdate user set user's main project to {}".format(args["new_name"]))
+        self.log.info("更新用户到主项目为 {}".format(args["new_name"]))
         self.app.config['DB'].runsql("UPDATE user set main_project='{}' where main_project='{}';".format(args["new_name"], args["name"]))
 
         self.save_project(new_name)
@@ -248,18 +248,16 @@ class Project(Resource):
         return project_list
 
     def save_project(self, project_path):
-        self.log.info("Start Save project to file...")
         project = get_projectnamefromkey(project_path)
-
         projectfile = os.path.join(project_path, 'darwen/conf/project.conf')
-        self.log.info("Save project to file:{}".format(projectfile))
+        self.log.info("保存项目信息到文件:{}".format(projectfile))
         with open(projectfile, 'w') as f:
             f.write("# projectname|owner|users|cron\n")
             res = self.app.config['DB'].runsql("select * from project where projectname='{}';".format(project))
             for i in res:
                 (projectname, owner, users, cron) = i
                 line = "{}|{}|{}|{}\n".format(projectname, owner, users, cron)
-                self.log.info("Save Project content:{}".format(line))
+                self.log.info("保存项目信息:{}".format(line))
                 f.write(line)
 
 class ProjectList(Resource):

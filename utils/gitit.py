@@ -22,13 +22,13 @@ def remote_clone(app, url):
     try:
         repo = git.Repo.clone_from(url, to_path)
     except git.exc.GitError as e:
-        log.error("git clone from {} to dir {} Exception:{}".format(url,to_path,e))
+        log.error("Git clone 从 {} 到目录 {} 异常:{}".format(url,to_path,e))
         log.info("{}".format(e))
         return (False, "{}".format(e))
 
-    log.info("Clone {} to path:{}".format(url,to_path))
+    log.info("Clone 从 {} 到路径:{}".format(url,to_path))
     projectfile = os.path.join(to_path, 'darwen/conf/project.conf')
-    log.info("Read Project file: {}".format(projectfile))
+    log.info("读取 Project file: {}".format(projectfile))
     if os.path.exists(projectfile):
         with open(projectfile, 'r') as f:
             for l in f:
@@ -38,21 +38,21 @@ def remote_clone(app, url):
                     continue
                 splits = l.strip().split('|')
                 if len(splits) != 4:
-                    log.error("Wrong projectfile Line " + l)
-                    return (False, "Wrong projectfile Line " + l)
+                    log.error("错误的 project.conf 行 " + l)
+                    return (False, "错误的 project.conf 行 " + l)
                 (projectname, owner, users, cron) = splits
                 project_path = os.path.join(app.config['AUTO_HOME'],'workspace',owner,projectname)
                 if os.path.exists(project_path):
-                    msg = 'Dest dir exists:{}'.format(project_path)
+                    msg = '目标目录存在:{}'.format(project_path)
                     log.error(msg)
                     return (False, msg)
-                log.info("Copy files from {} to {} ".format(to_path,project_path))
+                log.info("复制文件从 {} 到 {} ".format(to_path,project_path))
                 try:
                     shutil.copytree(to_path,project_path)
                 except Exception as e:
                     return (False, "{}".format(e))
     else:
-        msg = "Load Project Fail: Cannot find project.conf:{} ".format(projectfile)
+        msg = "Load Project Fail: 找不到 project.conf:{} ".format(projectfile)
         log.error(msg)
         return (False, msg)
 
@@ -67,8 +67,8 @@ def remote_clone_BAK(url, localpath):
     newdir = url.split('/')[-1].split('.')[0]
     to_path = os.path.join(localpath,newdir)
     if os.path.exists(to_path):
-        errinfo = "path {} already exists ,Please Delete it!".format(newdir)
-        log.error("remote_clone:"+to_path+" exits!")
+        errinfo = "路径 {} 已存在,请先删除!".format(newdir)
+        log.error("remote_clone:"+to_path+" 目录存在!")
         return (False, errinfo)
 
     os.mkdir(to_path)
@@ -76,7 +76,7 @@ def remote_clone_BAK(url, localpath):
     try:
         repo = git.Repo.clone_from(url, to_path)
     except git.exc.GitError as e:
-        log.error("git clone from {} to dir {} Exception:{}".format(url,localpath,e))
+        log.error("Git clone 从 {} 到目录 {} 异常:{}".format(url,localpath,e))
         log.info("{}".format(e))
         return (False, "{}".format(e))
 
@@ -98,7 +98,7 @@ def commit(dir):
     try:
         repo = git.Repo(dir)
     except git.exc.InvalidGitRepositoryError as e:
-        log.error("Dir {} is not a git dir!{}".format(dir.e))
+        log.error("目录 {} 不是一个git目录!{}".format(dir,e))
         log.info("{}".format(e))
         return False,"{}".format(e)
 
@@ -108,7 +108,7 @@ def commit(dir):
     try:
         repo.commit("master")
     except Exception as e:
-        log.error("commit {} changes fail.{}".format(dir,e))
+        log.error("commit {} 失败.{}".format(dir,e))
         log.info("{}".format(e))
         return False,"{}".format(e)
 
@@ -116,7 +116,7 @@ def commit(dir):
 
 def push(dir):
 
-    log.info("Before Push, commit first ...")
+    log.info("Push前先commit ...")
 
     ok,info = commit(dir)
     if not ok:

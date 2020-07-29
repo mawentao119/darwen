@@ -13,19 +13,19 @@ def clear_projectres(project, key=''):
         prj = get_projectnamefromkey(key)
 
 
-    log.info("Clear keyword of project:"+prj)
+    log.info("清除项目关键字:"+prj)
     cwd = os.getcwd() + "/keyword/" + prj
     try:
         remove_dir(cwd)
     except FileNotFoundError:
-        log.warning("Remove dir for project Failed:"+cwd)
+        log.warning("删除项目目录失败:"+cwd)
 
     jsd = os.getcwd() + "/auto/www/static/js/" + prj
-    log.info("Clear js file of project:"+prj)
+    log.info("清除项目的js文件:"+prj)
     try:
         remove_dir(jsd)
     except FileNotFoundError:
-        log.warning("Remove dir for project Failed:" + jsd)
+        log.warning("删除项目目录失败:" + jsd)
 
 if __name__ == "__main__":
     project = "RobotNew"

@@ -25,24 +25,24 @@ class TestDB():
         self.DBFileName = ''
         self.IsNewDBID = False
 
-        log.info("DB confdir : "+self.confdir)
-        log.info("Checking if DBID file exists:" + self.dbpath+ self.DBIDFileName)
+        log.info("DB 配置目录 : "+self.confdir)
+        log.info("检查DBID文件是否存在:" + self.dbpath+ self.DBIDFileName)
         if os.path.exists(self.dbpath + self.DBIDFileName):
             with open(self.dbpath + self.DBIDFileName, 'r') as f:
                 self.DBID = f.readline().strip()
-                log.info("Reading DBID from " + self.DBIDFileName + ": "+self.DBID)
+                log.info("读取 DBID from " + self.DBIDFileName + ": "+self.DBID)
         else:
             self.DBID = self.get_timenow()
             self.IsNewDBID = True
             with open(self.dbpath + self.DBIDFileName, 'w') as f:
                 f.write(self.DBID)
-                log.info("Create new File with ID: " + self.DBID)
+                log.info("创建新 ID: " + self.DBID)
 
         self.DBFileName = self.dbpath + self.DBID+'.db'
         
         if not os.path.exists(self.DBFileName):
-            log.warning("Found ID file:" + self.dbpath + self.DBIDFileName + " with DBID:" + self.DBID + " But no .db file found!")
-            log.warning("Will create a new DB file ... ")
+            log.warning("ID文件:" + self.dbpath + self.DBIDFileName + " with DBID:" + self.DBID + " 找不到.db文件!")
+            log.warning("创建新到 DB file ... ")
             self.IsNewDBID = True
 
         # init DB 
@@ -51,7 +51,7 @@ class TestDB():
     
         # if NewDBID , Create Table 
         if self.IsNewDBID:
-            log.info("NewDBID, Start create tables ...")
+            log.info("新DB文件, 建表及初始化 ...")
 
             self.createtb_testcase()
             self.createtb_loginfo()
@@ -72,7 +72,7 @@ class TestDB():
             self.load_user_and_project(workspace)
 
     def load_user_and_project(self, workspace):
-        log.info("Load user from workspace: {}".format(workspace))
+        log.info("从workspace加载用户: {}".format(workspace))
         for user in os.listdir(workspace):
             if user.lower() == "admin":  # user=Admin
                 continue
@@ -81,10 +81,10 @@ class TestDB():
                 self.load_project_from_path(project_path)
 
     def load_project_from_path(self, project_path):
-        log.info("Load project from path: {}".format(project_path))
+        log.info("加载项目 path: {}".format(project_path))
 
         userfile = os.path.join(project_path, 'darwen/conf/user.conf')
-        log.info("Read user file: {}".format(userfile))
+        log.info("读取用户文件: {}".format(userfile))
         if os.path.exists(userfile):
             with open(userfile, 'r') as f:
                 for l in f:
@@ -94,17 +94,17 @@ class TestDB():
                         continue
                     splits = l.strip().split('|')  # user.conf using '|' as splitor
                     if len(splits) != 6:
-                        log.error("Wrong user Line " + l)
+                        log.error("错误行：" + l)
                     (username, fullname, password, email, category,main_project) = splits
-                    log.info("Add user: {}".format(username))
+                    log.info("新增用户: {}".format(username))
                     self.add_user(username,fullname,password,email,category,main_project)
         else:
-            msg = "Load user Fail: Cannot find user.conf:{} ".format(userfile)
+            msg = "加载用户失败: 找不到 user.conf:{} ".format(userfile)
             log.error(msg)
             return msg
 
         projectfile = os.path.join(project_path, 'darwen/conf/project.conf')
-        log.info("Read Project file: {}".format(projectfile))
+        log.info("读取项目配置文件: {}".format(projectfile))
         if os.path.exists(projectfile):
             with open(projectfile, 'r') as f:
                 for l in f:
@@ -114,28 +114,27 @@ class TestDB():
                         continue
                     splits = l.strip().split('|')
                     if len(splits) != 4:
-                        log.error("Wrong projectfile Line " + l)
+                        log.error("错误行：" + l)
                     (projectname, owner, users, cron) = splits
-                    log.info("Create Project with owner:{}".format(owner))
+                    log.info("创建项目，owner:{}".format(owner))
                     self.add_project(projectname, owner, users)
                     self.refresh_caseinfo(project_path, mode='force')
         else:
-            msg = "Load Project Fail: Cannot find project.conf:{} ".format(projectfile)
+            msg = "加载项目失败: 找不到 project.conf:{} ".format(projectfile)
             log.error(msg)
             return msg
 
-        return "Load project Success"
+        return "加载项目成功"
 
     def load_project_from_name(self, project_name):
-        log.info("Load project from name: {}".format(project_name))
+        log.info("从项目名称加载项目: {}".format(project_name))
         project_path = self.get_project_path(project_name)
         self.load_project_from_path(project_path)
 
     def get_project_path(self, project):
-        log.info("Get Project Path of Project:{}".format(project))
         user = self.get_projectowner(project)
         project_path = os.path.join(self.dbpath, '../workspace', user, project)
-        log.info("Project path of {} is : {}".format(project,project_path))
+        log.info("项目路径 of {} is : {}".format(project,project_path))
         return project_path
 
     def get_dbfilename(self):
@@ -147,7 +146,7 @@ class TestDB():
 
     def _reset_refreshtime(self):
         self.refresh_time = self.get_timenow()
-        log.info("Reset TestDB refreshtime to :"+self.refresh_time)
+        log.info("重置数据库刷新时间 to :"+self.refresh_time)
 
     def runsql(self, sql):
         log.info("RUNSQL:"+sql)
@@ -155,7 +154,7 @@ class TestDB():
             res = self.DBcor.execute(sql)
             self.DBcon.commit()
         except Exception as e:
-            log.error("RUNSQL Exeption:{}".format(e))
+            log.error("异常:{}".format(e))
             return None
         return res
 
@@ -230,12 +229,12 @@ class TestDB():
                         continue
                     splits = l.strip().split('#')  # settings.conf using '#' as splitor
                     if len(splits) != 5:
-                        log.error("Wrong settings Line " + l)
+                        log.error("错误行:" + l)
                     (description,item,value,demo,category) = splits
                     self.runsql(''' INSERT INTO settings values('{}','{}','{}','{}','{}');'''.format(description,item,value,demo,category))
             return "Operation Success."
         else:
-            msg = "Cannot find settings.conf for project:{}".format(key)
+            msg = "找不到文件 settings.conf for project:{}".format(key)
             log.error(msg)
             return msg
 

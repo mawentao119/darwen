@@ -3,11 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="ab43467d-ad90-46a2-99ca-651bd4d7e6ad" name="Default" comment="set main project finished">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/configuration.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/configuration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/autocomplete.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/js/Demo_Project/highlight.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/static/js/darwen_demo/autocomplete.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/auto/www/static/js/darwen_demo/highlight.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/api/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/api/keyword.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/keyword.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/api/manage_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/manage_file.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/api/project.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/project.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/api/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/api/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto/www/static/lib/auto.js" beforeDir="false" afterPath="$PROJECT_DIR$/auto/www/static/lib/auto.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/clear.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/clear.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/dbclass.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/dbclass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/gitit.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/gitit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/parsing.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/parsing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/testcaseunite.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/testcaseunite.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,20 +24,11 @@
   <component name="ChangesViewManager" show_ignored="true" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/auto/configuration.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/auto/www/static/lib/auto.js">
+        <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
-              <caret line="506" column="65" selection-start-line="506" selection-start-column="65" selection-end-line="506" selection-end-column="65" />
+            <state relative-caret-position="57">
+              <caret line="9" column="25" lean-forward="true" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -40,8 +37,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>CUR_PROJ</find>
-      <find>set_user</find>
       <find>set_user_category</find>
       <find>get_user_category</find>
       <find>add_user</find>
@@ -70,6 +65,8 @@
       <find>rename_project</find>
       <find>Read user file</find>
       <find>demo_project</find>
+      <find>Alert</find>
+      <find>log\..*</find>
     </findStrings>
     <replaceStrings>
       <replace>summary</replace>
@@ -97,10 +94,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/auto/www/templates/scheduler.html" />
-        <option value="$PROJECT_DIR$/auto/www/templates/schedul_mng.html" />
-        <option value="$PROJECT_DIR$/auto/www/templates/monitor.html" />
-        <option value="$PROJECT_DIR$/auto/www/templates/inject.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/test_analyse.html" />
         <option value="$PROJECT_DIR$/install/install.sh" />
         <option value="$PROJECT_DIR$/install.sh" />
@@ -110,9 +103,7 @@
         <option value="$PROJECT_DIR$/auto/www/api/report.py" />
         <option value="$PROJECT_DIR$/utils/do_report.py" />
         <option value="$PROJECT_DIR$/auto/www/templates/case_list.html" />
-        <option value="$PROJECT_DIR$/utils/testcaseunite.py" />
         <option value="$PROJECT_DIR$/auto/www/api/case.py" />
-        <option value="$PROJECT_DIR$/auto/www/api/manage_file.py" />
         <option value="$PROJECT_DIR$/auto/www/templates/editor.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/test_env.html" />
         <option value="$PROJECT_DIR$/auto/www/templates/compare_caseresult.html" />
@@ -140,14 +131,20 @@
         <option value="$PROJECT_DIR$/auto/www/blueprints.py" />
         <option value="$PROJECT_DIR$/auto/www/templates/project_mng.html" />
         <option value="$PROJECT_DIR$/auto/www/api/settings.py" />
-        <option value="$PROJECT_DIR$/utils/dbclass.py" />
         <option value="$PROJECT_DIR$/utils/file.py" />
-        <option value="$PROJECT_DIR$/utils/gitit.py" />
-        <option value="$PROJECT_DIR$/auto/www/api/user.py" />
         <option value="$PROJECT_DIR$/auto/www/templates/dashboard.html" />
-        <option value="$PROJECT_DIR$/auto/www/api/project.py" />
         <option value="$PROJECT_DIR$/auto/configuration.py" />
         <option value="$PROJECT_DIR$/auto/www/static/lib/auto.js" />
+        <option value="$PROJECT_DIR$/utils/clear.py" />
+        <option value="$PROJECT_DIR$/utils/testcaseunite.py" />
+        <option value="$PROJECT_DIR$/utils/gitit.py" />
+        <option value="$PROJECT_DIR$/utils/parsing.py" />
+        <option value="$PROJECT_DIR$/auto/www/api/auth.py" />
+        <option value="$PROJECT_DIR$/auto/www/api/manage_file.py" />
+        <option value="$PROJECT_DIR$/auto/www/api/user.py" />
+        <option value="$PROJECT_DIR$/auto/www/api/project.py" />
+        <option value="$PROJECT_DIR$/auto/www/api/keyword.py" />
+        <option value="$PROJECT_DIR$/utils/dbclass.py" />
       </list>
     </option>
   </component>
@@ -194,22 +191,6 @@
               <item name="auto" type="462c0819:PsiDirectoryNode" />
               <item name="www" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="darwen" type="b2602c69:ProjectViewProjectNode" />
-              <item name="darwen" type="462c0819:PsiDirectoryNode" />
-              <item name="auto" type="462c0819:PsiDirectoryNode" />
-              <item name="www" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="darwen" type="b2602c69:ProjectViewProjectNode" />
-              <item name="darwen" type="462c0819:PsiDirectoryNode" />
-              <item name="auto" type="462c0819:PsiDirectoryNode" />
-              <item name="www" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="darwen" type="b2602c69:ProjectViewProjectNode" />
@@ -265,13 +246,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1534349381434</updated>
-    </task>
-    <task id="LOCAL-00027" summary="add  start  script">
-      <created>1594039872688</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1594039872688</updated>
     </task>
     <task id="LOCAL-00028" summary="Modify Tabpage icon">
       <created>1594624115631</created>
@@ -609,7 +583,14 @@
       <option name="project" value="LOCAL" />
       <updated>1595995905778</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="set main project finished">
+      <created>1595997110816</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1595997110816</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -625,15 +606,18 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49776787" visible="true" weight="0.26534653" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49776787" weight="0.26534653" />
       <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.49776787" weight="0.44851485" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49713877" weight="0.32409638" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49713877" weight="0.3237624" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50214595" side_tool="true" weight="0.32891566" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Structure" order="3" visible="true" weight="0.11980831" />
     </layout>
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.js" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -699,25 +683,10 @@
     <MESSAGE value="change to darwen" />
     <MESSAGE value="change png" />
     <MESSAGE value="finished split 1" />
-    <MESSAGE value="set main project finished" />
     <MESSAGE value="add git clone project" />
     <MESSAGE value="bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/auto/www/api/auth.py</url>
-          <line>39</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/auto/configuration.py</url>
-          <line>11</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="set main project finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="set main project finished" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/auto/www/static/js/suite.js" />
@@ -915,24 +884,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="383" column="8" selection-start-line="383" selection-start-column="8" selection-end-line="383" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/auto/configuration.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
+        <state relative-caret-position="180">
           <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/auto/www/static/lib/auto.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="506" column="65" selection-start-line="506" selection-start-column="65" selection-end-line="506" selection-end-column="65" />
+        <state relative-caret-position="92">
+          <caret line="552" column="111" lean-forward="true" selection-start-line="552" selection-start-column="111" selection-end-line="552" selection-end-column="111" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/dbclass.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="9" column="25" lean-forward="true" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
         </state>
       </provider>
     </entry>

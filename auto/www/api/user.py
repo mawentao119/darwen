@@ -77,7 +77,7 @@ class User(Resource):
             result["status"] = "fail"
             result["msg"] = "Create user Failed : username exists."
 
-        self.log.info("Create user: add user to project {} users: {}".format(main_project, username))
+        self.log.info("创建用户: 增加用户到项目 project:{} users:{}".format(main_project, username))
         self.app.config['DB'].add_projectuser(main_project, username)
 
         self.save_user(main_project)
@@ -116,7 +116,7 @@ class User(Resource):
         try:
             res = self.app.config['DB'].insert_loginfo(session['username'], 'user', 'edit', username, result['status'])
         except Exception as e:
-            self.log.error("Edite user {} Exception:{}".format(username,e))
+            self.log.error("编辑用户异常 {} Exception:{}".format(username,e))
 
         self.save_user(self.app.config['DB'].get_user_main_project(session['username']))
 
@@ -154,10 +154,9 @@ class User(Resource):
         return result
 
     def save_user(self, project):
-        self.log.info("Start Save users to file...")
         owner = self.app.config['DB'].get_projectowner(project)
         userfile = os.path.join(self.app.config['AUTO_HOME'], 'workspace', owner, project, 'darwen/conf/user.conf')
-        self.log.info("Save users to file:{}".format(userfile))
+        self.log.info("保存用户信息到文件:{}".format(userfile))
         with open(userfile, 'w') as f:
             f.write("# username|fullname|passworkdHash|email|category|main_project\n")
             cur_project = self.app.config['DB'].get_user_main_project(session['username'])
