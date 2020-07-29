@@ -96,7 +96,7 @@ def test_env():
     app = current_app._get_current_object()
     test_project = app.config['DB'].get_setting('test_project')
     test_projectversion = app.config['DB'].get_setting('test_projectversion')
-    auto_conffile = os.path.join(app.config['AUTO_HOME'], app.config['DB'].get_setting('test_env_conf'))
+    auto_conffile = os.path.expandvars(app.config['DB'].get_setting('test_env_conf'))
     if not os.path.exists(auto_conffile):
         with open(app.config['AUTO_TEMP']+'/env_temp.conf','w') as f:
             f.write("无法找到配置文件:\n")

@@ -138,8 +138,9 @@ class Settings(Resource):
         setting_list["rows"].append(
             {"description": "当前主项目", "item": "CUR_PROJECT", "value": self.app.config['DB'].get_user_main_project(session['username']), "demo": "使用该项目darwen/conf下的配置"})
         setting_list["rows"].append(
-            {"description": "系统Home目录", "item": "AUTO_HOME", "value": self.app.config['AUTO_HOME'],
-             "demo": "测试用例在{AUTO_HOME}/workspace/{user}/{project}/下"})
+            {"description": "项目目录(ENV)", "item": "ROBOT_DIR", "value": os.environ["ROBOT_DIR"],"demo": "${ROBOT_DIR}可用在robot文件中"})
+        setting_list["rows"].append(
+            {"description": "项目目录(ENV)", "item": "PROJECT_DIR", "value":os.environ["ROBOT_DIR"],"demo": "${PROJECT_DIR}可用在路径配置中"})
 
         return setting_list
 
