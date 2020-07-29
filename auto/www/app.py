@@ -15,7 +15,6 @@ from flask_login import LoginManager
 from flask_apscheduler import APScheduler
 
 from auto.configuration import config
-from utils.run import robot_job
 
 # mail = Mail()
 

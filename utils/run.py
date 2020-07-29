@@ -27,18 +27,6 @@ from utils.mylogger import getlogger
 
 log = getlogger('Utils.RUN')
 
-def robot_job(app, name, username):
-    with app.app_context():
-        project = app.config["AUTO_HOME"] + "/workspace/%s/%s" % (username, name)
-        output = app.config["AUTO_HOME"] + "/jobs/%s/%s" % (username, name)
-        if not is_run(app, project):
-            p = multiprocessing.Process(target=robot_run, args=(username, name, project, output))
-            p.start()
-            app.config["AUTO_ROBOT"].append({"name": project, "process": p})
-            print("-+" * 15)
-            print(app.config["AUTO_ROBOT"])
-            print("-+" * 15)
-
 # This fun is for debug the test case, result is temporliy in /runtime dir
 def robot_debugrun(app, cases):
 

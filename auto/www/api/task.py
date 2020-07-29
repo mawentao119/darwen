@@ -15,8 +15,8 @@ import time
 
 import multiprocessing
 
-from utils.file import exists_path, remove_dir, get_splitext, get_projectnamefromkey
-from utils.run import robot_run, is_run, is_full, remove_robot, stop_robot, robot_job, robot_debugrun, py_debugrun,bzt_debugrun
+from utils.file import remove_dir, get_splitext
+from utils.run import robot_run, is_run, is_full, stop_robot, robot_debugrun, py_debugrun,bzt_debugrun
 from utils.mylogger import getlogger
 
 class Task(Resource):

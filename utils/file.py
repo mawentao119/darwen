@@ -125,9 +125,9 @@ def get_projectnamefromkey(key):
 def get_projectdirfromkey(key):
     splitkey = key.split('workspace')
     basedir = splitkey[0]
-    project = get_projectnamefromkey(key)
-    user = splitkey[1].split(project)[0]
-    return basedir + 'workspace' + user + project
+    project = splitkey[1].split('/')[2]
+    user = splitkey[1].split('/')[1]
+    return os.path.join(basedir,'workspace',user,project)
 
 
 def get_ownerfromkey(key):

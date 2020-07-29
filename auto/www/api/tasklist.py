@@ -18,7 +18,7 @@ from dateutil import tz
 from robot.api import ExecutionResult
 
 from utils.file import exists_path
-from utils.run import remove_robot, robot_job
+from utils.run import remove_robot
 from ..app import scheduler
 from utils.mylogger import getlogger
 from utils.schedule import add_schedulejob
