@@ -55,9 +55,8 @@ class User(Resource):
 
     def __create(self, args):
         result = {"status": "success", "msg": "Create user success."}
-
-        owner = self.app.config['DB'].get_projectowner(self.app.config['DB'].get_user_main_project(session['username']))
-
+        main_project = self.app.config['DB'].get_user_main_project(session['username'])
+        owner = self.app.config['DB'].get_projectowner(main_project)
         if not (session['username'] == owner):
             result["status"] = "fail"
             result["msg"] = "你无权操作，请联系项目管理员{}.".format(owner)
@@ -73,11 +72,15 @@ class User(Resource):
 
         passwordHash = generate_password_hash(args["password"])
         email = args["email"]
-        if not self.app.config['DB'].add_user(username, fullname, passwordHash, email,'User',self.app.config['DB'].get_user_main_project(session['username'])):
+
+        if not self.app.config['DB'].add_user(username, fullname, passwordHash, email,'User', main_project):
             result["status"] = "fail"
             result["msg"] = "Create user Failed : username exists."
 
-        self.save_user(self.app.config['DB'].get_user_main_project(session['username']))
+        self.log.info("Create user: add user to project {} users: {}".format(main_project, username))
+        self.app.config['DB'].add_projectuser(main_project, username)
+
+        self.save_user(main_project)
         self.app.config['DB'].insert_loginfo(session['username'], 'user', 'create', username, result['status'])
 
         return result

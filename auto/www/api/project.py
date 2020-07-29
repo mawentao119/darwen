@@ -75,6 +75,7 @@ class Project(Resource):
             result["status"] = "fail"
             result["msg"] = "Create Failed: Project name exists!"
 
+        self.save_project(user_path)
         self.app.config['DB'].insert_loginfo(session['username'], 'project', 'create', user_path, result['status'])
 
         return result
@@ -109,9 +110,9 @@ class Project(Resource):
             return result
 
         owner = get_ownerfromkey(args['key'])
-        if not session["username"] == owner:
+        if not session["username"] == "Admin":
             result["status"] = "fail"
-            result["msg"] = "FAIL：Cannot rename shared project."
+            result["msg"] = "FAIL：Only Admin can do this."
             return result
 
         old_name = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (owner, args["name"])
@@ -120,10 +121,14 @@ class Project(Resource):
         if not rename_file(old_name, new_name):
             result["status"] = "fail"
             result["msg"] = "Rename Failed, new name exits!"
-        if not self.app.config['DB'].edit_project(args["name"], args["new_name"], session["username"]):
+        if not self.app.config['DB'].edit_project(args["name"], args["new_name"], owner):
             result["status"] = "fail"
             result["msg"] = "Rename Failed, new name exits!"
 
+        self.log.info("UPdate user set user's main project to {}".format(args["new_name"]))
+        self.app.config['DB'].runsql("UPDATE user set main_project='{}' where main_project='{}';".format(args["new_name"], args["name"]))
+
+        self.save_project(new_name)
         self.app.config['DB'].insert_loginfo(session['username'], 'project', 'rename', old_name, result['status'])
 
         # Delete resource is not dangerous, all of that can be auto generated.
@@ -132,24 +137,31 @@ class Project(Resource):
         return result
 
     def __delete(self, args):
-        result = {"status": "success", "msg": "Delete project success."}
+        result = {"status": "success", "msg": "删除项目成功."}
 
-        self.log.debug("Delete Project args:{}".format(args))
+        self.log.debug("删除项目 args:{}".format(args))
 
+        project = args["name"]
         owner = get_ownerfromkey(args['key'])
-        if not session["username"] == owner:
+
+        if not session["username"] == "Admin":
             result["status"] = "fail"
-            result["msg"] = "FAIL：Cannot Delete shared project!"
+            result["msg"] = "FAIL：只有Admin可以进行此操作!"
             return result
 
         #user_path = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session["username"], args["name"])
         user_path = args['key']
+        self.log.info("删除项目：开始删除项目目录 {}".format(user_path))
         if exists_path(user_path):
             remove_dir(user_path)
 
-        if not self.app.config['DB'].del_project(args["name"],session["username"]):
+        if not self.app.config['DB'].del_project(args["name"],owner):
             result["status"] = "fail"
-            result["msg"] = "Delete Failed, Project not exists."
+            result["msg"] = "删除失败, 项目不存在."
+
+        self.log.info("删除项目的owner：{} 和以 {} 为主项目的成员".format(owner,project))
+        self.app.config['DB'].del_user(owner)
+        self.app.config['DB'].runsql("Delete from user where main_project='{}' ;".format(project))
 
         self.app.config['DB'].insert_loginfo(session['username'], 'project', 'delete', user_path, result['status'])
 
@@ -159,6 +171,12 @@ class Project(Resource):
         return result
 
     def __set_main(self, args):
+
+        main_project = self.app.config['DB'].get_user_main_project(session['username'])
+        owner = self.app.config['DB'].get_projectowner(main_project)
+
+        if session['username'] == owner:
+            return {"status": "Fail", "msg": "Project manager cannot switch Main Project."}
 
         #user_path = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session["username"], args["name"])
         user_path = args['key']
@@ -180,7 +198,7 @@ class Project(Resource):
         owner = get_ownerfromkey(args['key'])
         if not session["username"] == owner:
             result["status"] = "fail"
-            result["msg"] = "FAIL：Only the project owner can add new user."
+            result["msg"] = "FAIL：没有权限操作，请联系{}.".format(owner)
             return result
 
         new_name = args["new_name"]
@@ -191,6 +209,7 @@ class Project(Resource):
             result["status"] = "fail"
             result["msg"] = "DB failed！"
 
+        self.save_project(args['key'])
         self.app.config['DB'].insert_loginfo(session['username'], 'project', 'adduser', args['key'], new_name)
 
         return result
@@ -202,7 +221,7 @@ class Project(Resource):
         owner = get_ownerfromkey(args['key'])
         if not session["username"] == owner:
             result["status"] = "fail"
-            result["msg"] = "FAIL：Only the project owner can remove user."
+            result["msg"] = "FAIL：没有权限操作，请联系{}.".format(owner)
             return result
 
         new_name = args["new_name"]
@@ -213,6 +232,7 @@ class Project(Resource):
             result["status"] = "fail"
             result["msg"] = "DB failed！"
 
+        self.save_project(args['key'])
         self.app.config['DB'].insert_loginfo(session['username'], 'project', 'deluser', args['key'], new_name)
 
         return result
@@ -226,6 +246,21 @@ class Project(Resource):
                 {"projectname": projectname, "owner": owner, "users": users, "cron": cron})
 
         return project_list
+
+    def save_project(self, project_path):
+        self.log.info("Start Save project to file...")
+        project = get_projectnamefromkey(project_path)
+
+        projectfile = os.path.join(project_path, 'darwen/conf/project.conf')
+        self.log.info("Save project to file:{}".format(projectfile))
+        with open(projectfile, 'w') as f:
+            f.write("# projectname|owner|users|cron\n")
+            res = self.app.config['DB'].runsql("select * from project where projectname='{}';".format(project))
+            for i in res:
+                (projectname, owner, users, cron) = i
+                line = "{}|{}|{}|{}\n".format(projectname, owner, users, cron)
+                self.log.info("Save Project content:{}".format(line))
+                f.write(line)
 
 class ProjectList(Resource):
     def __init__(self):
