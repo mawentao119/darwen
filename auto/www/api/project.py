@@ -402,6 +402,9 @@ def get_projects(app, username):
         project_path = app.config['DB'].get_project_path(app.config['DB'].get_user_main_project(session['username']))
         app.config['DB'].init_project_settings(project_path)
 
+        os.environ["ROBOT_DIR"] = project_path      # 用于解析 settings 中的环境变量
+        os.environ["PROJECT_DIR"] = project_path
+
     return [{
         "text": session['username'], "iconCls": "icon-workspace",
         "attributes": {

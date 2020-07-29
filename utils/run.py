@@ -30,10 +30,6 @@ log = getlogger('Utils.RUN')
 # This fun is for debug the test case, result is temporliy in /runtime dir
 def robot_debugrun(app, cases):
 
-    projectdir = get_projectdirfromkey(cases)
-
-    os.environ["ROBOT_DIR"] = projectdir
-    os.environ["PROJECT_DIR"] = projectdir
     out = app.config['AUTO_TEMP']
     if not exists_path(out):
         mk_dirs(out)
@@ -57,11 +53,6 @@ def robot_run(app, case_key, args='', user='', driver='USER'):
         mk_dirs(output)
 
     (out, index) = reset_next_build_numb(output)
-
-    projectdir = get_projectdirfromkey(case_key)
-
-    os.environ["ROBOT_DIR"] = projectdir
-    os.environ["PROJECT_DIR"] = projectdir
 
     mk_dirs(out) if not exists_path(out) else None
 
