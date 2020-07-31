@@ -10,38 +10,39 @@ from robot.api import TestData
 log = getlogger('TestDB')
 
 class TestDB():
-    def __init__(self, confdir='.'):
+    def __init__(self, confdir):
         # Init system TestDBID with file TestCaseDB.id if exists, Create new if not exists.
+        log.info("初始化数据库，系统目录：{}".format(confdir))
         self.DBID='0'
         self.DBcon = None
         self.DBcor = None
 
         self.confdir = confdir
-        self.dbpath = self.confdir + '/'
+        self.dbpath = os.path.join(self.confdir,'DBs')
         self.exclude_suite = '/work/workspace/Admin/darwen'
         self.refresh_interval = 180  # seconds
         self.refresh_time = self.get_timenow()
         self.DBIDFileName = 'TestCaseDB.id'
+        self.DBIDFile = os.path.join(self.dbpath, self.DBIDFileName)
         self.DBFileName = ''
         self.IsNewDBID = False
 
-        log.info("DB 配置目录 : "+self.confdir)
-        log.info("检查DBID文件是否存在:" + self.dbpath+ self.DBIDFileName)
-        if os.path.exists(self.dbpath + self.DBIDFileName):
-            with open(self.dbpath + self.DBIDFileName, 'r') as f:
+        log.info("检查DBID文件是否存在:" + self.DBIDFile)
+        if os.path.exists(self.DBIDFile):
+            with open(self.DBIDFile, 'r') as f:
                 self.DBID = f.readline().strip()
-                log.info("读取 DBID from " + self.DBIDFileName + ": "+self.DBID)
+                log.info("读取 DBID from " + self.DBIDFile + ": "+self.DBID)
         else:
             self.DBID = self.get_timenow()
             self.IsNewDBID = True
-            with open(self.dbpath + self.DBIDFileName, 'w') as f:
+            with open(self.DBIDFile, 'w') as f:
                 f.write(self.DBID)
                 log.info("创建新 ID: " + self.DBID)
 
-        self.DBFileName = self.dbpath + self.DBID+'.db'
+        self.DBFileName = os.path.join(self.dbpath , self.DBID+'.db')
         
         if not os.path.exists(self.DBFileName):
-            log.warning("ID文件:" + self.dbpath + self.DBIDFileName + " with DBID:" + self.DBID + " 找不到.db文件!")
+            log.warning("ID文件:" + self.DBIDFile + " with DBID:" + self.DBID + " 找不到.db文件!")
             log.warning("创建新到 DB file ... ")
             self.IsNewDBID = True
 
@@ -68,7 +69,7 @@ class TestDB():
 
             self.createtb_caserecord()
 
-            workspace = os.path.dirname(self.confdir) + '/workspace'
+            workspace = os.path.join(self.confdir,'workspace')
             self.load_user_and_project(workspace)
 
     def load_user_and_project(self, workspace):
@@ -133,7 +134,7 @@ class TestDB():
 
     def get_project_path(self, project):
         user = self.get_projectowner(project)
-        project_path = os.path.join(self.dbpath, '../workspace', user, project)
+        project_path = os.path.join(self.confdir, 'workspace', user, project)
         log.info("项目路径 of {} is : {}".format(project,project_path))
         return project_path
 

@@ -42,7 +42,7 @@ class Config:
     AUTO_TEMP = AUTO_HOME + '/runtime'
     os.mkdir(AUTO_TEMP) if not os.path.exists(AUTO_TEMP) else None
 
-    DB = TestDB(AUTO_HOME + '/DBs')
+    DB = TestDB(AUTO_HOME)
 
     AUTO_ROBOT = []    # Process list of running tasks, only for hand running ,not for schceduled jobs. MAX: setting:MAX_PROCS
 

@@ -6,6 +6,7 @@ __author__ = "苦叶子"
 
 """
 import os
+import markdown
 from flask import Blueprint, render_template, session, redirect, url_for, current_app, send_file, request
 from utils.file import get_splitext, exists_path, get_projectnamefromkey
 from utils.parsing import prepare_editorjs
@@ -59,23 +60,39 @@ def editor_1(project, suite, case):
 
 @routes.route("/editor/<key>")
 def editor(key):
+
     rpkey = key.replace("--", "/")
+
+    print("********RPKEY:"+rpkey)
+    print("*********KEY:"+key)
+
     t = get_splitext(rpkey)
+
     default = "default.html"
-    if t[1] in (".txt", ".robot", ".resource", ".py", ".js", ".yaml", ".conf", ".ini", ".sh"):
+
+    if t[1] in (".html","htm"):
+        if os.path.exists(rpkey):
+            default = rpkey
+        return send_file(default)
+
+    if t[1] in (".txt", ".robot", ".resource", ".py", ".js", ".yaml", ".conf", ".ini", ".sh",".md"):
         default = "editor.html"
-    elif t[1] in (".bmp", ".jpg", ".jpeg", ".png", ".gif"):
-        default = "view_img.html"
 
-    mode = 'robot'
-    if t[1] == ".yaml":
-        mode = 'yaml'
-    if t[1] == '.py':
-        mode = 'python'
+        if t[1] == ".yaml":
+            mode = 'yaml'
+        elif t[1] == '.py':
+            mode = 'python'
+        elif t[1] == '.md':
+            mode = 'textile'
+        else:
+            mode = 'python'
 
-    prepare_editorjs(rpkey)
+        return render_template(default, key=rpkey, mode=mode)
 
-    return render_template(default, key=rpkey, mode=mode)
+    if t[1] in (".bmp", ".jpg", ".jpeg", ".png", ".gif"):
+        return send_file(rpkey)
+
+    return render_template(default)
 
 
 @routes.route("/task_list/<name>")
@@ -254,3 +271,33 @@ def excutereport(key):
 @routes.route("/welcome")
 def welcome():
     return render_template("welcome.html")
+
+@routes.route("/project_readme")
+def project_readme():
+    app = current_app._get_current_object()
+
+    try:
+        readmefile = app.config['DB'].get_setting('project_readme')
+        main_project = app.config['DB'].get_user_main_project(session['username'])
+        project_path = app.config['DB'].get_project_path(main_project)
+        project_ownreadme = os.path.join(project_path,'ReadMe.md')
+        project_darwenreadme = os.path.join(project_path,'darwen/ReadMe.md')
+    except Exception as e:
+        log.error("{}".format(e))
+
+    if os.path.exists(readmefile):
+        p_file = readmefile
+    elif os.path.exists(project_ownreadme):
+        p_file = project_ownreadme
+    else:
+        p_file = project_darwenreadme
+
+    body = "<p>说明文件："+p_file+"</p> \n"
+    if os.path.exists(p_file):
+        with open(p_file,'r') as f:
+            for l in f:
+                body += markdown.markdown(l) + '\n'
+    else:
+        log.error("找不到ReadMe文件:{}".format(p_file))
+        return render_template("welcome.html")
+    return render_template("project_readme.html", body = body)

@@ -159,7 +159,7 @@ class Settings(Resource):
             for l in f:
                 splits = l.strip().split('|')
                 if len(splits) !=5 :
-                    self.log.error("获取机器列表从文件:{} 错误行:{}".format(ff,l))
+                    self.log.error("获取机器列表从文件:{} 错误行:{},列数:{}".format(ff,l.strip(),len(splits)))
                     continue
                 (ip, os1, cpus , mem, ontime ) = splits
                 setting_list["rows"].append(
