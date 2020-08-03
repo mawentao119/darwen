@@ -7,6 +7,7 @@ Flask_RESTful==0.3.6
 Flask_Script==2.0.6
 Werkzeug==0.14.1
 APScheduler==3.5.1
+markdown==3.2.2
 python_dateutil==2.7.3
 Appium-Python-Client==0.26
 Jinja2==2.8
