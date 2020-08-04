@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-## Description: Online install Python-3 and uniRobot platform
+## Description: Online install Python-3 and darwen platform
 ## Author: charisma 20191130
 
 echo "### Stage 0 : Copy file ..."
@@ -69,7 +69,7 @@ echo "### Stage 3 : Install Robot* test system"
 
 pyenv="py3env"
 
-echo "*** python3 -m virtualenv --no-site-packages /data/uniRobot/py3env"
+echo "*** python3 -m virtualenv --no-site-packages /data/darwen/py3env"
 python3 -m virtualenv ${pyenv}
 echo "export PYENV=${pyenv}">>${pyenv}/bin/activate;
 echo "export LANG=zh_CN.UTF8">>${pyenv}/bin/activate;
@@ -79,7 +79,7 @@ echo "### Stage 4 : install requirments "
 
 cd ${workdir}
 
-srcdir="work/workspace/Admin/uniRobot"
+srcdir="work/workspace/Admin/darwen"
 mkdir -p ${srcdir}
 mkdir -p work/DBs
 mkdir -p work/jobs
