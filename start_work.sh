@@ -6,9 +6,9 @@ source py3env/bin/activate
 
 here=`pwd`
 
-cd work/workspace/Admin/uniRobot
+cd work/workspace/Admin/darwen
 
-  nohup   python uniRobot.py runserver -h 0.0.0.0 -p 8082  &
+  nohup   python darwen.py runserver -h 0.0.0.0 -p 8082  &
 
 cd ${here}
 

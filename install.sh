@@ -2,14 +2,13 @@
 
 ## Description: Online install Python-3 and uniRobot platform
 ## Author: charisma 20191130
-## Important: This installation will install system to ${uniHome}=/data/uniRobot . NO NEED RUN OnlineInstallRobots.sh
 
 echo "### Stage 0 : Copy file ..."
 
 echo "*** Delete tmp dir and  work dir ...... "
 
-tmpdir="/tmp/uniRobot1234"
-workdir="/data/uniRobot"
+tmpdir="/tmp/darwen1234"
+workdir="/data/darwen"
 
 rm -rf ${tmpdir}
 mkdir  ${tmpdir}
@@ -73,7 +72,6 @@ pyenv="py3env"
 echo "*** python3 -m virtualenv --no-site-packages /data/uniRobot/py3env"
 python3 -m virtualenv ${pyenv}
 echo "export PYENV=${pyenv}">>${pyenv}/bin/activate;
-echo "export uniHome=${uniHome}">>${pyenv}/bin/activate;
 echo "export LANG=zh_CN.UTF8">>${pyenv}/bin/activate;
 source ${pyenv}/bin/activate
 
