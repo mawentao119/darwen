@@ -105,8 +105,9 @@ class User(Resource):
             fullname = args["fullname"]
             passwordHash = generate_password_hash(args["new_password"])
             email = args["email"]
+            main_project = self.app.config['DB'].get_user_main_project(session['username'])
             self.app.config['DB'].del_user(username)
-            if not self.app.config['DB'].add_user(username, fullname, passwordHash, email,'User',self.app.config['DB'].get_user_main_project(session['username'])):
+            if not self.app.config['DB'].add_user(username, fullname, passwordHash, email,'User',main_project):
                 result["status"] = "fail"
                 result["msg"] = "失败：DB操作失败，见日志."
         else:
