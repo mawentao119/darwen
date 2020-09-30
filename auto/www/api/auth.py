@@ -47,7 +47,7 @@ class Auth(Resource):
                 session['username'] = username
                 return {"status": "success", "msg": "登录成功", "url": url_for('routes.dashboard')}, 201
 
-        self.log.warning("登录失败: user: {} password xxx".format(username))
+        self.log.warning("登录失败: user: {} password ******".format(username))
 
         app.config['DB'].insert_loginfo(username, 'login', username, password)
 
