@@ -266,7 +266,7 @@ def casereport(key):
     :return:
     """
     rpkey = key.replace("--", "/")
-    app = current_app._get_current_object()
+
     (total, hand, auto) = rpt_caseratio(rpkey)
     ratio = format((auto/total)*100, '.2f') if total > 0 else '0'
     suites = get_distinct_suites(rpkey)
