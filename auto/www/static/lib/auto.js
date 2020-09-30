@@ -438,8 +438,7 @@ function refresh_suite_addtab(data) {
 
         $('#project_tree').tree("reload", node.target);
     }
-    //show_msg('Information', data.msg);
-    //result = {"status": "success", "msg": "创建成功"+":"+os.path.basename(user_path)+":"+user_path}
+
     if (data.status == "fail") {
         show_msg('Information', data.msg);
     } else {
@@ -705,6 +704,36 @@ function manage_file(win_id, ff_id, method) {
         }
     }
     open_win(win_id);
+}
+
+function create_model(win_id, ff_id, method) {
+    if (method == "create") {
+        clear_form(ff_id);
+
+    } else if (method == "edit") {
+        var node = $('#project_tree').tree('getSelected');
+        if (node) {
+            $("#{0} select#new_category".lym_format(ff_id)).combobox("setValue", node.attributes['splitext']);
+            $("#{0} input#new_name".lym_format(ff_id)).textbox('setValue', node.attributes['name']);
+        }
+    }
+    open_win(win_id);
+}
+
+function create_model_do(win_id, ff_id) {
+    var node = $('#project_tree').tree('getSelected');
+    if (node) {
+        var project = $('#project_tree').tree('getParent', node.target);
+        var data = $("#{0}".lym_format(ff_id)).serializeObject();
+        data["method"] = "create";
+        data["suite_name"] = node.attributes['name'];
+        data["project_name"] = project.attributes['name'];
+        data["key"] = node.attributes['key'];
+
+        do_ajax('post', '/api/v1/test_design/', data, refresh_suite_addtab);
+
+        close_win(win_id);
+    }
 }
 
 function manage_run(win_id, ff_id, method) {

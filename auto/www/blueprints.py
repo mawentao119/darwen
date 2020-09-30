@@ -10,7 +10,7 @@ import markdown
 from flask import Blueprint, render_template, session, redirect, url_for, current_app, send_file, request
 from utils.file import get_splitext, exists_path, get_projectnamefromkey
 from utils.parsing import prepare_editorjs
-from utils.do_report import get_distinct_suites,rpt_caseratio,rpt_runprogress,rpt_moduleprogress, rpt_moduleinfo
+from utils.do_report import get_distinct_suites, rpt_caseratio, rpt_runprogress, rpt_moduleprogress, rpt_moduleinfo
 from utils.mylogger import getlogger
 
 log = getlogger("blueprints")
@@ -46,6 +46,7 @@ def get_report():
     else:
         return render_template('login.html')
 
+
 @routes.route("/editor/<project>/<suite>/<case>")
 def editor_1(project, suite, case):
     t = get_splitext(case)
@@ -58,24 +59,25 @@ def editor_1(project, suite, case):
 
     return render_template(default, project=project, suite=suite, case=case)
 
+
 @routes.route("/editor/<key>")
 def editor(key):
 
     rpkey = key.replace("--", "/")
+    t = get_splitext(rpkey)
 
     print("********RPKEY:"+rpkey)
     print("*********KEY:"+key)
-
-    t = get_splitext(rpkey)
+    print("********t[1]:"+t[1])
 
     default = "default.html"
 
-    if t[1] in (".html","htm"):
+    if t[1] in (".html", ".htm"):
         if os.path.exists(rpkey):
             default = rpkey
         return send_file(default)
 
-    if t[1] in (".txt", ".robot", ".resource", ".py", ".js", ".yaml", ".conf", ".ini", ".sh",".md"):
+    if t[1] in (".txt", ".robot", ".resource", ".py", ".js", ".yaml", ".conf", ".ini", ".sh", ".md"):
         default = "editor.html"
 
         if t[1] == ".yaml":
@@ -92,6 +94,41 @@ def editor(key):
     if t[1] in (".bmp", ".jpg", ".jpeg", ".png", ".gif"):
         return send_file(rpkey)
 
+    if t[1] in (".tmd"):
+        modvalue = '''
+        { "class": "go.GraphLinksModel",
+  "nodeKeyProperty": "id",
+  "nodeDataArray": [
+  {"id":-1, "loc":"155 -138", "category":"Start"},
+  {"id":0, "loc":"190 15", "text":"Shopping"},
+  {"id":1, "loc":"353 32", "text":"Browse Items"},
+  {"id":2, "loc":"353 166", "text":"Search Items"},
+  {"id":3, "loc":"512 12", "text":"View Item"},
+  {"id":4, "loc":"661 17", "text":"View Cart"},
+  {"id":5, "loc":"644 171", "text":"Update Cart"},
+  {"id":6, "loc":"800 96", "text":"Checkout"},
+  {"id":-2, "loc":"757 229", "category":"End"}
+  ],
+  "linkDataArray": [
+    { "from": -1, "to": 0, "text": "Visit online store" },
+    { "from": 0, "to": 1,  "progress": "true", "text": "Browse" },
+    { "from": 0, "to": 2,  "progress": "true", "text": "Use search bar" },
+    { "from": 1, "to": 2,  "progress": "true", "text": "Use search bar" },
+    { "from": 2, "to": 3,  "progress": "true", "text": "Click item" },
+    { "from": 2, "to": 2,  "text": "Another search", "curviness": 20 },
+    { "from": 1, "to": 3,  "progress": "true", "text": "Click item" },
+    { "from": 3, "to": 0,  "text": "Not interested", "curviness": -100 },
+    { "from": 3, "to": 4,  "progress": "true", "text": "Add to cart" },
+    { "from": 4, "to": 0,  "text": "More shopping", "curviness": -150 },
+    { "from": 4, "to": 5,  "text": "Update needed", "curviness": -50 },
+    { "from": 5, "to": 4,  "text": "Update made" },
+    { "from": 4, "to": 6,  "progress": "true", "text": "Proceed" },
+    { "from": 6, "to": 5,  "text": "Update needed" },
+    { "from": 6, "to": -2, "progress": "true", "text": "Purchase made" }
+  ]
+}
+        '''
+        return render_template("test_design.html", key=rpkey, value=modvalue)
     return render_template(default)
 
 
@@ -104,63 +141,77 @@ def task_list(name):
         project = get_projectnamefromkey(key)
         return render_template('task_list.html', project=name)
 
+
 @routes.route("/project_task/")
 def scheduler():
     return render_template('project_task.html')
 
+
 @routes.route("/test_design/")
 def test_design():
     return render_template('test_design.html')
+
 
 @routes.route("/test_env/")
 def test_env():
     app = current_app._get_current_object()
     test_project = app.config['DB'].get_setting('test_project')
     test_projectversion = app.config['DB'].get_setting('test_projectversion')
-    auto_conffile = os.path.expandvars(app.config['DB'].get_setting('test_env_conf'))
+    auto_conffile = os.path.expandvars(
+        app.config['DB'].get_setting('test_env_conf'))
     if not os.path.exists(auto_conffile):
-        with open(app.config['AUTO_TEMP']+'/env_temp.conf','w') as f:
+        with open(app.config['AUTO_TEMP']+'/env_temp.conf', 'w') as f:
             f.write("无法找到配置文件:\n")
             f.write("{}\n".format(auto_conffile))
             f.write("请在'系统配置'中配置'test_env_conf'项.\n")
         auto_conffile = app.config['AUTO_TEMP']+'/env_temp.conf'
-    return render_template('test_env.html', test_project=test_project,test_projectversion=test_projectversion, key=auto_conffile)
+    return render_template('test_env.html', test_project=test_project, test_projectversion=test_projectversion, key=auto_conffile)
+
 
 @routes.route("/schedule_mng/")
 def schedule_mng():
     return render_template('schedule_mng.html')
 
+
 @routes.route("/monitor/")
 def monitor():
     return render_template('monitor.html')
+
 
 @routes.route("/inject/")
 def inject():
     return render_template('inject.html')
 
+
 @routes.route("/performance/")
 def performance():
     return render_template('inject.html')
+
 
 @routes.route("/turning/")
 def turning():
     return render_template('inject.html')
 
+
 @routes.route("/tools/")
 def tools():
     return render_template('tools.html')
+
 
 @routes.route("/test_analyse/")
 def test_analyse():
     return render_template('test_analyse.html')
 
+
 @routes.route("/user/")
 def user():
     return render_template('user.html')
 
+
 @routes.route("/settings/")
 def settings():
     return render_template('settings.html')
+
 
 @routes.route("/project_mng/")
 def project_mng():
@@ -173,10 +224,12 @@ def view_report(project, task):
     job_path = 'default.html'
     if task.endswith('_log'):
         num = task.split('_')[0]
-        job_path = app.config["AUTO_HOME"] + "/jobs/%s/%s/%s/log.html" % (session['username'], project, num)
+        job_path = app.config["AUTO_HOME"] + \
+            "/jobs/%s/%s/%s/log.html" % (session['username'], project, num)
     if task.endswith('_report'):
         num = task.split('_')[0]
-        job_path = app.config["AUTO_HOME"] + "/jobs/%s/%s/%s/report.html" % (session['username'], project, num)
+        job_path = app.config["AUTO_HOME"] + \
+            "/jobs/%s/%s/%s/report.html" % (session['username'], project, num)
 
     return send_file(job_path)
 
@@ -185,7 +238,8 @@ def view_report(project, task):
 def q_view_report(username, project, task):
     app = current_app._get_current_object()
 
-    job_path = app.config["AUTO_HOME"] + "/jobs/%s/%s/%s/log.html" % (username, project, task)
+    job_path = app.config["AUTO_HOME"] + \
+        "/jobs/%s/%s/%s/log.html" % (username, project, task)
 
     return send_file(job_path)
 
@@ -194,12 +248,14 @@ def q_view_report(username, project, task):
 def view_img():
     args = request.args.to_dict()
     app = current_app._get_current_object()
-    img_path = app.config["AUTO_HOME"] + "/workspace/%s" % session['username'] + args["path"]
+    img_path = app.config["AUTO_HOME"] + \
+        "/workspace/%s" % session['username'] + args["path"]
     img_path.replace("\\", "/")
     if exists_path(img_path):
         return send_file(img_path)
 
     return False
+
 
 @routes.route("/casereport/<key>")
 def casereport(key):
@@ -211,13 +267,15 @@ def casereport(key):
     """
     rpkey = key.replace("--", "/")
     app = current_app._get_current_object()
-    (total,hand,auto) = rpt_caseratio(rpkey)
-    ratio = format((auto/total)*100 , '.2f') if total > 0 else '0'
+    (total, hand, auto) = rpt_caseratio(rpkey)
+    ratio = format((auto/total)*100, '.2f') if total > 0 else '0'
     suites = get_distinct_suites(rpkey)
-    autoratio = {'total':total, 'suites': suites ,'hand': hand, 'auto': auto, 'ratio': ratio}
+    autoratio = {'total': total, 'suites': suites,
+                 'hand': hand, 'auto': auto, 'ratio': ratio}
 
     modulesinfo = rpt_moduleinfo(rpkey)
-    return render_template("case_report.html", autoratio=autoratio,modulesinfo=modulesinfo, dir=rpkey)
+    return render_template("case_report.html", autoratio=autoratio, modulesinfo=modulesinfo, dir=rpkey)
+
 
 @routes.route("/caselist/<key>")
 def caselist(key):
@@ -231,6 +289,7 @@ def caselist(key):
 
     return render_template("case_list.html", dir=rpkey)
 
+
 @routes.route("/compare/<key>")
 def compare(key):
     """
@@ -241,6 +300,7 @@ def compare(key):
     rpkey = key.replace("--", "/")
 
     return render_template("compare_caseresult.html", dir=rpkey)
+
 
 @routes.route("/excutereport/<key>")
 def excutereport(key):
@@ -260,21 +320,26 @@ def excutereport(key):
     rpkey = key.replace("--", "/")
     runprogress = rpt_runprogress(rpkey)
 
-    totalratio = format(((runprogress['total'][1]+runprogress['total'][2])/runprogress['total'][0])*100, '.2f') if runprogress['total'][0]>0 else '0'
-    handratio  = format(((runprogress['hand'][1]+runprogress['hand'][2])/runprogress['hand'][0])*100, '.2f') if runprogress['hand'][0]>0 else '0'
-    autoratio  = format(((runprogress['auto'][1]+runprogress['auto'][2])/runprogress['auto'][0])*100, '.2f') if runprogress['auto'][0]>0 else '0'
+    totalratio = format(((runprogress['total'][1]+runprogress['total'][2]) /
+                         runprogress['total'][0])*100, '.2f') if runprogress['total'][0] > 0 else '0'
+    handratio = format(((runprogress['hand'][1]+runprogress['hand'][2]) /
+                        runprogress['hand'][0])*100, '.2f') if runprogress['hand'][0] > 0 else '0'
+    autoratio = format(((runprogress['auto'][1]+runprogress['auto'][2]) /
+                        runprogress['auto'][0])*100, '.2f') if runprogress['auto'][0] > 0 else '0'
 
-    grossinfo = {'totalratio':totalratio, 'handratio':handratio,'autoratio':autoratio,
-                 'total':runprogress['total'],
+    grossinfo = {'totalratio': totalratio, 'handratio': handratio, 'autoratio': autoratio,
+                 'total': runprogress['total'],
                  'hand': runprogress['hand'],
                  'auto': runprogress['auto']}
 
     moduleinfo = rpt_moduleprogress(rpkey)
     return render_template("excute_report.html", grossinfo=grossinfo, moduleinfo=moduleinfo, dir=rpkey)
 
+
 @routes.route("/welcome")
 def welcome():
     return render_template("welcome.html")
+
 
 @routes.route("/project_readme")
 def project_readme():
@@ -282,10 +347,11 @@ def project_readme():
 
     try:
         readmefile = app.config['DB'].get_setting('project_readme')
-        main_project = app.config['DB'].get_user_main_project(session['username'])
+        main_project = app.config['DB'].get_user_main_project(
+            session['username'])
         project_path = app.config['DB'].get_project_path(main_project)
-        project_ownreadme = os.path.join(project_path,'ReadMe.md')
-        project_darwenreadme = os.path.join(project_path,'darwen/ReadMe.md')
+        project_ownreadme = os.path.join(project_path, 'ReadMe.md')
+        project_darwenreadme = os.path.join(project_path, 'darwen/ReadMe.md')
     except Exception as e:
         log.error("{}".format(e))
 
@@ -298,10 +364,10 @@ def project_readme():
 
     body = "<p>说明文件："+p_file+"</p> \n"
     if os.path.exists(p_file):
-        with open(p_file,'r') as f:
+        with open(p_file, 'r') as f:
             for l in f:
                 body += markdown.markdown(l) + '\n'
     else:
         log.error("找不到ReadMe文件:{}".format(p_file))
         return render_template("welcome.html")
-    return render_template("project_readme.html", body = body)
+    return render_template("project_readme.html", body=body)

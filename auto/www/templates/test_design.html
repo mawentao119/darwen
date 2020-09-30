@@ -4,8 +4,11 @@
 <head>
   <title>State Chart</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
   <script src="{{ url_for('static', filename='lib/gojs/migo.js') }}"></script>
+  <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='lib/auto.js') }}"></script>
   <script id="code">
     function init() {
@@ -269,14 +272,9 @@
 
     // Show the diagram's model in JSON format
     function save() {
-      document.getElementById("mySavedModel").value = myDiagram.model.toJson();
-    }
+      modjson = myDiagram.model.toJson();
+      document.getElementById("mySavedModel").value = modjson;
 
-    function load() {
-      myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
-    }
-
-    function save_file() {
       var key = "{{ key }}";
       var data = {
         "method": "save",
@@ -284,12 +282,17 @@
         "data": myDiagram.model.toJson(),
       };
       do_ajax("post", "/api/v1/test_design/", data, after_save);
+
+    }
+
+    function load() {
+      myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
     }
 
     function after_save(data) {
       var success = "success"
       if (data["status"] == success) {
-        $('#btn_save').linkbutton('disable');
+        //$0('#btn_save').linkbutton('disable');
       }
       do_msg(data)
     }
@@ -306,37 +309,7 @@
         <button onclick="load()">Load</button>
       </div>
       <textarea id="mySavedModel" style="width:100%;height:300px">
-{ "class": "go.GraphLinksModel",
-  "nodeKeyProperty": "id",
-  "nodeDataArray": [
-  {"id":-1, "loc":"155 -138", "category":"Start"},
-  {"id":0, "loc":"190 15", "text":"Shopping"},
-  {"id":1, "loc":"353 32", "text":"Browse Items"},
-  {"id":2, "loc":"353 166", "text":"Search Items"},
-  {"id":3, "loc":"512 12", "text":"View Item"},
-  {"id":4, "loc":"661 17", "text":"View Cart"},
-  {"id":5, "loc":"644 171", "text":"Update Cart"},
-  {"id":6, "loc":"800 96", "text":"Checkout"},
-  {"id":-2, "loc":"757 229", "category":"End"}
-  ],
-  "linkDataArray": [
-    { "from": -1, "to": 0, "text": "Visit online store" },
-    { "from": 0, "to": 1,  "progress": "true", "text": "Browse" },
-    { "from": 0, "to": 2,  "progress": "true", "text": "Use search bar" },
-    { "from": 1, "to": 2,  "progress": "true", "text": "Use search bar" },
-    { "from": 2, "to": 3,  "progress": "true", "text": "Click item" },
-    { "from": 2, "to": 2,  "text": "Another search", "curviness": 20 },
-    { "from": 1, "to": 3,  "progress": "true", "text": "Click item" },
-    { "from": 3, "to": 0,  "text": "Not interested", "curviness": -100 },
-    { "from": 3, "to": 4,  "progress": "true", "text": "Add to cart" },
-    { "from": 4, "to": 0,  "text": "More shopping", "curviness": -150 },
-    { "from": 4, "to": 5,  "text": "Update needed", "curviness": -50 },
-    { "from": 5, "to": 4,  "text": "Update made" },
-    { "from": 4, "to": 6,  "progress": "true", "text": "Proceed" },
-    { "from": 6, "to": 5,  "text": "Update needed" },
-    { "from": 6, "to": -2, "progress": "true", "text": "Purchase made" }
-  ]
-}
+      {{value}}
     </textarea>
     </div>
   </div>

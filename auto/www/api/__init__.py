@@ -31,6 +31,9 @@ api.add_resource(Suite, "/suite/")
 from .case import Case
 api.add_resource(Case, "/case/")
 
+from .test_design import TestDesign
+api.add_resource(TestDesign, "/test_design/")
+
 from .manage_file import ManageFile
 api.add_resource(ManageFile, "/manage_file/")
 
