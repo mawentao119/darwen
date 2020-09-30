@@ -1,12 +1,4 @@
 /*
- * auto.js
- *
- * 作者: 苦叶子
- * charisma modified
- *
- */
-
-/*
  * for string format
  */
 String.prototype.lym_format = function () {
