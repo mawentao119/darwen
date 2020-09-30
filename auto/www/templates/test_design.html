@@ -292,7 +292,7 @@
     function after_save(data) {
       var success = "success"
       if (data["status"] == success) {
-        //$0('#btn_save').linkbutton('disable');
+        //document.getElementById("SaveButton").disabled = true; //TODO: How to make it enable?
       }
       do_msg(data)
     }

@@ -8,7 +8,7 @@ __author__ = "苦叶子"
 import os
 import markdown
 from flask import Blueprint, render_template, session, redirect, url_for, current_app, send_file, request
-from utils.file import get_splitext, exists_path, get_projectnamefromkey
+from utils.file import get_splitext, exists_path, get_projectnamefromkey, read_file
 from utils.parsing import prepare_editorjs
 from utils.do_report import get_distinct_suites, rpt_caseratio, rpt_runprogress, rpt_moduleprogress, rpt_moduleinfo
 from utils.mylogger import getlogger
@@ -95,40 +95,8 @@ def editor(key):
         return send_file(rpkey)
 
     if t[1] in (".tmd"):
-        modvalue = '''
-        { "class": "go.GraphLinksModel",
-  "nodeKeyProperty": "id",
-  "nodeDataArray": [
-  {"id":-1, "loc":"155 -138", "category":"Start"},
-  {"id":0, "loc":"190 15", "text":"Shopping"},
-  {"id":1, "loc":"353 32", "text":"Browse Items"},
-  {"id":2, "loc":"353 166", "text":"Search Items"},
-  {"id":3, "loc":"512 12", "text":"View Item"},
-  {"id":4, "loc":"661 17", "text":"View Cart"},
-  {"id":5, "loc":"644 171", "text":"Update Cart"},
-  {"id":6, "loc":"800 96", "text":"Checkout"},
-  {"id":-2, "loc":"757 229", "category":"End"}
-  ],
-  "linkDataArray": [
-    { "from": -1, "to": 0, "text": "Visit online store" },
-    { "from": 0, "to": 1,  "progress": "true", "text": "Browse" },
-    { "from": 0, "to": 2,  "progress": "true", "text": "Use search bar" },
-    { "from": 1, "to": 2,  "progress": "true", "text": "Use search bar" },
-    { "from": 2, "to": 3,  "progress": "true", "text": "Click item" },
-    { "from": 2, "to": 2,  "text": "Another search", "curviness": 20 },
-    { "from": 1, "to": 3,  "progress": "true", "text": "Click item" },
-    { "from": 3, "to": 0,  "text": "Not interested", "curviness": -100 },
-    { "from": 3, "to": 4,  "progress": "true", "text": "Add to cart" },
-    { "from": 4, "to": 0,  "text": "More shopping", "curviness": -150 },
-    { "from": 4, "to": 5,  "text": "Update needed", "curviness": -50 },
-    { "from": 5, "to": 4,  "text": "Update made" },
-    { "from": 4, "to": 6,  "progress": "true", "text": "Proceed" },
-    { "from": 6, "to": 5,  "text": "Update needed" },
-    { "from": 6, "to": -2, "progress": "true", "text": "Purchase made" }
-  ]
-}
-        '''
-        return render_template("test_design.html", key=rpkey, value=modvalue)
+        res = read_file(rpkey)
+        return render_template("test_design.html", key=rpkey, value=res["data"])
     return render_template(default)
 
 

@@ -78,8 +78,6 @@ class TestDesign(Resource):
             result = self.__handunknown(args)
         elif method == "save_result":
             result = self.__save_result(args)
-        elif method == "gitclone_caserecord":
-            result = self.__gitclone_caserecord(args)
         elif method == "delete_caserecord":
             result = self.__delete_caserecord(args)
         elif method == "recordbug":
@@ -104,6 +102,36 @@ class TestDesign(Resource):
                   ":"+os.path.basename(user_path)+":"+user_path}
         if not exists_path(user_path):
             make_nod(user_path)
+            mod = '''
+            { "class": "GraphLinksModel",
+  "nodeKeyProperty": "id",
+  "nodeDataArray": [ 
+{"id":-1, "loc":"155 -138", "category":"Start"},
+{"id":0, "loc":"190 15", "text":"Shopping页"},
+{"id":1, "loc":"353 32", "text":"商品详情"},
+{"id":2, "loc":"353 166", "text":"商品列表"},
+{"id":3, "loc":"512 12", "text":"款式信息"},
+{"id":4, "loc":"536.0500000000001 -88", "text":"购物车信息"},
+{"id":6, "loc":"666.6499999999999 25.650000000000034", "text":"付款方式"},
+{"id":-2, "loc":"508.1562358276643 114.63253968253969", "category":"End"}
+ ],
+  "linkDataArray": [ 
+{"from":-1, "to":0, "text":"打开网站", "points":[200.9629729076036,-63.96743795509042,207.28009415140457,-36.69798710088425,206.78172806502616,-10.695691829847046,196.16932689972282,15]},
+{"from":0, "to":1, "progress":"true", "text":"点击商品", "points":[232.2781219482422,24.379717115974557,261.3190602651592,20.997646396489007,288.48056705179744,24.54227174050714,316.6800231933594,34.22325211124115]},
+{"from":0, "to":2, "progress":"true", "text":"搜索商品", "points":[214.19571045593858,44.875448608398436,260.5816761145265,73.5127877703892,304.1651239662507,113.88763823425634,342.1203433525658,166]},
+{"from":1, "to":2, "progress":"true", "text":"搜索相似", "points":[357.8141649132298,61.875448608398436,369,96.58363240559896,369,131.29181620279948,357.8141649132298,166]},
+{"from":2, "to":3, "progress":"true", "text":"点击结果", "points":[363.3562716443014,166,400.00934698668675,113.13217718010841,442.7275367513289,71.75732671624122,488.9124913610701,41.875448608398436]},
+{"from":1, "to":3, "progress":"true", "text":"点击详情", "points":[389.3199768066406,34.196859203045165,420.7588034398072,23.377420028365243,447.32185369604207,19.777038941640292,476.0403823852539,22.75408251185555]},
+{"from":3, "to":0, "text":"返回首页", "curviness":-100, "points":[493.78291884633757,12,391.41132758690804,-71.94311876401206,307.7139093740174,-71.16332915333295,207.39228093935913,15]},
+{"from":3, "to":4, "progress":"true", "text":"加入购物车", "points":[511.3166322041318,12,510.5793221149014,-13.179999309667988,516.1867968994235,-36.523186699336996,527.6771018645919,-58.12455139160157]},
+{"from":4, "to":0, "text":"继续购物", "curviness":-150, "points":[492.4000289916993,-83.15086093012349,343.34999999999997,-117.59999999999997,290.85,-110.24999999999997,200.74608710253074,15]},
+{"from":4, "to":6, "progress":"true", "text":"结账", "points":[579.6999710083008,-66.15499465371636,639.45,-56.69999999999999,655.2,-16.799999999999955,663.6696249222838,25.650000000000034]},
+{"from":6, "to":4, "text":"修改订单", "points":[630.3300231933592,30.004187191844576,567.0000000000001,11.550000000000011,563.9253403825494,-35.06864885461613,547.1002815277606,-58.12455139160157]},
+{"from":6, "to":-2, "progress":"true", "text":"微信支付", "points":[657.6369751605379,55.52544860839847,637.9069841576112,88.61403886082026,610.8030334013039,113.25679381829944,577.7328981834986,132.70735674621173]}
+ ]}
+            '''
+            with open(user_path, 'w') as f:
+                f.write(mod)
         else:
             result["status"] = "fail"
             result["msg"] = "失败: 文件已存在 !"
@@ -285,80 +313,4 @@ class TestDesign(Resource):
                       "msg": "保存用例结果失败: " + info_name + ", 用例结果已存在."}
             self.app.config['DB'].insert_loginfo(session['username'], 'case', 'save_result', info_key,
                                                  info_name + ':fail')
-        return result
-
-    def __gitclone_caserecord(self, args):
-
-        url = args['name']
-        if len(url) < 4:
-            url = self.app.config['DB'].get_setting('history_git')
-            if not url.startswith('http'):
-                result = {"status": "fail",
-                          "msg": "Fail:没有配置历史结果git或配置有误！url:" + url}
-                return result
-
-        path = self.app.config['AUTO_TEMP'] + '/caserecordgit'
-        remove_dir(path) if os.path.exists(path) else None
-        mk_dirs(path)
-
-        (ok, info) = remote_clone(url, path)
-
-        if not ok:
-            result = {"status": "fail", "msg": info}
-            self.app.config['DB'].insert_loginfo(session['username'], 'case', 'gitclonecaserecord', url,
-                                                 result['status'])
-            return result
-
-        (gitname, extf) = os.path.splitext(os.path.basename(url))
-        gitpath = os.path.join(path, gitname, '.git')
-        remove_dir(gitpath) if os.path.exists(gitpath) else None
-
-        total = 0
-        success = 0
-        formaterror = 0
-        exits = 0
-        totalfile = 0
-        omitfile = 0
-
-        for root, dirs, files in os.walk(os.path.join(path, gitname), topdown=False):
-            for name in files:
-                ff = os.path.join(root, name)
-                (_, f_ext) = os.path.splitext(ff)
-                totalfile += 1
-                if not f_ext == '.his':
-                    self.log.warning("Gitclone caserecord 忽略文件:"+ff)
-                    omitfile += 1
-                    continue
-                with open(ff, 'r') as f:
-                    for l in f:
-                        l = l.strip()
-                        if len(l) != 0:
-                            total += 1
-                        else:
-                            continue
-                        splits = l.split('|')
-                        if len(splits) != 8:
-                            formaterror += 1
-                            self.log.error("uploadcaserecord 错误行:" + l)
-                            continue
-                        (
-                            info_key, info_name, info_testproject, info_projectversion, ontime, run_status, run_elapsedtime,
-                            run_user) = splits
-                        sql = ''' INSERT into caserecord (info_key,info_name,info_testproject,info_projectversion,ontime,run_status,run_elapsedtime,run_user)
-                                  VALUES ('{}','{}','{}','{}','{}','{}','{}','{}');
-                                  '''.format(info_key, info_name, info_testproject, info_projectversion, ontime,
-                                             run_status, run_elapsedtime, run_user)
-                        res = self.app.config['DB'].runsql(sql)
-                        if res:
-                            success += 1
-                        else:
-                            exits += 1
-                            self.log.error("uploadcaserecord 失败，记录存在:" + l)
-
-        remove_dir(path) if os.path.exists(path) else None
-
-        info = 'Finished with totalfile:{}, omitfile:{}, total:{}, sucess:{}, error:{}, exists:{}'.format(
-            totalfile, omitfile, total, success, formaterror, exits)
-        result = {"status": "success", "msg": info}
-
         return result
