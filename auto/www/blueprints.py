@@ -108,6 +108,10 @@ def task_list(name):
 def scheduler():
     return render_template('project_task.html')
 
+@routes.route("/test_design/")
+def test_design():
+    return render_template('test_design.html')
+
 @routes.route("/test_env/")
 def test_env():
     app = current_app._get_current_object()
