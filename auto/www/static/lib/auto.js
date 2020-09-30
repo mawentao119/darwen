@@ -70,6 +70,7 @@ function do_init(data) {
     } else {
         editor.setValue(data.data);
     }
+    $('#btn_save').linkbutton('disable');
 }
 
 function do_ajax(type, url, data, func) {

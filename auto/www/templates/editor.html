@@ -1,173 +1,193 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>uniRobot - RobotFramework WebUI</title>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='lib/codemirror/lib/codemirror.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='lib/codemirror/addon/hint/show-hint.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='lib/codemirror/theme/dracula.css') }}">
+<head>
+    <meta charset="UTF-8">
+    <title>uniRobot - RobotFramework WebUI</title>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/auto.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/codemirror/lib/codemirror.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/codemirror/addon/hint/show-hint.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/codemirror/theme/dracula.css') }}">
 
-        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}" />
-    </head>
-    <body class="easyui-layout">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auto.css') }}">
+
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+</head>
+
+<body class="easyui-layout">
 
 
-        <div data-options="region:'center'">
+    <div data-options="region:'center'">
 
-            <textarea id="code_editor" name="code_editor"></textarea>
+        <textarea id="code_editor" name="code_editor"></textarea>
 
-            <div id="case_toolbar" class="easyui-panel" style="padding:0">
-                <a href="#" id="btn_save" onclick="save_file()" class="easyui-linkbutton" data-options="iconCls:'icon-save',disabled:true">保存</a>
-                <a href="#" onclick="debug_run()" class="easyui-linkbutton" data-options="iconCls:'icon-debugrun'">调试运行</a>
-                <a href="#" onclick="editor_run()" class="easyui-linkbutton" data-options="iconCls:'icon-run'">运行</a>
-            </div>
-
-            <div id="keyword_help" style="padding:5px;background-color: #F5F5DC;"></div>
-
+        <div id="case_toolbar" class="easyui-panel" style="padding:0">
+            <a href="#" id="btn_save" onclick="save_file()" class="easyui-linkbutton"
+                data-options="iconCls:'icon-save',disabled:true">保存</a>
+            <a href="#" onclick="debug_run()" class="easyui-linkbutton" data-options="iconCls:'icon-debugrun'">调试运行</a>
+            <a href="#" onclick="editor_run()" class="easyui-linkbutton" data-options="iconCls:'icon-run'">运行</a>
         </div>
-        <div data-options="region:'east',split:true" title="KeyWords" style="width:200px;">
-            <ul id="keyword_list" class="easyui-tree" data-options="
+
+        <div id="keyword_help" style="padding:5px;background-color: #F5F5DC;"></div>
+
+    </div>
+    <div data-options="region:'east',split:true" title="KeyWords" style="width:200px;">
+        <ul id="keyword_list" class="easyui-tree" data-options="
                     url:'/api/v1/keyword?category={{ mode }}&key={{ key }}',
                     method:'get',
                     animate:true,
                     onDblClick: onKwDblClick,
                     onClick: onClick
                     ">
-            </ul>
-        </div>
+        </ul>
+    </div>
 
-        <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='lib/codemirror/lib/codemirror.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/highlight.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
-        <script src="{{ url_for('static', filename='lib/codemirror/mode/robot/robot_v1.js') }}"></script>
-        <script src="{{ url_for('static', filename='lib/codemirror/mode/python/python.js') }}"></script>
-        <script src="{{ url_for('static', filename='lib/codemirror/mode/yaml/yaml.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/codemirror/lib/codemirror.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/highlight.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/codemirror/mode/robot/robot_v1.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/codemirror/mode/python/python.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/codemirror/mode/yaml/yaml.js') }}"></script>
 
-        <script src="{{ url_for('static', filename='lib/codemirror/addon/display/placeholder.js') }}"></script>
-        <!--
+    <script src="{{ url_for('static', filename='lib/codemirror/addon/display/placeholder.js') }}"></script>
+    <!--
         <script src="{{ url_for('static', filename='lib/codemirror/addon/fold/foldcode.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/codemirror/addon/fold/foldgutter.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/codemirror/addon/fold/brace-fold.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/codemirror/addon/fold/xml-fold.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/codemirror/addon/fold/indent-fold.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/codemirror/addon/fold/markdown-fold.js') }}"></script>-->
-        <script src="{{ url_for('static', filename='lib/codemirror//addon/hint/show-hint.js') }}"></script>
-        <!--<script src="{{ url_for('static', filename='lib/codemirror//addon/hint/anyword-hint.js') }}"></script>-->
-        <script src="{{ url_for('static', filename='lib/codemirror//addon/hint/robot-hint.js') }}"></script>
-        <!-- 自定义js库 -->
-        <script type="text/javascript" src="{{ url_for('static', filename='lib/auto.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/codemirror//addon/hint/show-hint.js') }}"></script>
+    <!--<script src="{{ url_for('static', filename='lib/codemirror//addon/hint/anyword-hint.js') }}"></script>-->
+    <script src="{{ url_for('static', filename='lib/codemirror//addon/hint/robot-hint.js') }}"></script>
+    <!-- 自定义js库 -->
+    <script type="text/javascript" src="{{ url_for('static', filename='lib/auto.js') }}"></script>
 
-        <SCRIPT type="text/javascript">
-            $(document).ready(function(){
-                CodeMirror.commands.autocomplete = function(cm) {
-                  cm.showHint({hint: CodeMirror.hint.anyword});
-
-                }
-                //charis added
-                var key = "{{ key }}";
-                editor = CodeMirror.fromTextArea(document.getElementById("code_editor"), {
-                    mode: '{{ mode }}',
-                    lineNumbers: true,
-                    lineWrapping: true,
-                    styleActiveLine: true,
-                    styleSelectedText: true,
-                    theme: "dracula",
-                    indentUnit:4,
-                    completeSingle: false,
-                    extraKeys: {
-                        "Ctrl": "autocomplete"
-                    }
-                    //keyMap: "sublime",
-                    //foldGutter: true,
-                    //highlightSelectionMatches: {showToken: /\w/, annotateScrollbar: true},
-                    //gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+    <SCRIPT type="text/javascript">
+        $(document).ready(function () {
+            CodeMirror.commands.autocomplete = function (cm) {
+                cm.showHint({
+                    hint: CodeMirror.hint.anyword
                 });
-                /*editor.on("change", function(cm, event)
-                {
 
-                    var data = {
-                            "method": "save",
-                            "key": key,
-                            "data": editor.getValue()
-                        };
-
-                    do_ajax("post", "/api/v1/case/", data, do_nop);
-
-                });*/
-                editor.on("keypress", function(cm, event)
-                {
-                    $('#btn_save').linkbutton('enable');
-                    cm.showHint({hint: CodeMirror.hint.robotScript});
-                });
-                editor.markText({line: 6, ch: 26}, {line: 6, ch: 42}, {className: "styled-background"});
-
-                do_ajax("get", "/api/v1/case/", {"key": key}, do_init);
-                //editor.setValue("*** Settings ***\n\n\n*** Variables ***\n\n\n*** Test Cases ***\n\n\n*** Keywords ***\n\n");
-            });
-
-            function onKwDblClick(node) {
-                var category = node.attributes.category;
-                if(category == "keyword"){
-                    editor.replaceSelection(node.attributes.keyword + node.attributes.params);
-                }
-            }
-
-            function onClick(node){
-                var category = node.attributes.category;
-
-                if(category == "keyword"){
-                    $("#keyword_help").html(node.attributes.doc);
-                }
-            }
-
-            function newTab(cm){
-                /*if (cm.somethingSelected()) {
-                    cm.indentSelection('add');
-                } else {
-                    cm.replaceSelection(cm.getOption) ? "\t" : Array(cm.getOption("indentUnit") + 1).join(" "), "end", "+input");
-                }*/
             }
             //charis added
-            function editor_run(){
-                var key = "{{ key }}"
-                var data ={"method": "editor_run", "category": "case", "key": key};
-                do_ajax('post','/api/v1/task/',data,do_msg);
-            }
-            function debug_run(){
-                var key = "{{ key }}"
-                var data ={"method": "debug_run", "category": "case", "key": key};
-                do_ajax('post','/api/v1/task/',data,show_resmsg);
-            }
-
-            function save_file(){
-                var key = "{{ key }}";
-                var data = {
-                            "method": "save",
-                            "key": key,
-                            "data": editor.getValue()
-                        };
-                    do_ajax("post", "/api/v1/case/", data, after_save);
-            }
-
-            function after_save(data){
-                var success = "success"
-                if (data["status"] == success){
-                    $('#btn_save').linkbutton('disable');
+            var key = "{{ key }}";
+            editor = CodeMirror.fromTextArea(document.getElementById("code_editor"), {
+                mode: '{{ mode }}',
+                lineNumbers: true,
+                lineWrapping: true,
+                styleActiveLine: true,
+                styleSelectedText: true,
+                theme: "dracula",
+                indentUnit: 4,
+                completeSingle: false,
+                extraKeys: {
+                    "Ctrl": "autocomplete"
                 }
-                do_msg(data)
-            }
+                //keyMap: "sublime",
+                //foldGutter: true,
+                //highlightSelectionMatches: {showToken: /\w/, annotateScrollbar: true},
+                //gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+            });
+            editor.on("change", function (cm, event) {
 
-            function show_resmsg(data){
-                $("#keyword_help").html(data.data);
-            }
+                $('#btn_save').linkbutton('enable');
+                cm.showHint({
+                    hint: CodeMirror.hint.robotScript
+                });
 
-        </SCRIPT>
-    </body>
+            });
+            /*editor.on("keypress", function(cm, event)
+            {
+                $('#btn_save').linkbutton('enable');
+                cm.showHint({hint: CodeMirror.hint.robotScript});
+            });*/
+            editor.markText({
+                line: 6,
+                ch: 26
+            }, {
+                line: 6,
+                ch: 42
+            }, {
+                className: "styled-background"
+            });
+
+            do_ajax("get", "/api/v1/case/", {
+                "key": key
+            }, do_init);
+            //editor.setValue("*** Settings ***\n\n\n*** Variables ***\n\n\n*** Test Cases ***\n\n\n*** Keywords ***\n\n");
+        });
+
+        function onKwDblClick(node) {
+            var category = node.attributes.category;
+            if (category == "keyword") {
+                editor.replaceSelection(node.attributes.keyword + node.attributes.params);
+            }
+        }
+
+        function onClick(node) {
+            var category = node.attributes.category;
+
+            if (category == "keyword") {
+                $("#keyword_help").html(node.attributes.doc);
+            }
+        }
+
+        function newTab(cm) {
+            /*if (cm.somethingSelected()) {
+                cm.indentSelection('add');
+            } else {
+                cm.replaceSelection(cm.getOption) ? "\t" : Array(cm.getOption("indentUnit") + 1).join(" "), "end", "+input");
+            }*/
+        }
+        //charis added
+        function editor_run() {
+            var key = "{{ key }}"
+            var data = {
+                "method": "editor_run",
+                "category": "case",
+                "key": key
+            };
+            do_ajax('post', '/api/v1/task/', data, do_msg);
+        }
+
+        function debug_run() {
+            var key = "{{ key }}"
+            var data = {
+                "method": "debug_run",
+                "category": "case",
+                "key": key
+            };
+            do_ajax('post', '/api/v1/task/', data, show_resmsg);
+        }
+
+        function save_file() {
+            var key = "{{ key }}";
+            var data = {
+                "method": "save",
+                "key": key,
+                "data": editor.getValue()
+            };
+            do_ajax("post", "/api/v1/case/", data, after_save);
+        }
+
+        function after_save(data) {
+            var success = "success"
+            if (data["status"] == success) {
+                $('#btn_save').linkbutton('disable');
+            }
+            do_msg(data)
+        }
+
+        function show_resmsg(data) {
+            $("#keyword_help").html(data.data);
+        }
+    </SCRIPT>
+</body>
+
 </html>
