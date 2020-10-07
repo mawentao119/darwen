@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/DataInspector.css') }}">
+  <script src="{{ url_for('static', filename='lib/gojs/DataInspector.js') }}"></script>
+
   <script src="{{ url_for('static', filename='lib/gojs/migo.js') }}"></script>
   <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
   <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
@@ -268,7 +272,96 @@
 
       // read in the JSON data from the "mySavedModel" element
       load();
-    }
+      myDiagram.select(myDiagram.nodes.first());
+
+      // Declare which properties to show and how.
+      // By default, all properties on the model data objects are shown unless the inspector option "includesOwnProperties" is set to false.
+
+      // Show the primary selection's data, or blanks if no Part is selected:
+      var inspector = new Inspector('myInspectorDiv', myDiagram, {
+        // allows for multiple nodes to be inspected at once
+        multipleSelection: true,
+        // max number of node properties will be shown when multiple selection is true
+        showSize: 4,
+        // when multipleSelection is true, when showAllProperties is true it takes the union of properties
+        // otherwise it takes the intersection of properties
+        showAllProperties: true,
+        // uncomment this line to only inspect the named properties below instead of all properties on each object:
+        // includesOwnProperties: false,
+        properties: {
+          "text": {},
+          // key would be automatically added for nodes, but we want to declare it read-only also:
+          "key": {
+            readOnly: true,
+            show: Inspector.showIfPresent
+          },
+          // color would be automatically added for nodes, but we want to declare it a color also:
+          "color": {
+            show: Inspector.showIfPresent,
+            type: 'color'
+          },
+          // Comments and LinkComments are not in any node or link data (yet), so we add them here:
+          "Comments": {
+            show: Inspector.showIfNode
+          },
+          "LinkComments": {
+            show: Inspector.showIfLink
+          },
+          "isGroup": {
+            readOnly: true,
+            show: Inspector.showIfPresent
+          },
+          "flag": {
+            show: Inspector.showIfNode,
+            type: 'checkbox'
+          },
+          "state": {
+            show: Inspector.showIfNode,
+            type: "select",
+            choices: function (node, propName) {
+              if (Array.isArray(node.data.choices)) return node.data.choices;
+              return ["one", "two", "three", "four", "five"];
+            }
+          },
+          "choices": {
+            show: false
+          }, // must not be shown at all
+          // an example of specifying the <input> type
+          "password": {
+            show: Inspector.showIfPresent,
+            type: 'password'
+          }
+        }
+      });
+
+      // Always show the first Node:
+      var inspector2 = new Inspector('myInspectorDiv2', myDiagram, {
+        // By default the inspector works on the Diagram selection.
+        // This property lets us inspect a specific object by calling Inspector.inspectObject.
+        inspectSelection: false,
+        properties: {
+          "text": {},
+          // This property we want to declare as a color, to show a color-picker:
+          "color": {
+            type: 'color'
+          },
+          // key would be automatically added for node data, but we want to declare it read-only also:
+          "key": {
+            readOnly: true,
+            show: Inspector.showIfPresent
+          }
+        }
+      });
+      // If not inspecting a selection, you can programatically decide what to inspect (a Part, or a JavaScript object)
+      inspector2.inspectObject(myDiagram.nodes.first().data);
+
+      // Always show the model.modelData:
+      var inspector3 = new Inspector('myInspectorDiv3', myDiagram, {
+        inspectSelection: false
+      });
+      inspector3.inspectObject(myDiagram.model.modelData);
+
+    } // ** END OF init()
 
     // Show the diagram's model in JSON format
     function save() {
@@ -319,20 +412,14 @@
   <div data-options="region:'east',split:true,hideCollapsedContent:false" title="属性配置"
     style="width:25%;max-width:400px;padding:5px 10px;">
     <div style="margin-bottom:5px">
-      <input class="easyui-textbox" label="Name:" labelPosition="top" style="width:100%;">
-      <input class="easyui-textbox" label="Description:" labelPosition="top" multiline="true"
-        value="This TextBox will allow the user to enter multiple lines of text." style="width:100%;height:120px">
-      <input class="easyui-textbox" label="Status:" labelPosition="top" style="width:100%;">
-      <input class="easyui-textbox" label="OutPutVariables:" labelPosition="top" style="width:100%;">
-    </div>
-    <div style="margin-bottom:5px">
-      <input class="easyui-textbox" label="Properties:" labelPosition="top" multiline="true"
-        value="This TextBox will allow the user to enter multiple lines of text." style="width:100%;height:120px">
-    </div>
-    <div style="margin-bottom:5px">
-      <input class="easyui-textbox" label="Action:" labelPosition="top" style="width:100%;">
-      <input class="easyui-textbox" label="Parameters:" labelPosition="top" multiline="true"
-        value="This TextBox will allow the user to enter multiple lines of text." style="width:100%;height:120px">
+      <span style="display: inline-block; vertical-align: top;">
+        Selected Part:<br />
+        <div id="myInspectorDiv" class="inspector"> </div><br />
+        First Node's data:<br />
+        <div id="myInspectorDiv2" class="inspector"> </div><br />
+        Model.modelData:<br />
+        <div id="myInspectorDiv3" class="inspector"> </div><br />
+      </span>
     </div>
   </div>
 </body>

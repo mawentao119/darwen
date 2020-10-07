@@ -67,6 +67,7 @@ class TestDesign(Resource):
             make_nod(user_path)
             mod = '''
             { "class": "GraphLinksModel",
+            "modelData": {"test":true, "hello":"world", "version":42},
   "nodeKeyProperty": "id",
   "nodeDataArray": [ 
 {"id":-1, "loc":"155 -138", "category":"Start"},
