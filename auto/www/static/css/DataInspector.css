@@ -20,8 +20,10 @@ see also: DataInspector.js, DataInspector.html
 .inspector {
   display: inline-block;
   font: bold 14px helvetica, sans-serif;
-  background-color: #212121; /* Grey 900 */
-  color: #F5F5F5; /* Grey 100 */
+  background-color: #ccecf1;
+  /* light blue 900 */
+  color: #0c0c0c;
+  /* balck 100 */
   cursor: default;
 }
 
@@ -30,24 +32,28 @@ see also: DataInspector.js, DataInspector.html
   border-spacing: 2px;
 }
 
-.inspector td, th {
+.inspector td,
+th {
   padding: 2px;
 }
 
 .inspector input {
-  background-color: #424242; /* Grey 800 */
-  color: #F5F5F5; /* Grey 100 */
+  background-color: #424242;
+  /* Grey 800 */
+  color: #F5F5F5;
+  /* Grey 100 */
   font: bold 12px helvetica, sans-serif;
   border: 0px;
   padding: 2px;
 }
 
 .inspector input:disabled {
-  background-color: #BDBDBD; /* Grey 400 */
-  color: #616161; /* Grey 700 */
+  background-color: #BDBDBD;
+  /* Grey 400 */
+  color: #616161;
+  /* Grey 700 */
 }
 
 .inspector select {
-  background-color: #424242;
+  background-color: #BDBDBD;
 }
-

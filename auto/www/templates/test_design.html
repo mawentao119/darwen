@@ -202,7 +202,8 @@
         var linkdata = {
           from: model.getKeyForNodeData(fromData), // or just: fromData.id
           to: model.getKeyForNodeData(toData),
-          text: "transition"
+          text: "transition",
+          weight: "1.0"
         };
         // and add the link data to the model
         model.addLinkData(linkdata);
@@ -328,7 +329,7 @@
             type: "select",
             choices: function (node, propName) {
               if (Array.isArray(node.data.choices)) return node.data.choices;
-              return ["one", "two", "three", "four", "five"];
+              return ["Open Url", "Add Product to Cart", "Pay", "Close Window", "No Operation"];
             }
           },
           "parameters": {
@@ -350,6 +351,10 @@
             readOnly: true,
             show: Inspector.showIfPresent
           },
+          "category": {
+            readOnly: true,
+            show: Inspector.showIfPresent
+          },
 
           "loc": {
             show: false
@@ -357,6 +362,7 @@
           "points": {
             show: false
           },
+
 
           // // an example of specifying the <input> type
           // "password": {
@@ -370,7 +376,7 @@
       var inspector2 = new Inspector('modelInspector', myDiagram, {
         inspectSelection: false,
         properties: {
-          "name": {},
+          "text": {},
           "description": {},
           "variables": {},
           "init_actions": {},
