@@ -19,7 +19,7 @@
       //if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
       var $ = go.GraphObject.make; // for conciseness in defining templates
 
-      // some constants that will be reused within templates
+      // 节点外观，圆角长方形
       var roundedRectangleParams = {
         parameter1: 2, // set the rounded corner
         spot1: go.Spot.TopLeft,
@@ -29,7 +29,7 @@
       myDiagram =
         $(go.Diagram, "myDiagramDiv", // must name or refer to the DIV HTML element
           {
-            "animationManager.initialAnimationStyle": go.AnimationManager.None,
+            "animationManager.initialAnimationStyle": go.AnimationManager.None, //初识动画
             "InitialAnimationStarting": function (e) {
               var animation = e.subject.defaultAnimation;
               animation.easing = go.Animation.EaseOutExpo;
@@ -38,14 +38,15 @@
               animation.add(e.diagram, 'opacity', 0, 1);
             },
 
-            // have mouse wheel events zoom in and out instead of scroll up and down
+            // 滚轮缩放
             "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
-            // support double-click in background creating a new node
+            // 双击新建节点
             "clickCreatingTool.archetypeNodeData": {
               text: "new node"
             },
-            // enable undo & redo
+            // 重复于撤销 undo & redo
             "undoManager.isEnabled": true,
+            // 取得节点位置
             positionComputation: function (diagram, pt) {
               return new go.Point(Math.floor(pt.x), Math.floor(pt.y));
             }
@@ -76,7 +77,7 @@
           // define the node's outer shape, which will surround the TextBlock
           $(go.Shape, "RoundedRectangle", roundedRectangleParams, {
             name: "SHAPE",
-            fill: "#ffffff",
+            fill: "#ccecf1",
             strokeWidth: 0,
             stroke: null,
             portId: "", // this Shape is the Node's port, not the whole Node
@@ -123,7 +124,7 @@
 
       myDiagram.nodeTemplateMap.add("Start",
         $(go.Node, "Spot", {
-            desiredSize: new go.Size(75, 75)
+            desiredSize: new go.Size(70, 70)
           },
           new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
           $(go.Shape, "Circle", {
@@ -140,7 +141,7 @@
             cursor: "pointer"
           }),
           $(go.TextBlock, "Start", {
-            font: "bold 16pt helvetica, bold arial, sans-serif",
+            font: "bold 14pt helvetica, bold arial, sans-serif",
             stroke: "whitesmoke"
           })
         )
@@ -148,7 +149,7 @@
 
       myDiagram.nodeTemplateMap.add("End",
         $(go.Node, "Spot", {
-            desiredSize: new go.Size(75, 75)
+            desiredSize: new go.Size(70, 70)
           },
           new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
           $(go.Shape, "Circle", {
@@ -165,12 +166,12 @@
           }),
           $(go.Shape, "Circle", {
             fill: null,
-            desiredSize: new go.Size(65, 65),
+            desiredSize: new go.Size(62, 62),
             strokeWidth: 2,
             stroke: "whitesmoke"
           }),
           $(go.TextBlock, "End", {
-            font: "bold 16pt helvetica, bold arial, sans-serif",
+            font: "bold 14pt helvetica, bold arial, sans-serif",
             stroke: "whitesmoke"
           })
         )
@@ -191,7 +192,7 @@
           text: "new"
         };
         var p = fromNode.location.copy();
-        p.x += 200;
+        p.x += 160;
         toData.loc = go.Point.stringify(p); // the "loc" property is a string, not a Point object
         // add the new node data to the model
         var model = diagram.model;
@@ -231,13 +232,13 @@
           new go.Binding("curviness"),
           $(go.Shape, // the link shape
             {
-              strokeWidth: 1.5
+              strokeWidth: 1.0
             },
-            new go.Binding('stroke', 'progress', function (progress) {
-              return progress ? "#52ce60" /* green */ : 'black';
+            new go.Binding('stroke', 'mainpath', function (mainpath) {
+              return mainpath ? "#52ce60" /* green */ : 'black';
             }),
-            new go.Binding('strokeWidth', 'progress', function (progress) {
-              return progress ? 2.5 : 1.5;
+            new go.Binding('strokeWidth', 'weight', function (weight) {
+              return weight ? weight : 1.0;
             })
           ),
           $(go.Shape, // the arrowhead
@@ -245,8 +246,8 @@
               toArrow: "standard",
               stroke: null
             },
-            new go.Binding('fill', 'progress', function (progress) {
-              return progress ? "#52ce60" /* green */ : 'black';
+            new go.Binding('fill', 'mainpath', function (mainpath) {
+              return mainpath ? "#52ce60" /* green */ : 'black';
             })),
           $(go.Panel, "Auto",
             $(go.Shape, // the label background, which becomes transparent around the edges
@@ -278,7 +279,7 @@
       // By default, all properties on the model data objects are shown unless the inspector option "includesOwnProperties" is set to false.
 
       // Show the primary selection's data, or blanks if no Part is selected:
-      var inspector = new Inspector('myInspectorDiv', myDiagram, {
+      var inspector = new Inspector('elementInspector', myDiagram, {
         // allows for multiple nodes to be inspected at once
         multipleSelection: true,
         // max number of node properties will be shown when multiple selection is true
@@ -289,77 +290,94 @@
         // uncomment this line to only inspect the named properties below instead of all properties on each object:
         // includesOwnProperties: false,
         properties: {
+          "id": {
+            readOnly: true,
+            show: Inspector.showIfPresent
+          },
           "text": {},
-          // key would be automatically added for nodes, but we want to declare it read-only also:
-          "key": {
-            readOnly: true,
-            show: Inspector.showIfPresent
-          },
-          // color would be automatically added for nodes, but we want to declare it a color also:
-          "color": {
-            show: Inspector.showIfPresent,
-            type: 'color'
-          },
-          // Comments and LinkComments are not in any node or link data (yet), so we add them here:
-          "Comments": {
-            show: Inspector.showIfNode
-          },
-          "LinkComments": {
-            show: Inspector.showIfLink
-          },
-          "isGroup": {
-            readOnly: true,
-            show: Inspector.showIfPresent
-          },
-          "flag": {
+          "description": {},
+          "outputvariable": {},
+          // // key would be automatically added for nodes, but we want to declare it read-only also:
+          // "key": {
+          //   readOnly: true,
+          //   show: Inspector.showIfPresent
+          // },
+          // // color would be automatically added for nodes, but we want to declare it a color also:
+          // "color": {
+          //   show: Inspector.showIfPresent,
+          //   type: 'color'
+          // },
+          // // Comments and LinkComments are not in any node or link data (yet), so we add them here:
+          // "Comments": {
+          //   show: Inspector.showIfNode
+          // },
+          // "LinkComments": {
+          //   show: Inspector.showIfLink
+          // },
+
+          "disabled": {
             show: Inspector.showIfNode,
             type: 'checkbox'
           },
-          "state": {
-            show: Inspector.showIfNode,
+          "properties": {
+            show: Inspector.showIfNode
+          },
+
+          "action": {
+            show: Inspector.showIfLink,
             type: "select",
             choices: function (node, propName) {
               if (Array.isArray(node.data.choices)) return node.data.choices;
               return ["one", "two", "three", "four", "five"];
             }
           },
-          "choices": {
-            show: false
-          }, // must not be shown at all
-          // an example of specifying the <input> type
-          "password": {
-            show: Inspector.showIfPresent,
-            type: 'password'
-          }
-        }
-      });
-
-      // Always show the first Node:
-      var inspector2 = new Inspector('myInspectorDiv2', myDiagram, {
-        // By default the inspector works on the Diagram selection.
-        // This property lets us inspect a specific object by calling Inspector.inspectObject.
-        inspectSelection: false,
-        properties: {
-          "text": {},
-          // This property we want to declare as a color, to show a color-picker:
-          "color": {
-            type: 'color'
+          "parameters": {
+            show: Inspector.showIfLink
           },
-          // key would be automatically added for node data, but we want to declare it read-only also:
-          "key": {
+          "weight": {
+            show: Inspector.showIfLink,
+            type: "select",
+            choices: function (node, propName) {
+              if (Array.isArray(node.data.choices)) return node.data.choices;
+              return ["1.0", "2.0", "3.0"];
+            }
+          },
+          "mainpath": {
+            show: Inspector.showIfLink,
+            type: 'checkbox'
+          },
+          "isGroup": {
             readOnly: true,
             show: Inspector.showIfPresent
-          }
+          },
+
+          "loc": {
+            show: false
+          },
+          "points": {
+            show: false
+          },
+
+          // // an example of specifying the <input> type
+          // "password": {
+          //   show: Inspector.showIfPresent,
+          //   type: 'password'
+          // }
         }
       });
-      // If not inspecting a selection, you can programatically decide what to inspect (a Part, or a JavaScript object)
-      inspector2.inspectObject(myDiagram.nodes.first().data);
 
       // Always show the model.modelData:
-      var inspector3 = new Inspector('myInspectorDiv3', myDiagram, {
-        inspectSelection: false
+      var inspector2 = new Inspector('modelInspector', myDiagram, {
+        inspectSelection: false,
+        properties: {
+          "name": {},
+          "description": {},
+          "variables": {},
+          "init_actions": {},
+          "version": {}
+        }
       });
-      inspector3.inspectObject(myDiagram.model.modelData);
+      inspector2.inspectObject(myDiagram.model.modelData);
 
     } // ** END OF init()
 
@@ -414,11 +432,9 @@
     <div style="margin-bottom:5px">
       <span style="display: inline-block; vertical-align: top;">
         Selected Part:<br />
-        <div id="myInspectorDiv" class="inspector"> </div><br />
-        First Node's data:<br />
-        <div id="myInspectorDiv2" class="inspector"> </div><br />
+        <div id="elementInspector" class="inspector" style="width: 100%;"> </div><br />
         Model.modelData:<br />
-        <div id="myInspectorDiv3" class="inspector"> </div><br />
+        <div id="modelInspector" class="inspector" style="width: 100%;"> </div><br />
       </span>
     </div>
   </div>
