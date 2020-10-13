@@ -418,21 +418,51 @@
 
 <body class="easyui-layout" onload="init()">
   <div data-options="region:'center'">
-
-    <div id="sample">
-      <div id="myDiagramDiv" style="border: solid 1px black; width: 100%; height: 460px; background: whitesmoke"></div>
-      </p>
-      <div>
-        <div>
-          <button id="SaveButton" onclick="save()">Save</button>
-          <button onclick="load()">Load</button>
+    <div class="easyui-layout" data-options="fit:true">
+      <div data-options="region:'north',split:true" style="height:60%">
+        <div id="myDiagramDiv" style="border: solid 1px black; width: 100%; height: 100%; background: whitesmoke">
         </div>
-        <textarea id="mySavedModel" style="width:100%;height:300px">
-      {{value}}
-    </textarea>
       </div>
+      <div data-options="region:'center'">
+        <div id="tt" data-options="tools:'#tab-tools', justified:true" style="width:100%;height:100%">
+          <div title="模型数据" style="padding:5px">
+            <textarea id="mySavedModel" style="width:100%;height:100%">{{value}}</textarea>
+          </div>
+          <div title="变量配置" style="padding:2px">
+            <ul class="easyui-tree" data-options="url:'tree_data1.json',method:'get',animate:true"></ul>
+          </div>
+          <div title="用例生成" style="padding:10px">
+            This is the help content.
+          </div>
+        </div>
+        <div id="mm">
+          <div>Welcome</div>
+          <div>Help Contents</div>
+          <div data-options="iconCls:'icon-search'">Search</div>
+          <div>Dynamic Help</div>
+        </div>
+        <div id="tab-tools">
+          <a href="#" id="SaveButton" class="easyui-linkbutton" data-options="disabled:false,iconCls:'icon-save'"
+            onclick="save()" style="margin-left: 5px;">保存</a>
+          <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" onclick="load()">刷新</a>
+        </div>
+
+        <script>
+          $(function () {
+            var p = $('#tt').tabs().tabs('tabs')[2];
+            var mb = p.panel('options').tab.find('a.tabs-inner');
+            mb.menubutton({
+              menu: '#mm',
+              iconCls: 'icon-help'
+            }).click(function () {
+              $('#tt').tabs('select', 2);
+            });
+          });
+        </script>
+      </div> //End Center
     </div>
   </div>
+
   <div data-options="region:'east',split:true,hideCollapsedContent:false" title="属性配置"
     style="width:25%;max-width:400px;padding:5px 10px;">
     <div style="margin-bottom:5px">
