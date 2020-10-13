@@ -33,7 +33,7 @@ def output_path(ps):
         log.error("路径为空，请检查模型文件")
         return
 
-    line = '->'.join(link["text"] + ":" + link["end"]["text"] for link in ps)
+    line = '>'.join(link["text"] + ":" + link["end"]["text"] for link in ps)
     print("[Documentation]    " + line)
     i = 0
     for p in ps:
