@@ -147,35 +147,35 @@
         )
       );
 
-      myDiagram.nodeTemplateMap.add("End",
-        $(go.Node, "Spot", {
-            desiredSize: new go.Size(70, 70)
-          },
-          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-          $(go.Shape, "Circle", {
-            fill: "maroon",
-            stroke: null,
-            portId: "",
-            fromLinkable: true,
-            fromLinkableSelfNode: true,
-            fromLinkableDuplicates: true,
-            toLinkable: true,
-            toLinkableSelfNode: true,
-            toLinkableDuplicates: true,
-            cursor: "pointer"
-          }),
-          $(go.Shape, "Circle", {
-            fill: null,
-            desiredSize: new go.Size(62, 62),
-            strokeWidth: 2,
-            stroke: "whitesmoke"
-          }),
-          $(go.TextBlock, "End", {
-            font: "bold 14pt helvetica, bold arial, sans-serif",
-            stroke: "whitesmoke"
-          })
-        )
-      );
+      // myDiagram.nodeTemplateMap.add("End",
+      //   $(go.Node, "Spot", {
+      //       desiredSize: new go.Size(70, 70)
+      //     },
+      //     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+      //     $(go.Shape, "Circle", {
+      //       fill: "maroon",
+      //       stroke: null,
+      //       portId: "",
+      //       fromLinkable: true,
+      //       fromLinkableSelfNode: true,
+      //       fromLinkableDuplicates: true,
+      //       toLinkable: true,
+      //       toLinkableSelfNode: true,
+      //       toLinkableDuplicates: true,
+      //       cursor: "pointer"
+      //     }),
+      //     $(go.Shape, "Circle", {
+      //       fill: null,
+      //       desiredSize: new go.Size(62, 62),
+      //       strokeWidth: 2,
+      //       stroke: "whitesmoke"
+      //     }),
+      //     $(go.TextBlock, "End", {
+      //       font: "bold 14pt helvetica, bold arial, sans-serif",
+      //       stroke: "whitesmoke"
+      //     })
+      //   )
+      // );
 
       // clicking the button inserts a new node to the right of the selected node,
       // and adds a link to that new node
@@ -293,11 +293,17 @@
         properties: {
           "id": {
             readOnly: true,
-            show: Inspector.showIfPresent
+            show: Inspector.showIfNode
+          },
+          "key": {
+            readOnly: true,
+            show: Inspector.showIfLink
           },
           "text": {},
           "description": {},
           "outputvariable": {},
+          "action": {},
+          "parameters": {},
           // // key would be automatically added for nodes, but we want to declare it read-only also:
           // "key": {
           //   readOnly: true,
@@ -324,17 +330,6 @@
             show: Inspector.showIfNode
           },
 
-          "action": {
-            show: Inspector.showIfLink,
-            type: "select",
-            choices: function (node, propName) {
-              if (Array.isArray(node.data.choices)) return node.data.choices;
-              return ["Open Url", "Add Product to Cart", "Pay", "Close Window", "No Operation"];
-            }
-          },
-          "parameters": {
-            show: Inspector.showIfLink
-          },
           "weight": {
             show: Inspector.showIfLink,
             type: "select",
@@ -376,9 +371,18 @@
       var inspector2 = new Inspector('modelInspector', myDiagram, {
         inspectSelection: false,
         properties: {
-          "text": {},
-          "description": {},
-          "variables": {},
+          "nodes": {
+            readOnly: true
+          },
+          "links": {
+            readOnly: true
+          },
+          "actions": {
+            readOnly: true
+          },
+          "variables": {
+            readOnly: true
+          },
           "init_actions": {},
           "version": {}
         }
@@ -436,10 +440,10 @@
           </div>
         </div>
         <div id="mm">
-          <div>Welcome</div>
-          <div>Help Contents</div>
+          <div>生成用例模版</div>
+          <div>生成手工用例</div>
           <div data-options="iconCls:'icon-search'">Search</div>
-          <div>Dynamic Help</div>
+          <div>生成自动化用例</div>
         </div>
         <div id="tab-tools">
           <a href="#" id="SaveButton" class="easyui-linkbutton" data-options="disabled:false,iconCls:'icon-save'"

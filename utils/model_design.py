@@ -13,11 +13,14 @@ log = getlogger('Utils.Model_Design')
 
 def walk_model(startnode):
     links = []
+    casenum = 1
 
     def find_paths(node):
         nonlocal links
+        nonlocal casenum
         if node["outlinks"] == []:
-            output_path(links)
+            output_path(links, casenum)
+            casenum += 1
             links.remove(links[-1]) if len(links) > 0 else None
             return
         for l in node["outlinks"]:
@@ -27,18 +30,25 @@ def walk_model(startnode):
 
     return find_paths(startnode)
 
-def output_path(ps):
+def output_path(ps, casenum):
 
     if len(ps) == 0:
         log.error("路径为空，请检查模型文件")
         return
 
-    line = '>'.join(link["text"] + ":" + link["end"]["text"] for link in ps)
-    print("[Documentation]    " + line)
-    i = 0
+    casename = ''
+    line = ''
+
     for p in ps:
-        i += 1
-        print("[Step{}]    Action:{} , Check:{} ".format(i,p["text"],p["end"]["text"]))
+        casename += '_' + str(p.get("key"))
+        line     += '>' + p.get("text") + ":" + p.get("end").get("text")
+
+    print("T" + str(casenum) + casename)
+    print("    [用例描述]{}".format(line))
+
+    for p in ps:
+        print("    Act:{}[{}] {}".format(p.get("text"),p.get("parameters"),"#"+p.get("description") if p.get("description") else ''))
+        print("    Chk:{}[{}] {}".format(p.get("end").get("text"),p.get("end").get("properties"),"#"+p.get("end").get("description") if p.get("end").get("description") else ''))
     print("\n")
 
 
@@ -74,5 +84,5 @@ def gen_modelpath(jsonfile):
     return mod
 
 if __name__ == '__main__':
-    mod = gen_modelpath("/Users/tester/PycharmProjects/darwen/work/workspace/Admin/Demo_Project/RobotTestDemo/TestCase/02OrderProduct.tmd")
+    mod = gen_modelpath("/Users/tester/PycharmProjects/darwen/work/workspace/Admin/Demo_Project/TestDesign/UserManagement.tmd")
     #print(mod)
