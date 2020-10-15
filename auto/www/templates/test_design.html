@@ -390,6 +390,7 @@
             if (vs[v].trim() == vars[z].name.trim()) {
               vars[z].used.push('n' + nodes[i].text)
               vs.shift();
+              break;
             }
           }
         }
@@ -427,6 +428,7 @@
             if (vs[v].trim() == vars[z].name.trim()) {
               vars[z].used.push('l' + links[i].text)
               vs.shift();
+              break;
             }
           }
         }
@@ -498,6 +500,33 @@
       $('#vb').datagrid('loadData', {
         'total': 1,
         'rows': myDiagram.model.modelData.variable
+      });
+
+      //$('#vb').datagrid('reload');
+
+      //reload_invb();
+      //reload_act();
+    }
+
+    function reload_invb() {
+      $('#invb').datagrid('loadData', {
+        'total': 1,
+        'rows': [{
+          "name": "_var123",
+          "value": "usernae",
+          "used": "nNode1,lLink2"
+        }]
+      });
+    }
+
+    function reload_act() {
+      $('#act').datagrid('loadData', {
+        'total': 1,
+        'rows': [{
+          "action": "_var123",
+          "parameters": "usernae",
+          "used": "nNode1,lLink2"
+        }]
       });
     }
   </script>
@@ -652,7 +681,7 @@
                 },
                 {
                   field: 'parameters', // (a, b) (a,b,c)
-                  title: '参数组合情况',
+                  title: '参数组合情况(parameters)',
                   width: 200
                 },
                 {
