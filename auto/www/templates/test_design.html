@@ -60,7 +60,7 @@
             }
           });
 
-      window.parent.myDiagram = myDiagram
+      //window.parent.myDiagram = myDiagram    //真正到全局变量，跳过IFrame
 
       // when the document is modified, add a "*" to the title and enable the "Save" button
       myDiagram.addDiagramListener("Modified", function (e) {
@@ -156,36 +156,6 @@
           })
         )
       );
-
-      // myDiagram.nodeTemplateMap.add("End",
-      //   $(go.Node, "Spot", {
-      //       desiredSize: new go.Size(70, 70)
-      //     },
-      //     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-      //     $(go.Shape, "Circle", {
-      //       fill: "maroon",
-      //       stroke: null,
-      //       portId: "",
-      //       fromLinkable: true,
-      //       fromLinkableSelfNode: true,
-      //       fromLinkableDuplicates: true,
-      //       toLinkable: true,
-      //       toLinkableSelfNode: true,
-      //       toLinkableDuplicates: true,
-      //       cursor: "pointer"
-      //     }),
-      //     $(go.Shape, "Circle", {
-      //       fill: null,
-      //       desiredSize: new go.Size(62, 62),
-      //       strokeWidth: 2,
-      //       stroke: "whitesmoke"
-      //     }),
-      //     $(go.TextBlock, "End", {
-      //       font: "bold 14pt helvetica, bold arial, sans-serif",
-      //       stroke: "whitesmoke"
-      //     })
-      //   )
-      // );
 
       // clicking the button inserts a new node to the right of the selected node,
       // and adds a link to that new node
@@ -311,26 +281,15 @@
           },
           "text": {},
           "description": {},
-          "outputvariable": {},
-          "action": {},
-          "parameters": {},
-          // // key would be automatically added for nodes, but we want to declare it read-only also:
-          // "key": {
-          //   readOnly: true,
-          //   show: Inspector.showIfPresent
-          // },
-          // // color would be automatically added for nodes, but we want to declare it a color also:
-          // "color": {
-          //   show: Inspector.showIfPresent,
-          //   type: 'color'
-          // },
-          // // Comments and LinkComments are not in any node or link data (yet), so we add them here:
-          // "Comments": {
-          //   show: Inspector.showIfNode
-          // },
-          // "LinkComments": {
-          //   show: Inspector.showIfLink
-          // },
+          "outputvariable": {
+            show: Inspector.showIfNode
+          },
+          "action": {
+            show: Inspector.showIfLink
+          },
+          "parameters": {
+            show: Inspector.showIfLink
+          },
 
           "disabled": {
             show: Inspector.showIfNode,
@@ -367,13 +326,13 @@
           "points": {
             show: false
           },
+          "from": {
+            show: false
+          },
+          "to": {
+            show: false
+          },
 
-
-          // // an example of specifying the <input> type
-          // "password": {
-          //   show: Inspector.showIfPresent,
-          //   type: 'password'
-          // }
         }
       });
 
@@ -394,7 +353,10 @@
             readOnly: true
           },
           "init_actions": {},
-          "version": {}
+          "version": {},
+          "variable": {
+            show: false
+          }
         }
       });
       inspector2.inspectObject(myDiagram.model.modelData);
@@ -405,8 +367,54 @@
     function save() {
 
       // 遍历模型，生成模型变量信息 myDiagram.model.modelData.variable
+      let vars = new Array(); // 新到变量数组
 
+      let nodes = myDiagram.model.nodeDataArray;
 
+      for (let i in nodes) {
+        let tmp = nodes[i].outputvariable;
+        if (!tmp) {
+          continue;
+        }
+        let vs = nodes[i].outputvariable.split(',');
+        // 搜集所有变量并去重
+        for (let v in vs) {
+          for (let z in vars) {
+            if (vs[v] == vars[z].name) {
+              vars[z].used.push(nodes[i].text)
+              vs.shift();
+            }
+          }
+        }
+
+        // 添加新增变量
+        for (let v in vs) {
+          vars.push({
+            "name": vs[v],
+            "description": "",
+            "value": "",
+            "rule": "",
+            "used": [nodes[i].text]
+          })
+        }
+
+      } // END For nodes
+
+      // 与现存变量进行合并
+      let curvars = myDiagram.model.modelData.variable;
+      for (let c in curvars) {
+        for (let v in vars) {
+          if (curvars[c].name == vars[v].name) {
+            vars[v].value = curvars[c].value;
+            vars[v].description = curvars[c].description;
+            vars[v].rule = curvars[c].rule;
+          }
+        }
+      }
+
+      myDiagram.model.setDataProperty(myDiagram.model.modelData, "variable", vars)
+
+      // 导出模型数据
       modjson = myDiagram.model.toJson();
       document.getElementById("mySavedModel").value = modjson;
 
@@ -425,19 +433,24 @@
       myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
 
       //加载模型变量数据
-      $('#vb').datagrid('loadData', {
-        'total': 1,
-        'rows': myDiagram.model.modelData.variable
-      });
+      reload_vb();
 
     }
 
     function after_save(data) {
       var success = "success"
       if (data["status"] == success) {
-        $("#vb").datagrid('reload');
+        reload_vb();
       }
       do_msg(data)
+    }
+
+    function reload_vb() {
+      //加载模型变量数据
+      $('#vb').datagrid('loadData', {
+        'total': 1,
+        'rows': myDiagram.model.modelData.variable
+      });
     }
   </script>
 </head>
@@ -458,7 +471,15 @@
             <table id="vb"></table>
           </div>
           <div title="用例生成" style="padding:10px">
-            This is the help content.
+            <p>1. 变量分为输入变量 和 内部生成变量（$符号开头）</p>
+            <p>2. 输入变量（parameter）需要初始化数据，生成变量（outputvariable）系统内部赋值</p>
+            <p>3. parameter形式：para ｜ para = para2 | para = $innerpara</p>
+            <p>para需要初始化，带等号，value等于后面带值</p>
+            <p>4. properties形式: prop | $prop = para | $prop1 = $output</p>
+            <p>prop表示存在或真，左边被赋值变量应该等于右边变量</p>
+            <p>5. outputvariable形式: varname | $varname</p>
+            <p>varname 表示输入变量，需要初始化，$varname表示系统生成变量，通过Action之后的结果赋值</p>
+            <p>6. 所有的可编辑属性都是字符串，标点符号请用英文逗号</p>
           </div>
         </div>
         <div id="mm">

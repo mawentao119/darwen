@@ -70,15 +70,15 @@ class TestDesign(Resource):
   "nodeKeyProperty": "id",
   "linkKeyProperty": "key",
   "nodeDataArray": [ 
-    {"id":-1, "loc":"-256 -210", "category":"Start", "text":"开始节点", "description":"这里也可以定义变量", "outputvariable":"产品列表", "disabled":false, "properties":"", "action":"", "parameters":""},
-    {"id":0, "loc":"-113 -126", "text":"Shopping页", "description":"", "outputvariable":"", "action":"", "parameters":"", "disabled":false, "properties":"产品列表=产品列表"},
-    {"id":2, "loc":"82 -127", "text":"购买", "description":"", "outputvariable":"", "action":"", "parameters":"", "disabled":false, "properties":"购物列表=手表"},
+    {"id":-1, "loc":"-256 -210", "category":"Start", "text":"开始节点", "description":"这里也可以定义变量", "outputvariable":"产品列表", "disabled":false, "properties":""},
+    {"id":0, "loc":"-113 -126", "text":"Shopping页", "description":"", "outputvariable":"", "disabled":false, "properties":"产品列表=产品列表"},
+    {"id":2, "loc":"82 -127", "text":"购买", "description":"", "outputvariable":"", "disabled":false, "properties":"购物列表=手表"},
     {"text":"页面关闭", "id":-5, "loc":"71.0 -74.0"}
   ],
   "linkDataArray": [ 
-    {"key":-1, "from":-1, "to":0, "text":"打开网站", "points":[-187,-166,-161,-159,-140,-146,-124,-126], "description":"", "outputvariable":"", "parameters":"", "mainpath":true},
-    {"key":0, "from":0, "to":2, "progress":"true", "text":"买手表", "points":[-70,-122,-30,-131,13,-131,60,-118], "description":"", "outputvariable":"", "parameters":"手表", "weight":"2.0", "mainpath":true, "action":"buy"},
-    {"key":1, "from":0, "to":-5, "points":[-70,-111,-27,-111,13,-98,49,-74], "text":"关闭", "description":"", "outputvariable":"", "action":"close", "parameters":"window", "mainpath":false}
+    {"key":-1, "from":-1, "to":0, "text":"打开网站", "points":[-187,-166,-161,-159,-140,-146,-124,-126], "description":"", "parameters":"", "mainpath":true},
+    {"key":0, "from":0, "to":2, "progress":"true", "text":"买手表", "points":[-70,-122,-30,-131,13,-131,60,-118], "description":"", "parameters":"手表", "weight":"2.0", "mainpath":true, "action":"buy"},
+    {"key":1, "from":0, "to":-5, "points":[-70,-111,-27,-111,13,-98,49,-74], "text":"关闭", "description":"", "action":"close", "parameters":"window", "mainpath":false}
   ],
   "modelData": {"version":1, "nodes":4, "links":3, "actions":3, "variables":5, "variable":[], "init_actions":"模块的初始化条件"}
 }
