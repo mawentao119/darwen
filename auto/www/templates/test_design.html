@@ -60,6 +60,8 @@
             }
           });
 
+      window.parent.myDiagram = myDiagram
+
       // when the document is modified, add a "*" to the title and enable the "Save" button
       myDiagram.addDiagramListener("Modified", function (e) {
         var button = document.getElementById("SaveButton");
@@ -399,8 +401,12 @@
 
     } // ** END OF init()
 
-    // Show the diagram's model in JSON format
+    // 保存模型数据到后台文件
     function save() {
+
+      // 遍历模型，生成模型变量信息 myDiagram.model.modelData.variable
+
+
       modjson = myDiagram.model.toJson();
       document.getElementById("mySavedModel").value = modjson;
 
@@ -414,14 +420,22 @@
 
     }
 
+    // 从json文件加载模型
     function load() {
       myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+
+      //加载模型变量数据
+      $('#vb').datagrid('loadData', {
+        'total': 1,
+        'rows': myDiagram.model.modelData.variable
+      });
+
     }
 
     function after_save(data) {
       var success = "success"
       if (data["status"] == success) {
-        //document.getElementById("SaveButton").disabled = true; //TODO: How to make it enable?
+        $("#vb").datagrid('reload');
       }
       do_msg(data)
     }
@@ -436,11 +450,11 @@
         </div>
       </div>
       <div data-options="region:'center'">
-        <div id="tt" data-options="tools:'#tab-tools', justified:true" style="width:100%;height:100%">
+        <div id="tt" data-options="tools:'#tab-tools', justified:true, selected:1" style="width:100%;height:100%">
           <div title="模型数据" style="padding:5px">
             <textarea id="mySavedModel" style="width:100%;height:100%">{{value}}</textarea>
           </div>
-          <div title="变量配置" style="padding:2px">
+          <div title="变量列表" style="padding:2px">
             <table id="vb"></table>
           </div>
           <div title="用例生成" style="padding:10px">
@@ -455,8 +469,10 @@
         </div>
         <div id="tab-tools">
           <a href="#" id="SaveButton" class="easyui-linkbutton" data-options="disabled:false,iconCls:'icon-save'"
-            onclick="save()" style="margin-left: 5px;">保存</a>
-          <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-refresh'" onclick="load()">刷新模型</a>
+            onclick="save()" style="margin-left: 5px;">保存模型</a>
+          <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-refresh'" onclick="load()">加载模型</a>
+          <a href="#" id="EditVar" class="easyui-linkbutton" data-options="iconCls:'icon-edit'"
+            onclick="editvar()">编辑变量</a>
         </div>
 
         <script>
@@ -471,81 +487,51 @@
             });
           });
 
-
-          var obj = {
-            'total': 100,
-            'rows': [{
-              name: 'url',
-              description: 'hasdfsafsad',
-              value: "www.baiu.com",
-              rule: "dfsf(x)",
-              used: "s,b,c"
-            }, {
-              name: 'url11',
-              description: 'hasdfsafsad',
-              value: "www.com",
-              rule: "dfsf(x)",
-              used: "s,b,c"
-            }]
-          };
           $('#vb').datagrid({
             singleSelect: true,
             //fitColumns: true,
             rownumbers: true,
-            toolbar: [{
-                text: '刷新',
-                iconCls: 'icon-refresh',
-                handler: function () {
-                  $("#vb").datagrid('reload');
-                }
-              }, '-',
-              {
-                text: '配置',
-                iconCls: 'icon-edit',
-                handler: function () {
-                  var row = $('#vb').datagrid('getSelected');
-                  if (row) {
-                    $("#edit_user_ff input#fullname").textbox("setValue", row.fullname);
-                    $("#edit_user_ff input#username").textbox("setValue", row.name);
-                    $("#edit_user_ff input#email").textbox("setValue", row.email);
-                    open_win('edit_user');
-                  } else {
-                    show_msg("Alert", "Please select one record！");
-                  }
-                }
-              }
-            ],
             columns: [
               [{
                   field: 'name',
-                  title: '变量名',
+                  title: '变量名(name)',
                   width: 100
                 },
                 {
                   field: 'description',
-                  title: '描述',
+                  title: '描述(description)',
                   width: 200
                 },
                 {
                   field: 'value',
-                  title: '取值',
+                  title: '取值(value)',
                   width: 200
                 },
                 {
                   field: 'rule',
-                  title: '规则',
+                  title: '规则(rule)',
                   width: 200
                 },
                 {
                   field: 'used',
-                  title: '使用者',
-                  width: 200
+                  title: '使用者(used)',
+                  width: 350
                 },
               ]
             ]
           });
 
-          $('#vb').datagrid('loadData', obj);
+          function editvar() {
+            var row = $('#vb').datagrid('getSelected');
+            if (row) {
+              $("#edit_user_ff input#fullname").textbox("setValue", row.fullname);
+              $("#edit_user_ff input#username").textbox("setValue", row.name);
+              $("#edit_user_ff input#email").textbox("setValue", row.email);
+              open_win('edit_user');
+            } else {
+              show_msg("Alert", "Tip：请先选择一个变量～");
+            }
+          }
         </script>
       </div> //End Center
     </div>

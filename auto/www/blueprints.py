@@ -17,15 +17,6 @@ log = getlogger("blueprints")
 routes = Blueprint('routes', __name__)
 
 
-@routes.before_request
-def before_routes():
-    if 'username' in session:
-        pass
-    else:
-        pass
-        # return redirect(url_for('routes.index'))
-
-
 @routes.route('/')
 def index():
     return render_template('login.html')
@@ -47,28 +38,15 @@ def get_report():
         return render_template('login.html')
 
 
-@routes.route("/editor/<project>/<suite>/<case>")
-def editor_1(project, suite, case):
-    t = get_splitext(case)
-    print("********* Case:{}".format(case))
-    default = "default.html"
-    if t[1] in (".txt", ".robot", ".py", ".js", ".yaml", ".conf", ".ini", ".sh"):
-        default = "editor_1.html"
-    elif t[1] in (".bmp", ".jpg", ".jpeg", ".png", ".gif"):
-        default = "view_img.html"
-
-    return render_template(default, project=project, suite=suite, case=case)
-
-
 @routes.route("/editor/<key>")
 def editor(key):
 
     rpkey = key.replace("--", "/")
     t = get_splitext(rpkey)
 
-    print("********RPKEY:"+rpkey)
-    print("*********KEY:"+key)
-    print("********t[1]:"+t[1])
+    log.info("*RPKEY:"+rpkey)
+    log.info("*KEY:"+key)
+    log.info("*File ext:"+t[1])
 
     default = "default.html"
 
