@@ -1,1 +1,0 @@
-var high_light=[];

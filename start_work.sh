@@ -10,6 +10,9 @@ ulimit -n 4096
 
 cd work/workspace/Admin/darwen
 
+rm -rf auto/www/static/js/*
+rm -rf keyword/*
+
   nohup   python darwen.py runserver -h 0.0.0.0 -p 8082  &
 
 cd ${here}
