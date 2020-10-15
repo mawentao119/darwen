@@ -373,14 +373,14 @@
 
       for (let i in nodes) {
         let tmp = nodes[i].outputvariable;
-        if (!tmp) {
+        if (!tmp || tmp.trim() == "") {
           continue;
         }
         let vs = nodes[i].outputvariable.split(',');
         // 搜集所有变量并去重
         for (let v in vs) {
           for (let z in vars) {
-            if (vs[v] == vars[z].name) {
+            if (vs[v].trim() == vars[z].name.trim()) {
               vars[z].used.push(nodes[i].text)
               vs.shift();
             }
@@ -390,7 +390,7 @@
         // 添加新增变量
         for (let v in vs) {
           vars.push({
-            "name": vs[v],
+            "name": vs[v].trim(),
             "description": "",
             "value": "",
             "rule": "",
@@ -404,7 +404,7 @@
       let curvars = myDiagram.model.modelData.variable;
       for (let c in curvars) {
         for (let v in vars) {
-          if (curvars[c].name == vars[v].name) {
+          if (curvars[c].name.trim() == vars[v].name.trim()) {
             vars[v].value = curvars[c].value;
             vars[v].description = curvars[c].description;
             vars[v].rule = curvars[c].rule;
