@@ -84,8 +84,7 @@ def task_list(name):
         return render_template('task_list.html', project=name)
     else:
         key = name.replace("--", "/")
-        project = get_projectnamefromkey(key)
-        return render_template('task_list.html', project=name)
+        return render_template('task_list.html', project=key)
 
 
 @routes.route("/project_task/")
