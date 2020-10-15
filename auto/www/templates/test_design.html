@@ -363,14 +363,18 @@
 
     } // ** END OF init()
 
+    // 判断是否是内部变量
+    function isInner(v) {
+      return v.trim().startsWith('_');
+    }
     // 保存模型数据到后台文件
     function save() {
 
       // 遍历模型，生成模型变量信息 myDiagram.model.modelData.variable
       let vars = new Array(); // 新到变量数组
 
+      // 遍历node.outputvariable
       let nodes = myDiagram.model.nodeDataArray;
-
       for (let i in nodes) {
         let tmp = nodes[i].outputvariable;
         if (!tmp || tmp.trim() == "") {
@@ -379,9 +383,12 @@
         let vs = nodes[i].outputvariable.split(',');
         // 搜集所有变量并去重
         for (let v in vs) {
+          if (isInner(vs[v])) { //过滤掉内部变量
+            continue;
+          }
           for (let z in vars) {
             if (vs[v].trim() == vars[z].name.trim()) {
-              vars[z].used.push(nodes[i].text)
+              vars[z].used.push('n' + nodes[i].text)
               vs.shift();
             }
           }
@@ -389,16 +396,56 @@
 
         // 添加新增变量
         for (let v in vs) {
+          if (isInner(vs[v])) {
+            continue;
+          }
           vars.push({
             "name": vs[v].trim(),
             "description": "",
             "value": "",
             "rule": "",
-            "used": [nodes[i].text]
+            "used": ['n' + nodes[i].text]
           })
         }
 
       } // END For nodes
+
+      // 遍历link.parameters
+      let links = myDiagram.model.linkDataArray;
+      for (let i in links) {
+        let tmp = links[i].parameters;
+        if (!tmp || tmp.trim() == "") {
+          continue;
+        }
+        let vs = links[i].parameters.split(',');
+        // 搜集所有变量并去重
+        for (let v in vs) {
+          if (isInner(vs[v])) { //过滤掉内部变量
+            continue;
+          }
+          for (let z in vars) {
+            if (vs[v].trim() == vars[z].name.trim()) {
+              vars[z].used.push('l' + links[i].text)
+              vs.shift();
+            }
+          }
+        }
+
+        // 添加新增变量
+        for (let v in vs) {
+          if (isInner(vs[v])) {
+            continue;
+          }
+          vars.push({
+            "name": vs[v].trim(),
+            "description": "",
+            "value": "",
+            "rule": "",
+            "used": ['l' + links[i].text]
+          })
+        }
+
+      } // END For Links
 
       // 与现存变量进行合并
       let curvars = myDiagram.model.modelData.variable;
@@ -431,6 +478,7 @@
     // 从json文件加载模型
     function load() {
       myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+      myDiagram.select(myDiagram.nodes.first());
 
       //加载模型变量数据
       reload_vb();
@@ -464,11 +512,17 @@
       </div>
       <div data-options="region:'center'">
         <div id="tt" data-options="tools:'#tab-tools', justified:true, selected:1" style="width:100%;height:100%">
-          <div title="模型数据" style="padding:5px">
+          <div title="模型" style="padding:5px">
             <textarea id="mySavedModel" style="width:100%;height:100%">{{value}}</textarea>
           </div>
-          <div title="变量列表" style="padding:2px">
+          <div title="输入变量" style="padding:2px">
             <table id="vb"></table>
+          </div>
+          <div title="中间变量" style="padding:2px">
+            <table id="invb"></table>
+          </div>
+          <div title="Actions" style="padding:2px">
+            <table id="act"></table>
           </div>
           <div title="用例生成" style="padding:10px">
             <p>1. 变量分为输入变量(常量) 和 内部生成变量（'_'符号开头）,'_'开头的变量视作代码层面的赋值</p>
@@ -482,7 +536,13 @@
             <p>6. 所有的可编辑属性都是字符串，标点符号请用英文逗号</p>
           </div>
         </div>
-        <div id="mm">
+        <div id="m_mod">
+          <div data-options="iconCls:'icon-refresh'" onclick="load()">重载修改(需保存)</div>
+        </div>
+        <div id="m_var">
+          <div id="EditVar" data-options="iconCls:'icon-edit'" onclick="editvar()">配置变量</div>
+        </div>
+        <div id="m_case">
           <div>生成用例模版</div>
           <div>生成手工用例</div>
           <div data-options="iconCls:'icon-search'">Search</div>
@@ -491,21 +551,35 @@
         <div id="tab-tools">
           <a href="#" id="SaveButton" class="easyui-linkbutton" data-options="disabled:false,iconCls:'icon-save'"
             onclick="save()" style="margin-left: 5px;">保存模型</a>
-          <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-refresh'" onclick="load()">加载模型</a>
-          <a href="#" id="EditVar" class="easyui-linkbutton" data-options="iconCls:'icon-edit'"
-            onclick="editvar()">编辑变量</a>
         </div>
 
         <script>
           $(function () {
-            var p = $('#tt').tabs().tabs('tabs')[2];
+
+            var p = $('#tt').tabs().tabs('tabs')[4];
             var mb = p.panel('options').tab.find('a.tabs-inner');
             mb.menubutton({
-              menu: '#mm',
-              iconCls: 'icon-configitem'
+              menu: '#m_case',
             }).click(function () {
-              $('#tt').tabs('select', 2);
+              $('#tt').tabs('select', 4);
             });
+
+            var p = $('#tt').tabs().tabs('tabs')[0];
+            var mb = p.panel('options').tab.find('a.tabs-inner');
+            mb.menubutton({
+              menu: '#m_mod',
+            }).click(function () {
+              $('#tt').tabs('select', 0);
+            });
+
+            var p = $('#tt').tabs().tabs('tabs')[1];
+            var mb = p.panel('options').tab.find('a.tabs-inner');
+            mb.menubutton({
+              menu: '#m_var',
+            }).click(function () {
+              $('#tt').tabs('select', 1);
+            });
+
           });
 
           $('#vb').datagrid({
@@ -531,6 +605,54 @@
                 {
                   field: 'rule',
                   title: '规则(rule)',
+                  width: 200
+                },
+                {
+                  field: 'used',
+                  title: '使用者(used)',
+                  width: 350
+                },
+              ]
+            ]
+          });
+
+          $('#invb').datagrid({
+            singleSelect: true,
+            //fitColumns: true,
+            rownumbers: true,
+            columns: [
+              [{
+                  field: 'name',
+                  title: '变量名(name)',
+                  width: 100
+                },
+                {
+                  field: 'value',
+                  title: '取值(value)',
+                  width: 200
+                },
+                {
+                  field: 'used',
+                  title: '使用者(used)',
+                  width: 350
+                },
+              ]
+            ]
+          });
+
+          $('#act').datagrid({
+            singleSelect: true,
+            //fitColumns: true,
+            rownumbers: true,
+            columns: [
+              [{
+                  field: 'action',
+                  title: 'Action Name',
+                  width: 100
+                },
+                {
+                  field: 'parameters', // (a, b) (a,b,c)
+                  title: '参数组合情况',
                   width: 200
                 },
                 {
