@@ -337,7 +337,7 @@
       });
 
       // Always show the model.modelData:
-      var inspector2 = new Inspector('modelInspector', myDiagram, {
+      inspector2 = new Inspector('modelInspector', myDiagram, {
         inspectSelection: false,
         properties: {
           "nodes": {
@@ -461,7 +461,12 @@
         }
       }
 
-      myDiagram.model.setDataProperty(myDiagram.model.modelData, "variable", vars)
+      myDiagram.model.setDataProperty(myDiagram.model.modelData, "variable", vars);
+
+      myDiagram.model.setDataProperty(myDiagram.model.modelData, "variables", myDiagram.model.modelData.variable
+        .length);
+      myDiagram.model.setDataProperty(myDiagram.model.modelData, "nodes", myDiagram.model.nodeDataArray.length);
+      myDiagram.model.setDataProperty(myDiagram.model.modelData, "links", myDiagram.model.linkDataArray.length);
 
       // 导出模型数据
       modjson = myDiagram.model.toJson();
@@ -475,7 +480,7 @@
       };
       do_ajax("post", "/api/v1/test_design/", data, after_save);
 
-    }
+    } // End of save()
 
     // 从json文件加载模型
     function load() {
@@ -492,6 +497,9 @@
         reload_vb();
         reload_invb();
         reload_act();
+
+        // 刷新模型inspector
+        inspector2.inspectObject(myDiagram.model.modelData);
       }
       do_msg(data)
     }
