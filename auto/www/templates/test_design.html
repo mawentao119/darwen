@@ -253,7 +253,7 @@
         );
 
       // read in the JSON data from the "mySavedModel" element
-      load();
+      init_load();
       myDiagram.select(myDiagram.nodes.first());
 
       // Declare which properties to show and how.
@@ -486,8 +486,20 @@
     function load() {
       myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
       myDiagram.select(myDiagram.nodes.first());
+    }
 
+    // 保存模型数据变更，先load 再 save
+    function load_save() {
+      load();
       save();
+    }
+
+    // 首次加载页面load 数据，需要同时初始化 tabs
+    function init_load() {
+      load();
+      reload_vb();
+      reload_invb();
+      reload_act();
     }
 
     function after_save(data) {
@@ -513,6 +525,9 @@
     }
 
     function reload_invb() {
+
+
+
       $('#invb').datagrid('loadData', {
         'total': 1,
         'rows': [{
@@ -573,19 +588,19 @@
             <table id="act"></table>
           </div>
           <div title="用例生成" style="padding:10px">
-            <p>1. 变量分为输入变量(常量) 和 内部生成变量（'_'符号开头）,'_'开头的变量视作代码层面的赋值</p>
-            <p>2. 输入变量（parameter）需要初始化数据，不能被重新赋值，生成变量（outputvariable）系统内部赋值</p>
-            <p>3. parameter形式：para ｜ para = para2 | para = _innerpara</p>
-            <p>para需要初始化，带等号，value等于后面带值</p>
+            <p>1. 变量分为输入变量(常量) 和 内部生成变量（'_'符号开头）</p>
+            <p>2. 输入变量（parameter）需要初始化数据，不能被重新赋值，内部生成变量（outputvariable）系统内部赋值</p>
+            <p>3. parameter形式(不能带‘=’)：para ｜ _para </p>
+            <p>para需要初始化，_para由前面的node初始化</p>
             <p>4. properties形式: prop | _prop == para | _prop1.lenth() > 5</p>
-            <p>prop表示存在或真，左边被赋值变量应该等于右边变量</p>
-            <p>5. outputvariable形式: varname | _varname=var |_varname=_var2</p>
+            <p>prop表示存在或真，这里就是断言表达式</p>
+            <p>5. outputvariable形式(内部变量必须被赋值): varname | _varname=var |_varname=_var2</p>
             <p>varname 表示输入变量，需要初始化，_varname表示系统生成变量，通过Action之后的结果赋值</p>
             <p>6. 所有的可编辑属性都是字符串，标点符号请用英文逗号</p>
           </div>
         </div>
         <div id="m_mod">
-          <div data-options="iconCls:'icon-refresh'" onclick="load()">刷新变更</div>
+          <div data-options="iconCls:'icon-refresh'" onclick="load_save()">刷新变更</div>
         </div>
         <div id="m_var">
           <div id="EditVar" data-options="iconCls:'icon-edit'" onclick="editvar()">配置变量</div>
