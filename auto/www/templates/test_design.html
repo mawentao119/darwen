@@ -482,10 +482,7 @@
       myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
       myDiagram.select(myDiagram.nodes.first());
 
-      //加载模型变量数据
-      reload_vb();
-      reload_invb();
-      reload_act();
+      save();
     }
 
     function after_save(data) {
@@ -528,6 +525,21 @@
         }]
       });
     }
+
+    function edit_var(win_id, ff_id) {
+      let data = $("#{0}".lym_format(ff_id)).serializeObject();
+
+      let curvars = myDiagram.model.modelData.variable;
+      for (let c of curvars) {
+        if (c.name == data.name) {
+          c.value = data.value;
+          c.description = data.description;
+          c.rule = data.rule;
+        }
+      }
+      close_win(win_id);
+      save();
+    }
   </script>
 </head>
 
@@ -565,7 +577,7 @@
           </div>
         </div>
         <div id="m_mod">
-          <div data-options="iconCls:'icon-refresh'" onclick="load()">重载修改(需保存)</div>
+          <div data-options="iconCls:'icon-refresh'" onclick="load()">刷新变更</div>
         </div>
         <div id="m_var">
           <div id="EditVar" data-options="iconCls:'icon-edit'" onclick="editvar()">配置变量</div>
@@ -621,11 +633,6 @@
                   width: 100
                 },
                 {
-                  field: 'description',
-                  title: '描述(description)',
-                  width: 200
-                },
-                {
                   field: 'value',
                   title: '取值(value)',
                   width: 200
@@ -639,6 +646,11 @@
                   field: 'used',
                   title: '使用者(used)',
                   width: 350
+                },
+                {
+                  field: 'description',
+                  title: '描述(description)',
+                  width: 200
                 },
               ]
             ]
@@ -710,10 +722,11 @@
           function editvar() {
             var row = $('#vb').datagrid('getSelected');
             if (row) {
-              $("#edit_user_ff input#fullname").textbox("setValue", row.fullname);
-              $("#edit_user_ff input#username").textbox("setValue", row.name);
-              $("#edit_user_ff input#email").textbox("setValue", row.email);
-              open_win('edit_user');
+              $("#edit_var_ff input#varname").textbox("setValue", row.name);
+              $("#edit_var_ff input#vardesc").textbox("setValue", row.description);
+              $("#edit_var_ff input#varvalue").textbox("setValue", row.value);
+              $("#edit_var_ff input#varrule").textbox("setValue", row.rule);
+              open_win('edit_var');
             } else {
               show_msg("Alert", "Tip：请先选择一个变量～");
             }
@@ -734,6 +747,38 @@
       </span>
     </div>
   </div>
+
+  <!-- edit var -->
+  <div id="edit_var" class="easyui-window" title="编辑变量"
+    data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
+    style="width:320px;height:300px;padding:10px;">
+    <form id="edit_var_ff" method="post">
+      <div style="margin-bottom:10px">
+        <input class="easyui-textbox" id="varname" name="name" label="变量名" labelPosition="left" style="width:100%"
+          data-options="required:true" readonly>
+      </div>
+      <div style="margin-bottom:10px">
+        <input class="easyui-textbox" id="vardesc" name="description" label="描述" labelPosition="left" style="width:100%"
+          data-options="required:true">
+      </div>
+      <div style="margin-bottom:10px">
+        <input class="easyui-textbox" id="varvalue" name="value" label="取值" labelPosition="left" style="width:100%"
+          data-options="required:true">
+      </div>
+      <div style="margin-bottom:10px">
+        <input class="easyui-textbox" id="varrule" name="rule" label="规则" labelPosition="left" style="width:100%"
+          data-options="required:true">
+      </div>
+    </form>
+    <div style="text-align:right;padding:5px 0">
+      <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('edit_var')"
+        style="width:60px">Cancle</a>
+      <a href="javascript:void(0)" class="easyui-linkbutton" onclick="edit_var('edit_var', 'edit_var_ff')"
+        style="width:60px">Save</a>
+    </div>
+  </div>
+  <!-- end -->
+
 </body>
 
 </html>
