@@ -484,13 +484,17 @@
 
       //加载模型变量数据
       reload_vb();
-
+      reload_invb();
+      reload_act();
     }
 
     function after_save(data) {
       var success = "success"
       if (data["status"] == success) {
+        //加载模型变量数据
         reload_vb();
+        reload_invb();
+        reload_act();
       }
       do_msg(data)
     }
@@ -501,11 +505,6 @@
         'total': 1,
         'rows': myDiagram.model.modelData.variable
       });
-
-      //$('#vb').datagrid('reload');
-
-      //reload_invb();
-      //reload_act();
     }
 
     function reload_invb() {
@@ -691,6 +690,21 @@
                 },
               ]
             ]
+          });
+
+          // 切换tab页面同步刷新数据,否则无法显示更新的数据
+          $('#tt').tabs({
+            onSelect: function (title) {
+              if (title == '输入变量') {
+                $('#vb').datagrid('resize');
+              }
+              if (title == '中间变量') {
+                $('#invb').datagrid('resize');
+              }
+              if (title == 'Actions') {
+                $('#act').datagrid('resize');
+              }
+            }
           });
 
           function editvar() {
