@@ -365,7 +365,11 @@
 
     // 判断是否是内部变量
     function isInner(v) {
-      return v.trim().startsWith('_');
+      if (v) {
+        return v.trim().startsWith('_');
+      } else {
+        return false;
+      }
     }
     // 保存模型数据到后台文件
     function save() {
@@ -526,15 +530,116 @@
 
     function reload_invb() {
 
+      // 遍历模型，生成模型变量信息: 内部变量 tab
+      let invars = new Array();
 
+      // 遍历node.outputvariable
+      let nodes = myDiagram.model.nodeDataArray;
+      for (let i of nodes) {
+        let tmp = i.outputvariable;
+        if (!tmp || tmp.trim() == "") { //没有配置或空
+          continue;
+        }
+        let vs = i.outputvariable.split(',');
+        // 搜集所有变量并去重
+        for (let v in vs) {
+          if (!(isInner(vs[v]))) { //过滤掉输入变量-非内部变量
+            delete vs[v]; // 从vs删除这个变量
+            continue;
+          }
+          if ((vs[v].indexOf('=') != -1) && !(vs[v].endsWith('='))) {
+            let vals = vs[v].split('=');
+            for (let z of invars) {
+              if (vals[0].trim() == z.name.trim()) {
+                z.used.push('n' + i.text)
+                if (!(vals[1].trim() == z.value.trim())) {
+                  console.log("Warn:变量[" + vals[0] + "]值不一致 " + i.text + "[" + vals[1].trim() + "] VS " + z.used + "[" +
+                    z.value.trim() + "]");
+                }
+                delete vs[v];
+                break;
+              }
+            }
+          } else {
+            for (let z of invars) {
+              if (vs[v].trim() == z.name.trim()) {
+                z.used.push('n' + i.text)
+                delete vs[v];
+                break;
+              }
+            }
+          }
+        }
+
+        // 添加新增变量
+        for (let v of vs) {
+          if (!(isInner(v))) {
+            continue;
+          }
+          if ((v.indexOf('=') != -1) && !(v.endsWith('='))) {
+            let vals = v.split('=');
+            invars.push({
+              "name": vals[0].trim(),
+              "value": vals[1].trim(),
+              "used": ['n' + i.text]
+            });
+          } else {
+            invars.push({
+              "name": v.trim(),
+              "value": "",
+              "used": ['n' + i.text]
+            });
+          }
+
+        }
+
+      } // END For nodes
+
+      // 遍历links.parameters
+      let links = myDiagram.model.linkDataArray;
+      for (let i of links) {
+        let tmp = i.parameters;
+        if (!tmp || tmp.trim() == "") { //没有配置或空
+          continue;
+        }
+        let vs = i.parameters.split(',');
+        // 搜集所有变量并去重
+        for (let v in vs) {
+          if (!(isInner(vs[v]))) { //过滤掉输入变量-非内部变量
+            delete vs[v];
+            continue;
+          }
+          for (let z of invars) {
+            if (vs[v].trim() == z.name.trim()) {
+              z.used.push('l' + i.text)
+              delete vs[v];
+              break;
+            }
+          }
+        }
+
+        // 添加新增变量
+        for (let v of vs) {
+          if (!(isInner(v))) {
+            continue;
+          }
+          if (v.indexOf('=') != -1) {
+            console.log("参数错误:link " + i.text + " parameters 不允许出现'='!");
+          } else {
+            invars.push({
+              "name": v.trim(),
+              "value": "",
+              "used": ['l' + i.text]
+            });
+          }
+
+        }
+
+      } // END For Links
 
       $('#invb').datagrid('loadData', {
         'total': 1,
-        'rows': [{
-          "name": "_var123",
-          "value": "usernae",
-          "used": "nNode1,lLink2"
-        }]
+        'rows': invars
       });
     }
 
@@ -595,7 +700,7 @@
             <p>4. properties形式: prop | _prop == para | _prop1.lenth() > 5</p>
             <p>prop表示存在或真，这里就是断言表达式</p>
             <p>5. outputvariable形式(内部变量必须被赋值): varname | _varname=var |_varname=_var2</p>
-            <p>varname 表示输入变量，需要初始化，_varname表示系统生成变量，通过Action之后的结果赋值</p>
+            <p>varname 表示输入变量，需要初始化，_varname表示系统生成变量需要赋值，如果没有，则认为'_'之后的为其值</p>
             <p>6. 所有的可编辑属性都是字符串，标点符号请用英文逗号</p>
           </div>
         </div>
