@@ -644,13 +644,37 @@
     }
 
     function reload_act() {
+      let invars = new Array();
+      let links = new Array();
+      for (let i of myDiagram.model.linkDataArray) {
+        links.push(i);
+      }
+      // 遍历links.action
+      for (let i of links) {
+        if (!i.action || i.action.trim() == "") { //没有配置或空
+          continue;
+        }
+        let exists = false;
+        for (let z of invars) {
+          if (i.action.trim() == z.action.trim()) {
+            z.used.push(i.text);
+            z.parameters.push("(" + i.parameters + ")");
+            exists = true;
+            break;
+          }
+        }
+        if (!exists) {
+          invars.push({
+            "action": i.action.trim(),
+            "parameters": ["(" + i.parameters + ")"],
+            "used": [i.text]
+          });
+        }
+      }
+
       $('#act').datagrid('loadData', {
         'total': 1,
-        'rows': [{
-          "action": "_var123",
-          "parameters": "usernae",
-          "used": "nNode1,lLink2"
-        }]
+        'rows': invars
       });
     }
 
