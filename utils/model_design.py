@@ -11,6 +11,7 @@ from utils.mylogger import getlogger
 
 log = getlogger('Utils.Model_Design')
 
+
 def walk_model(startnode):
     links = []
     casenum = 1
@@ -30,6 +31,7 @@ def walk_model(startnode):
 
     return find_paths(startnode)
 
+
 def output_path(ps, casenum):
 
     if len(ps) == 0:
@@ -41,18 +43,17 @@ def output_path(ps, casenum):
 
     for p in ps:
         casename += '_' + str(p.get("key"))
-        line     += '>' + p.get("text") + ":" + p.get("end").get("text")
+        line += '>' + p.get("text") + ":" + p.get("end").get("text")
 
     print("T" + str(casenum) + casename)
     print("    [用例描述]{}".format(line))
 
     for p in ps:
-        print("    Act:{}[{}] {}".format(p.get("text"),p.get("parameters"),"#"+p.get("description") if p.get("description") else ''))
-        print("    Chk:{}[{}] {}".format(p.get("end").get("text"),p.get("end").get("properties"),"#"+p.get("end").get("description") if p.get("end").get("description") else ''))
+        print("    Act:{}[{}] {}".format(p.get("text"), p.get(
+            "parameters"), "#"+p.get("description") if p.get("description") else ''))
+        print("    Chk:{}[{}] {}".format(p.get("end").get("text"), p.get("end").get(
+            "properties"), "#"+p.get("end").get("description") if p.get("end").get("description") else ''))
     print("\n")
-
-
-
 
 
 def gen_modelpath(jsonfile):
@@ -78,11 +79,17 @@ def gen_modelpath(jsonfile):
         if node["id"] == -1:
             startnode = node
 
-    walk_model(startnode) if startnode else log.error("找不到Start节点（id为-1）,文件：{}".format(jsonfile))
-
+    walk_model(startnode) if startnode else log.error(
+        "找不到Start节点（id为-1）,文件：{}".format(jsonfile))
 
     return mod
 
+
+def gen_casetemplate(model_file, output_file):
+    return {"status": "success", "msg": "生成用例模版成功：."}
+
+
 if __name__ == '__main__':
-    mod = gen_modelpath("/Users/tester/PycharmProjects/darwen/work/workspace/Admin/Demo_Project/TestDesign/UserManagement.tmd")
-    #print(mod)
+    mod = gen_modelpath(
+        "/Users/tester/PycharmProjects/darwen/work/workspace/Admin/Demo_Project/TestDesign/UserManagement.tmd")
+    # print(mod)

@@ -13,7 +13,7 @@ from flask_restful import Resource, reqparse
 from utils.parsing import update_resource
 from utils.file import exists_path, rename_file, make_nod, remove_file, mk_dirs, remove_dir, write_file, read_file, copy_file, get_splitext
 from utils.mylogger import getlogger
-from utils.gitit import remote_clone
+from utils.model_design import gen_casetemplate
 
 
 class TestDesign(Resource):
@@ -45,6 +45,8 @@ class TestDesign(Resource):
             result = self.__create(args)
         elif method == "save":
             result = self.__save(args)
+        elif method == "gen_casetemplate":
+            result = self.__gen_casetemplate(args)
         else:
             print(request.files["files"])
 
@@ -61,7 +63,7 @@ class TestDesign(Resource):
         else:
             user_path = args["key"] + '/' + args['name'] + args['category']
 
-        result = {"status": "success", "msg": "创建成功" +
+        result = {"status": "success", "msg": "创建测试模型成功" +
                   ":"+os.path.basename(user_path)+":"+user_path}
         if not exists_path(user_path):
             make_nod(user_path)
@@ -113,5 +115,15 @@ class TestDesign(Resource):
         # delete keywords or update highlight
         if user_path.endswith('.resource'):
             update_resource(user_path)
+
+        return result
+
+    def __gen_casetemplate(self, args):
+        modle_file = args["key"]
+        output_file = os.path.splitext(modle_file)[0] + '.tplt'
+        self.log.info("开始生成用例模版，模型：{}, 输出模版：{}".format(
+            modle_file, output_file))
+        #result = {"status": "success", "msg": "成功：保存成功."}
+        result = gen_casetemplate(modle_file, output_file)
 
         return result

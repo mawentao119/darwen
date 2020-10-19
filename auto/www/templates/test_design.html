@@ -388,12 +388,18 @@
         // 搜集所有变量并去重
         for (let v in vs) {
           if (isInner(vs[v])) { //过滤掉内部变量
+            delete vs[v]
+            continue;
+          }
+          if (vs[v].trim().startsWith('"') || vs[v].trim().startsWith("'") || vs[v].trim().startsWith('[') || vs[v]
+            .trim().startsWith('{')) { // "new"+var1 || 'zhangsan' || [var1,"abc"] || {"abc":123}
+            delete vs[v]
             continue;
           }
           for (let z in vars) {
             if (vs[v].trim() == vars[z].name.trim()) {
               vars[z].used.push('n' + nodes[i].text)
-              vs.shift();
+              delete vs[v];
               break;
             }
           }
@@ -426,12 +432,17 @@
         // 搜集所有变量并去重
         for (let v in vs) {
           if (isInner(vs[v])) { //过滤掉内部变量
+            delete vs[v];
+            continue;
+          }
+          if (vs[v].trim().startsWith('"')) { // "new"+var1 || "zhangsan"
+            delete vs[v]
             continue;
           }
           for (let z in vars) {
             if (vs[v].trim() == vars[z].name.trim()) {
               vars[z].used.push('l' + links[i].text)
-              vs.shift();
+              delete vs[v];
               break;
             }
           }
@@ -692,6 +703,18 @@
       close_win(win_id);
       save();
     }
+
+    function gen_casetemplate() {
+      var key = "{{ key }}";
+      var data = {
+        "method": "gen_casetemplate",
+        "key": key,
+        "data": {
+          "detail": "enmu"
+        },
+      };
+      do_ajax("post", "/api/v1/test_design/", data, do_msg);
+    }
   </script>
 </head>
 
@@ -735,7 +758,7 @@
           <div id="EditVar" data-options="iconCls:'icon-edit'" onclick="editvar()">配置变量</div>
         </div>
         <div id="m_case">
-          <div>生成用例模版</div>
+          <div onclick="gen_casetemplate()">生成用例模版</div>
           <div>生成手工用例</div>
           <div data-options="iconCls:'icon-search'">Search</div>
           <div>生成自动化用例</div>
@@ -782,27 +805,27 @@
               [{
                   field: 'name',
                   title: '变量名(name)',
-                  width: 100
+                  width: 80
                 },
                 {
                   field: 'value',
                   title: '取值(value)',
-                  width: 200
+                  width: 150
                 },
                 {
                   field: 'rule',
                   title: '规则(rule)',
-                  width: 200
+                  width: 150
                 },
                 {
                   field: 'used',
                   title: '使用者(used)',
-                  width: 350
+                  width: 300
                 },
                 {
                   field: 'description',
                   title: '描述(description)',
-                  width: 200
+                  width: 150
                 },
               ]
             ]
