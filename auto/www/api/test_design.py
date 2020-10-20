@@ -13,7 +13,7 @@ from flask_restful import Resource, reqparse
 from utils.parsing import update_resource
 from utils.file import exists_path, rename_file, make_nod, remove_file, mk_dirs, remove_dir, write_file, read_file, copy_file, get_splitext
 from utils.mylogger import getlogger
-from utils.model_design import gen_casetemplate
+from utils.model_design import gen_casefile
 
 
 class TestDesign(Resource):
@@ -45,8 +45,12 @@ class TestDesign(Resource):
             result = self.__create(args)
         elif method == "save":
             result = self.__save(args)
-        elif method == "gen_casetemplate":
-            result = self.__gen_casetemplate(args)
+        elif method == "casetemplate":
+            result = self.__gen_casefile(args)
+        elif method == "handcase":
+            result = self.__gen_casefile(args)
+        elif method == "autocase":
+            result = self.__gen_casefile(args)
         else:
             print(request.files["files"])
 
@@ -118,12 +122,18 @@ class TestDesign(Resource):
 
         return result
 
-    def __gen_casetemplate(self, args):
+    def __gen_casefile(self, args):
+
         modle_file = args["key"]
-        output_file = os.path.splitext(modle_file)[0] + '.tplt'
+
+        if args["method"] == "casetemplate":
+            output_file = os.path.splitext(modle_file)[0] + '.tplt'
+        else:
+            output_file = os.path.splitext(modle_file)[0] + '.robot'
+
         self.log.info("开始生成用例模版，模型：{}, 输出模版：{}".format(
             modle_file, output_file))
         #result = {"status": "success", "msg": "成功：保存成功."}
-        result = gen_casetemplate(modle_file, output_file)
+        result = gen_casefile(modle_file, args["method"], output_file)
 
         return result

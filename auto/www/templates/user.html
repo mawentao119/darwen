@@ -1,202 +1,225 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>uniRobot - RobotFramework Web UI</title>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/auto.css') }}">
+<head>
+    <meta charset="UTF-8">
+    <title>uniRobot - RobotFramework Web UI</title>
 
-        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}" />
-        <style type="text/css">
-            .lines-no .datagrid-body td{
-                border-right:1px dotted transparent;
-                border-bottom:1px dotted transparent;
-            }
-        </style>
-    </head>
-    <body class="easyui-layout" style="padding:10">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/icon.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/easyui/themes/bootstrap/easyui.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auto.css') }}">
 
-        <div data-options="region:'center'" style="padding: 5px 5px 5px 5px">
-            <table id="user_list" class="easyui-datagrid" style="width:100%;height:auto;"
-                    data-options="singleSelect:true,
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+    <style type="text/css">
+        .lines-no .datagrid-body td {
+            border-right: 1px dotted transparent;
+            border-bottom: 1px dotted transparent;
+        }
+    </style>
+</head>
+
+<body class="easyui-layout" style="padding:10">
+
+    <div data-options="region:'center'" style="padding: 5px 5px 5px 5px">
+        <table id="user_list" class="easyui-datagrid" style="width:100%;height:auto;" data-options="singleSelect:true,
                         fitColumns:true,
                         url:'/api/v1/user/',
                         method:'get',
-                        toolbar: toolbar"
-                    >
-                <thead>
-                    <tr>
-                        <th data-options="field:'name',align:'center' , halign: 'center'">用户名</th>
-                        <th data-options="field:'fullname',align:'center' , halign: 'center'">昵称</th>
-                        <th data-options="field:'email',align:'center' , halign: 'center'">Email</th>
-                        <th data-options="field:'category',align:'center' , halign: 'center'">类型</th>
-                        <th data-options="field:'main_project',align:'center' , halign: 'center'">主项目</th>
-                    </tr>
-                </thead>
-            </table>
-            <!-- create user -->
-            <div id="create_user" class="easyui-window" title="新建用户"
-                 data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
-                 style="width:320px;height:270px;padding:10px;">
-                <form id="create_user_ff" method="post">
-                    <div style="margin-bottom:10px">
-                        <input class="easyui-textbox" id="fullname" name="fullname" label="Nickname" labelPosition="left" style="width:100%" data-options="required:true">
-                    </div>
-                    <div style="margin-bottom:10px">
-                        <input class="easyui-textbox" id="username" name="username" label="User Name" labelPosition="left" style="width:100%" data-options="required:true">
-                    </div>
-                    <div style="margin-bottom:10px">
-                        <input class="easyui-textbox" id="email" name="email" label="Email" labelPosition="left" style="width:100%" data-options="required:true">
-                    </div>
-                    <div style="margin-bottom:20px">
-                        <input class="easyui-textbox" id="password" name="password" label="Password" labelPosition="left" style="width:100%" data-options="required:true">
-                    </div>
-                </form>
-                <div style="text-align:right;padding:5px 0">
-                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('create_user')" style="width:60px">Cancle</a>
-                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="create_user('create_user', 'create_user_ff')" style="width:60px">Create</a>
+                        toolbar: toolbar">
+            <thead>
+                <tr>
+                    <th data-options="field:'name',align:'center' , halign: 'center'">用户名</th>
+                    <th data-options="field:'fullname',align:'center' , halign: 'center'">昵称</th>
+                    <th data-options="field:'email',align:'center' , halign: 'center'">Email</th>
+                    <th data-options="field:'category',align:'center' , halign: 'center'">类型</th>
+                    <th data-options="field:'main_project',align:'center' , halign: 'center'">主项目</th>
+                </tr>
+            </thead>
+        </table>
+        <!-- create user -->
+        <div id="create_user" class="easyui-window" title="新建用户"
+            data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
+            style="width:320px;height:270px;padding:10px;">
+            <form id="create_user_ff" method="post">
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" id="fullname" name="fullname" label="Nickname" labelPosition="left"
+                        style="width:100%" data-options="required:true">
                 </div>
-            </div>
-            <!-- end -->
-            <!-- edit user -->
-            <div id="edit_user" class="easyui-window" title="编辑用户"
-                 data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
-                 style="width:320px;height:300px;padding:10px;">
-                <form id="edit_user_ff" method="post">
-                    <div style="margin-bottom:10px">
-                        <input class="easyui-textbox" id="fullname" name="fullname" label="Nickname" labelPosition="left" style="width:100%" data-options="required:true">
-                    </div>
-                    <div style="margin-bottom:10px">
-                        <input class="easyui-textbox" id="username" name="username" label="User Name" labelPosition="left" style="width:100%" data-options="required:true" readonly>
-                    </div>
-                    <div style="margin-bottom:10px">
-                        <input class="easyui-textbox" id="email" name="email" label="Email" labelPosition="left" style="width:100%" data-options="required:true">
-                    </div>
-                    <div style="margin-bottom:10px">
-                        <input class="easyui-textbox" id="password" name="password" label="Password" labelPosition="left" style="width:100%" data-options="required:true">
-                    </div>
-                    <div style="margin-bottom:15px">
-                        <input class="easyui-textbox" id="new_password" name="new_password" label="New Password" labelPosition="left" style="width:100%" data-options="required:true">
-                    </div>
-                </form>
-                <div style="text-align:right;padding:5px 0">
-                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('edit_user')" style="width:60px">Cancle</a>
-                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="edit_user('edit_user', 'edit_user_ff')" style="width:60px">Save</a>
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" id="username" name="username" label="User Name" labelPosition="left"
+                        style="width:100%" data-options="required:true">
                 </div>
-            </div>
-            <!-- end -->
-            <!-- edit smtp -->
-            <div id="edit_smtp" class="easyui-window" title="配置 SMTP"
-                 data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
-                 style="width:320px;height:290px;padding:10px;">
-                <form id="edit_smtp_ff" method="post">
-                    <div style="margin-bottom:10px">
-                        <input type="checkbox" id="ssl" name="ssl" checked>
-                        <span>SSL ON</span>
-                    </div>
-                    <div style="margin-bottom:10px">
-                        <input class="easyui-textbox" id="server" name="server" label="Server" labelPosition="left" style="width:100%" data-options="required:true">
-                    </div>
-                    <div style="margin-bottom:10px">
-                        <input class="easyui-textbox" id="port" name="port" label="Port" labelPosition="left" style="width:100%" data-options="required:true">
-                    </div>
-                    <div style="margin-bottom:10px">
-                        <input class="easyui-textbox" id="username" name="username" label="User Name" labelPosition="left" style="width:100%" data-options="required:true">
-                    </div>
-                    <div style="margin-bottom:10px">
-                        <input class="easyui-textbox" id="password" name="password" label="Password" labelPosition="left" style="width:100%" data-options="required:true">
-                    </div>
-                </form>
-                <div style="text-align:right;padding:5px 0">
-                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('edit_smtp')" style="width:60px">Cancle</a>
-                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="do_smtp('edit_smtp', 'edit_smtp_ff')" style="width:60px">Save</a>
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" id="email" name="email" label="Email" labelPosition="left"
+                        style="width:100%" data-options="required:true">
                 </div>
+                <div style="margin-bottom:20px">
+                    <input class="easyui-textbox" id="password" name="password" label="Password" labelPosition="left"
+                        style="width:100%" data-options="required:true">
+                </div>
+            </form>
+            <div style="text-align:right;padding:5px 0">
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('create_user')"
+                    style="width:60px">Cancle</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton"
+                    onclick="create_user('create_user', 'create_user_ff')" style="width:60px">Create</a>
             </div>
-            <!-- end -->
         </div>
+        <!-- end -->
+        <!-- edit user -->
+        <div id="edit_user" class="easyui-window" title="编辑用户"
+            data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
+            style="width:320px;height:300px;padding:10px;">
+            <form id="edit_user_ff" method="post">
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" id="fullname" name="fullname" label="Nickname" labelPosition="left"
+                        style="width:100%" data-options="required:true">
+                </div>
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" id="username" name="username" label="User Name" labelPosition="left"
+                        style="width:100%" data-options="required:true" readonly>
+                </div>
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" id="email" name="email" label="Email" labelPosition="left"
+                        style="width:100%" data-options="required:true">
+                </div>
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" id="password" name="password" label="Password" labelPosition="left"
+                        style="width:100%" data-options="required:true">
+                </div>
+                <div style="margin-bottom:15px">
+                    <input class="easyui-textbox" id="new_password" name="new_password" label="New Password"
+                        labelPosition="left" style="width:100%" data-options="required:true">
+                </div>
+            </form>
+            <div style="text-align:right;padding:5px 0">
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('edit_user')"
+                    style="width:60px">Cancle</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="edit_user('edit_user', 'edit_user_ff')"
+                    style="width:60px">Save</a>
+            </div>
+        </div>
+        <!-- end -->
+        <!-- edit smtp -->
+        <div id="edit_smtp" class="easyui-window" title="配置 SMTP"
+            data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
+            style="width:320px;height:290px;padding:10px;">
+            <form id="edit_smtp_ff" method="post">
+                <div style="margin-bottom:10px">
+                    <input type="checkbox" id="ssl" name="ssl" checked>
+                    <span>SSL ON</span>
+                </div>
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" id="server" name="server" label="Server" labelPosition="left"
+                        style="width:100%" data-options="required:true">
+                </div>
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" id="port" name="port" label="Port" labelPosition="left"
+                        style="width:100%" data-options="required:true">
+                </div>
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" id="username" name="username" label="User Name" labelPosition="left"
+                        style="width:100%" data-options="required:true">
+                </div>
+                <div style="margin-bottom:10px">
+                    <input class="easyui-textbox" id="password" name="password" label="Password" labelPosition="left"
+                        style="width:100%" data-options="required:true">
+                </div>
+            </form>
+            <div style="text-align:right;padding:5px 0">
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('edit_smtp')"
+                    style="width:60px">Cancle</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="do_smtp('edit_smtp', 'edit_smtp_ff')"
+                    style="width:60px">Save</a>
+            </div>
+        </div>
+        <!-- end -->
+    </div>
 
 
-        <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/easyui/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/easyui/jquery.easyui.min.js') }}"></script>
 
-        <!-- 自定义js库 -->
-        <script type="text/javascript" src="{{ url_for('static', filename='lib/auto.js') }}"></script>
-        <SCRIPT type="text/javascript">
-            $(document).ready(function(){
-                //$('#edit_smtp_ff').form('load','/api/v1/settings?method=smtp');
+    <!-- 自定义js库 -->
+    <script type="text/javascript" src="{{ url_for('static', filename='lib/auto.js') }}"></script>
+    <SCRIPT type="text/javascript">
+        $(document).ready(function () {
+            //$('#edit_smtp_ff').form('load','/api/v1/settings?method=smtp');
 
-            });
-            var toolbar = [
-                {
-                    text:'刷新',
-                    iconCls:'icon-refresh',
-                    handler:function(){
-                        $("#user_list").datagrid('reload');
+        });
+        var toolbar = [{
+                text: '刷新',
+                iconCls: 'icon-refresh',
+                handler: function () {
+                    $("#user_list").datagrid('reload');
+                }
+            }, '-',
+            {
+                text: '添加',
+                iconCls: 'icon-expand',
+                handler: function () {
+                    manage_user("create_user", "create_user_ff", "create");
+                    /*var data ={"method": "run", "category": "project", "project": "{{ project }}" };
+                    do_ajax('post',
+                        '/api/v1/task/',
+                        data,
+                        do_msg);
+
+                    $("#user_list").datagrid('reload');
+                    */
+                }
+            }, '-',
+            {
+                text: '编辑',
+                iconCls: 'icon-edit',
+                handler: function () {
+                    var row = $('#user_list').datagrid('getSelected');
+                    if (row) {
+                        $("#edit_user_ff input#fullname").textbox("setValue", row.fullname);
+                        $("#edit_user_ff input#username").textbox("setValue", row.name);
+                        $("#edit_user_ff input#email").textbox("setValue", row.email);
+                        open_win('edit_user');
+                    } else {
+                        show_msg("Alert", "Please select one record！");
                     }
-			    }, '-',
-			    {
-			        text:'添加',
-                    iconCls:'icon-expand',
-                    handler:function(){
-                        manage_user("create_user", "create_user_ff", "create");
-                        /*var data ={"method": "run", "category": "project", "project": "{{ project }}" };
-                        do_ajax('post',
-                            '/api/v1/task/',
-                            data,
-                            do_msg);
+                }
+            }, '-',
+            {
+                text: '删除',
+                iconCls: 'icon-remove',
+                handler: function () {
+                    var row = $('#user_list').datagrid('getSelected');
+                    if (row) {
+                        $.messager.confirm('Alert', 'Delete user?', function (r) {
+                            if (r) {
+                                var data = {
+                                    "method": "delete",
+                                    "username": "{0}".lym_format(row.name)
+                                };
+                                do_ajax('post',
+                                    '/api/v1/user/',
+                                    data,
+                                    do_msg);
 
-                        $("#user_list").datagrid('reload');
-                        */
+                                $("#user_list").datagrid('reload');
+                            }
+                        });
+                    } else {
+                        show_msg("Alert", "Please select one record！");
                     }
-			    }, '-',
-			    {
-			        text:'编辑',
-                    iconCls:'icon-edit',
-                    handler:function(){
-                        var row = $('#user_list').datagrid('getSelected');
-                        if(row){
-                            $("#edit_user_ff input#fullname").textbox("setValue", row.fullname);
-                            $("#edit_user_ff input#username").textbox("setValue", row.name);
-                            $("#edit_user_ff input#email").textbox("setValue", row.email);
-                            open_win('edit_user');
-                        }
-                        else{
-                            show_msg("Alert", "Please select one record！");
-                        }
-                    }
-			    }, '-',
-			    {
-			        text:'删除',
-                    iconCls:'icon-remove',
-                    handler:function(){
-                        var row = $('#user_list').datagrid('getSelected');
-                        if(row){
-                            $.messager.confirm('Alert', 'Delete user?', function(r){
-                                if (r){
-                                    var data ={"method": "delete", "username": "{0}".lym_format(row.name) };
-                                    do_ajax('post',
-                                        '/api/v1/user/',
-                                        data,
-                                        do_msg);
+                }
+            }, '-',
+            {
+                text: 'SMTP',
+                iconCls: 'icon-email',
+                handler: function () {
+                    init_smtp_ff();
+                    open_win("edit_smtp");
 
-                                    $("#user_list").datagrid('reload');
-                                }
-                            });
-                        }
-                    }
-			    }, '-',
-			    {
-			        text:'SMTP',
-                    iconCls:'icon-email',
-                    handler:function(){
-                        init_smtp_ff();
-                        open_win("edit_smtp");
+                }
+            }
+        ];
+    </SCRIPT>
+</body>
 
-                    }
-			    }
-			 ];
-        </SCRIPT>
-    </body>
 </html>

@@ -707,7 +707,31 @@
     function gen_casetemplate() {
       var key = "{{ key }}";
       var data = {
-        "method": "gen_casetemplate",
+        "method": "casetemplate",
+        "key": key,
+        "data": {
+          "detail": "enmu"
+        },
+      };
+      do_ajax("post", "/api/v1/test_design/", data, do_msg);
+    }
+
+    function gen_handcase() {
+      var key = "{{ key }}";
+      var data = {
+        "method": "handcase",
+        "key": key,
+        "data": {
+          "detail": "enmu"
+        },
+      };
+      do_ajax("post", "/api/v1/test_design/", data, do_msg);
+    }
+
+    function gen_autocase() {
+      var key = "{{ key }}";
+      var data = {
+        "method": "autocase",
         "key": key,
         "data": {
           "detail": "enmu"
@@ -759,9 +783,9 @@
         </div>
         <div id="m_case">
           <div onclick="gen_casetemplate()">生成用例模版</div>
-          <div>生成手工用例</div>
-          <div data-options="iconCls:'icon-search'">Search</div>
-          <div>生成自动化用例</div>
+          <div onclick="gen_handcase()">生成手工用例</div>
+          <!-- <div data-options="iconCls:'icon-search'">Search</div> -->
+          <div onclick="gen_autocase()">生成自动化用例</div>
         </div>
         <div id="tab-tools">
           <a href="#" id="SaveButton" class="easyui-linkbutton" data-options="disabled:false,iconCls:'icon-save'"
