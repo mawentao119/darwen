@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
-import os, stat
+import os
+import stat
 import copy
 import re
 
@@ -12,11 +13,12 @@ from openpyxl import Workbook, load_workbook
 from robot.api import TestData
 from robot.parsing.model import Step
 
-from utils.file import get_projectdirfromkey ,remove_dir
+from utils.file import get_projectdirfromkey, remove_dir
 from utils.mylogger import getlogger
 
 
 log = getlogger("TestCaseUnite")
+
 
 def getCaseContent(cpath, cname):
     '''反写：自动化结果反写中，取得测试用例内容 '''
@@ -41,6 +43,7 @@ def getCaseContent(cpath, cname):
                 content += ststr + '\n'
     return content
 
+
 def export_casezip(key, exp_filedir=''):
 
     dir = exp_filedir
@@ -48,7 +51,7 @@ def export_casezip(key, exp_filedir=''):
         dir = get_projectdirfromkey(key) + '/runtime'
 
     zip_name = os.path.basename(key) + '.zip'
-    zip_path = os.path.join(dir,zip_name)
+    zip_path = os.path.join(dir, zip_name)
 
     try:
         z = zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED)
@@ -65,12 +68,13 @@ def export_casezip(key, exp_filedir=''):
 
     return (True, zip_path)
 
+
 def export_casexlsx(key, db, exp_filedir=''):
 
     export_dir = key
     if not os.path.isdir(export_dir):
         log.error("不支持导出一个文件中的用例:"+export_dir)
-        return (False,"不支持导出一个文件中的用例:"+export_dir )
+        return (False, "不支持导出一个文件中的用例:"+export_dir)
 
     basename = os.path.basename(export_dir)
 
@@ -85,11 +89,12 @@ def export_casexlsx(key, db, exp_filedir=''):
     db.refresh_caseinfo(export_dir, "Force")
 
     cases = []
-    sql = "SELECT info_key,info_name,info_doc,info_tags FROM testcase WHERE info_key like '{}%' ;".format(key)
+    sql = "SELECT info_key,info_name,info_doc,info_tags FROM testcase WHERE info_key like '{}%' ;".format(
+        key)
     res = db.runsql(sql)
     for i in res:
-        (info_key, info_name,info_doc,info_tag) = i
-        cases.append([info_key,info_name,info_doc,info_tag])
+        (info_key, info_name, info_doc, info_tag) = i
+        cases.append([info_key, info_name, info_doc, info_tag])
 
     wb = Workbook()
 
@@ -104,9 +109,12 @@ def export_casexlsx(key, db, exp_filedir=''):
     ws.append(["此'sheet'页面，不会被导入"])
     ws.append(["... ..."])
     ws.append(["Export&Import Cases："])
-    ws.append(["'_'after the file name，Means a suite：'_SuiteName_' means 'SuiteName.robot'"])
-    ws.append(["'-'concat the dirs，no this sign no subdir：'dir1-dir11' means 'dir1/dir11'"])
-    ws.append(["First Column of each sheet，is the suite name of the case in this line（.robot）"])
+    ws.append(
+        ["'_'after the file name，Means a suite：'_SuiteName_' means 'SuiteName.robot'"])
+    ws.append(
+        ["'-'concat the dirs，no this sign no subdir：'dir1-dir11' means 'dir1/dir11'"])
+    ws.append(
+        ["First Column of each sheet，is the suite name of the case in this line（.robot）"])
     ws.append(["... ..."])
     ws.append(["Caution：Import cases from xlsx file，if it is Auto-case and it exists，then update doc and tag Only，Do not update Case content."])
     ws.append(["... ..."])
@@ -126,48 +134,51 @@ def export_casexlsx(key, db, exp_filedir=''):
 
         if "HAND" in tags or "Hand" in tags or 'hand' in tags:
             category = "Hand"
-            casecontent = casecontent.replace(' '*4 + '#','')
+            casecontent = casecontent.replace(' '*4 + '#', '')
 
         sheetname = _get_ws(export_dir, c[0])
 
         #print("Get sheete name :"+sheetname)
 
-        #print(suitename,c[1],c[2],casecontent,c[3],category)
+        # print(suitename,c[1],c[2],casecontent,c[3],category)
 
         if not sheetname in wb.sheetnames:
             ws = wb.create_sheet(sheetname)
             #ws = wb.active
-            ws.append(["Suite_Name","Case_Name","Case_Doc","Case_Content","Case_Tag","Case_Type"])
+            ws.append(["Suite_Name", "Case_Name", "Case_Doc",
+                       "Case_Content", "Case_Tag", "Case_Type"])
         else:
             ws = wb[sheetname]
             #ws = wb.active
-        ws.append([suitename,c[1],c[2],casecontent,c[3],category])
+        ws.append([suitename, c[1], c[2], casecontent, c[3], category])
 
     os.remove(export_file) if os.path.exists(export_file) else None
     wb.save(export_file)
-    log.info("生成测试用例文件 {} 到目录 {}".format(export_dir,export_file))
+    log.info("生成测试用例文件 {} 到目录 {}".format(export_dir, export_file))
 
     return (True, export_file)
 
-def _get_ws(export_dir,suite_key):
+
+def _get_ws(export_dir, suite_key):
     """
     return worksheet name
     suite_key= /xxx/project/TestCase/v50/1dir1/test1.robot
     expor_dir= /xxx/project/TestCase
     """
 
-    suite_name = os.path.basename(suite_key)   #test1.robot
-    suite_dir = os.path.dirname(suite_key)     #/xxx/project/TestCase/v50/1dir1
+    suite_name = os.path.basename(suite_key)  # test1.robot
+    suite_dir = os.path.dirname(suite_key)  # /xxx/project/TestCase/v50/1dir1
 
-    subdir = suite_dir.split(export_dir)[1]    #/v50/1dir1
-    subdir = subdir.replace('/', '-')           #_v50_1dir1
-    subdir = subdir[1:]                        #v50_1dir1
+    subdir = suite_dir.split(export_dir)[1]  # /v50/1dir1
+    subdir = subdir.replace('/', '-')  # _v50_1dir1
+    subdir = subdir[1:]  # v50_1dir1
 
     if subdir == '':
         singal_suite = suite_name.split(".")[0]
         return "_"+singal_suite+"_"
 
     return subdir
+
 
 def do_importfromzip(temp_file, path):
 
@@ -194,6 +205,7 @@ def do_importfromzip(temp_file, path):
         log.error("从zip文件导入发生异常:{}".format(e))
         return ("fail", "Exception occured .")
 
+
 def do_unzip_project(temp_file, path):
 
     zip_file = temp_file
@@ -217,9 +229,10 @@ def do_unzip_project(temp_file, path):
         projectfile = ''
         project_content = ''
         for p in os.listdir(path):
-            if os.path.exists(os.path.join(path,p,'darwen/conf/project.conf')):
-                projectfile = os.path.join(path,p,'darwen/conf/project.conf')
-                project_content = os.path.join(path,p)
+            if os.path.exists(os.path.join(path, p, 'platforminterface/project.conf')):
+                projectfile = os.path.join(
+                    path, p, 'platforminterface/project.conf')
+                project_content = os.path.join(path, p)
 
         if not projectfile:
             msg = "Load Project Fail: 找不到 project.conf:{} ".format(projectfile)
@@ -239,12 +252,14 @@ def do_unzip_project(temp_file, path):
                     log.error("错误的 project.conf 行 " + l)
                     return ('fail', "错误的 project.conf 行 " + l)
                 (projectname, owner, users, cron) = splits
-                project_path = os.path.join(app.config['AUTO_HOME'], 'workspace', owner, projectname)
+                project_path = os.path.join(
+                    app.config['AUTO_HOME'], 'workspace', owner, projectname)
                 if os.path.exists(project_path):
                     msg = '目标目录存在:{}'.format(project_path)
                     log.error(msg)
                     return ('fail', msg)
-                log.info("复制文件从 {} 到 {} ".format(project_content, project_path))
+                log.info("复制文件从 {} 到 {} ".format(
+                    project_content, project_path))
                 try:
                     shutil.copytree(project_content, project_path)
                 except Exception as e:
@@ -256,6 +271,7 @@ def do_unzip_project(temp_file, path):
         log.error("从zip文件导入发生异常:{}".format(e))
         return ("fail", "Exception occured .")
 
+
 def do_uploadcaserecord(temp_file):
 
     if not os.path.exists(temp_file):
@@ -265,14 +281,14 @@ def do_uploadcaserecord(temp_file):
 
     total = 0
     success = 0
-    formaterror =0
+    formaterror = 0
     exits = 0
 
-    with open(temp_file,'r') as f:
+    with open(temp_file, 'r') as f:
         for l in f:
             l = l.strip()
             if len(l) != 0:
-                total +=1
+                total += 1
             else:
                 continue
             splits = l.split('|')
@@ -280,7 +296,8 @@ def do_uploadcaserecord(temp_file):
                 formaterror += 1
                 log.error("uploadcaserecord 错误到列:"+l)
                 continue
-            (info_key, info_name, info_testproject, info_projectversion, ontime, run_status, run_elapsedtime, run_user) = splits
+            (info_key, info_name, info_testproject, info_projectversion,
+             ontime, run_status, run_elapsedtime, run_user) = splits
             sql = ''' INSERT into caserecord (info_key,info_name,info_testproject,info_projectversion,ontime,run_status,run_elapsedtime,run_user)
                       VALUES ('{}','{}','{}','{}','{}','{}','{}','{}');
                       '''.format(info_key, info_name, info_testproject, info_projectversion, ontime, run_status, run_elapsedtime, run_user)
@@ -291,7 +308,8 @@ def do_uploadcaserecord(temp_file):
                 exits += 1
                 log.error("uploadcaserecord 记录存在:"+l)
 
-    return ('success', 'Finished with total:{}, sucess:{}, error:{}, exists:{}'.format(total,success,formaterror,exits))
+    return ('success', 'Finished with total:{}, sucess:{}, error:{}, exists:{}'.format(total, success, formaterror, exits))
+
 
 def do_importfromxlsx(temp_file, path):
 
@@ -299,13 +317,13 @@ def do_importfromxlsx(temp_file, path):
     dest_dir = path
 
     if not os.path.isdir(dest_dir):
-        return ('fail','The Node is NOT A DIR :{}'.format(dest_dir))
+        return ('fail', 'The Node is NOT A DIR :{}'.format(dest_dir))
     if not os.path.exists(xls_file):
         return ('fail', 'Can not find xlsx file :{}'.format(xls_file))
     xls_name = os.path.basename(xls_file).split('.')[0]
     dir_name = os.path.basename(dest_dir)
     if not xls_name == dir_name:
-        return ('fail', 'Filename {} is not equal to dir name :{}'.format(xls_name,dest_dir))
+        return ('fail', 'Filename {} is not equal to dir name :{}'.format(xls_name, dest_dir))
 
     try:
         wb = load_workbook(xls_file)
@@ -316,20 +334,20 @@ def do_importfromxlsx(temp_file, path):
         for stn in wb.sheetnames[1:]:
             ws = wb[stn]
             if not ws['A1'] != 'Suite_Name':
-                return ('fail', 'sheet:{} A1:{} Expect:Suite_Name'.format(stn,ws['A1']))
+                return ('fail', 'sheet:{} A1:{} Expect:Suite_Name'.format(stn, ws['A1']))
             if not ws['B1'] != 'Case_Name':
-                return ('fail', 'sheet:{} B1:{} Expect:Case_Name'.format(stn,ws['B1']))
+                return ('fail', 'sheet:{} B1:{} Expect:Case_Name'.format(stn, ws['B1']))
             if not ws['C1'] != 'Case_Doc':
-                return ('fail', 'sheet:{} C1:{} Expect:Case_Doc'.format(stn,ws['C1']))
+                return ('fail', 'sheet:{} C1:{} Expect:Case_Doc'.format(stn, ws['C1']))
             if not ws['D1'] != 'Case_Content':
-                return ('fail', 'sheet:{} C1:{} Expect:Case_Content'.format(stn,ws['D1']))
+                return ('fail', 'sheet:{} C1:{} Expect:Case_Content'.format(stn, ws['D1']))
             if not ws['E1'] != 'Case_Tag':
-                return ('fail', 'sheet:{} C1:{} Expect:Case_Tag'.format(stn,ws['E1']))
+                return ('fail', 'sheet:{} C1:{} Expect:Case_Tag'.format(stn, ws['E1']))
             if not ws['F1'] != 'Case_Type':
-                return ('fail', 'sheet:{} C1:{} Expect:Case_Type'.format(stn,ws['F1']))
+                return ('fail', 'sheet:{} C1:{} Expect:Case_Type'.format(stn, ws['F1']))
 
             for r in ws.rows:
-                (a,b,c,d,e,f) = r
+                (a, b, c, d, e, f) = r
                 if a.value == 'Suite_Name':    # omit the 1st line
                     continue
                 fields = [a.value if a.value else '',
@@ -339,20 +357,22 @@ def do_importfromxlsx(temp_file, path):
                           e.value if e.value else '',
                           f.value if f.value else ''
                           ]
-                (done , msg) = _update_onecase(dest_dir,stn,fields)
+                (done, msg) = _update_onecase(dest_dir, stn, fields)
                 if done:
                     update_cases += 1
                 else:
                     unupdate_case += 1
-                    failedlist.append("sheet:{} suite:{} case:{} ->{}".format(stn,a.value,b.value,msg))
+                    failedlist.append(
+                        "sheet:{} suite:{} case:{} ->{}".format(stn, a.value, b.value, msg))
 
-        return ('success', 'S:{},F:{},Failist:{}'.format(update_cases,unupdate_case,'\n'.join(failedlist)))
+        return ('success', 'S:{},F:{},Failist:{}'.format(update_cases, unupdate_case, '\n'.join(failedlist)))
 
     except Exception as e:
         log.error("do_uploadcase 异常:{}".format(e))
-        return ('fail','Deal with xlsx file fail :{}'.format(xls_file))
+        return ('fail', 'Deal with xlsx file fail :{}'.format(xls_file))
 
-def _update_onecase(dest_dir,sheetname,fields):
+
+def _update_onecase(dest_dir, sheetname, fields):
 
     stn = sheetname
 
@@ -361,16 +381,16 @@ def _update_onecase(dest_dir,sheetname,fields):
     robotname = fields[0].split('.')[0]
     if stn.startswith('_') and stn.endswith('_'):
         if not '_'+robotname+'_' == stn:
-            return (False,"Sheetname Should be same as the First column（no metter ext）:{} vs {}".format(stn,robotname) )
+            return (False, "Sheetname Should be same as the First column（no metter ext）:{} vs {}".format(stn, robotname))
         robotfile = os.path.join(dest_dir, robotname+'.robot')
     else:
-        subdir = stn.replace('-','/')
+        subdir = stn.replace('-', '/')
         robotfile = os.path.join(dest_dir, subdir, robotname+'.robot')
 
     file_dir = os.path.dirname(robotfile)
-    os.makedirs(file_dir,exist_ok=True)
+    os.makedirs(file_dir, exist_ok=True)
 
-    log.info("Updating robotfile:{} with args:{}".format(robotfile,fields))
+    log.info("Updating robotfile:{} with args:{}".format(robotfile, fields))
 
     isHand = False
     if fields[5] == '手工' or fields[5] == 'HAND' or fields[5] == 'Hand' or fields[5] == 'hand':
@@ -379,13 +399,13 @@ def _update_onecase(dest_dir,sheetname,fields):
     brandnew = "*** Settings ***\n" + \
                "*** Variables ***\n" + \
                "*** Test Cases ***\n" + \
-               "NewTestCase\n"        + \
+               "NewTestCase\n" + \
                "    [Documentation]  This is Doc \n" + \
                "    [Tags]   tag1  tag2\n" + \
                "    Log  This is a Brandnew case.\n"
 
     name = fields[1].strip()
-    doc  = fields[2].strip()
+    doc = fields[2].strip()
     content = fields[3].strip()
     tags = fields[4].strip().replace('，', ',').split(',')  # Chinese characters
     if isHand:
@@ -399,20 +419,20 @@ def _update_onecase(dest_dir,sheetname,fields):
         if not os.path.exists(robotfile):
 
             log.info("测试用例文件不存在，创建 :"+robotfile)
-            with open(robotfile,'w') as f:
+            with open(robotfile, 'w') as f:
                 f.write(brandnew)
 
             suite = TestData(source=robotfile)
             t = suite.testcase_table.tests[0]
             t.name = name
             t.tags.value = tags
-            t.doc.value = doc.replace('\n','\\n')
+            t.doc.value = doc.replace('\n', '\\n')
 
             steps = []
             if isHand:
                 lines = content.split('\n')
                 for l in lines:
-                    step = Step([],comment="#*"+l.strip())
+                    step = Step([], comment="#*"+l.strip())
                     steps.append(step)
                 steps.append(Step(["No Operation"]))
             else:
@@ -421,7 +441,7 @@ def _update_onecase(dest_dir,sheetname,fields):
                     step = Step(space_splitter.split(l.strip()))
                     steps.append(step)
 
-            t.steps = steps  #如果用例不存在，则所有内容都更新:New test Case , Update all.
+            t.steps = steps  # 如果用例不存在，则所有内容都更新:New test Case , Update all.
 
             suite.save(txt_separating_spaces=4)
 
@@ -438,7 +458,7 @@ def _update_onecase(dest_dir,sheetname,fields):
                 t.tags.value = tags
                 t.doc.value = doc.replace('\n', '\\n')
 
-                if isHand:        #只有手工用例更新 用例内容，存在都自动化用例不更新内容
+                if isHand:  # 只有手工用例更新 用例内容，存在都自动化用例不更新内容
                     steps = []
                     lines = content.split('\n')
                     for l in lines:
@@ -451,12 +471,12 @@ def _update_onecase(dest_dir,sheetname,fields):
 
         if DONE:
             suite.save(txt_separating_spaces=4)
-            return (DONE,robotfile)
+            return (DONE, robotfile)
 
         # 1用例不存在， 需要新增用例: Case doesnt exists， Add new one
         suite = TestData(source=robotfile)
 
-        if len( suite.testcase_table.tests ) > 0:
+        if len(suite.testcase_table.tests) > 0:
             log.info("用例文件存在且非空 ,复制并修改成新的用例.")
             t = copy.deepcopy(suite.testcase_table.tests[-1])
             t.name = name
@@ -487,23 +507,23 @@ def _update_onecase(dest_dir,sheetname,fields):
             return (DONE, robotfile)
 
         else:
-            #用例文件存在，但是用例文件里面没有用例，异常
+            # 用例文件存在，但是用例文件里面没有用例，异常
             log.warning("用例文件存在但无内容，删除并新建.")
             os.remove(robotfile)
-            with open(robotfile,'w') as f:
+            with open(robotfile, 'w') as f:
                 f.write(brandnew)
 
             suite = TestData(source=robotfile)
             t = suite.testcase_table.tests[0]
             t.name = name
             t.tags.value = tags
-            t.doc.value = doc.replace('\n','\\n')
+            t.doc.value = doc.replace('\n', '\\n')
 
             steps = []
             if isHand:
                 lines = content.split('\n')
                 for l in lines:
-                    step = Step([],comment="#*"+l.strip())
+                    step = Step([], comment="#*"+l.strip())
                     steps.append(step)
                 steps.append(Step(["No Operation"]))
             else:
@@ -522,8 +542,7 @@ def _update_onecase(dest_dir,sheetname,fields):
 
     except Exception as e:
         log.error("updateOneCase 异常:{}".format(e))
-        return(DONE,"ErrorOccur:{}".format(e))
-
+        return(DONE, "ErrorOccur:{}".format(e))
 
 
 if __name__ == '__main__':
@@ -531,6 +550,7 @@ if __name__ == '__main__':
     #from utils.dbclass import TestDB
     #myDB = TestDB('/Users/tester/PycharmProjects/uniRobotDev/.beats')
 
-    #print(export_cases("/Users/tester/PycharmProjects/uniRobotDev/.beats/workspace/tbdsadmin/RobotTbds/TestCase/v41",myDB))
+    # print(export_cases("/Users/tester/PycharmProjects/uniRobotDev/.beats/workspace/tbdsadmin/RobotTbds/TestCase/v41",myDB))
     #print("sss" + _get_ws("/Users/tester/PycharmProjects/uniRobotDev/.beats/workspace/Admin/Demo_Project/RobotTestDemo/TestCase/903dir1","/Users/tester/PycharmProjects/uniRobotDev/.beats/workspace/Admin/Demo_Project/RobotTestDemo/TestCase/903dir1/test1.robot")+"xxx")
-    print( do_importfromxlsx('/Users/tester/PycharmProjects/uniRobotDev/work/runtime/testloadcase.xlsx','/Users/tester/PycharmProjects/uniRobotDev/work/workspace/Admin/123TestLoad/testloadcase'))
+    print(do_importfromxlsx('/Users/tester/PycharmProjects/uniRobotDev/work/runtime/testloadcase.xlsx',
+                            '/Users/tester/PycharmProjects/uniRobotDev/work/workspace/Admin/123TestLoad/testloadcase'))

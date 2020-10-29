@@ -226,18 +226,20 @@
     <!-- project start -->
     <div id="create_project" class="easyui-window" title="创建项目"
         data-options="modal:true,closed:true,minimizable:false,maximizable:false,collapsible:false"
-        style="width:400px;height:170px;padding:10px;">
+        style="width:400px;height:270px;padding:10px;">
         <form id="create_project_ff" method="post">
             <div style="margin-bottom:10px">
-                <input class="easyui-textbox" id="name" name="name" label="Name" labelPosition="top" style="width:100%"
+                <input class="easyui-textbox" id="name" name="name" label="项目名称" labelPosition="top" style="width:100%"
                     data-options="required:true">
+                <input class="easyui-textbox" id="manager" name="manager" label="项目管理员" labelPosition="top"
+                    style="width:100%" data-options="required:true">
             </div>
         </form>
         <div style="text-align:right;padding:5px 0">
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="close_win('create_project')"
-                style="width:60px">Cancle</a>
+                style="width:60px">取消</a>
             <a href="javascript:void(0)" class="easyui-linkbutton"
-                onclick="create_project('create_project', 'create_project_ff')" style="width:60px">Create</a>
+                onclick="create_project('create_project', 'create_project_ff')" style="width:60px">创建</a>
         </div>
     </div>
     <div id="create_projectgit" class="easyui-window" title="Git 创建项目"

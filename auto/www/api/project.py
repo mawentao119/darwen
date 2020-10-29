@@ -9,15 +9,18 @@ __author__ = "苦叶子" + "mawentao119@gmail.com"
 import os
 from flask import current_app, session
 from flask_restful import Resource, reqparse
+from werkzeug.security import generate_password_hash
 
 from robot.api import TestSuiteBuilder
 
-from utils.file import list_dir, mk_dirs, exists_path, rename_file, remove_dir, get_splitext, get_projectdirfromkey,get_projectnamefromkey, get_ownerfromkey
+from utils.file import list_dir, mk_dirs, exists_path, rename_file, remove_dir, get_splitext, get_projectdirfromkey, get_projectnamefromkey, get_ownerfromkey
 from utils.resource import ICONS
 from utils.clear import clear_projectres
 from utils.mylogger import getlogger
 from utils.parsing import generate_high_light, generate_auto_complete
 from utils.gitit import remote_clone
+
+
 class Project(Resource):
     def __init__(self):
         self.parser = reqparse.RequestParser()
@@ -26,11 +29,11 @@ class Project(Resource):
         self.parser.add_argument('new_name', type=str)
         self.parser.add_argument('key', type=str)
         self.parser.add_argument('description', type=str)
-        self.parser.add_argument('enable', type=str, default="OFF")
+        self.parser.add_argument('manager', type=str, default="")
         self.parser.add_argument('cron', type=str, default="* * * * * *")
         self.parser.add_argument('boolean', type=str, default="ON")
         self.log = getlogger("Project")
-        self.reserved_names = ["workspace", "project", "uniRobot"]
+        self.reserved_names = ["workspace", "project", "darwen"]
         self.app = current_app._get_current_object()
 
     def get(self):
@@ -61,51 +64,70 @@ class Project(Resource):
         return result, 201
 
     def __create(self, args):
-        result = {"status": "success", "msg": "成功：创建项目."}
-        
-        if args["name"] in self.reserved_names :
+
+        name = args["name"]
+        manager = args["manager"]
+        passwd = generate_password_hash("123")
+
+        result = {"status": "success", "msg": "成功：创建项目{}.".format(name)}
+
+        if args["name"] in self.reserved_names:
             result = {"status": "fail", "msg": "请换一个用户名."}
             return result
 
-        user_path = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session["username"], args["name"])
-        if not exists_path(user_path):
-            mk_dirs(user_path)
+        if not self.app.config['DB'].add_user(manager, manager, passwd, manager+"@qq.com", 'User', name):
+            result = {"status": "fail",
+                      "msg": "失败：创建项目管理员{}失败.".format(manager)}
+            return result
 
-        if not self.app.config['DB'].add_project(args["name"],session["username"],'myself'):
+        project_path = self.app.config["AUTO_HOME"] + \
+            "/workspace/%s/%s" % (manager, name)
+        if not exists_path(project_path):
+            mk_dirs(project_path)
+            mk_dirs(os.path.join(project_path, 'platforminterface'))
+
+        if not self.app.config['DB'].add_project(name, manager, ''):
             result["status"] = "fail"
-            result["msg"] = "失败: 项目名已存在!"
+            result["msg"] = "失败: 创建项目失败（？名称存在）"
+            self.app.config['DB'].del_user(manager)
+            return result
 
-        self.save_project(user_path)
-        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'create', user_path, result['status'])
+        self.save_project(project_path)
+        self.save_user(project_path)
+        self.save_settings(project_path)
+
+        self.app.config['DB'].insert_loginfo(
+            session['username'], 'project', 'create', project_path, result['status'])
 
         return result
 
     def __gitclone(self, args):
 
         url = args['name']
-        (ok, info) = remote_clone(self.app , url)
+        (ok, info) = remote_clone(self.app, url)
 
         if ok:
             projectname = get_projectnamefromkey(info)
             msg = self.app.config['DB'].load_project_from_path(info)
-            result = {"status": "success", "msg": "Result: {} project:{}".format(msg,projectname) }
+            result = {"status": "success",
+                      "msg": "Result: {} project:{}".format(msg, projectname)}
             self.app.config['DB'].insert_loginfo(session['username'], 'project', 'gitcreate', info,
-                                                           result['status'])
+                                                 result['status'])
         else:
             result = {"status": "fail", "msg": info}
             self.app.config['DB'].insert_loginfo(session['username'], 'project', 'gitcreate', url,
-                                                           result['status'])
+                                                 result['status'])
 
         return result
 
     def __edit(self, args):
         result = {"status": "success", "msg": "成功：重命名."}
-        
-        if args["new_name"] in self.reserved_names :
+
+        if args["new_name"] in self.reserved_names:
             result = {"status": "fail", "msg": "失败：请用其它名字."}
             return result
-        
-        if args["name"] in self.reserved_names :
+
+        if args["name"] in self.reserved_names:
             result = {"status": "fail", "msg": "失败：无法重命名此项目."}
             return result
 
@@ -115,8 +137,10 @@ class Project(Resource):
             result["msg"] = "失败：只有Admin可以进行此操作."
             return result
 
-        old_name = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (owner, args["name"])
-        new_name = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (owner, args["new_name"])
+        old_name = self.app.config["AUTO_HOME"] + \
+            "/workspace/%s/%s" % (owner, args["name"])
+        new_name = self.app.config["AUTO_HOME"] + \
+            "/workspace/%s/%s" % (owner, args["new_name"])
 
         if not rename_file(old_name, new_name):
             result["status"] = "fail"
@@ -126,10 +150,12 @@ class Project(Resource):
             result["msg"] = "失败：新名字已存在于数据库中!"
 
         self.log.info("更新用户到主项目为 {}".format(args["new_name"]))
-        self.app.config['DB'].runsql("UPDATE user set main_project='{}' where main_project='{}';".format(args["new_name"], args["name"]))
+        self.app.config['DB'].runsql("UPDATE user set main_project='{}' where main_project='{}';".format(
+            args["new_name"], args["name"]))
 
         self.save_project(new_name)
-        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'rename', old_name, result['status'])
+        self.app.config['DB'].insert_loginfo(
+            session['username'], 'project', 'rename', old_name, result['status'])
 
         # Delete resource is not dangerous, all of that can be auto generated.
         clear_projectres('usepath', old_name)
@@ -142,37 +168,47 @@ class Project(Resource):
         self.log.debug("删除项目 args:{}".format(args))
 
         project = args["name"]
-        owner = get_ownerfromkey(args['key'])
+        owner = self.app.config['DB'].get_projectowner(project)
+        #owner = get_ownerfromkey(args['key'])
 
         if not session["username"] == "Admin":
             result["status"] = "fail"
             result["msg"] = "FAIL：只有Admin可以进行此操作!"
             return result
 
-        #user_path = self.app.config["AUTO_HOME"] + "/workspace/%s/%s" % (session["username"], args["name"])
-        user_path = args['key']
+        user_path = self.app.config["AUTO_HOME"] + \
+            "/workspace/%s/%s" % (owner, args["name"])
+        #user_path = args['key']
         self.log.info("删除项目：开始删除项目目录 {}".format(user_path))
         if exists_path(user_path):
             remove_dir(user_path)
 
-        if not self.app.config['DB'].del_project(args["name"],owner):
+        if not self.app.config['DB'].del_project(args["name"], owner):
             result["status"] = "fail"
             result["msg"] = "删除失败, 项目不存在."
 
-        self.log.info("删除项目的owner：{} 和以 {} 为主项目的成员".format(owner,project))
+        # TODO 还需要删除项目目录 workspace 和 jobs 下的内容
+        self.log.info("删除项目的owner：{} 和以 {} 为主项目的成员".format(owner, project))
         self.app.config['DB'].del_user(owner)
-        self.app.config['DB'].runsql("Delete from user where main_project='{}' ;".format(project))
+        work_path = os.path.join(
+            self.app.config['AUTO_HOME'], 'workspace', owner)
+        remove_dir(work_path) if os.path.exists(work_path) else None
 
-        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'delete', user_path, result['status'])
+        self.app.config['DB'].runsql(
+            "Delete from user where main_project='{}' ;".format(project))
 
-        #Delete resource is not dangerous, all of that can be auto generated.
-        clear_projectres('usepath',user_path)
+        self.app.config['DB'].insert_loginfo(
+            session['username'], 'project', 'delete', user_path, result['status'])
+
+        # Delete resource is not dangerous, all of that can be auto generated.
+        clear_projectres('usepath', user_path)
 
         return result
 
     def __set_main(self, args):
 
-        main_project = self.app.config['DB'].get_user_main_project(session['username'])
+        main_project = self.app.config['DB'].get_user_main_project(
+            session['username'])
         owner = self.app.config['DB'].get_projectowner(main_project)
 
         if session['username'] == owner:
@@ -183,11 +219,13 @@ class Project(Resource):
         if exists_path(user_path):
             info = self.app.config['DB'].init_project_settings(user_path)
             projectname = get_projectnamefromkey(user_path)
-            self.app.config['DB'].set_user_main_project(session['username'],projectname)
+            self.app.config['DB'].set_user_main_project(
+                session['username'], projectname)
 
         result = {"status": "success", "msg": info}
 
-        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'set_main', user_path, info)
+        self.app.config['DB'].insert_loginfo(
+            session['username'], 'project', 'set_main', user_path, info)
 
         return result
 
@@ -198,7 +236,7 @@ class Project(Resource):
         owner = get_ownerfromkey(args['key'])
         if not session["username"] == owner:
             result["status"] = "fail"
-            result["msg"] = "失败：没有权限操作，请联系{}.".format(owner)
+            result["msg"] = "失败：没有权限操作，请联系管理员{}.".format(owner)
             return result
 
         new_name = args["new_name"]
@@ -210,7 +248,9 @@ class Project(Resource):
             result["msg"] = "数据库操作失败！"
 
         self.save_project(args['key'])
-        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'adduser', args['key'], new_name)
+        self.save_user(args['key'])
+        self.app.config['DB'].insert_loginfo(
+            session['username'], 'project', 'adduser', args['key'], new_name)
 
         return result
 
@@ -233,15 +273,18 @@ class Project(Resource):
             result["msg"] = "DB操作失败！"
 
         self.save_project(args['key'])
-        self.app.config['DB'].insert_loginfo(session['username'], 'project', 'deluser', args['key'], new_name)
+        self.save_user(args['key'])
+        self.app.config['DB'].insert_loginfo(
+            session['username'], 'project', 'deluser', args['key'], new_name)
 
         return result
 
     def __get_projectlist(self, args):
         project_list = {"total": 0, "rows": []}
-        res = self.app.config['DB'].runsql("Select projectname,owner,users,cron from project;")
+        res = self.app.config['DB'].runsql(
+            "Select projectname,owner,users,cron from project;")
         for r in res:
-            (projectname,owner,users,cron) = r
+            (projectname, owner, users, cron) = r
             project_list["rows"].append(
                 {"projectname": projectname, "owner": owner, "users": users, "cron": cron})
 
@@ -249,16 +292,46 @@ class Project(Resource):
 
     def save_project(self, project_path):
         project = get_projectnamefromkey(project_path)
-        projectfile = os.path.join(project_path, 'darwen/conf/project.conf')
+        projectfile = os.path.join(
+            project_path, 'platforminterface/project.conf')
         self.log.info("保存项目信息到文件:{}".format(projectfile))
         with open(projectfile, 'w') as f:
             f.write("# projectname|owner|users|cron\n")
-            res = self.app.config['DB'].runsql("select * from project where projectname='{}';".format(project))
+            res = self.app.config['DB'].runsql(
+                "select * from project where projectname='{}';".format(project))
             for i in res:
                 (projectname, owner, users, cron) = i
                 line = "{}|{}|{}|{}\n".format(projectname, owner, users, cron)
                 self.log.info("保存项目信息:{}".format(line))
                 f.write(line)
+
+    def save_user(self, project_path):
+        project = get_projectnamefromkey(project_path)
+        owner = self.app.config['DB'].get_projectowner(project)
+        userfile = os.path.join(project_path, 'platforminterface/user.conf')
+        self.log.info("保存用户信息到文件:{}".format(userfile))
+        with open(userfile, 'w') as f:
+            f.write("# username|fullname|passworkdHash|email|category|main_project\n")
+            res = self.app.config['DB'].runsql(
+                "select * from user where main_project='{}';".format(project))
+            for i in res:
+                (username, fullname, passworkdHash,
+                 email, category, main_project) = i
+                f.write("{}|{}|{}|{}|{}|{}\n".format(username, fullname, passworkdHash,
+                                                     email, category, main_project))
+
+    def save_settings(self, project_path):
+        project = get_projectnamefromkey(project_path)
+        owner = self.app.config['DB'].get_projectowner(project)
+        settingsfile = os.path.join(
+            project_path, 'platforminterface/settings.conf')
+        self.log.info("保存 settings 文件:{}".format(settingsfile))
+        with open(settingsfile, 'w') as f:
+            f.write("#description#item#value#demo#category\n")
+            res = self.app.config['DB'].runsql("select * from settings;")
+            for i in res:
+                f.write('#'.join(i) + '\n')
+
 
 class ProjectList(Resource):
     def __init__(self):
@@ -285,7 +358,8 @@ class ProjectList(Resource):
                 return get_step_by_case(self.app, path)
 
             files = list_dir(path)
-            files = [f for f in files if not f.startswith('.')]  # Omit the hidden file
+            # Omit the hidden file
+            files = [f for f in files if not f.startswith('.')]
             if len(files) > 1:
                 files.sort()
 
@@ -297,11 +371,12 @@ class ProjectList(Resource):
                     stat = "closed"
                     text = d
 
-                    if self.app.config['SHOW_DIR_DETAIL']:    # For performance concern, False.
+                    # For performance concern, False.
+                    if self.app.config['SHOW_DIR_DETAIL']:
                         td = self.app.config['DB'].get_testdata(ff)
                         if td[0] > 0:    # [suites,cases,passed,Failed,unknown]
                             icons = "icon-suite-open_case"
-                            text = d+':'+ " ".join([str(ss) for ss in td])
+                            text = d+':' + " ".join([str(ss) for ss in td])
 
                     children.append({
                         "text": text, "iconCls": icons, "state": stat,
@@ -321,14 +396,17 @@ class ProjectList(Resource):
 
                     if text[1] in (".robot"):
                         if self.app.config['SHOW_DIR_DETAIL']:
-                            td = self.app.config['DB'].get_testdata(ff)   #[suites,cases,passed,Failed,unknown]
+                            # [suites,cases,passed,Failed,unknown]
+                            td = self.app.config['DB'].get_testdata(ff)
                             if td[1] == td[2]:
                                 icons = 'icon-robot_pass'
                             if td[3] > 0:
                                 icons = 'icon-robot_fail'
-                            lb = d.replace('.robot', ':') + ' '.join([str(ss) for ss in td[1:]])
+                            lb = d.replace('.robot', ':') + \
+                                ' '.join([str(ss) for ss in td[1:]])
                         else:
-                            suite_status = self.app.config['DB'].get_suitestatus(ff)
+                            suite_status = self.app.config['DB'].get_suitestatus(
+                                ff)
                             if suite_status == 'PASS':
                                 icons = 'icon-robot_pass'
                             if suite_status == 'FAIL':
@@ -372,6 +450,7 @@ def get_project_list(app, username):
     projects = app.config["DB"].get_allproject(username)
     return projects
 
+
 def get_projects(app, username):
     projects = get_project_list(app, username)
     children = []
@@ -382,7 +461,7 @@ def get_projects(app, username):
         ico = "icon-project_s"
         text_p = prj
 
-        if not owner == username :
+        if not owner == username:
             text_p = owner + ':' + prj
         if prj == app.config['DB'].get_user_main_project(session['username']):
             ico = "icon-project_m"
@@ -399,7 +478,8 @@ def get_projects(app, username):
         generate_high_light(key)
         generate_auto_complete(key)
 
-        project_path = app.config['DB'].get_project_path(app.config['DB'].get_user_main_project(session['username']))
+        project_path = app.config['DB'].get_project_path(
+            app.config['DB'].get_user_main_project(session['username']))
         app.config['DB'].init_project_settings(project_path)
 
         os.environ["ROBOT_DIR"] = project_path      # 用于解析 settings 中的环境变量
@@ -414,6 +494,8 @@ def get_projects(app, username):
         "children": children}]
 
 # charis  modified
+
+
 def get_step_by_case(app, path):
     fext = os.path.splitext(path)[1]
     data = []
@@ -421,10 +503,11 @@ def get_step_by_case(app, path):
         try:
             data = get_case_data(app, path)
         except Exception as e:
-            app.log.warnning("Get_case_data of {} Exception :{}".format(path, e))
+            app.log.warnning(
+                "Get_case_data of {} Exception :{}".format(path, e))
             return []
 
-    #TODO: dealwith resource file : cannot use suiteBuilder
+    # TODO: dealwith resource file : cannot use suiteBuilder
     '''if fext == ".resource":
         data = get_resource_data(app,path)'''
 
@@ -462,7 +545,7 @@ def get_case_data(app, path):
                     }
                 })
         for t in suite.tests:
-            status = app.config['DB'].get_casestatus(path,t.name)
+            status = app.config['DB'].get_casestatus(path, t.name)
             icons = 'icon-step'
             if status == 'FAIL':
                 icons = 'icon-step_fail'
@@ -511,7 +594,8 @@ def get_case_data(app, path):
 
     return children
 
-def get_resource_data(app,path):
+
+def get_resource_data(app, path):
     projectdir = get_projectdirfromkey(path)
     os.environ["ROBOT_DIR"] = projectdir
     os.environ["PROJECT_DIR"] = projectdir

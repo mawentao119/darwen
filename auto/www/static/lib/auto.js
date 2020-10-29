@@ -474,6 +474,15 @@ function create_project(win_id, ff_id) {
     close_win(win_id);
 }
 
+function create_project_bt(win_id, ff_id) {
+    var data = $("#{0}".lym_format(ff_id)).serializeObject();
+    data["method"] = "create";
+
+    do_ajax('post', '/api/v1/project/', data, refresh_project_list);
+
+    close_win(win_id);
+}
+
 function create_projectgit(win_id, ff_id) {
     var data = $("#{0}".lym_format(ff_id)).serializeObject();
     data["method"] = "gitclone";
@@ -1122,6 +1131,11 @@ function do_excutereport() {
 
 function refresh_user_list(data) {
     $('#user_list').datagrid("reload");
+    show_msg('Information', data.msg);
+}
+
+function refresh_project_list(data) {
+    $('#project_list').datagrid("reload");
     show_msg('Information', data.msg);
 }
 

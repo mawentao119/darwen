@@ -14,6 +14,7 @@ from flask import current_app, session, request, send_file
 from flask_restful import Resource, reqparse
 from werkzeug.security import generate_password_hash, check_password_hash
 from utils.mylogger import getlogger
+from utils.file import remove_dir
 
 
 class User(Resource):
@@ -55,6 +56,7 @@ class User(Resource):
 
     def __create(self, args):
         result = {"status": "success", "msg": "成功：创建用户."}
+
         main_project = self.app.config['DB'].get_user_main_project(
             session['username'])
         owner = self.app.config['DB'].get_projectowner(main_project)
@@ -133,15 +135,21 @@ class User(Resource):
     def __delete(self, args):
         result = {"status": "success", "msg": "成功：删除用户."}
 
-        owner = self.app.config['DB'].get_projectowner(
-            self.app.config['DB'].get_user_main_project(session['username']))
+        del_user_mainproject = self.app.config['DB'].get_user_main_project(
+            args["username"])
+        owner = self.app.config['DB'].get_projectowner(del_user_mainproject)
 
         if not (session['username'] == owner):
             result["status"] = "fail"
-            result["msg"] = "失败：你无权操作，请联系管理员{}.".format(owner)
+            result["msg"] = "失败：非项目管理员，请联系管理员{}.".format(owner)
 
             self.app.config['DB'].insert_loginfo(session['username'], 'user', 'delete', args["username"],
                                                  result['status'])
+            return result
+
+        if (session['username'] == args['username']):
+            result["status"] = "fail"
+            result["msg"] = "失败：请联系Admin删除项目及所有用户."
             return result
 
         if args["username"] == "Admin" or args["username"] == "admin":
@@ -152,9 +160,16 @@ class User(Resource):
         projects = self.app.config['DB'].get_ownproject(args["username"])
         if len(projects) > 0:
             result["status"] = "fail"
-            result["msg"] = "失败：请先删除用户项目!"
+            result["msg"] = "失败：该用户有多个项目!"
         else:
             self.app.config['DB'].del_user(args["username"])
+            work_path = os.path.join(
+                self.app.config['AUTO_HOME'], 'workspace', args['username'])
+            job_path = os.path.join(
+                self.app.config['AUTO_HOME'], 'jobs', args['username'])
+
+            remove_dir(work_path) if os.path.exists(work_path) else None
+            remove_dir(job_path) if os.path.exists(job_path) else None
 
         self.save_user(
             self.app.config['DB'].get_user_main_project(session['username']))
@@ -165,16 +180,21 @@ class User(Resource):
 
     def save_user(self, project):
         owner = self.app.config['DB'].get_projectowner(project)
+
+        if owner == 'unknown':
+            return
+
         userfile = os.path.join(
-            self.app.config['AUTO_HOME'], 'workspace', owner, project, 'darwen/conf/user.conf')
+            self.app.config['AUTO_HOME'], 'workspace', owner, project, 'platforminterface/user.conf')
         self.log.info("保存用户信息到文件:{}".format(userfile))
         with open(userfile, 'w') as f:
             f.write("# username|fullname|passworkdHash|email|category|main_project\n")
             cur_project = self.app.config['DB'].get_user_main_project(
                 session['username'])
-            res = self.app.config['DB'].runsql("select * from user;")
+            res = self.app.config['DB'].runsql(
+                "select * from user where main_project='{}' ;".format(cur_project))
             for i in res:
                 (username, fullname, passworkdHash,
                  email, category, main_project) = i
                 f.write("{}|{}|{}|{}|{}|{}\n".format(username, fullname, passworkdHash,
-                                                     email, category, main_project)) if cur_project == main_project else None
+                                                     email, category, main_project))

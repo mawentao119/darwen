@@ -298,7 +298,7 @@ def project_readme():
         project_ownreadme = os.path.join(project_path, 'ReadMe.md')
         project_darwenreadme = os.path.join(project_path, 'darwen/ReadMe.md')
     except Exception as e:
-        log.error("{}".format(e))
+        log.error("取得项目配置信息异常：{}".format(e))
 
     if os.path.exists(readmefile):
         p_file = readmefile
