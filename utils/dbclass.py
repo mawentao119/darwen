@@ -384,8 +384,8 @@ class TestDB():
                );''')
 
     def init_project(self):
-        self.runsql(
-            '''INSERT INTO project(projectname,owner,users) VALUES('Demo_Project','Admin','Admin');''')
+        # self.runsql(
+        #     '''INSERT INTO project(projectname,owner,users) VALUES('Demo_Project','Admin','Admin');''')
         self.runsql(
             '''INSERT INTO project(projectname,owner,users) VALUES('darwen','Admin','Admin');''')
 
